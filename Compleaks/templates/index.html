@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+
+{% block title %}Página inicial{% endblock %}
+
 {% block content %}
 
     <div>
-        <a type="button" href="{{url_for('upload')}}">Material</a>
-        <a type="button" href="{{url_for('consulta')}}">Contribuir</a>
+        <a type="button" href="{{url_for('upload')}}">Contribuir</a>
+        <a type="button" href="{{url_for('consulta')}}">Consultar</a>
     </div>
     
 {% endblock %}
