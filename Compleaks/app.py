@@ -1,9 +1,8 @@
 import os
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from forms import AdicionarDisciplinaForm, EditarDisciplinaForm
-
+from forms import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm
 
 app = Flask(__name__)
 
@@ -23,10 +22,6 @@ def index():
 def upload():
     return render_template('upload.html')
 
-@app.route('/consulta')
-def consulta():
-    return render_template('consulta.html')
-
 @app.route('/verconsulta')
 def verconsulta():
     return render_template('verconsulta.html')
@@ -39,7 +34,7 @@ def page_not_found(e):
 ################### MODELS ####################
 ###############################################
 
-from models import Disciplina, Arquivo, Usuario, Post
+#from models import Disciplina, Arquivo, Usuario, Post
 
 ###############################################
 ################### VIEWS #####################
@@ -78,6 +73,28 @@ def editar_disciplina():
 
 	return render_template('editar_disciplina.html', form=form)
 
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+	form = LoginForm()
+
+	if form.validate_on_submit():
+		#é preciso verificar se dados conferem no banco de dados
+		
+		flash("Você foi logado com sucesso.")
+		return redirect(url_for('index')) 
+
+	return render_template('login.html', form=form)
+
+@app.route('/buscar', methods=['POST', 'GET'])
+def buscar():
+
+	form = BuscarMaterialForm()
+
+	if form.validate_on_submit():
+	
+		return redirect(url_for('verconsulta')) 
+
+	return render_template('buscar.html', form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)

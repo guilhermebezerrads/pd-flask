@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Ver consulta{% endblock %}
+
+{% block content %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}{{ form.username }}
+        <br>
+        {{ form.password.label }}{{ form.password }}
+        <br>
+        {{ form.remember_me.label }}{{ form.remember_me }}
+        <br>
+        {{ form.submit }}
+    </form>
+
+{% endblock %}
