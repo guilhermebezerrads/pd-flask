@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Contribuir{% endblock %}
+{% block title %}{{ super() }} - Contribuir{% endblock %}
 
 {% block content %}
 <div class="container well">
     <form action="#" method="post" enctype="multipart/form-data" name="Formulario" onsubmit="$('#loading').show();">
-        <p><strong>Disciplina</strong>:</p>  
+        <p><strong>Disciplina</strong>:</p>
         <select name="disciplina" required>
             <option value="" selected>Escolha uma Disciplina (*Obrigatório)</option>
             <option value="Administração (CAD011)">Administração (CAD011)</option>
@@ -59,7 +59,7 @@
             <option value="The Zueira Never Ends (ZNE500)">The Zueira Never Ends (ZNE500)</option>
         </select>
 
-        <p><strong>Ano</strong>:</p>  
+        <p><strong>Ano</strong>:</p>
         <select name="ano" class="form-control" required>
             <option value="" selected>Escolha um Ano (*Obrigatório)</option>
             <option value="Anterior a 2010">Anterior a 2010</option>
@@ -75,14 +75,14 @@
             <option value="2013">2019</option>
         </select>
 
-        <p><strong>Semestre</strong>:</p>  
+        <p><strong>Semestre</strong>:</p>
         <select name="semestre" class="form-control" required>
             <option value="" selected>Escolha um Semestre (*Obrigatório)</option>
             <option value="1">1º</option>
             <option value="2">2º</option>
         </select>
 
-        <p><strong>Tipo de Arquivo</strong>:</p>  
+        <p><strong>Tipo de Arquivo</strong>:</p>
         <select name="tipologia" class="form-control" required>
             <option value="" selected>Escolha um Tipo de Arquivo (*Obrigatório)</option>
             <option value="Apostila">Apostila</option>
@@ -91,12 +91,12 @@
             <option value="Prova">Prova</option>
             <option value="Trabalho">Trabalho</option>
             <option value="Outros">Outros</option>
-        </select>      
+        </select>
 
-        <p><strong>Professor</strong>:</p>  
+        <p><strong>Professor</strong>:</p>
         <input name="professor" type="text" class="form-control" placeholder="Nome do Professor (*Obrigatório)" required>
 
-        <p><strong>Outras Informações</strong>:</p>  
+        <p><strong>Outras Informações</strong>:</p>
         <input name="informacoes" type="text" class="form-control" placeholder="Informações Relevantes (*Obrigatório)" required>
 
         <p><strong>Selecione o Arquivo</strong>(apenas PDF ou imagens com no máximo <strong>10mb</strong>):</p>

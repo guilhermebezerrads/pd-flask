@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Ver consulta{% endblock %}
+{% block title %}{{ super() }} - Ver consulta{% endblock %}
 
 {% block content %}
 
-<p style="margin-bottom: 15px;"> 
-<strong>Disciplina</strong>: texto; 
+<p style="margin-bottom: 15px;">
+<strong>Disciplina</strong>: texto;
 <strong>Material</strong>: texto;
 <strong>Professor</strong>: texto.
 </p>
@@ -30,7 +30,7 @@
                 <td>texto</td>
                 <td>texto</td>
                 <td><a href="#" class="btn btn-info"><span class="glyphicon glyphicon-download-alt"></span></a></td>
-            </tr>          
+            </tr>
         </tbody>
     </table>
 </div>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Página inicial{% endblock %}
+{% block title %}{{ super() }} - Página inicial{% endblock %}
 
 {% block content %}
 
@@ -8,5 +8,5 @@
         <a type="button" href="{{url_for('upload')}}">Contribuir</a>
         <a type="button" href="{{url_for('buscar')}}">Consultar</a>
     </div>
-    
+
 {% endblock %}

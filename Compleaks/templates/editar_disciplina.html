@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Editar disciplina{% endblock %}
+{% block title %}{{ super() }} - Editar disciplina{% endblock %}
 
 {% block content %}
 
     <form method="POST">
     	{{ form.hidden_tag() }}
-    	{{ form.id.label }} {{ form.id }} 
-    	{{ form.nome.label }} {{ form.nome }} 
+    	{{ form.id.label }} {{ form.id }}
+    	{{ form.nome.label }} {{ form.nome }}
     	<br>
     	{{ form.submit }}
     </form>
-    	
-    
+
+
 {% endblock %}

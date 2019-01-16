@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from forms import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm
+from models import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm
 
 app = Flask(__name__)
 
@@ -52,7 +52,7 @@ def adicionar_disciplina():
 		db.session.commit()
 
 		flash("A disciplina foi adicionada com sucesso.")
-		return redirect(url_for('listar_disciplinas')) 
+		return redirect(url_for('listar_disciplinas'))
 
 	return render_template('adicionar_disciplina.html', form=form)
 
@@ -69,7 +69,7 @@ def editar_disciplina():
 		db.session.commit()
 
 		flash("A disciplina foi editada com sucesso.")
-		return redirect(url_for('listar_disciplinas')) 
+		return redirect(url_for('listar_disciplinas'))
 
 	return render_template('editar_disciplina.html', form=form)
 
@@ -79,9 +79,9 @@ def login():
 
 	if form.validate_on_submit():
 		#é preciso verificar se dados conferem no banco de dados
-		
+
 		flash("Você foi logado com sucesso.")
-		return redirect(url_for('index')) 
+		return redirect(url_for('index'))
 
 	return render_template('login.html', form=form)
 
@@ -91,8 +91,8 @@ def buscar():
 	form = BuscarMaterialForm()
 
 	if form.validate_on_submit():
-	
-		return redirect(url_for('verconsulta')) 
+
+		return redirect(url_for('verconsulta'))
 
 	return render_template('buscar.html', form=form)
 
