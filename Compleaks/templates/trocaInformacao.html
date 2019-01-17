@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} {{ super() }} - Mudar Informações {% endblock %}
+
+{% block content %}
+<br/>
+<h3>Trocar Senha</h3>
+<form method="POST">
+    {{ form_senha.hidden_tag() }}
+    <br/>
+    {{ form_senha.senha_atual.label }}{{ form.senha_atual(class="") }}
+    <br/>
+    {{ form_senha.nova_senha.label }}{{ form.nova_senha(class="") }}
+    <br/>
+    {{ form_senha.conf_senha.label }}{{ form.conf_senha(class="") }}
+    <br/>
+    <br/>
+    {{ form_senha.submit(class="") }}
+</form>
+<br/>
+<br/>
+<br/>
+<h3>Trocar Email</h3>
+
+<form method="POST">
+    {{ form_email.hidden_tag() }}
+    <br/>
+    {{ form_email.novo_email.label }}{{ form.disciplina }}
+    <br/>
+    {{ form_email.conf_email.label }}{{ form.tipo_arquivo }}
+    <br/><br/>
+    {{ form_email.submit }}
+</form>
+{% endblock %}

@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from models import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm
+from models import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm, TrocaSenhaForm, TrocaEmailForm, AdicionarConteudoForm, TrocaEmailForm, TrocaSenhaForm
 
 app = Flask(__name__)
 
@@ -20,7 +20,16 @@ def index():
 
 @app.route('/upload')
 def upload():
-    return render_template('upload.html')
+
+    form_add = AdicionarConteudoForm()
+    return render_template('adicionaConteudo.html', form_add=form_add)
+
+@app.route('/trocaInformacao')
+def troca():
+
+    form_email = TrocaEmailForm()
+    form_senha =  TrocaSenhaForm()
+    return render_template('trocaInformacao.html', form_email=form_email, form_senha=form_senha)
 
 @app.route('/verconsulta')
 def verconsulta():
