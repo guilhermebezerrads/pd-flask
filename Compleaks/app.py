@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from models import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm, TrocaSenhaForm, TrocaEmailForm, AdicionarConteudoForm, TrocaEmailForm, TrocaSenhaForm
+from forms import AdicionarDisciplinaForm, EditarDisciplinaForm, LoginForm, BuscarMaterialForm, TrocaSenhaForm, TrocaEmailForm, AdicionarConteudoForm, TrocaEmailForm, TrocaSenhaForm
 
 app = Flask(__name__)
 
