@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar arquivo{% endblock %}
+
+{% block content %}
+<div class="container well">
+    <form action="" method="POST" enctype="multipart/form-data">
+
+      {{ form_add.hidden_tag() }}
+
+        <p><strong>Disciplina</strong>:</p>
+          {{ form_add.disciplina(class="form-control") }}
+
+        <p><strong>Ano</strong>:</p>
+        {{ form_add.ano(class="form-control") }}
+
+        <p><strong>Semestre</strong>:</p>
+        {{ form_add.semestre(class="form-control") }}
+
+        <p><strong>Tipo de Conteúdo</strong>:</p>
+        {{ form_add.tipo_conteudo(class="form-control") }}
+
+        <p><strong>Professor</strong>:</p>
+        {{ form_add.professor(class="form-control") }}
+
+        <p><strong>Outras Informações</strong>:</p>
+        {{ form_add.observacoes(class="form-control") }}
+
+        <p><strong>Selecione o Arquivo</strong>(apenas PDF ou imagens com no máximo <strong>10mb</strong>):</p>
+        {{ form_add.arquivo(class="form-control") }}
+
+        <br><br>
+
+        <div>
+            {{ form_add.submit() }}
+        </div>
+
+    </form>
+</div>
+{% endblock %}

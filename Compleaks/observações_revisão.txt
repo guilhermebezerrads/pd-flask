@@ -1,0 +1,16 @@
+- Organizei o projeto de acordo com a seção 11 do curso, separando em dois módulos: Usuarios e Arquivos.
+
+- Os templates não estavam com os nomes de arquivo padronizados. Coloquei todos com underline em vez de CamelCase e consertei as funções. Importante: embora seja melhor tudo com underline, na rota do arquivo é a única exceção que é mais recomendável separar palavaras com um - em vez de _, pois fica mais elegante em uma url. Apenas questão de charme.
+
+- Troquei o nome do form AdicionarConteudoForm para AdicionarArquivoForm, para ficar mais nítido sobre o que se trata (já que teremos outras formas de conteúdo em breve).
+
+- Alterei o "ano" do formulário anterior para ser um SelectField. Utilizaremos uma lógica para implementar as choices, do ano de 2010 para o atual, usando um for. Ficará como uma tarefa em breve. Ocorrerá algo semelhante com "disciplina".
+
+- Ainda não alterei, mas é interessante limitar quais arquivos podem entrar no sistema (pdf, jpg, etc).
+
+- Alterei "observacoes" do form AdicionarArquivoForm para TextField, para permitir comentários maiores.
+
+- Alterei todos os campos do TrocaSenhaForm para PassWordField.
+
+- Consertei alguns erros de digitação e sintaxe.
+

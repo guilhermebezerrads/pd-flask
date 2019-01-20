@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar usuário{% endblock %}
+
+{% block content %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}{{ form.username }}
+        <br>
+        {{ form.nome.label }}{{ form.nome }}
+        <br>
+        {{ form.curso.label }}{{ form.curso }}
+        <br>
+        {{ form.periodo.label }}{{ form.periodo }}
+        <br>
+        {{ form.email.label }}{{ form.email }}
+        <br>
+        {{ form.senha.label }}{{ form.senha }}
+        <br>
+        {{ form.submit }}
+    </form>
+
+{% endblock %}
