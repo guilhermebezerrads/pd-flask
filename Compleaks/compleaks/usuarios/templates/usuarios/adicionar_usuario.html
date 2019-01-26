@@ -4,9 +4,29 @@
 
 {% block content %}
 
+    {% for mess in get_flashed_messages()  %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{mess}}
+        </div>
+    {% endfor %}
+
     <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.username.label }}{{ form.username }}
+
+        {% if form.errors.username %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.username %}
+                <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
+
         <br>
         {{ form.nome.label }}{{ form.nome }}
         <br>
@@ -17,6 +37,18 @@
         {{ form.email.label }}{{ form.email }}
         <br>
         {{ form.senha.label }}{{ form.senha }}
+        {% if form.errors.senha %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.senha %}
+                <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
+        
+        <br>
+        {{ form.conf_senha.label }}{{ form.conf_senha }}
         <br>
         {{ form.submit }}
     </form>

@@ -10,18 +10,19 @@ class Usuario(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String, unique=True)
-	senha = db.Column(db.String)
+	hhash = db.Column(db.String)
 	nome = db.Column(db.String)
 	email = db.Column(db.String, unique=True)
 	curso = db.Column(db.String)
 	periodo = db.Column(db.Integer)
 
-	def __init__(self, username, senha, nome, email, curso):
+	def __init__(self, username, hhash, nome, email, curso, periodo):
 		self.username = username
 		self.nome = nome
 		self.email = email
-		self.senha = senha
+		self.hhash = hhash
 		self.curso = curso
+		self.periodo = periodo
 
 	def __repr__(self):
 		return """<td> {self.id} </td>

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, IntegerField, SubmitField,
 	PasswordField, BooleanField)
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class AdicionarUsuarioForm(FlaskForm):
@@ -15,7 +15,8 @@ class AdicionarUsuarioForm(FlaskForm):
 	######################################################################
 	
 	email = StringField("Email", validators=[DataRequired(), Email()])
-	senha = PasswordField("Senha", validators=[DataRequired()])
+	senha = PasswordField("Senha", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual")])
+	conf_senha = PasswordField("Cinfirmar Senha", validators=[DataRequired()])
 
 	submit = SubmitField("Adicionar")
 
