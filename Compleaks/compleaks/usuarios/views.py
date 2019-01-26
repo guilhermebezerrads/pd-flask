@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, url_for, redirect, flash
 from flask_bcrypt import Bcrypt
+from flask_login import login_user,login_required,logout_user
 from compleaks import db
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
 										TrocaSenhaForm, AdicionarUsuarioForm)
@@ -11,7 +12,7 @@ usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
 def adicionar():
 	form = AdicionarUsuarioForm()
 
-	if form.validate_on_submit() and not Usuario.query.filter_by(username=form.username.data) and not Usuario.query.filter_by(email=form.email.data):
+	if form.validate_on_submit() and not Usuario.query.filter_by(username=form.username.data) and not Usuario.query.filter_by(email=form.email.data): 
 		bcript = Bcrypt()
 
 		nome = form.nome.data
@@ -26,7 +27,7 @@ def adicionar():
 		db.session.add(novo_user)
 		db.session.commit()
 
-		return redirect(url_for(login))
+		return redirect(url_for('usuarios.login'))
 
 	if Usuario.query.filter_by(username=form.username.data):
 		flash(f"O nome de usuário ja existe!")
@@ -37,11 +38,14 @@ def adicionar():
 	return render_template('adicionar_usuario.html', form=form)
 
 
-@usuarios.route('/editar', methods=['POST', 'GET'])
-def editar():
-	pass
+@usuarios.route('/logout')
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for('index'))
 
 @usuarios.route('/listar', methods=['POST', 'GET'])
+@login_required
 def listar():
 	pass
 
@@ -50,24 +54,32 @@ def login():
 	form = LoginForm()
 
 	if form.validate_on_submit():
-		#é preciso verificar se dados conferem no banco de dados
+		user = Usuario.query.filter_by(username=form.username.data).first()
 
-		flash("Você foi logado com sucesso.")
-		return redirect(url_for('index'))
+		if user.check_password(form.password.data) and user is not None:
+			
+			login_user(user)
+			
+			return redirect(url_for('index'))
+
 
 	return render_template('login.html', form=form)
 
 
 @usuarios.route('/troca', methods=['POST', 'GET'])
+@login_required
 def troca():
-
-    form_email = TrocaEmailForm()
-    form_senha =  TrocaSenhaForm()
+	
+	form_email = TrocaEmailForm()
+	form_senha =  TrocaSenhaForm()
 
 	if form_senha.validate_on_submit():
 		pass
 
 	if form_email.validate_on_submit():
-		pass
+		if Usuario.query.filter_by(email=form_email.email.data):
+			flash(f"O e-mail já está e uso!")
+		else:
+			pass
 
-    return render_template('troca_informacao.html', form_email=form_email, form_senha=form_senha)
+	return render_template('troca_informacao.html', form_email=form_email, form_senha=form_senha)

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, IntegerField, SubmitField,
-	PasswordField, BooleanField)
+					PasswordField, BooleanField)
 from wtforms.validators import DataRequired, Email, EqualTo
 
 
@@ -31,13 +31,13 @@ class LoginForm(FlaskForm):
 class TrocaSenhaForm(FlaskForm):
 
 	senha_atual = PasswordField("Senha atual", validators=[DataRequired()])
-	nova_senha = PasswordField("Nova senha", validators=[DataRequired()])
+	nova_senha = PasswordField("Nova senha", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual")])
 	conf_senha = PasswordField("Confirmar nova senha", validators=[DataRequired()])
 	submit = SubmitField("Trocar")
 
 
 class TrocaEmailForm(FlaskForm):
 
-	novo_email = StringField("Novo email", validators=[DataRequired(), Email()])
+	novo_email = StringField("Novo email", validators=[DataRequired(), Email(), EqualTo('conf_email', message="Os emails pressisam de ser igual")])
 	conf_email = StringField("Confirmar email", validators=[DataRequired(), Email()])
 	submit = SubmitField("Trocar")
