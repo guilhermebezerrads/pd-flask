@@ -42,6 +42,21 @@ class Arquivo(db.Model):
 		return "<td> {self.tipo_conteudo} </td>"
 
 
+def listaDiciplinas():
+	todas_disc = Disciplina.query.all()
+	lista_form = []
+	for diciplin in todas_disc:
+		lista_form.append((str(diciplin.id), diciplin.nome))
+	return lista_form
+
+def listaProfessores():
+	todos_profs = Professor.query.all()
+	lista_form = []
+	for prof in todos_profs:
+		lista_form.append((str(prof.id), prof.nome))
+	return lista_form
+
+
 # class Post(db.Model):
 
 # 	__tablename__ = 'posts'

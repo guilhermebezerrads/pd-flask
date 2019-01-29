@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, url_for, redirect, flash
+from flask import render_template, Blueprint, url_for, redirect, flash, current_app
 from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm, AdicionarDisciplinaForm,
@@ -19,24 +19,23 @@ def adicionar():
 	if form_add.validate_on_submit():
 		data = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S")
 		disciplina = form_add.disciplina.data
-		ano = form_add.ano.data
+		ano = int(form_add.ano.data)
 		semestre = form_add.semestre.data
 		tipo = form_add.tipo_conteudo.data
 		professor = form_add.professor.data
 		observacoes = form_add.observacoes.data
 		nome = disciplina + " - " + tipo + " - " + data
-
-		APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-		target = os.path.join(APP_ROOT, 'static/uploads')
+		print("To aq 2")
+		target = os.path.join(current_app, 'static/uploads')
 
 		if not os.path.isdir(target):
 			os.mkdir(target)
-
+		print("To aq 3")
 		file_name = target + "/" + nome + ".zip"
 		zip_archive = ZipFile(file_name, "w")
 
 		file = form_add.arquivo.data
-
+		print("To aq 4")
 		filename = file.filename
 		destination = "/".join([target, filename])
 		file.save(destination)
@@ -46,15 +45,16 @@ def adicionar():
 		new_arq = Arquivo(arquivo=nome, disciplina_id=disciplina, ano=ano, semestre=semestre,
 						 tipo_conteudo=tipo, professor_id=professor, usuario_id=current_user.id,
 						  data=data)
-		if observacoes is not None:
-			new_arq.observacoes = observacoes
+		
+		new_arq.observacoes = observacoes
 
 		db.session.add(new_arq)
 		db.session.commit()
+		print("To aq 5")
 
 		flash("Arquivo adicionado com sucesso")
 	
-	return render_template('arquivos/adicionar_arquivo.html', form_add=form_add)
+	return render_template('adicionar_arquivo.html', form_add=form_add)
 
 @arquivos.route('/editar/<int:arq_id>', methods=['POST', 'GET'])
 def editar(arq_id):
@@ -62,10 +62,13 @@ def editar(arq_id):
 
 	arquivo = Arquivo.query.get(arq_id)
 
+	if current_user != arquivo.author:
+		abort(403)
+
 	if form.validate_on_submit():
 		arquivo.ano = form.ano.data
 		arquivo.semestre = form.semestre.data
-		arquivo.tipo_conteudo = form.tipo_conteudo.data
+		arquivo.tipo_conteudo = int(form.tipo_conteudo.data)
 		arquivo.professor_id = form.professor.data
 		arquivo.observacoes = form.observacoes.data
 		arquivo.disciplina_id =form.disciplina.data
@@ -80,12 +83,12 @@ def editar(arq_id):
 	form.disciplina.data = arquivo.disciplina_id
 	
 
-	return render_template('arquivos/editar_arquivo.html', form=form)
+	return render_template('editar_arquivo.html', form=form)
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
-	arquivos = Arquivo.query.all().order_by(Arquivo.data_submissao.desc())
-	return render_template('arquivos/todos_arquivos.html', arquivos=arquivos)
+	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
+	return render_template('todos_arquivos.html', arquivos=arquivos)
 
 @arquivos.route('/buscar', methods=['POST', 'GET'])
 def buscar():

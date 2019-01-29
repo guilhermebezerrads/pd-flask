@@ -22,7 +22,7 @@ class Usuario(db.Model, UserMixin):
 	periodo = db.Column(db.Integer)
 	is_admin = db.Column(db.Integer)
 
-	arquivos = db.relationship('Arquivos', backref='author', lazy=True)
+	arquivos = db.relationship('Arquivo', backref='author', lazy=True)
 
 	def __init__(self, username, hhash, nome, email, curso, periodo):
 		self.username = username

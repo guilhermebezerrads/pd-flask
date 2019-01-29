@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if current_user.is_admin %}
 <table class="table">
     <thead>
       <tr>
@@ -9,10 +8,11 @@
         <th scope="col">Tipo de Conteudo</th>
         <th scope="col">Diciplina</th>
         <th scope="col">Professor</th>
-        <th scope="col">Download</th>
+        <th scope="col">Mais</th>
         {% if current_user.is_admin %}
             <th scope="col">Deletar</th>
         {% endif %}
+        <th scope="col">Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -41,24 +41,68 @@
                             </div>
                         </div>
                     </div>
-
-                <td>{{ arquivo.author.nome }}</td>
                 {% endif %}
+                
+                <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Informações do Arquivo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="modal-title">Referências:</h6>
+                            <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                            <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                            <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                            <p>Ano de referência: {{ arquivo.ano }}</p>
+                            <p>Semestre de referência: {{ arquivo.ano }}</p>
+                            <br/>
+
+                            <h6 class="modal-title">Sobre o Arquivo:</h6>
+                            <p>Tipo de Conteúdo: {{ arquivo }}</p>
+                            <p>Data de referência: {{ arquivo.data.strtime("%d-%m-%Y") }}</p>
+                            <br/>
+
+                            <h6 class="modal-title">Observações:</h6>
+                            <p>{{ arquivo.observações }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                
+                            <form action="{{ url_for('static', filename='uploads/' + arquivo.nome + '.zip') }}" method="POST">
+                                <input type="submit" value="Baixar" class="btn btn-danger">
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <td>{{ arquivo.author.username }}</td>
+
                 {{ arquivo }}
                 <td>{{ arquivo.professor.nome }}</td>
                 <td>{{ arquivo.disciplina.nome }}</td>
                 <td>
-                    <a href="{{ url_for('static', filename='uploads/' + arquivo.nome + '.zip') }}">Download</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
                 </td>
                 {% if current_user.is_admin %}
                     <td >
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
                     </td>
                 {% endif %}
+
+                {% if current_user == arquivo.author %}
+                <td>
+                    <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
+                </td>
+                {% endif %}
+
             {% endfor %}
 
         </tr>
     </tbody>
-  </table>
-{% endif %}   
+  </table> 
 {% endblock %}

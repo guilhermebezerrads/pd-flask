@@ -3,10 +3,20 @@
 {% block title %}Adicionar arquivo{% endblock %}
 
 {% block content %}
+    
 <div class="container well">
     <form action="" method="POST" action="" enctype="multpart/form-data">
 
       {{ form_add.hidden_tag() }}
+        {% for mess in get_flashed_messages()  %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{mess}}
+            </div>
+        {% endfor %}
+      
 
         <p><strong>Disciplina</strong>:</p>
           {{ form_add.disciplina(class="form-control") }}
@@ -28,6 +38,15 @@
 
         <p><strong>Selecione o Arquivo</strong>(apenas PDF ou imagens com no máximo <strong>10mb</strong>):</p>
         {{ form_add.arquivo(class="form-control") }}
+        {% if form_add.errors.arquivo %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form_add.errors.arquivo %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
 
         <br><br>
 

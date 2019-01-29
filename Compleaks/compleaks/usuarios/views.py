@@ -12,7 +12,7 @@ usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
 def adicionar():
 	form = AdicionarUsuarioForm()
 
-	if form.validate_on_submit() and not Usuario.query.filter_by(username=form.username.data) and not Usuario.query.filter_by(email=form.email.data): 
+	if form.validate_on_submit() and not Usuario.query.filter_by(username=form.username.data).first() and not Usuario.query.filter_by(email=form.email.data).first(): 
 		bcript = Bcrypt()
 
 		nome = form.nome.data
@@ -29,10 +29,10 @@ def adicionar():
 
 		return redirect(url_for('usuarios.login'))
 
-	if Usuario.query.filter_by(username=form.username.data):
+	if Usuario.query.filter_by(username=form.username.data).first():
 		flash(f"O nome de usuário ja existe!")
 
-	if Usuario.query.filter_by(email=form.email.data):
+	if Usuario.query.filter_by(email=form.email.data).first():
 		flash(f"O e-mail já está e uso!")
 
 	return render_template('adicionar_usuario.html', form=form)
@@ -42,7 +42,7 @@ def adicionar():
 @login_required
 def logout():
 	logout_user()
-	return redirect(url_for('index'))
+	return redirect(url_for('principal.index'))
 
 @usuarios.route('/listar', methods=['POST', 'GET'])
 @login_required
@@ -51,7 +51,7 @@ def listar():
 		abort(403)
 
 	users = Usuario.query.all().order_by(Usuario.username.desc())
-	return render_template('usuarios/todos_users.html', users=users)
+	return render_template('todos_users.html', users=users)
 
 @usuarios.route('/deletar/<int:user_id>', methods=['POST', 'GET'])
 @login_required
@@ -68,13 +68,13 @@ def login():
 	form = LoginForm()
 
 	if form.validate_on_submit():
-		user = Usuario.query.filter_by(username=form.username.data).first()
+		user = Usuario.query.filter_by(email=form.email.data).first()
 
-		if user.check_password(form.password.data) and user is not None:
+		if user.check_password(form.senha.data) and user is not None:
 			
 			login_user(user)
 			
-			return redirect(url_for('index'))
+			return redirect(url_for('principal.index'))
 
 
 	return render_template('login.html', form=form)
@@ -106,4 +106,4 @@ def troca():
 			db.session.commit()
 	
 
-	return render_template('usuarios/troca_informacao.html', form_email=form_email, form_senha=form_senha)
+	return render_template('troca_informacao.html', form_email=form_email, form_senha=form_senha)

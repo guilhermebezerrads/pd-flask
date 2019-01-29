@@ -10,7 +10,7 @@ class Disciplina(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nome = db.Column(db.String, unique=True)
 
-	arquivos = db.relationship('Arquivos', backref='disciplina', lazy=True)
+	arquivos = db.relationship('Arquivo', backref='disciplina', lazy=True)
 
 	def __init__(self, nome):
 		self.nome = nome

@@ -28,10 +28,7 @@
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                            {% if current_user.is_admin %}
-                                <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
-                            {% endif %}    
+                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>    
                         {% endif %}
                         <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
@@ -73,7 +70,9 @@
                          Usuários
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
+                        {% if not current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
+                        {% endif %}
                         {% if current_user.is_authenticated %}
                             <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Editar</a>
                             {% if current_user.is_admin %}
@@ -81,7 +80,11 @@
                             {% endif %}    
                         {% endif %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{url_for('usuarios.login')}}">Login</a>
+                        {% if not current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('usuarios.login')}}">Login</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Logout</a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>
