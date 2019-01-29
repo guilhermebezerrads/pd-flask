@@ -55,6 +55,5 @@ class EditarArquivoForm(FlaskForm):
 		validators=[DataRequired()])
 	professor = StringField("Nome do Professor", validators=[DataRequired()])
 	observacoes = TextField("Observações", validators=[DataRequired()])
-	arquivo = FileField("Arquivo", validators=[DataRequired()])
 
 	submit = SubmitField("Atualizar")

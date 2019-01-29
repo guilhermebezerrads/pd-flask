@@ -1,25 +1,88 @@
 from flask import render_template, Blueprint, url_for, redirect, flash
 from compleaks import db
+from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm, AdicionarDisciplinaForm,
 					BuscarMaterialForm, EditarDisciplinaForm, EditarArquivoForm)
+from compleaks.arquivos.models import Arquivo, Disciplina
+import jinja2
+import datetime
+import os
+from zipfile import *					
 
 arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 
-@arquivos.route('/adicionar', methods=['POST', 'GET'])
+@arquivos.route('/adicionar', methods= ['POST', 'GET'])
+@login_required
 def adicionar():
-    form_add = AdicionarArquivoForm()
+	form_add = AdicionarArquivoForm()
+	if form_add.validate_on_submit():
+		data = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S")
+		disciplina = form_add.disciplina.data
+		ano = form_add.ano.data
+		semestre = form_add.semestre.data
+		tipo = form_add.tipo_conteudo.data
+		professor = form_add.professor.data
+		observacoes = form_add.observacoes.data
+		nome = disciplina + " - " + tipo + " - " + data
 
-    return render_template('adicionar_arquivo.html', form_add=form_add)
+		APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+		target = os.path.join(APP_ROOT, 'static/uploads')
 
-@arquivos.route('/editar', methods=['POST', 'GET'])
-def editar():
+		if not os.path.isdir(target):
+			os.mkdir(target)
+
+		file_name = target + "/" + nome + ".zip"
+		zip_archive = ZipFile(file_name, "w")
+
+		file = form_add.arquivo.data
+
+		filename = file.filename
+		destination = "/".join([target, filename])
+		file.save(destination)
+		zip_archive.write(destination, destination[len(target) + 1:])
+		os.remove(destination)
+
+		new_arq = Arquivo(arquivo=nome, disciplina_id=disciplina, ano=ano, semestre=semestre,
+						 tipo_conteudo=tipo, professor_id=professor, usuario_id=current_user.id,
+						  data=data)
+		if observacoes is not None:
+			new_arq.observacoes = observacoes
+
+		db.session.add(new_arq)
+		db.session.commit()
+	
+	return render_template('arquivos/adicionar_arquivo.html', form_add=form_add)
+
+@arquivos.route('/editar/<int:arq_id>', methods=['POST', 'GET'])
+def editar(arq_id):
 	form = EditarArquivoForm()
 
-	return render_template('editar_arquivo.html', form=form)
+	arquivo = Arquivo.query.get(arq_id)
+
+	if form.validate_on_submit():
+		arquivo.ano = form.ano.data
+		arquivo.semestre = form.semestre.data
+		arquivo.tipo_conteudo = form.tipo_conteudo.data
+		arquivo.professor_id = form.professor.data
+		arquivo.observacoes = form.observacoes.data
+		arquivo.disciplina_id =form.disciplina.data
+
+		db.session.commit()
+
+	form.ano.data = arquivo.ano
+	form.semestre.data = arquivo.semestre
+	form.tipo_conteudo.data = arquivo.tipo_conteudo
+	form.professor.data = arquivo.professor_id
+	form.observacoes.data = arquivo.observacoes
+	form.disciplina.data = arquivo.disciplina_id
+	
+
+	return render_template('arquivos/editar_arquivo.html', form=form)
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
-	pass
+	arquivos = Arquivo.query.all().order_by(Arquivo.data_submissao.desc())
+	return render_template('arquivos/todos_arquivos.html', arquivos=arquivos)
 
 @arquivos.route('/buscar', methods=['POST', 'GET'])
 def buscar():
@@ -32,9 +95,14 @@ def buscar():
 
 	return render_template('buscar.html', form=form)
 
-@arquivos.route('/excluir', methods=['POST', 'GET'])
-def excluir():
-	pass
+@arquivos.route('/excluir/<int:aqr_id>', methods=['POST', 'GET'])
+def excluir(aqr_id):
+	if not current_user.is_amin:
+		abort(403)
+	arquivo = Arquivo.query.filter_by(id=aqr_id)
+	db.session.delete(arquivo)
+	db.session.commit()
+	return redirect(url_for('arquivos.listar'))
 
 @arquivos.route('/adicionar-disciplina', methods=['POST', 'GET'])
 def adicionar_disciplina():

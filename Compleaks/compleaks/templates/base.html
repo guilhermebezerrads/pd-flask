@@ -27,8 +27,12 @@
                          Arquivos
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                        <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                        {% if current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
+                            {% if current_user.is_admin %}
+                                <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                            {% endif %}    
+                        {% endif %}
                         <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
@@ -39,8 +43,10 @@
                          Disciplinas
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                        <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                        {% if current_user.is_authenticated and current_user.is_admin %}
+                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
+                            <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                        {% endif %}    
                         <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
@@ -51,8 +57,10 @@
                          Professores
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                        <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                        {% if current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
+                            <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                        {% endif %}    
                         <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
@@ -63,12 +71,15 @@
                          Usuários
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Adicionar</a>
-                        <a class="dropdown-item" href="{{url_for('usuarios.editar')}}">Editar</a>
-                        <a class="dropdown-item" href="{{url_for('usuarios.listar')}}">Listar</a>
+                        <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
+                        {% if current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Editar</a>
+                            {% if current_user.is_admin %}
+                                <a class="dropdown-item" href="{{url_for('usuarios.listar')}}">Listar</a>
+                            {% endif %}    
+                        {% endif %}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{url_for('usuarios.login')}}">Login</a>
-                        <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Atualizar Dados</a>
                     </div>
                 </li>
             </ul>

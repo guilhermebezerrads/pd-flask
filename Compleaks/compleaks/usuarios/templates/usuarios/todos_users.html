@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_admin %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Username</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Periodo</th>
+        <th scope="col">Excluir</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for user in users %}
+            <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{user.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Deletar Usuário?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você tem certeza que deja deletar esse usuário?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            
+                        <form action="{{ url_for('usuarios.deletar', user_id=user.id) }} " method="POST">
+                            <input type="submit" value="Deletar" class="btn btn-danger">
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>    
+                {{ user }}
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{user.id}}" >Deletar</button>
+                </td>
+            {% endfor %}
+
+        </tr>
+    </tbody>
+  </table>
+{% endif %}   
+{% endblock %}

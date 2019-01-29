@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, url_for, redirect, flash
 from flask_bcrypt import Bcrypt
-from flask_login import login_user,login_required,logout_user
+from flask_login import current_user, login_user,login_required,logout_user
 from compleaks import db
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
 										TrocaSenhaForm, AdicionarUsuarioForm)
@@ -47,7 +47,21 @@ def logout():
 @usuarios.route('/listar', methods=['POST', 'GET'])
 @login_required
 def listar():
-	pass
+	if not current_user.is_amin:
+		abort(403)
+
+	users = Usuario.query.all().order_by(Usuario.username.desc())
+	return render_template('usuarios/todos_users.html', users=users)
+
+@usuarios.route('/deletar/<int:user_id>', methods=['POST', 'GET'])
+@login_required
+def deletar(user_id):
+	if not current_user.is_amin:
+		abort(403)
+	user = Usuario.query.filter_by(id=user_id)
+	db.session.delete(user)
+	db.session.commit()
+	return redirect(url_for('usuarios.listar'))
 
 @usuarios.route('/login', methods=['POST', 'GET'])
 def login():
@@ -80,6 +94,16 @@ def troca():
 		if Usuario.query.filter_by(email=form_email.email.data):
 			flash(f"O e-mail já está e uso!")
 		else:
-			pass
+			current_user.email = form_email.novo_email.data
+			db.session.commit()
 
-	return render_template('troca_informacao.html', form_email=form_email, form_senha=form_senha)
+	if form_senha.validate_on_submit():
+		if current_user.check_password(password=form_senha.senha_atual.data):
+			flash(f"A senha atual não é válida!")
+		else:
+			bcrypt = Bcrypt()
+			current_user.hhash = bcrypt.generate_password_hash(form_senha.nova_senha.data)
+			db.session.commit()
+	
+
+	return render_template('usuarios/troca_informacao.html', form_email=form_email, form_senha=form_senha)

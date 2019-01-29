@@ -32,7 +32,7 @@ class Usuario(db.Model, UserMixin):
 		self.is_admin = 0
 
 	def __repr__(self):
-		return """<td> {self.id} </td>
+		return """<td scope="row"> {self.id} </td>
 				  <td> {self.username} </td>
 				  <td> {self.nome} </td>
 				  <td> {self.email} </td>
