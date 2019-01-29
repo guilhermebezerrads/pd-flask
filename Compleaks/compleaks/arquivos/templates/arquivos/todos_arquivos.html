@@ -5,6 +5,7 @@
 <table class="table">
     <thead>
       <tr>
+        <th scope="col">Contribuinte</th>
         <th scope="col">Tipo de Conteudo</th>
         <th scope="col">Diciplina</th>
         <th scope="col">Professor</th>
@@ -40,8 +41,12 @@
                             </div>
                         </div>
                     </div>
+
+                <td>{{ arquivo.author.nome }}</td>
                 {% endif %}
                 {{ arquivo }}
+                <td>{{ arquivo.professor.nome }}</td>
+                <td>{{ arquivo.disciplina.nome }}</td>
                 <td>
                     <a href="{{ url_for('static', filename='uploads/' + arquivo.nome + '.zip') }}">Download</a>
                 </td>

@@ -1,5 +1,9 @@
 from compleaks import db
 from datetime import datetime
+from compleaks.usuarios.models import Usuario
+from compleaks.professores.models import Professor
+from compleaks.disciplinas.models import Disciplina
+
 
 class Arquivo(db.Model):
 
@@ -13,9 +17,14 @@ class Arquivo(db.Model):
 	observacoes = db.Column(db.Text)
 	data_submissao = db.Column(db.DateTime, default=datetime.utcnow)
 
+	professors = db.relationship(Professor)
+	disciplinas = db.relationship(Disciplina)
+	usuarios = db.relationship(Usuario)
+
 	professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'))
 	disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+
 
 	def __init__(self, arquivo, disciplina_id, ano, semestre, tipo_conteudo, 
 		professor_id, usuario_id, data):
@@ -29,40 +38,8 @@ class Arquivo(db.Model):
 		self.data_submissao = data
 
 	def __repr__(self):
-		disciplina = Disciplina.query.get(self.disciplina_id)
-		professor = Professor.query.get(self.professor_id)
-		return """<td> {self.tipo_conteudo} </td>
-				  <td> {disciplina.nome} </td>
-				  <td> {professor.nome} </td>"""
-
-class Disciplina(db.Model):
-
-	__tablename__ = 'disciplinas'
-
-	id = db.Column(db.Integer, primary_key=True)
-	nome = db.Column(db.String, unique=True, nullable=False)
-    
-	def __init__(self, nome):
-		self.nome = nome
-
-	def __repr__(self):
-		return """<td> {self.id} </td>
-				  <td> {self.nome} </td>"""
-
-
-class Professor(db.Model):
-
-	__tablename__ = 'professores'
-
-	id = db.Column(db.Integer, primary_key=True)
-	nome = db.Column(db.String, unique=True, nullable=False)
-    
-	def __init__(self, nome):
-		self.nome = nome
-
-	def __repr__(self):
-		return """<td> {self.id} </td>
-				  <td> {self.nome} </td>"""
+		
+		return "<td> {self.tipo_conteudo} </td>"
 
 
 # class Post(db.Model):

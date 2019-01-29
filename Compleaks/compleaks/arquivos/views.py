@@ -15,6 +15,7 @@ arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 @login_required
 def adicionar():
 	form_add = AdicionarArquivoForm()
+
 	if form_add.validate_on_submit():
 		data = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S")
 		disciplina = form_add.disciplina.data
@@ -50,6 +51,8 @@ def adicionar():
 
 		db.session.add(new_arq)
 		db.session.commit()
+
+		flash("Arquivo adicionado com sucesso")
 	
 	return render_template('arquivos/adicionar_arquivo.html', form_add=form_add)
 

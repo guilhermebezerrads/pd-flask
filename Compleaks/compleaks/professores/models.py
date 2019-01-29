@@ -10,6 +10,8 @@ class Professor(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nome = db.Column(db.String, unique=True)
 
+	arquivos = db.relationship('Arquivos', backref='professor', lazy=True)
+
 	def __init__(self, nome):
 		self.nome = nome
 
