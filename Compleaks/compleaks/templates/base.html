@@ -44,12 +44,13 @@
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated and current_user.is_admin %}
-                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                            <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.editar')}}">Editar</a>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.excluir')}}">Excluir</a>
                         {% endif %}    
-                        <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
+                        <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
+                        <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -58,12 +59,13 @@
                      </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
-                            <a class="dropdown-item" href="{{url_for('arquivos.editar')}}">Editar</a>
+                            <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
+                            <a class="dropdown-item" href="{{url_for('professores.editar')}}">Editar</a>
+                            <a class="dropdown-item" href="{{url_for('professores.excluir')}}">Excluir</a>
                         {% endif %}    
-                        <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
+                        <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
+                        <a class="dropdown-item" href="{{url_for('professores.buscar')}}">Buscar</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

@@ -33,8 +33,13 @@ login_manager.login_view = "usuarios.login"
 from compleaks.principal.views import principal
 from compleaks.usuarios.views import usuarios
 from compleaks.arquivos.views import arquivos
+from compleaks.professores.views import professores
+from compleaks.disciplinas.views import disciplinas
+from compleaks.error_pages.handlers import error_pages
 
 app.register_blueprint(principal)
 app.register_blueprint(usuarios,url_prefix='/usuarios')
 app.register_blueprint(arquivos,url_prefix='/arquivos')
-
+app.register_blueprint(professores,url_prefix='/professores')
+app.register_blueprint(disciplinas,url_prefix='/disciplinas')
+app.register_blueprint(error_pages)

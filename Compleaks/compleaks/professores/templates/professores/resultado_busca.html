@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar professor{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% if existe_professor %}    
+            {% for professor in professores %}
+            <li>{{ professor.nome }}</li>    
+            {% endfor %}
+        {% else %}
+            <li>Não existe o professor</li>
+        {% endif %}
+    </ul>
+
+{% endblock %}

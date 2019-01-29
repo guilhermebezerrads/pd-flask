@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Listar disciplina{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% for disciplina in disciplinadb: %}
+        
+            <li>{{ disciplina }}</li>
+        
+        {% endfor %}
+    </ul>
+
+{% endblock %}
