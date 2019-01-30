@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %} Todos os usuários {% endblock %}
 {% block content %}
 {% if current_user.is_admin %}
 <table class="table">
@@ -15,8 +15,8 @@
       </tr>
     </thead>
     <tbody>
-        <tr>
-            {% for user in users %}
+        {% for user in users %}
+            <tr>
             <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{user.id}}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -39,13 +39,17 @@
                     </div>
                 </div>
             </div>    
-                {{ user }}
+                <td scope="row"> {{user.id}} </td>
+                <td> {{user.username}} </td>
+                <td> {{user.nome}} </td>
+                <td> {{user.email}} </td>
+                <td> {{user.curso}} </td>
+                <td> {{user.periodo}} </td>"
                 <td>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{user.id}}" >Deletar</button>
                 </td>
-            {% endfor %}
-
-        </tr>
+             </tr>
+        {% endfor %}
     </tbody>
   </table>
 {% endif %}   

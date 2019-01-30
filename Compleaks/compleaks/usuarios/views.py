@@ -47,16 +47,16 @@ def logout():
 @usuarios.route('/listar', methods=['POST', 'GET'])
 @login_required
 def listar():
-	if not current_user.is_amin:
+	if not current_user.is_admin:
 		abort(403)
 
-	users = Usuario.query.all().order_by(Usuario.username.desc())
+	users = Usuario.query.order_by(Usuario.username.desc())
 	return render_template('todos_users.html', users=users)
 
 @usuarios.route('/deletar/<int:user_id>', methods=['POST', 'GET'])
 @login_required
 def deletar(user_id):
-	if not current_user.is_amin:
+	if not current_user.is_admin:
 		abort(403)
 	user = Usuario.query.filter_by(id=user_id)
 	db.session.delete(user)

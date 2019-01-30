@@ -7,7 +7,7 @@ from compleaks.arquivos.models import Arquivo, Disciplina
 import jinja2
 import datetime
 import os
-from zipfile import *					
+from zipfile import ZipFile					
 
 arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 
@@ -25,38 +25,33 @@ def adicionar():
 		professor = form_add.professor.data
 		observacoes = form_add.observacoes.data
 		nome = disciplina + " - " + tipo + " - " + data
-		print("To aq 2")
-		target = os.path.join(current_app, 'static/uploads')
+		target = os.path.join(current_app.root_path, 'static/uploads')
 
-		if not os.path.isdir(target):
-			os.mkdir(target)
-		print("To aq 3")
 		file_name = target + "/" + nome + ".zip"
-		zip_archive = ZipFile(file_name, "w")
 
 		file = form_add.arquivo.data
-		print("To aq 4")
 		filename = file.filename
 		destination = "/".join([target, filename])
 		file.save(destination)
+
+		zip_archive = ZipFile(file_name, "w")
 		zip_archive.write(destination, destination[len(target) + 1:])
 		os.remove(destination)
 
 		new_arq = Arquivo(arquivo=nome, disciplina_id=disciplina, ano=ano, semestre=semestre,
-						 tipo_conteudo=tipo, professor_id=professor, usuario_id=current_user.id,
-						  data=data)
+						 tipo_conteudo=tipo, professor_id=professor, usuario_id=current_user.id)
 		
 		new_arq.observacoes = observacoes
 
 		db.session.add(new_arq)
 		db.session.commit()
-		print("To aq 5")
 
 		flash("Arquivo adicionado com sucesso")
 	
 	return render_template('adicionar_arquivo.html', form_add=form_add)
 
 @arquivos.route('/editar/<int:arq_id>', methods=['POST', 'GET'])
+@login_required
 def editar(arq_id):
 	form = EditarArquivoForm()
 
@@ -101,8 +96,8 @@ def buscar():
 
 	return render_template('buscar.html', form=form)
 
-@arquivos.route('/excluir/<int:aqr_id>', methods=['POST', 'GET'])
-def excluir(aqr_id):
+@arquivos.route('/excluir/<int:arq_id>', methods=['POST', 'GET'])
+def excluir(arq_id):
 	if not current_user.is_amin:
 		abort(403)
 	arquivo = Arquivo.query.filter_by(id=aqr_id)

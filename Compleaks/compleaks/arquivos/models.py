@@ -27,7 +27,7 @@ class Arquivo(db.Model):
 
 
 	def __init__(self, arquivo, disciplina_id, ano, semestre, tipo_conteudo, 
-		professor_id, usuario_id, data):
+		professor_id, usuario_id):
 		self.arquivo = arquivo
 		self.ano = ano
 		self.semestre = semestre
@@ -35,11 +35,6 @@ class Arquivo(db.Model):
 		self.disciplina_id = disciplina_id
 		self.professor_id = professor_id
 		self.usuario_id = usuario_id
-		self.data_submissao = data
-
-	def __repr__(self):
-		
-		return "<td> {self.tipo_conteudo} </td>"
 
 
 def listaDiciplinas():

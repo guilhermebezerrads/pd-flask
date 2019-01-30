@@ -32,14 +32,6 @@ class Usuario(db.Model, UserMixin):
 		self.curso = curso
 		self.periodo = periodo
 		self.is_admin = 0
-
-	def __repr__(self):
-		return """<td scope="row"> {self.id} </td>
-				  <td> {self.username} </td>
-				  <td> {self.nome} </td>
-				  <td> {self.email} </td>
-				  <td> {self.curso} </td>
-				  <td> {self.periodo} </td>"""
 	
 	def check_password(self, pasword):
 		bcript = Bcrypt()

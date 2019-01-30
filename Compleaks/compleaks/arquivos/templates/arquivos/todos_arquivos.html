@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+    Arquivos
+{% endblock %} 
 
 {% block content %}
 <table class="table">
@@ -16,8 +19,8 @@
       </tr>
     </thead>
     <tbody>
+    {% for arquivo in arquivos %}
         <tr>
-            {% for arquivo in arquivos %}
                 {% if current_user.is_admin %}
                     <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
                         <div class="modal-dialog" role="document">
@@ -34,7 +37,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     
-                                <form action="{{ url_for('arquivos.deletar', arq_id=arquivo.id) }}" method="POST">
+                                <form action="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" method="POST">
                                     <input type="submit" value="Deletar" class="btn btn-danger">
                                 </form>
                             </div>
@@ -62,8 +65,8 @@
                             <br/>
 
                             <h6 class="modal-title">Sobre o Arquivo:</h6>
-                            <p>Tipo de Conteúdo: {{ arquivo }}</p>
-                            <p>Data de referência: {{ arquivo.data.strtime("%d-%m-%Y") }}</p>
+                            <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                            <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
                             <br/>
 
                             <h6 class="modal-title">Observações:</h6>
@@ -71,10 +74,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                
-                            <form action="{{ url_for('static', filename='uploads/' + arquivo.nome + '.zip') }}" method="POST">
-                                <input type="submit" value="Baixar" class="btn btn-danger">
-                            </form>
+                            <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
                         </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
 
                 <td>{{ arquivo.author.username }}</td>
 
-                {{ arquivo }}
+                <td>{{ arquivo.tipo_conteudo}}</td>
                 <td>{{ arquivo.professor.nome }}</td>
                 <td>{{ arquivo.disciplina.nome }}</td>
                 <td>
@@ -99,10 +99,8 @@
                     <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
                 </td>
                 {% endif %}
-
-            {% endfor %}
-
         </tr>
+    {% endfor %}  
     </tbody>
   </table> 
 {% endblock %}
