@@ -1,8 +1,9 @@
 from flask import render_template, Blueprint, url_for, redirect, flash, current_app, request
 from compleaks import db
 from flask_login import current_user, login_required
-from compleaks.arquivos.forms import (AdicionarArquivoForm, AdicionarDisciplinaForm,
-					BuscarMaterialForm, EditarDisciplinaForm, EditarArquivoForm)
+from compleaks.arquivos.forms import (AdicionarArquivoForm,
+										BuscarMaterialForm, 
+										EditarArquivoForm)
 from compleaks.arquivos.models import Arquivo, Disciplina
 import jinja2
 import datetime

@@ -1,4 +1,4 @@
-#!/home/galoma/My-Github/pd-flask/Compleaks/venv/bin/python
+#!/home/galoma/My-Github/pd-flask/Compleaks/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

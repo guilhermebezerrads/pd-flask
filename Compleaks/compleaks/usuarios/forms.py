@@ -37,14 +37,14 @@ class LoginForm(FlaskForm):
 class TrocaSenhaForm(FlaskForm):
 
 	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=6, max=30, message="Minimo de 6 caracteres e máximo de 30 por favor!")])
-	nova_senha = PasswordField("Nova senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual")])
+	nova_senha = PasswordField("Nova senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=6, max=30, message="Minimo de 6 caracteres e máximo de 30 por favor!")])
 	conf_senha = PasswordField("Confirmar nova senha: ", validators=[DataRequired(), Length(min=6, max=30, message="Minimo de 6 caracteres e máximo de 30 por favor!")])
 	submit = SubmitField("Trocar")
 
-"""
-class TrocaEmailForm(FlaskForm):
 
+class TrocaEmailForm(FlaskForm):
+	
+	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=6, max=30, message="Minimo de 6 caracteres e máximo de 30 por favor!")])
 	novo_email = StringField("Novo email", validators=[DataRequired(), Email(), EqualTo('conf_email', message="Os emails pressisam de ser igual"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
 	conf_email = StringField("Confirmar email", validators=[DataRequired(), Email(), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
 	submit = SubmitField("Trocar")
-"""

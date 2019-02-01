@@ -47,17 +47,44 @@
 <br/>
 <br/>
 
-<!--
 <h3>Trocar Email</h3>
 
 <form method="POST">
     {{ form_email.hidden_tag() }}
     <br/>
+    {{ form_email.senha_atual.label }}{{ form_email.senha_atual(class="") }}
+    {% if form_email.errors.senha_atual %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_email.errors.senha_atual %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     {{ form_email.novo_email.label }}{{ form_email.novo_email }}
+    {% if form_email.errors.novo_email %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_email.errors.novo_amail %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     <br/>
     {{ form_email.conf_email.label }}{{ form_email.conf_email }}
+    {% if form_email.errors.conf_email %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_email.errors.conf_email %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     <br/><br/>
     {{ form_email.submit }}
 </form>
--->
+
 {% endblock %}

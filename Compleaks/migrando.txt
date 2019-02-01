@@ -1,0 +1,5 @@
+Fazer um replace all em C
+1:
+selecteds.listaProfessores() -> [(1),('Qualquercoisa')]
+2:
+selecteds.listaDiciplinas() -> [(1),('Qualquercoisa')]

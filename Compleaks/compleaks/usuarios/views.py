@@ -123,10 +123,14 @@ def troca():
 	if form_email.validate_on_submit():
 		if Usuario.query.filter_by(email=form_email.email.data):
 			flash(f"O e-mail já está e uso!")
-		else:
+			
+		elif current_user.check_password(form_email.senha_atual.data):
 			current_user.email = form_email.novo_email.data
 			db.session.commit()
 			flash("Email trocado com sucesso!")
+		
+		else:
+			flash("Senha atual incorreta!")
 
 
 	if form_senha.validate_on_submit():
