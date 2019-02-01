@@ -80,7 +80,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     
-                                <form action="{{ url_for('arquivos.redefinir', arq_id=user.id) }} " method="POST">
+                                <form action="{{ url_for('arquivos.redefinir', arq_id=arquivo.id) }} " method="POST">
                                     <input type="submit" value="Redefinir" class="btn btn-danger">
                                 </form>
                             </div>
@@ -126,11 +126,23 @@
                     </div>
                 </div>
 
-                <td>{{ arquivo.author.username }}</td>
+                {% if not arquivo.is_eligible %}
+                    <article color="red">
+                        <td>{{ arquivo.author.username }}</td>
 
-                <td>{{ arquivo.tipo_conteudo}}</td>
-                <td>{{ arquivo.professor.nome }}</td>
-                <td>{{ arquivo.disciplina.nome }}</td>
+                        <td>{{ arquivo.tipo_conteudo}}</td>
+                        <td>{{ arquivo.professor.nome }}</td>
+                        <td>{{ arquivo.disciplina.nome }}</td>
+                    </article>
+                {% else %}
+                    <td>{{ arquivo.author.username }}</td>
+
+                    <td>{{ arquivo.tipo_conteudo}}</td>
+                    <td>{{ arquivo.professor.nome }}</td>
+                    <td>{{ arquivo.disciplina.nome }}</td>
+                {% endif %}   
+
+               
                 <td>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
                 </td>  

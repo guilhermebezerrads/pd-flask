@@ -13,7 +13,7 @@ class Disciplina(db.Model):
 	data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
 	
 	is_eligible = db.Column(db.Boolean)
-	data_deletado = db.Column(db.DateTime)
+	data_deletado = db.Column(db.DateTime, nullable=True)
 	id_deletor = db.Column(db.Integer, nullable=True)
 	motivo_delete = db.Column(db.String(120), nullable=True)
 
@@ -21,6 +21,7 @@ class Disciplina(db.Model):
 
 	def __init__(self, nome):
 		self.nome = nome
+		self.is_eligible = True
 
 	def __repr__(self):
 		return f"ID: {self.id} Nome: {self.nome}"

@@ -7,7 +7,9 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.id.label }}{{ form.id }}
-        <br>
+        <br/>
+        {{ form.motivo.label }} {{ form.motivo(placeholder="Um breve motivo por gentileza") }}
+        <br/>
         {{ form.submit }}
     </form>
 

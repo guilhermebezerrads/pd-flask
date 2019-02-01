@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, IntegerField, SubmitField)
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 
 class AdicionarDisciplinaForm(FlaskForm):
 
@@ -21,4 +21,5 @@ class EditarDisciplinaForm(FlaskForm):
 class ExcluirDisciplinaForm(FlaskForm):
 
     id = IntegerField("Id da disciplina:", validators=[DataRequired()])
+    motivo = StringField("Motivo da exclusão pro favor:")
     submit = SubmitField("Excluir")

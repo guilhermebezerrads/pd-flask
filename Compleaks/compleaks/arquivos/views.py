@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint, url_for, redirect, flash, current_app, request
+from flask import (render_template, Blueprint, url_for, redirect,
+ 					flash, current_app, request, abort)
 from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm,
@@ -57,7 +58,7 @@ def adicionar():
 def editar(arq_id):
 	form = EditarArquivoForm()
 
-	arquivo = Arquivo.query.get(arq_id)
+	arquivo = Arquivo.query.get_or_404(arq_id)
 
 	if current_user != arquivo.author or not arquivo.is_eligible:
 		abort(403)
@@ -100,10 +101,11 @@ def buscar():
 	return render_template('buscar.html', form=form)
 
 @arquivos.route('/excluir/<int:arq_id>', methods=['POST', 'GET'])
+@login_required
 def excluir(arq_id):
 	if not current_user.is_amin:
 		abort(403)
-	arquivo = Arquivo.query.filter_by(id=aqr_id)
+	arquivo = Arquivo.query.get_or_404(id)
 	arquivo.is_eligible = False
 	arquivo.id_deletor = current_user.id
 	arquivo.data_deletado = datetime.utcnow
@@ -120,6 +122,19 @@ def excluir(arq_id):
 	flash("Arquivo excluido com sucesso!")
 	return redirect(url_for('arquivos.listar'))
 
-@arquivos.route('/ver-consulta')
-def ver_consulta():
-    return render_template('ver_consulta.html')
+@arquivos.route('/redefinir/<int:user_id>', methods=['POST', 'GET'])
+@login_required
+def redefinir(arq_id):
+	if not current_user.is_admin:
+		abort(403)
+
+	arquivo = Arquivo.query.get_or_404(arq_id)
+	arquivo.is_eligible = True
+	arquivo.data_deletado = None
+	arquivo.id_deletor = None
+
+	arquivo.motivo_delete = None
+		
+	db.session.commit()
+	flash("Usuário acabou de ser redefinido ao sistema!")
+	return redirect(url_for('usuarios.listar'))

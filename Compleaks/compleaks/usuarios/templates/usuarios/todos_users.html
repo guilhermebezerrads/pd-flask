@@ -28,6 +28,8 @@
                         <p>Você tem certeza que deja redefinir esse usuário?</p>
                         <br/>
                         <h6 class="modal-title">Dados de Cadastro</h6>
+                        <p>Nome de Usuário: {{user.username}} </p> 
+                        <p>Nome: {{user.nome}}</p>
                         <p> Email: {{user.email}} </p>
                         <p> Curso: {{user.curso}} </p>
                         <p> Periodo: {{user.periodo}}º </p>
@@ -67,6 +69,8 @@
                     <div class="modal-body">
                         <p>Você tem certeza que deja deletar esse usuário?</p>
                         <br/>
+                        <p>Nome de Usuário: {{user.username}} </p> 
+                        <p>Nome: {{user.nome}}</p>
                         <p> Email: {{user.email}} </p>
                         <p> Curso: {{user.curso}} </p>
                         <p> Periodo: {{user.periodo}}º </p>
@@ -88,12 +92,25 @@
                 </div>
             </div> 
             {% endif %}
+            {% if not user.is_eligible %}
+                <article color="red">
+                    <td scope="row"> {{user.id}} </td>
+                    <td> {{user.username}} </td>
+                    <td> {{user.nome}} </td>
+                    <td> {{user.email}} </td>
+                    <td> {{user.curso}} </td>
+                    <td> {{user.periodo}} </td>
+                </article>
+            {% else %}
                 <td scope="row"> {{user.id}} </td>
                 <td> {{user.username}} </td>
                 <td> {{user.nome}} </td>
                 <td> {{user.email}} </td>
                 <td> {{user.curso}} </td>
                 <td> {{user.periodo}} </td>
+            {% endif %}    
+
+                
                 <td>
                     {% if not user.is_eligibleo %}
                         <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{user.id}}" >Redefinir</button>

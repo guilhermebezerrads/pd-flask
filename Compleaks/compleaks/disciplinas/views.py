@@ -1,13 +1,19 @@
-from flask import render_template, Blueprint, url_for, redirect, flash
+from flask import (render_template, Blueprint, 
+					url_for, redirect, flash, abort)
+from flask_login import current_user, login_required
 from compleaks import db
-from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, EditarDisciplinaForm, ExcluirDisciplinaForm)
+from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, 
+										EditarDisciplinaForm, ExcluirDisciplinaForm)
 from compleaks.disciplinas.models import Disciplina
+from datetime import datetime
 
 disciplinas = Blueprint('disciplinas', __name__,template_folder='templates/disciplinas')
 
 @disciplinas.route('/adicionar', methods=['POST', 'GET'])
+@login_required
 def adicionar():
-
+	if not current_user.is_admin:
+		abort(403)
 	form = AdicionarDisciplinaForm()
 
 	if form.validate_on_submit():
@@ -21,41 +27,79 @@ def adicionar():
 	return render_template('adicionar_disciplina.html', form=form)
 
 @disciplinas.route('/editar', methods=['POST', 'GET'])
+@login_required
 def editar():
-
+	if not current_user.is_admin:
+		abort(403)
 	form = EditarDisciplinaForm()
 
 	if form.validate_on_submit():
 		id = form.id.data
 		novo_nome = form.novo_nome.data
-		Disciplina.query.filter_by(id=id).update(dict(nome=novo_nome))
+		#Disciplina.query.filter_by(id=id).update(dict(nome=novo_nome))
+		disciplina = Disciplina.query.get(id)
+
+		if disciplina is None:
+			flash("Id da disciplina inexistente!")
+			return redirect(url_for('disciplinas.editar'))
+
+		disciplina.nome = novo_nome
 		db.session.commit()
 
 		return redirect(url_for('disciplinas.listar'))
 	return render_template('editar_disciplina.html',form=form)
 
 @disciplinas.route('/listar', methods=['POST', 'GET'])
+@login_required
 def listar():
-
-	disciplinadb = Disciplina.query.all()
+	if not current_user.is_admin:
+		abort(403)
+	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
 	return render_template('listar_disciplina.html',disciplinadb=disciplinadb)
 
 @disciplinas.route('/excluir', methods=['POST', 'GET'])
+@login_required
 def excluir():
+	if not current_user.is_admin:
+		abort(403)
+	form = ExcluirDisciplinaForm()
 
-    form = ExcluirDisciplinaForm()
+	if form.validate_on_submit():
+		id = form.id.data
+		disciplina = Disciplina.query.get(id)
 
-    if form.validate_on_submit():
-        id = form.id.data
-        disciplina = Disciplina.query.get(id)
-        db.session.delete(disciplina)
-        db.session.commit()
+		disciplina.is_eligible = False
+		disciplina.data_deletado = datetime.utcnow
+		disciplina.id_deletor = current_user.id
+		disciplina.motivo_delete = form.motivo.data
 
-        return redirect(url_for('disciplinas.listar'))
-    return render_template('excluir_disciplina.html',form=form)
+		db.session.commit()
+
+		return redirect(url_for('disciplinas.listar'))
+
+	return render_template('excluir_disciplina.html',form=form)
+
+@disciplinas.route('/redefinir/<int:disc_id>', methods=['POST', 'GET'])
+@login_required
+def redefinir(disc_id):
+	if not current_user.is_admin:
+		abort(403)
+	disciplina = Disciplina.query.get(disc_id)
+	disciplina.is_eligible = True
+	disciplina.data_deletado = None
+	disciplina.id_deletor = None
+	disciplina.motivo_delete = None
+		
+	db.session.commit()
+	flash("Disciplina {} acabou de redefinido ao sistema!".format(disciplina.nome))
+	return redirect(url_for('usuarios.listar'))
 
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
+@login_required
 def buscar():
+
+	if not current_user.is_admin:
+		abort(403)
 	
 	form = BuscarDisciplinaForm()
 

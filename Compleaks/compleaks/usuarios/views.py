@@ -1,4 +1,5 @@
-from flask import render_template, request, Blueprint, url_for, redirect, flash
+from flask import (render_template, request,
+					 Blueprint, url_for, redirect, flash, abort)
 from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_user,login_required,logout_user
 from compleaks import db
@@ -144,4 +145,6 @@ def troca():
 
 	
 
-	return render_template('troca_informacao.html', form_email=form_email, form_senha=form_senha)
+	return render_template('troca_informacao.html',
+							form_email=form_email,
+							form_senha=form_senha)

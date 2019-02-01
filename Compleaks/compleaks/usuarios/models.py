@@ -25,7 +25,7 @@ class Usuario(db.Model, UserMixin):
 	data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
 	
 	is_eligible = db.Column(db.Boolean)
-	data_deletado = db.Column(db.DateTime)
+	data_deletado = db.Column(db.DateTime, nullable=True)
 	id_deletor = db.Column(db.Integer, nullable=True)
 	motivo_delete = db.Column(db.String(120), nullable=True)
 
