@@ -8,10 +8,37 @@
     {{ form_senha.hidden_tag() }}
     <br/>
     {{ form_senha.senha_atual.label }}{{ form_senha.senha_atual(class="") }}
+    {% if form_senha.errors.senha_atual %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_senha.errors.senha_atual %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     <br/>
     {{ form_senha.nova_senha.label }}{{ form_senha.nova_senha(class="") }}
+    {% if form_senha.errors.nova_senha %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_senha.errors.nova_senha %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     <br/>
     {{ form_senha.conf_senha.label }}{{ form_senha.conf_senha(class="") }}
+    {% if form_senha.errors.conf_senha %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form_senha.errors.conf_senha %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
     <br/>
     <br/>
     {{ form_senha.submit(class="") }}
@@ -19,6 +46,8 @@
 <br/>
 <br/>
 <br/>
+
+<!--
 <h3>Trocar Email</h3>
 
 <form method="POST">
@@ -30,4 +59,5 @@
     <br/><br/>
     {{ form_email.submit }}
 </form>
+-->
 {% endblock %}

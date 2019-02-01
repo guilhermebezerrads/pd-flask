@@ -9,22 +9,76 @@
       {{ form.hidden_tag() }}
 
         <p><strong>Disciplina</strong>:</p>
-          {{ form.disciplina(class="form-control") }}
+        {{ form.disciplina(class="form-control") }}
+        {% if form.errors.disciplina %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.disciplina %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <p><strong>Ano</strong>:</p>
         {{ form.ano(class="form-control") }}
+        {% if form.errors.ano %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.ano %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <p><strong>Semestre</strong>:</p>
         {{ form.semestre(class="form-control") }}
+        {% if form.errors.semestre %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.semestre %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <p><strong>Tipo de Conteúdo</strong>:</p>
         {{ form.tipo_conteudo(class="form-control") }}
+        {% if form.errors.tipo_conteudo %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.tipo_conteudo %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <p><strong>Professor</strong>:</p>
         {{ form.professor(class="form-control") }}
+        {% if form.errors.preofessor %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.professor %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <p><strong>Outras Informações</strong>:</p>
         {{ form.observacoes(class="form-control") }}
+        {% if form.errors.observações %}
+        <div class="alert alert-danger" role="alert">
+        <ul>
+            {% for e in form.errors.observações %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        {% endif %}
 
         <br><br>
 

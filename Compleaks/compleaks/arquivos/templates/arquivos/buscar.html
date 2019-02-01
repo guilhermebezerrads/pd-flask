@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "arquivos/ver_consulta.html" %}
 
 {% block title %}Consulta{% endblock %}
 
@@ -7,12 +7,43 @@
 <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.disciplina.label }}{{ form.disciplina }}
+    {% if form.errors.disciplina %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.disciplina %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
     <br>
     {{ form.tipo_arquivo.label }}{{ form.tipo_arquivo }}
+    {% if form.errors.tipo_arquivo %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.tipo_arquivo %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
     <br>
     {{ form.professor.label }}{{ form.professor }}
+    {% if form.errors.professor %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.professor %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
     <br>
     {{ form.submit }}
 </form>
+    {% block resultado %}
+        {{ super() }}
+    {% endblock %}
 
 {% endblock %}
+

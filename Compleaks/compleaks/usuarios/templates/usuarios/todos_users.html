@@ -8,15 +8,53 @@
         <th scope="col">id</th>
         <th scope="col">Username</th>
         <th scope="col">Nome</th>
-        <th scope="col">Email</th>
-        <th scope="col">Curso</th>
-        <th scope="col">Periodo</th>
-        <th scope="col">Excluir</th>
+        <th scope="col">Excluir/Redefinir</th>
       </tr>
     </thead>
     <tbody>
         {% for user in users %}
             <tr>
+            {% if not user.is_eligible %}
+            <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{user.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Redefinir Usuário?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você tem certeza que deja redefinir esse usuário?</p>
+                        <br/>
+                        <h6 class="modal-title">Dados de Cadastro</h6>
+                        <p> Email: {{user.email}} </p>
+                        <p> Curso: {{user.curso}} </p>
+                        <p> Periodo: {{user.periodo}}º </p>
+                        <p> Data de Registro: {{user.data_criacao.strftime('%B %d, %Y') }} </p>
+                        <br/>
+                        <br/>
+                        <h6 class="modal-title">Dados de Exclusão</h6>
+                        <p> Data de Exclusão: {{user.data_deletado.strftime('%B %d, %Y') }} </p>
+                        <p> Id do usuário que excluiu: {{user.id_deletor}} </p>
+                        {% if user.motivo_delete is not None %}
+                            <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
+                        {% else %}
+                            <p> Nenhum metivo de Exclusão Cadastrado </p>
+                        {% endif %}
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            
+                        <form action="{{ url_for('usuarios.redefinir', user_id=user.id) }} " method="POST">
+                            <input type="submit" value="Redefinir" class="btn btn-danger">
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div> 
+            {% else %}
             <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{user.id}}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -28,25 +66,40 @@
                     </div>
                     <div class="modal-body">
                         <p>Você tem certeza que deja deletar esse usuário?</p>
+                        <br/>
+                        <p> Email: {{user.email}} </p>
+                        <p> Curso: {{user.curso}} </p>
+                        <p> Periodo: {{user.periodo}}º </p>
+                        <p> Data de Registro: {{user.strftime('%B %d, %Y') }} </p>
+                        <br/>
+                        <div class="form-group">
+                            <label class="form-control-label" form="motivo{{user.id}}">Um breve motivo para a exclusão:</label>
+                            <input class="form-control form-control-lg" type="text" form="{{user.id}}" name="motivo{{user.id}}" placeholder="Motivo">
+                        </div>    
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            
-                        <form action="{{ url_for('usuarios.deletar', user_id=user.id) }} " method="POST">
+                        <form action="{{ url_for('usuarios.deletar', user_id=user.id) }} " method="POST" id="{{user.id}}">
                             <input type="submit" value="Deletar" class="btn btn-danger">
                         </form>
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                     </div>
                 </div>
-            </div>    
+            </div> 
+            {% endif %}
                 <td scope="row"> {{user.id}} </td>
                 <td> {{user.username}} </td>
                 <td> {{user.nome}} </td>
                 <td> {{user.email}} </td>
                 <td> {{user.curso}} </td>
-                <td> {{user.periodo}} </td>"
+                <td> {{user.periodo}} </td>
                 <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{user.id}}" >Deletar</button>
+                    {% if not user.is_eligibleo %}
+                        <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{user.id}}" >Redefinir</button>
+                    {%else%}
+                        <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#del_confirm{{user.id}}" >Deletar</button>
+                    {% endif %}
                 </td>
              </tr>
         {% endfor %}

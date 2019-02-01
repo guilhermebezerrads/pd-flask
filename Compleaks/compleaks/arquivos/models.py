@@ -16,6 +16,11 @@ class Arquivo(db.Model):
 	tipo_conteudo = db.Column(db.String(120))
 	observacoes = db.Column(db.Text)
 	data_submissao = db.Column(db.DateTime, default=datetime.utcnow)
+	
+	data_deletado = db.Column(db.DateTime, nullable=True)
+	is_eligible = db.Column(db.Boolean)
+	id_deletor = db.Column(db.Integer, nullable=True)
+	motivo_delete = db.Column(db.String(600), nullable=True)
 
 	professors = db.relationship(Professor)
 	disciplinas = db.relationship(Disciplina)
@@ -35,6 +40,7 @@ class Arquivo(db.Model):
 		self.disciplina_id = disciplina_id
 		self.professor_id = professor_id
 		self.usuario_id = usuario_id
+		self.is_eligible = True
 
 
 def listaDiciplinas():

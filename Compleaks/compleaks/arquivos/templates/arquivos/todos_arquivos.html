@@ -12,16 +12,17 @@
         <th scope="col">Diciplina</th>
         <th scope="col">Professor</th>
         <th scope="col">Mais</th>
-        {% if current_user.is_admin %}
-            <th scope="col">Deletar</th>
-        {% endif %}
+        <th scope="col">Deletar</th>
         <th scope="col">Editar</th>
       </tr>
     </thead>
     <tbody>
     {% for arquivo in arquivos %}
-        <tr>
-                {% if current_user.is_admin %}
+
+        {% if current_user.is_admin or  arquivo.is_eligible %}
+            <tr>
+        {% endif %}
+                {% if (current_user.is_admin or current_user == arquivo.author) and arquivo.is_eligible %}
                     <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -33,18 +34,63 @@
                             </div>
                             <div class="modal-body">
                                 <p>Você tem certeza que deja deletar esse arquivo?</p>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="motivo{{arquivo.id}}">Um breve motivo para a exclusão:</label>
+                                    <input class="form-control form-control-lg" type="text" form="{{arquivo.id}}" name="motivo{{arquivo.id}}" placeholder="Motivo">
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     
-                                <form action="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" method="POST">
+                                <form action="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} " method="POST" id="{{arquivo.id}}">
                                     <input type="submit" value="Deletar" class="btn btn-danger">
                                 </form>
                             </div>
                             </div>
                         </div>
                     </div>
+                    <!--
+                {% elif current_user.is_admin %}
+                    <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{arquivo.id}}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Redefinir Arquivo?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Você tem certeza que deja redefinir esse arquivo?</p>
+                                <br/>
+                                <h6 class="modal-title">Dados de Cadastro</h6>
+                                <p> Data de Registro: {{arquivo.data_submissao.strftime('%B %d, %Y') }} </p>
+                                <br/>
+                                <br/>
+                                <h6 class="modal-title">Dados de Exclusão</h6>
+                                <p> Data de Exclusão: {{arquivo.data_deletado.strftime('%B %d, %Y') }} </p>
+                                <p> Id do usuário que excluiu: {{arquivo.id_deletor}} </p>
+                                {% if arquivo.motivo_delete is not None %}
+                                    <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
+                                {% else %}
+                                    <p> Nenhum metivo de Exclusão Cadastrado </p>
+                                {% endif %}
+                                <br/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    
+                                <form action="{{ url_for('arquivos.redefinir', arq_id=user.id) }} " method="POST">
+                                    <input type="submit" value="Redefinir" class="btn btn-danger">
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div> 
+                    -->
                 {% endif %}
+
+                {% if current_user.is_admin or  arquivo.is_eligible %}
                 
                 <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
                     <div class="modal-dialog" role="document">
@@ -87,19 +133,30 @@
                 <td>{{ arquivo.disciplina.nome }}</td>
                 <td>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                </td>  
+                <td >
+                {% endif %}
+                
+                {% if current_user.is_admin or current_user == arquivo.author and arquivo.is_eligible %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
+                <!--
+                {% elif current_user.is_admin  %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#red_confirm{{arquivo.id}}" >Redefinir</button>
+                -->
+                {% endif %}
+                
+                {% if current_user.is_admin or  arquivo.is_eligible %}
                 </td>
-                {% if current_user.is_admin %}
-                    <td >
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
-                    </td>
                 {% endif %}
 
-                {% if current_user == arquivo.author %}
+                {% if current_user == arquivo.author and arquivo.is_eligible %}
                 <td>
                     <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
                 </td>
                 {% endif %}
-        </tr>
+        {% if current_user.is_admin or  arquivo.is_eligible %}
+            </tr>
+        {% endif %}
     {% endfor %}  
     </tbody>
   </table> 

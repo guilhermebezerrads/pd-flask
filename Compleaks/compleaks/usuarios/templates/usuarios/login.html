@@ -7,10 +7,27 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.email.label }}{{ form.email }}
+        {% if form.errors.email %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.email %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.senha.label }}{{ form.senha }}
+        {% if form.errors.senha %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.senha %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
-        {{ form.lembrar.label }}{{ form.lembrar }}
         <br>
         {{ form.submit }}
     </form>

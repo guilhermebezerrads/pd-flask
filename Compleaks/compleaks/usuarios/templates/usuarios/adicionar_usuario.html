@@ -3,15 +3,7 @@
 {% block title %}Adicionar usuário{% endblock %}
 
 {% block content %}
-
-    {% for mess in get_flashed_messages()  %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        {{mess}}
-        </div>
-    {% endfor %}
+<p>Obrigado por estar se juntando à nossa comunidade!</p>
 
     <form method="POST">
         {{ form.hidden_tag() }}
@@ -21,7 +13,7 @@
             <div class="alert alert-danger" role="alert">
             <ul>
                 {% for e in form.errors.username %}
-                <li>{{ e }}</li>
+                    <li>{{ e }}</li>
                 {% endfor %}
             </ul>
             </div>
@@ -29,19 +21,55 @@
 
         <br>
         {{ form.nome.label }}{{ form.nome }}
+        {% if form.errors.nome %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.nome %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.curso.label }}{{ form.curso }}
+        {% if form.errors.curso %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.curso %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.periodo.label }}{{ form.periodo }}
+        {% if form.errors.periodo %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.periodo %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.email.label }}{{ form.email }}
+        {% if form.errors.email %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.email %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.senha.label }}{{ form.senha }}
         {% if form.errors.senha %}
             <div class="alert alert-danger" role="alert">
             <ul>
                 {% for e in form.errors.senha %}
-                <li>{{ e }}</li>
+                    <li>{{ e }}</li>
                 {% endfor %}
             </ul>
             </div>
@@ -49,6 +77,15 @@
         
         <br>
         {{ form.conf_senha.label }}{{ form.conf_senha }}
+        {% if form.errors.conf_senha %}
+            <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for e in form.errors.conf_senha %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
         <br>
         {{ form.submit }}
     </form>
