@@ -9,11 +9,13 @@
       <tr>
         <th scope="col">Contribuinte</th>
         <th scope="col">Tipo de Conteudo</th>
-        <th scope="col">Diciplina</th>
         <th scope="col">Professor</th>
+        <th scope="col">Diciplina</th>
         <th scope="col">Mais</th>
-        <th scope="col">Deletar</th>
-        <th scope="col">Editar</th>
+        {% if current_user.is_authenticated %}
+            <th scope="col">Deletar</th>
+            <th scope="col">Editar</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -51,7 +53,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--
+            
                 {% elif current_user.is_admin %}
                     <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{arquivo.id}}">
                         <div class="modal-dialog" role="document">
@@ -89,7 +91,7 @@
                             </div>
                         </div>
                     </div> 
-                    -->
+                    
                 {% endif %}
 
                 {% if current_user.is_admin or  arquivo.is_eligible %}
@@ -153,10 +155,9 @@
                 
                 {% if (current_user.is_admin or current_user == arquivo.author) and arquivo.is_eligible %}
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
-                <!--
+            
                 {% elif current_user.is_admin  %}
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#red_confirm{{arquivo.id}}" >Redefinir</button>
-                -->
                 {% endif %}
                 
                 {% if current_user.is_admin or  arquivo.is_eligible %}
