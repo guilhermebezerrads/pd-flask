@@ -87,7 +87,7 @@ def editar(arq_id):
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
 	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
-	tem_arquivo = Arquivo.query.filter_by(arquivo="").first()
+	tem_arquivo = arquivos.first()
 	if tem_arquivo is None:
 		abort(404)
 		
