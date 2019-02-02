@@ -20,14 +20,14 @@ def adicionar():
 	form_add = AdicionarArquivoForm()
 
 	if form_add.validate_on_submit():
-		data = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S")
+		data = datetime.now()
 		disciplina = form_add.disciplina.data
 		ano = int(form_add.ano.data)
 		semestre = form_add.semestre.data
 		tipo = form_add.tipo_conteudo.data
 		professor = form_add.professor.data
 		observacoes = form_add.observacoes.data
-		nome = disciplina + " - " + tipo + " - " + data
+		nome = disciplina + " - " + tipo + " - " + str(data)
 		target = os.path.join(current_app.root_path, 'static/uploads')
 
 		file_name = target + "/" + nome + ".zip"
@@ -87,7 +87,11 @@ def editar(arq_id):
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
 	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
-	return render_template('todos_arquivos.html', arquivos=arquivos, arquivos_deletado=arquivos_deletado)
+	tem_arquivo = Arquivo.query.filter_by(arquivo="").first()
+	if tem_arquivo is None:
+		abort(404)
+		
+	return render_template('todos_arquivos.html', arquivos=arquivos)
 
 @arquivos.route('/buscar', methods=['POST', 'GET'])
 def buscar():

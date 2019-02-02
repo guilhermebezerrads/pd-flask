@@ -2,18 +2,23 @@
 {% block title %} Todos os usuários {% endblock %}
 {% block content %}
 {% if current_user.is_admin %}
-<table class="table">
+<table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">id</th>
         <th scope="col">Username</th>
         <th scope="col">Nome</th>
+        <th scope="col">Email</th>
         <th scope="col">Excluir/Redefinir</th>
       </tr>
     </thead>
     <tbody>
         {% for user in users %}
-            <tr>
+        {% if not user.is_eligible %}
+            <tr class="table-danger">
+        {% else %}
+            <tr >
+        {% endif %}
             {% if not user.is_eligible %}
             <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{user.id}}">
                 <div class="modal-dialog" role="document">
@@ -39,7 +44,7 @@
                         <h6 class="modal-title">Dados de Exclusão</h6>
                         <p> Data de Exclusão: {{user.data_deletado.strftime('%B %d, %Y') }} </p>
                         <p> Id do usuário que excluiu: {{user.id_deletor}} </p>
-                        {% if user.motivo_delete is not None %}
+                        {% if user.motivo_delete %}
                             <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
                         {% else %}
                             <p> Nenhum metivo de Exclusão Cadastrado </p>
@@ -74,11 +79,11 @@
                         <p> Email: {{user.email}} </p>
                         <p> Curso: {{user.curso}} </p>
                         <p> Periodo: {{user.periodo}}º </p>
-                        <p> Data de Registro: {{user.strftime('%B %d, %Y') }} </p>
+                        <p> Data de Registro: {{user.data_criacao.strftime('%B %d, %Y') }} </p>
                         <br/>
                         <div class="form-group">
                             <label class="form-control-label" form="motivo{{user.id}}">Um breve motivo para a exclusão:</label>
-                            <input class="form-control form-control-lg" type="text" form="{{user.id}}" name="motivo{{user.id}}" placeholder="Motivo">
+                            <input class="form-control form-control-lg" type="text" form="{{user.id}}" name="motivo{{user.id}}" placeholder="Motivo"    required>
                         </div>    
                     </div>
                     <div class="modal-footer">
@@ -92,27 +97,16 @@
                 </div>
             </div> 
             {% endif %}
-            {% if not user.is_eligible %}
-                <article color="red">
-                    <td scope="row"> {{user.id}} </td>
-                    <td> {{user.username}} </td>
-                    <td> {{user.nome}} </td>
-                    <td> {{user.email}} </td>
-                    <td> {{user.curso}} </td>
-                    <td> {{user.periodo}} </td>
-                </article>
-            {% else %}
-                <td scope="row"> {{user.id}} </td>
-                <td> {{user.username}} </td>
-                <td> {{user.nome}} </td>
-                <td> {{user.email}} </td>
-                <td> {{user.curso}} </td>
-                <td> {{user.periodo}} </td>
-            {% endif %}    
+            
+            <td scope="row"> {{user.id}} </td>
+            <td> {{user.username}} </td>
+            <td> {{user.nome}} </td>
+            <td> {{user.email}} </td>
+              
 
                 
                 <td>
-                    {% if not user.is_eligibleo %}
+                    {% if not user.is_eligible %}
                         <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{user.id}}" >Redefinir</button>
                     {%else%}
                         <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#del_confirm{{user.id}}" >Deletar</button>

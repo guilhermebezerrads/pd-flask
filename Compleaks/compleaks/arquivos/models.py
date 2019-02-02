@@ -15,7 +15,7 @@ class Arquivo(db.Model):
 	semestre = db.Column(db.String(80))
 	tipo_conteudo = db.Column(db.String(120))
 	observacoes = db.Column(db.Text)
-	data_submissao = db.Column(db.DateTime, default=datetime.utcnow)
+	data_submissao = db.Column(db.DateTime, default=datetime.now())
 	
 	data_deletado = db.Column(db.DateTime, nullable=True)
 	is_eligible = db.Column(db.Boolean)

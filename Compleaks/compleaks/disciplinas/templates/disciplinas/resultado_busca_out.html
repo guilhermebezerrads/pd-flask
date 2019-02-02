@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Listar disciplina{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% if existe_disciplina %}    
+            {% for disciplina in disciplinas %}
+            <li>
+                {{ disciplina }}
+            </li>    
+            {% endfor %}
+        {% else %}
+            <li>Não existe a disciplina</li>
+        {% endif %}
+    </ul>
+
+{% endblock %}

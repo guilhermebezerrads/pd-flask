@@ -63,14 +63,20 @@ def listar():
 def deletar(user_id):
 	if not current_user.is_admin:
 		abort(403)
-	user = Usuario.query.filter_by(id=user_id)
+
+	user = Usuario.query.get_or_404(user_id)
+
+	if current_user == user:
+		flash("Você não pode se deletar do sistema")
+		abort(403)
+	
 	user.is_eligible = False
-	user.data_deletado = datetime.utcnow
+	user.data_deletado = datetime.now()
 	user.id_deletor = current_user.id
 
 	if request.method == "POST":
 		try:
-			user.motivo_delete = request.form.get("motivo"+str(arquivo.id))
+			user.motivo_delete = request.form.get("motivo{}".format(user_id))
 		except Exception as e:
 			flash("Aqui não tem bobo não porra!")
 			print(e)#pretendo mandar um email avisando que alguem tentou uma violação
@@ -109,6 +115,9 @@ def login():
 			flash("Logado com Sucesso!")
 			
 			return redirect(url_for('principal.index'))
+
+		elif not user.is_eligible:
+			flash("Você foi banido do sistema por: {}".format(user.motivo_delete))
 
 
 	return render_template('login.html', form=form)

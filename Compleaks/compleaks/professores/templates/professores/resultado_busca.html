@@ -7,7 +7,9 @@
     <ul>
         {% if existe_professor %}    
             {% for professor in professores %}
-            <li>{{ professor.nome }}</li>    
+                {% if professor.is_eligible %}
+                    <li>{{ professor.nome }}</li>
+                {% endif %}
             {% endfor %}
         {% else %}
             <li>Não existe o professor</li>

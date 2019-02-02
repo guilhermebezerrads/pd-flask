@@ -6,9 +6,9 @@
 
     <ul>
         {% for prof in profdb: %}
-        
-            <li>{{ prof }}</li>
-        
+            {% if prof.is_eligible %}
+                <li>{{ prof }}</li>
+            {% endif %}
         {% endfor %}
     </ul>
 

@@ -22,7 +22,7 @@ class Usuario(db.Model, UserMixin):
 	curso = db.Column(db.String(64))
 	periodo = db.Column(db.Integer)
 	is_admin = db.Column(db.Integer)
-	data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+	data_criacao = db.Column(db.DateTime, default=datetime.now())
 	
 	is_eligible = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)

@@ -44,10 +44,14 @@
                             <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
                             <a class="dropdown-item" href="{{url_for('disciplinas.editar')}}">Editar</a>
                             <a class="dropdown-item" href="{{url_for('disciplinas.excluir')}}">Excluir</a>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{{url_for('disciplinas.listar_out')}}">Listar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{url_for('disciplinas.buscar_out')}}">Buscar</a>
                         {% endif %}    
-                        <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

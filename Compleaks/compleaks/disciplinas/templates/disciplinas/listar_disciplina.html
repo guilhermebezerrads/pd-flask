@@ -35,9 +35,9 @@
                                 <br/>
                                 <br/>
                                 <h6 class="modal-title">Dados de Exclusão</h6>
-                                <p> Data de Exclusão: {{user.data_deletado.strftime('%B %d, %Y') }} </p>
-                                <p> Id do usuário que excluiu: {{user.id_deletor}} </p>
-                                {% if user.motivo_delete is not None %}
+                                <p> Data de Exclusão: {{disciplina.data_deletado.strftime('%B %d, %Y') }} </p>
+                                <p> Id do usuário que excluiu: {{disciplina.id_deletor}} </p>
+                                {% if disciplina.motivo_delete %}
                                     <p> Motivo da Exclusão: {{disciplina.motivo_delete}} </p>
                                 {% else %}
                                     <p> Nenhum metivo de Exclusão Cadastrado </p>
@@ -47,7 +47,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     
-                                <form action="{{ url_for('disciplina.redefinir', disc_id=disciplina.id) }} " method="POST">
+                                <form action="{{ url_for('disciplinas.redefinir', disc_id=disciplina.id) }} " method="POST">
                                     <input type="submit" value="Redefinir" class="btn btn-danger">
                                 </form>
                             </div>

@@ -10,7 +10,7 @@ class Disciplina(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	nome = db.Column(db.String, unique=True)
-	data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+	data_criacao = db.Column(db.DateTime, default=datetime.now())
 	
 	is_eligible = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)

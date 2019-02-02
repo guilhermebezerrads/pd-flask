@@ -17,7 +17,9 @@
       </tr>
     </thead>
     <tbody>
+
     {% for arquivo in arquivos %}
+    {% if current_user.is_authenticated %}
 
         {% if current_user.is_admin or  arquivo.is_eligible %}
             <tr>
@@ -149,7 +151,7 @@
                 <td >
                 {% endif %}
                 
-                {% if current_user.is_admin or current_user == arquivo.author and arquivo.is_eligible %}
+                {% if (current_user.is_admin or current_user == arquivo.author) and arquivo.is_eligible %}
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
                 <!--
                 {% elif current_user.is_admin  %}
@@ -169,7 +171,53 @@
         {% if current_user.is_admin or  arquivo.is_eligible %}
             </tr>
         {% endif %}
-    {% endfor %}  
+        {% else %}
+            {% if arquivo.is_eligible %}
+
+                <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Informações do Arquivo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="modal-title">Referências:</h6>
+                            <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                            <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                            <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                            <p>Ano de referência: {{ arquivo.ano }}</p>
+                            <p>Semestre de referência: {{ arquivo.ano }}</p>
+                            <br/>
+
+                            <h6 class="modal-title">Sobre o Arquivo:</h6>
+                            <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                            <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
+                            <br/>
+
+                            <h6 class="modal-title">Observações:</h6>
+                            <p>{{ arquivo.observações }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <td>{{ arquivo.author.username }}</td>
+                <td>{{ arquivo.tipo_conteudo}}</td>
+                <td>{{ arquivo.professor.nome }}</td>
+                <td>{{ arquivo.disciplina.nome }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                </td>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
     </tbody>
   </table> 
 {% endblock %}

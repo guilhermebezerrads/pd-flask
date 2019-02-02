@@ -57,6 +57,11 @@ def listar():
 	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
 	return render_template('listar_disciplina.html',disciplinadb=disciplinadb)
 
+@disciplinas.route('/listar_ou', methods=['POST', 'GET'])
+def listar_out():
+	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
+	return render_template('lista_disciplina_out.html',disciplinadb=disciplinadb)
+
 @disciplinas.route('/excluir', methods=['POST', 'GET'])
 @login_required
 def excluir():
@@ -69,7 +74,7 @@ def excluir():
 		disciplina = Disciplina.query.get(id)
 
 		disciplina.is_eligible = False
-		disciplina.data_deletado = datetime.utcnow
+		disciplina.data_deletado = datetime.now()
 		disciplina.id_deletor = current_user.id
 		disciplina.motivo_delete = form.motivo.data
 
@@ -92,7 +97,7 @@ def redefinir(disc_id):
 		
 	db.session.commit()
 	flash("Disciplina {} acabou de redefinido ao sistema!".format(disciplina.nome))
-	return redirect(url_for('usuarios.listar'))
+	return redirect(url_for('disciplinas.listar'))
 
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
 @login_required
@@ -110,5 +115,23 @@ def buscar():
 		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
 		
 		return render_template('resultado_busca.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
+
+	return render_template('buscar_disciplina.html',form=form)
+
+@disciplinas.route('/buscar_out', methods=['POST', 'GET'])
+def buscar_out():
+	
+	form = BuscarDisciplinaForm()
+
+	if form.validate_on_submit():
+		
+		nome = form.nome.data
+		existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
+		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
+
+		if current_user.is_authenticated:
+			return render_template('resultado_busca.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
+		else:
+			return render_template('resultado_busca_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
 
 	return render_template('buscar_disciplina.html',form=form)
