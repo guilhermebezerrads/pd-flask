@@ -6,6 +6,17 @@
 
 <form method="POST">
     {{ form.hidden_tag() }}
+    {{ form.filtrar.label }}{{ form.filtrar }}
+    {% if form.errors.filtrar %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.filtrar %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+    <div id="pesquisa1">
     {{ form.disciplina.label }}{{ form.disciplina }}
     {% if form.errors.disciplina %}
         <div class="alert alert-danger" role="alert">
@@ -16,7 +27,9 @@
           </ul>
         </div>
     {% endif %}
+    </div>
     <br>
+    <div id="pesquisa1">
     {{ form.tipo_arquivo.label }}{{ form.tipo_arquivo }}
     {% if form.errors.tipo_arquivo %}
         <div class="alert alert-danger" role="alert">
@@ -27,7 +40,9 @@
           </ul>
         </div>
     {% endif %}
+    </div>
     <br>
+    <div id="pesquisa1">
     {{ form.professor.label }}{{ form.professor }}
     {% if form.errors.professor %}
         <div class="alert alert-danger" role="alert">
@@ -38,9 +53,10 @@
           </ul>
         </div>
     {% endif %}
+    </div>
     <br>
     {{ form.submit }}
-</form>
+</form>  
     {% block resultado %}
         {{ super() }}
     {% endblock %}

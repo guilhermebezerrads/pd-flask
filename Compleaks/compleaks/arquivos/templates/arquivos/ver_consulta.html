@@ -2,35 +2,228 @@
 
 {% block resultado %}
 
-<p style="margin-bottom: 15px;">
-<strong>Disciplina</strong>: texto;
-<strong>Material</strong>: texto;
-<strong>Professor</strong>: texto.
-</p>
-<div class="container-fluid">
-    <table class="table table-striped table-bordered">
+{% if existe_arquivo %}        
+    <table class="table">
         <thead>
-            <tr>
-                <th>Disciplina</th>
-                <th>Ano</th>
-                <th>Tipo</th>
-                <th>Professor</th>
-                <th>Observações</th>
-                <th>Download</th>
-            </tr>
+        <tr>
+            <th scope="col">Contribuinte</th>
+            <th scope="col">Tipo de Conteudo</th>
+            <th scope="col">Professor</th>
+            <th scope="col">Diciplina</th>
+            <th scope="col">Mais</th>
+            {% if current_user.is_authenticated %}
+                <th scope="col">Deletar</th>
+                <th scope="col">Editar</th>
+            {% endif %}
+        </tr>
         </thead>
-
         <tbody>
-            <tr>
-                <td>texto</td>
-                <td>texto</td>
-                <td>texto</td>
-                <td>texto</td>
-                <td>texto</td>
-                <td><a href="#" class="btn btn-info"><span class="glyphicon glyphicon-download-alt"></span></a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
-{% endblock %}
+        {% for arquivo in arquivos %}
+            {% if (tip_arquiv == "all") or (arquivo.tipo_conteudo == tip_arquiv) or (form.filtrar.data == '0')%}
+            <p>Aqui porra</p>
+            {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin or  arquivo.is_eligible %}
+                        <tr>
+                    {% endif %}
+                            {% if (current_user.is_admin or current_user == arquivo.author) and arquivo.is_eligible %}
+                                <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Deletar Arquivo?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Você tem certeza que deja deletar esse arquivo?</p>
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="motivo{{arquivo.id}}">Um breve motivo para a exclusão:</label>
+                                                <input class="form-control form-control-lg" type="text" form="{{arquivo.id}}" name="motivo{{arquivo.id}}" placeholder="Motivo">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                
+                                            <form action="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} " method="POST" id="{{arquivo.id}}">
+                                                <input type="submit" value="Deletar" class="btn btn-danger">
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                            {% elif current_user.is_admin %}
+                                <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{arquivo.id}}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Redefinir Arquivo?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Você tem certeza que deja redefinir esse arquivo?</p>
+                                            <br/>
+                                            <h6 class="modal-title">Dados de Cadastro</h6>
+                                            <p> Data de Registro: {{arquivo.data_submissao.strftime('%B %d, %Y') }} </p>
+                                            <br/>
+                                            <br/>
+                                            <h6 class="modal-title">Dados de Exclusão</h6>
+                                            <p> Data de Exclusão: {{arquivo.data_deletado.strftime('%B %d, %Y') }} </p>
+                                            <p> Id do usuário que excluiu: {{arquivo.id_deletor}} </p>
+                                            {% if arquivo.motivo_delete %}
+                                                <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
+                                            {% else %}
+                                                <p> Nenhum metivo de Exclusão Cadastrado </p>
+                                            {% endif %}
+                                            <br/>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                
+                                            <form action="{{ url_for('arquivos.redefinir', arq_id=arquivo.id) }} " method="POST">
+                                                <input type="submit" value="Redefinir" class="btn btn-danger">
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                
+                            {% endif %}
+
+                            {% if current_user.is_admin or  arquivo.is_eligible %}
+                            
+                            <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Informações do Arquivo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6 class="modal-title">Referências:</h6>
+                                        <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                                        <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                                        <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                                        <p>Ano de referência: {{ arquivo.ano }}</p>
+                                        <p>Semestre de referência: {{ arquivo.ano }}</p>
+                                        <br/>
+
+                                        <h6 class="modal-title">Sobre o Arquivo:</h6>
+                                        <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                                        <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
+                                        <br/>
+
+                                        <h6 class="modal-title">Observações:</h6>
+                                        <p>{{ arquivo.observações }}</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if not arquivo.is_eligible %}
+                                <article color="red">
+                                    <td>{{ arquivo.author.username }}</td>
+
+                                    <td>{{ arquivo.tipo_conteudo}}</td>
+                                    <td>{{ arquivo.professor.nome }}</td>
+                                    <td>{{ arquivo.disciplina.nome }}</td>
+                                </article>
+                            {% else %}
+                                <td>{{ arquivo.author.username }}</td>
+
+                                <td>{{ arquivo.tipo_conteudo}}</td>
+                                <td>{{ arquivo.professor.nome }}</td>
+                                <td>{{ arquivo.disciplina.nome }}</td>
+                            {% endif %}   
+
+                        
+                            <td>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                            </td>  
+                            <td >
+                            {% endif %}
+                            
+                            {% if (current_user.is_admin or current_user == arquivo.author) and arquivo.is_eligible %}
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
+                        
+                            {% elif current_user.is_admin  %}
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#red_confirm{{arquivo.id}}" >Redefinir</button>
+                            {% endif %}
+                            
+                            {% if current_user.is_admin or  arquivo.is_eligible %}
+                            </td>
+                            {% endif %}
+
+                            {% if current_user == arquivo.author and arquivo.is_eligible %}
+                            <td>
+                                <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
+                            </td>
+                            {% endif %}
+                    {% if current_user.is_admin or  arquivo.is_eligible %}
+                        </tr>
+                    {% endif %}
+            {% else %}
+
+                {% if arquivo.is_eligible %}
+
+                    <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Informações do Arquivo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h6 class="modal-title">Referências:</h6>
+                                <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                                <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                                <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                                <p>Ano de referência: {{ arquivo.ano }}</p>
+                                <p>Semestre de referência: {{ arquivo.ano }}</p>
+                                <br/>
+
+                                <h6 class="modal-title">Sobre o Arquivo:</h6>
+                                <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                                <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
+                                <br/>
+
+                                <h6 class="modal-title">Observações:</h6>
+                                <p>{{ arquivo.observações }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <td>{{ arquivo.author.username }}</td>
+                    <td>{{ arquivo.tipo_conteudo}}</td>
+                    <td>{{ arquivo.professor.nome }}</td>
+                    <td>{{ arquivo.disciplina.nome }}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                    </td>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    </tbody>
+  </table> 
+  {% else %}
+
+  {% endif %}
+  {% endblock %}

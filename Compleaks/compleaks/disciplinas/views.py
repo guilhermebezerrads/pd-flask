@@ -111,7 +111,7 @@ def buscar():
 	if form.validate_on_submit():
 		
 		nome = form.nome.data
-		existe_disciplina = Disciplina.query.filter(Disciplina.nome.	tains(nome)).first()
+		existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
 		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
 		
 		return render_template('resultado_busca.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	

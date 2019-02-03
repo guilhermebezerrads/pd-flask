@@ -97,12 +97,31 @@ def listar():
 def buscar():
 
 	form = BuscarMaterialForm()
+	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
+	existe_arquivo = True
 
 	if form.validate_on_submit():
 
-		return redirect(url_for('arquivos.buscar'))
+		if int(form.filtrar.data) == 1:
+			
+			existe_arquivo = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).first()
+			arquivos = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).all()
+			print(arquivos[0].id)
+		
+		if int(form.filtrar.data) == 2:
+				
+			print(arquivos)
+			existe_arquivo = Arquivo.query.filter_by(professor_id=int(form.professor.data)).first()
+			arquivos = Arquivo.query.filter_by(professor_id=int(form.professor.data))
 
-	return render_template('buscar.html', form=form)
+		if int(form.filtrar.data) is 3:
+			existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=form.tipo_arquivo.data).first()
+
+		tip_arquiv = form.tipo_arquivo.data
+
+		return render_template('buscar.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, form=form)
+
+	return render_template('buscar.html', tip_arquiv="all", arquivos=arquivos ,existe_arquivo=existe_arquivo, form=form)
 
 @arquivos.route('/excluir/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
