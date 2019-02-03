@@ -22,7 +22,7 @@ class AdicionarUsuarioForm(FlaskForm):
 	######################################################################
 	
 	email = StringField("Email: ", validators=[DataRequired(message="Campo Obrigatório"), Email(message="Campo Obrigatório"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
-	senha = PasswordField("Senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	senha = PasswordField("Senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
 	conf_senha = PasswordField("Cinfirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
 
 	submit = SubmitField("Adicionar: ")
@@ -30,21 +30,21 @@ class AdicionarUsuarioForm(FlaskForm):
 class LoginForm(FlaskForm):
 
 	email = StringField("Email: ", validators=[DataRequired(message="Campo Obrigatório"), Email(message="Campo Obrigatório"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
-	senha = PasswordField("Senha: ", validators=[DataRequired(), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	senha = PasswordField("Senha: ", validators=[DataRequired(), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
 	submit = SubmitField("Entrar: ")
 
 
 class TrocaSenhaForm(FlaskForm):
 
-	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
-	nova_senha = PasswordField("Nova senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
-	conf_senha = PasswordField("Confirmar nova senha: ", validators=[DataRequired(), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	nova_senha = PasswordField("Nova senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	conf_senha = PasswordField("Confirmar nova senha: ", validators=[DataRequired(), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
 	submit = SubmitField("Trocar")
 
 
 class TrocaEmailForm(FlaskForm):
 	
-	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=3, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	senha_atual = PasswordField("Senha atual: ", validators=[DataRequired(), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
 	novo_email = StringField("Novo email", validators=[DataRequired(), Email(), EqualTo('conf_email', message="Os emails pressisam de ser igual"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
 	conf_email = StringField("Confirmar email", validators=[DataRequired(), Email()])
 	submit = SubmitField("Trocar")
