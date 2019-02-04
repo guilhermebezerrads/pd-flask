@@ -10,6 +10,14 @@ def prenche_periodos():
 		periodos.append((str(i+1), (str(i+1)+'º')))
 	return periodos
 		
+class BuscarUsuarioForm(FlaskForm):
+	filtrar = SelectField("Pesquisar por", choices=[('0','Todos'),('1','Username'),
+												('2','Nome'), ('3','Email')])
+	administrators = BooleanField("Apenas admins")
+	username = StringField("Username: ")
+	nome = StringField("Nome completo: ")
+	email = StringField("Email: ")
+	submit = SubmitField("Buscar")
 
 class AdicionarUsuarioForm(FlaskForm):
 

@@ -4,13 +4,14 @@ from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_user,login_required,logout_user
 from compleaks import db
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
-										TrocaSenhaForm, AdicionarUsuarioForm)
+										TrocaSenhaForm, AdicionarUsuarioForm,
+										BuscarUsuarioForm)
 from compleaks.usuarios.models import Usuario
 from datetime import datetime
 
 usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
 
-@usuarios.route('/adicionar', methods=['POST', 'GET'])
+@usuarios.route('/cadastro', methods=['POST', 'GET'])
 def adicionar():
 	form = AdicionarUsuarioForm()
 
@@ -49,7 +50,7 @@ def logout():
 	flash("Usuário deslogado com sucesso!")
 	return redirect(url_for('principal.index'))
 
-@usuarios.route('/listar', methods=['POST', 'GET'])
+@usuarios.route('/lista', methods=['POST', 'GET'])
 @login_required
 def listar():
 	if not current_user.is_admin:
@@ -58,7 +59,35 @@ def listar():
 	users = Usuario.query.order_by(Usuario.username)
 	return render_template('todos_users.html', users=users)
 
-@usuarios.route('/deletar/<int:user_id>', methods=['POST', 'GET'])
+@usuarios.route('/busca', methods=['POST', 'GET'])
+@login_required
+def buscar():
+	form = BuscarUsuarioForm()
+	users = Usuario.query.order_by(Usuario.username.desc())
+	existe_user = True
+
+	if form.validate_on_submit():
+
+		if int(form.filtrar.data) == 1:
+			
+			existe_user = Usuario.query.filter(Usuario.username.contains(form.username.data)).first()
+			users = Usuario.query.filter(Usuario.username.contains(form.username.data)).all()
+		
+		if int(form.filtrar.data) == 2:				
+			existe_user = Usuario.query.filter(Usuario.nome.contains(form.nome.data)).first()
+			users = Usuario.query.filter(Usuario.nome.contains(form.nome.data)).all()
+
+		if int(form.filtrar.data) is 3:
+			existe_user = Usuario.query.filter(Usuario.email.contains(form.email.data)).first()
+			admin_only = Usuario.query.filter(Usuario.email.contains(form.email.data)).all()
+
+		admin_only = form.administrators.data
+
+		return render_template('buscar.html',admin_only=admin_only, users=users, existe_user=existe_user, form=form)
+
+	return render_template('buscar.html',admin_only=False, users=users, existe_user=existe_user, form=form)
+
+@usuarios.route('/exclusao/<int:user_id>', methods=['POST', 'GET'])
 @login_required
 def deletar(user_id):
 	if not current_user.is_admin:
@@ -86,7 +115,7 @@ def deletar(user_id):
 	flash("Usuário acabou de se tornar inoperante no sistema!")
 	return redirect(url_for('usuarios.listar'))
 
-@usuarios.route('/redefinir/<int:user_id>', methods=['POST', 'GET'])
+@usuarios.route('/redefinicao/<int:user_id>', methods=['POST', 'GET'])
 @login_required
 def redefinir(user_id):
 	if not current_user.is_admin:

@@ -6,6 +6,8 @@
 
 <form method="POST">
     {{ form.hidden_tag() }}
+    {{ form.administrators.label }}{{ form.administrators }}
+    <br/>
     {{ form.filtrar.label }}{{ form.filtrar }}
     {% if form.errors.filtrar %}
         <div class="alert alert-danger" role="alert">
@@ -16,26 +18,25 @@
           </ul>
         </div>
     {% endif %}
-    <br/>
     <div id="pesquisa1">
-      {{ form.tipo_arquivo.label }}{{ form.tipo_arquivo }}
-      {% if form.errors.tipo_arquivo %}
-          <div class="alert alert-danger" role="alert">
-            <ul>
-              {% for e in form.errors.tipo_arquivo %}
-                <li>{{ e }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-      {% endif %}
-      </div>
-      <br>
-    <div id="pesquisa2">
-    {{ form.disciplina.label }}{{ form.disciplina }}
-    {% if form.errors.disciplina %}
+    {{ form.username.label }}{{ form.username }}
+    {% if form.errors.username %}
         <div class="alert alert-danger" role="alert">
           <ul>
-            {% for e in form.errors.disciplina %}
+            {% for e in form.errors.username %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+    </div>
+    <br>
+    <div id="pesquisa2">
+    {{ form.nome.label }}{{ form.nome }}
+    {% if form.errors.nome %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.nome %}
               <li>{{ e }}</li>
             {% endfor %}
           </ul>
@@ -44,11 +45,11 @@
     </div>
     <br>
     <div id="pesquisa3">
-    {{ form.professor.label }}{{ form.professor }}
-    {% if form.errors.professor %}
+    {{ form.email.label }}{{ form.email }}
+    {% if form.errors.email %}
         <div class="alert alert-danger" role="alert">
           <ul>
-            {% for e in form.errors.professor %}
+            {% for e in form.errors.email %}
               <li>{{ e }}</li>
             {% endfor %}
           </ul>

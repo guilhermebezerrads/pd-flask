@@ -106,11 +106,9 @@ def buscar():
 			
 			existe_arquivo = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).first()
 			arquivos = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).all()
-			print(arquivos[0].id)
 		
 		if int(form.filtrar.data) == 2:
 				
-			print(arquivos)
 			existe_arquivo = Arquivo.query.filter_by(professor_id=int(form.professor.data)).first()
 			arquivos = Arquivo.query.filter_by(professor_id=int(form.professor.data))
 

@@ -21,7 +21,6 @@
 
         {% for arquivo in arquivos %}
             {% if (tip_arquiv == "all") or (arquivo.tipo_conteudo == tip_arquiv) or (form.filtrar.data == '0')%}
-            <p>Aqui porra</p>
             {% if current_user.is_authenticated %}
                     {% if current_user.is_admin or  arquivo.is_eligible %}
                         <tr>
@@ -224,6 +223,9 @@
     </tbody>
   </table> 
   {% else %}
-
+  <br/>
+  <div class="text-center">
+    <h1 >Nenhum Resultado Encontrado</h1>
+  </div>
   {% endif %}
   {% endblock %}
