@@ -1,5 +1,5 @@
 from flask import (render_template, request,
-					 Blueprint, url_for, redirect, flash, abort)
+					 Blueprint, url_for, redirect, request, flash, abort)
 from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_user,login_required,logout_user
 from compleaks import db
@@ -56,7 +56,10 @@ def listar():
 	if not current_user.is_admin:
 		abort(403)
 
-	users = Usuario.query.order_by(Usuario.username)
+	page = request.args.get('page', 1, type=int)
+	users = Usuario.query\
+			.order_by(Usuario.username)\
+			.paginate(page=page, per_page=1)
 	return render_template('todos_users.html', users=users)
 
 @usuarios.route('/busca', methods=['POST', 'GET'])
