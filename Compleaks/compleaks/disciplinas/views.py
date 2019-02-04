@@ -50,17 +50,14 @@ def editar():
 	return render_template('editar_disciplina.html',form=form)
 
 @disciplinas.route('/listar', methods=['POST', 'GET'])
-@login_required
 def listar():
-	if not current_user.is_admin:
-		abort(403)
-	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
-	return render_template('listar_disciplina.html',disciplinadb=disciplinadb)
 
-@disciplinas.route('/listar_ou', methods=['POST', 'GET'])
-def listar_out():
 	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
-	return render_template('lista_disciplina_out.html',disciplinadb=disciplinadb)
+	if current_user.is_authenticated and current_user.is_admin:
+		return render_template('listar_disciplina.html',disciplinadb=disciplinadb)
+	else:
+		return render_template('lista_disciplina_out.html',disciplinadb=disciplinadb)
+
 
 @disciplinas.route('/excluir', methods=['POST', 'GET'])
 @login_required
@@ -99,27 +96,9 @@ def redefinir(disc_id):
 	flash("Disciplina {} acabou de redefinido ao sistema!".format(disciplina.nome))
 	return redirect(url_for('disciplinas.listar'))
 
+
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
-@login_required
 def buscar():
-
-	if not current_user.is_admin:
-		abort(403)
-	
-	form = BuscarDisciplinaForm()
-
-	if form.validate_on_submit():
-		
-		nome = form.nome.data
-		existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
-		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
-		
-		return render_template('resultado_busca.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
-
-	return render_template('buscar_disciplina.html',form=form)
-
-@disciplinas.route('/buscar_out', methods=['POST', 'GET'])
-def buscar_out():
 	
 	form = BuscarDisciplinaForm()
 
@@ -129,8 +108,8 @@ def buscar_out():
 		existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
 		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
 
-		if current_user.is_authenticated:
-			return render_template('resultado_busca.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
+		if current_user.is_authenticated and current_user.is_admin:
+			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
 		else:
 			return render_template('resultado_busca_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
 

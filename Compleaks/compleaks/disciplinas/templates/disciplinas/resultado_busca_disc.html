@@ -36,7 +36,7 @@
                                 <h6 class="modal-title">Dados de Exclusão</h6>
                                 <p> Data de Exclusão: {{user.data_deletado.strftime('%B %d, %Y') }} </p>
                                 <p> Id do usuário que excluiu: {{user.id_deletor}} </p>
-                                {% if user.motivo_delete is not None %}
+                                {% if not user.motivo_delete %}
                                     <p> Motivo da Exclusão: {{disciplina.motivo_delete}} </p>
                                 {% else %}
                                     <p> Nenhum metivo de Exclusão Cadastrado </p>

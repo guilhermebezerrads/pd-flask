@@ -66,23 +66,28 @@ def listar():
 @login_required
 def buscar():
 	form = BuscarUsuarioForm()
-	users = Usuario.query.order_by(Usuario.username.desc())
+	page = request.args.get('page', 1, type=int)
+	users = Usuario.query.order_by(Usuario.username.desc()).paginate(page=page, per_page=1)
 	existe_user = True
-
+	
 	if form.validate_on_submit():
 
 		if int(form.filtrar.data) == 1:
 			
 			existe_user = Usuario.query.filter(Usuario.username.contains(form.username.data)).first()
-			users = Usuario.query.filter(Usuario.username.contains(form.username.data)).all()
+			users = Usuario.query\
+				.filter(Usuario.username.contains(form.username.data))\
+				.all().paginate(page=page, per_page=1)
 		
 		if int(form.filtrar.data) == 2:				
 			existe_user = Usuario.query.filter(Usuario.nome.contains(form.nome.data)).first()
-			users = Usuario.query.filter(Usuario.nome.contains(form.nome.data)).all()
+			users = Usuario.query.filter(Usuario.nome.contains(form.nome.data))\
+					.all().paginate(page=page, per_page=1)
 
 		if int(form.filtrar.data) is 3:
 			existe_user = Usuario.query.filter(Usuario.email.contains(form.email.data)).first()
-			admin_only = Usuario.query.filter(Usuario.email.contains(form.email.data)).all()
+			users = Usuario.query.filter(Usuario.email.contains(form.email.data))\
+					.all().paginate(page=page, per_page=1)
 
 		admin_only = form.administrators.data
 
@@ -140,16 +145,25 @@ def login():
 
 	if form.validate_on_submit():
 		user = Usuario.query.filter_by(email=form.email.data).first()
+		print(user)
 
-		if user.check_password(form.senha.data) and user is not None and user.is_eligible is True:
+		if user is not None and user.is_eligible is True:
 			
-			login_user(user)
-			flash("Logado com Sucesso!")
-			
-			return redirect(url_for('principal.index'))
+			if user.check_password(form.senha.data):
 
-		elif not user.is_eligible:
+				login_user(user)
+				flash("Logado com Sucesso!")
+			
+				return redirect(url_for('principal.index'))
+
+			else:
+				flash("Email e/ou senha incorretos", "alert")
+
+		if user is not None and not user.is_eligible:
 			flash("Você foi banido do sistema por: {}".format(user.motivo_delete))
+
+		if user == None:
+			flash("Email e/ou senha incorretos", "alert")
 
 
 	return render_template('login.html', form=form)
@@ -163,23 +177,29 @@ def troca():
 	form_senha =  TrocaSenhaForm()
 
 	if form_email.validate_on_submit():
-		if Usuario.query.filter_by(email=form_email.email.data):
+		if Usuario.query.filter_by(email=form_email.email.data).first() and not current_user.email == form_email.novo_email.data:
 			flash(f"O e-mail já está e uso!")
 			
-		elif current_user.check_password(form_email.senha_atual.data):
+		elif current_user.check_password(form_email.senha_atual.data) and not current_user.email == form_email.novo_email.data:
 			current_user.email = form_email.novo_email.data
 			db.session.commit()
 			flash("Email trocado com sucesso!")
 		
+		elif current_user.email == form_email.novo_email.data:
+			flash("O novo email e o antigo não podem ser iguais!")
+
 		else:
 			flash("Senha atual incorreta!")
 
 
+	bcrypt = Bcrypt()
 	if form_senha.validate_on_submit():
 		if current_user.check_password(password=form_senha.senha_atual.data):
 			flash(f"A senha atual não é válida!")
+		elif current_user.hhash ==  bcrypt.generate_password_hash(form_senha.nova_senha.data):
+			flash("A nova senha e a antiga não podem ser iguais!")
+		
 		else:
-			bcrypt = Bcrypt()
 			current_user.hhash = bcrypt.generate_password_hash(form_senha.nova_senha.data)
 			db.session.commit()
 			flash("Senha trocada com sucesso!")
