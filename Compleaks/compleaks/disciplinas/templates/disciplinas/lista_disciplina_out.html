@@ -4,13 +4,19 @@
 
 {% block content %}
 
-    <ul>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+          </tr>
+        </thead>
         {% for disciplina in disciplinadb: %}
-        
-            <li>
-                {{ disciplina }}
-            </li>
+        <tbody>
+          <tr>
+            <td>{{ disciplina.nome }}</td>
+          </tr>
+        </tbody>
         {% endfor %}
-    </ul>
+      </table>
 
 {% endblock %}

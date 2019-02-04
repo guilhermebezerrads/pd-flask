@@ -13,7 +13,7 @@ class Professor(db.Model):
 	nome = db.Column(db.String, unique=True)
 	unidade_academica_id = db.Column(db.Integer)
 	data_criacao = db.Column(db.DateTime, default=datetime.now())
-	
+
 	is_eligible = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)
 	id_deletor = db.Column(db.Integer, nullable=True)
@@ -23,6 +23,7 @@ class Professor(db.Model):
 
 	def __init__(self, nome, unidade_academica_id):
 		self.nome = nome
+		self.unidade_academica_id = unidade_academica_id
 		self.is_eligible = True
 
 	def __repr__(self):

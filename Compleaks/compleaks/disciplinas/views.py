@@ -1,9 +1,7 @@
-from flask import (render_template, Blueprint, 
-					url_for, redirect, flash, abort)
+from flask import (render_template, Blueprint, url_for, redirect, flash, abort)
 from flask_login import current_user, login_required
 from compleaks import db
-from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, 
-										EditarDisciplinaForm, ExcluirDisciplinaForm)
+from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, EditarDisciplinaForm, ExcluirDisciplinaForm)
 from compleaks.disciplinas.models import Disciplina
 from datetime import datetime
 
@@ -91,7 +89,7 @@ def redefinir(disc_id):
 	disciplina.data_deletado = None
 	disciplina.id_deletor = None
 	disciplina.motivo_delete = None
-		
+
 	db.session.commit()
 	flash("Disciplina {} acabou de redefinido ao sistema!".format(disciplina.nome))
 	return redirect(url_for('disciplinas.listar'))
@@ -99,18 +97,18 @@ def redefinir(disc_id):
 
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
 def buscar():
-	
+
 	form = BuscarDisciplinaForm()
 
 	if form.validate_on_submit():
-		
+
 		nome = form.nome.data
 		existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
 		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
 
 		if current_user.is_authenticated and current_user.is_admin:
-			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
+			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
 		else:
-			return render_template('resultado_busca_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)	
+			return render_template('resultado_busca_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
 
 	return render_template('buscar_disciplina.html',form=form)

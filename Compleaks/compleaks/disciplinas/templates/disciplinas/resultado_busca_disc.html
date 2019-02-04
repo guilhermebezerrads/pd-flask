@@ -4,16 +4,36 @@
 
 {% block content %}
 
-    <ul>
-        {% if existe_disciplina %}    
+        {% if existe_disciplina %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
             {% for disciplina in disciplinas %}
-            <li>
                 {% if not disciplina.is_eligible %}
-                    <article color="red">{{ disciplina }}</article>
+                  <article color="red">
+                    <tbody>
+                      <tr>
+                        <td>{{ disciplina.id }}</td>
+                        <td>{{ disciplina.nome }}</td>
+                        <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{disciplina.id}}" >Redefinir</button></td>
+                      </tr>
+                    </tbody>
+                  </article>
                 {% else %}
-                    {{ disciplina }}
-                {% endif %}   
-                
+                <tbody>
+                  <tr>
+                    <td>{{ disciplina.id }}</td>
+                    <td>{{ disciplina.nome }}</td>
+                    <td>None</td>
+                  </tr>
+                </tbody>
+                {% endif %}
+
                 {% if not disciplina.is_eligible %}
 
                 <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{disciplina.id}}">
@@ -45,23 +65,20 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    
+
                                 <form action="{{ url_for('disciplina.redefinir', disc_id=disciplina.id) }} " method="POST">
                                     <input type="submit" value="Redefinir" class="btn btn-danger">
                                 </form>
                             </div>
                             </div>
                         </div>
-                    </div> 
-                    <ul>
-                        <li><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{disciplina.id}}" >Redefinir</button></li>
-                    </ul>
+                    </div>
+
                 {% endif %}
-            </li>    
             {% endfor %}
+        </table>
         {% else %}
-            <li>Não existe a disciplina</li>
+            <h3>Não existe a disciplina</h3>
         {% endif %}
-    </ul>
 
 {% endblock %}

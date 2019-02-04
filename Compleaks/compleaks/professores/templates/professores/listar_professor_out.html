@@ -1,27 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Listar disciplina{% endblock %}
+{% block title %}Listar professores{% endblock %}
 
 {% block content %}
-
-    {% if existe_disciplina %}
     <table class="table" >
         <thead>
             <tr>
                 <th>Nome</th>
             </tr>
         </thead>
-        {% for disciplina in disciplinas %}
+        {% for professor in professoresdb %}
             <tbody>
                 <tr>
-                    <td>{{ disciplina.nome }}</td>
+                    <td>{{ professor.nome }}</td>
                 </tr>
             </tbody>
 
         {% endfor %}
         </table>
-    {% else %}
-        <h3>Não existe a disciplina</h3>
-    {% endif %}
-
 {% endblock %}

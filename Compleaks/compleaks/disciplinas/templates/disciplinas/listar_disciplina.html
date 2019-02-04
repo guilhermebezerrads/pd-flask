@@ -4,63 +4,84 @@
 
 {% block content %}
 {% if current_user.is_admin %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
 
-    <ul>
-        {% for disciplina in disciplinadb: %}
-        
-            <li>
-                {% if not disciplina.is_eligible %}
-                    <article color="red">{{ disciplina }}</article>
-                {% else %}
-                    {{ disciplina }}
-                {% endif %}    
+    {% for disciplina in disciplinadb: %}
 
-                {% if not disciplina.is_eligible %}
 
-                <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{disciplina.id}}">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Redefinir disciplina?</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Você tem certeza que deja redefinir essa disciplina?</p>
-                                <br/>
-                                <h6 class="modal-title">Dados de Cadastro</h6>
-                                <p>  Nome: {{ disciplina.nome }} </p>
-                                <p> Data de Registro: {{disciplina.data_criacao.strftime('%B %d, %Y') }} </p>
-                                <br/>
-                                <br/>
-                                <h6 class="modal-title">Dados de Exclusão</h6>
-                                <p> Data de Exclusão: {{disciplina.data_deletado.strftime('%B %d, %Y') }} </p>
-                                <p> Id do usuário que excluiu: {{disciplina.id_deletor}} </p>
-                                {% if disciplina.motivo_delete %}
-                                    <p> Motivo da Exclusão: {{disciplina.motivo_delete}} </p>
-                                {% else %}
-                                    <p> Nenhum metivo de Exclusão Cadastrado </p>
-                                {% endif %}
-                                <br/>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    
-                                <form action="{{ url_for('disciplinas.redefinir', disc_id=disciplina.id) }} " method="POST">
-                                    <input type="submit" value="Redefinir" class="btn btn-danger">
-                                </form>
-                            </div>
-                            </div>
+            {% if not disciplina.is_eligible %}
+              <article color="red">
+                <tbody>
+                  <tr>
+                    <td>{{ disciplina.id }}</td>
+                    <td>{{ disciplina.nome }}</td>
+                    <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{disciplina.id}}" >Redefinir</button></td>
+                  </tr>
+                </tbody>
+              </article>
+            {% else %}
+
+                  <tbody>
+                    <tr>
+                      <td>{{ disciplina.id }}</td>
+                      <td>{{ disciplina.nome }}</td>
+                      <td>None</td>
+                    </tr>
+                  </tbody>
+
+            {% endif %}
+
+            {% if not disciplina.is_eligible %}
+
+            <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{disciplina.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Redefinir disciplina?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div> 
-                    <ul>
-                        <li><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{disciplina.id}}" >Redefinir</button></li>
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+                        <div class="modal-body">
+                            <p>Você tem certeza que deja redefinir essa disciplina?</p>
+                            <br/>
+                            <h6 class="modal-title">Dados de Cadastro</h6>
+                            <p>  Nome: {{ disciplina.nome }} </p>
+                            <p> Data de Registro: {{disciplina.data_criacao.strftime('%B %d, %Y') }} </p>
+                            <br/>
+                            <br/>
+                            <h6 class="modal-title">Dados de Exclusão</h6>
+                            <p> Data de Exclusão: {{disciplina.data_deletado.strftime('%B %d, %Y') }} </p>
+                            <p> Id do usuário que excluiu: {{disciplina.id_deletor}} </p>
+                            {% if disciplina.motivo_delete %}
+                                <p> Motivo da Exclusão: {{disciplina.motivo_delete}} </p>
+                            {% else %}
+                                <p> Nenhum metivo de Exclusão Cadastrado </p>
+                            {% endif %}
+                            <br/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                            <form action="{{ url_for('disciplinas.redefinir', disc_id=disciplina.id) }} " method="POST">
+                                <input type="submit" value="Redefinir" class="btn btn-danger">
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+    {% endfor %}
+  </table>
 
 {% endif %}
 {% endblock %}
