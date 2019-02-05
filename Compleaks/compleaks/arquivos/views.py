@@ -21,12 +21,14 @@ def adicionar():
 
 	if form_add.validate_on_submit():
 		data = datetime.now()
+
 		disciplina = form_add.disciplina.data
 		ano = int(form_add.ano.data)
 		semestre = form_add.semestre.data
 		tipo = form_add.tipo_conteudo.data
 		professor = form_add.professor.data
 		observacoes = form_add.observacoes.data
+
 		nome = disciplina + " - " + tipo + " - " + str(data.strftime('%d - %m - %y, %H-%M-%S'))
 		target = os.path.join(current_app.root_path, 'static/uploads')
 
@@ -49,7 +51,7 @@ def adicionar():
 		db.session.add(new_arq)
 		db.session.commit()
 
-		flash("Obrigado por contribuir para a nossa comunidade maravilhosa!")
+		flash("Nossa comunidade agradece a sua contribuição.")
 	
 	return render_template('adicionar_arquivo.html', form_add=form_add)
 
@@ -73,7 +75,7 @@ def editar(arq_id):
 
 		db.session.commit()
 
-		flash("Obrigado por contribuir para a nossa comunidade maravilhosa!")
+		flash("Nossa comunidade agradece a sua contribuição.")
 
 	form.ano.data = arquivo.ano
 	form.semestre.data = arquivo.semestre
@@ -270,7 +272,7 @@ def excluir(arq_id):
 	arquivo.data_deletado = datetime.now()
 	
 	db.session.commit()
-	flash("Arquivo excluido com sucesso!")
+	flash("Arquivo excluído com sucesso.")
 	return redirect(url_for('arquivos.listar'))
 
 @arquivos.route('/redefinir/<int:arq_id>', methods=['POST', 'GET'])
@@ -285,5 +287,5 @@ def redefinir(arq_id):
 	arquivo.id_deletor = None
 		
 	db.session.commit()
-	flash("Usuário acabou de ser redefinido ao sistema!")
+	flash("O arquivo foi restaurado com sucesso.")
 	return redirect(url_for('arquivos.listar'))

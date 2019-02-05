@@ -7,10 +7,10 @@
         <thead>
           <tr>
             <th scope="col">Contribuinte</th>
-            <th scope="col">Tipo de Conteudo</th>
+            <th scope="col">Tipo de Conteúdo</th>
             <th scope="col">Professor</th>
-            <th scope="col">Diciplina</th>
-            <th scope="col">Mais</th>
+            <th scope="col">Disciplina</th>
+            <th scope="col">Download</th>
             {% if current_user.is_authenticated %}
                 <th scope="col">Deletar</th>
                 <th scope="col">Editar</th>
@@ -59,15 +59,15 @@
                         </div>
                         <div class="modal-body">
                             <h6 class="modal-title">Referências:</h6>
-                            <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                            <p>Usuário que postou: {{ arquivo.author.username }}</p>
                             <p>Professor de referência: {{ arquivo.professor.nome }}</p>
-                            <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                            <p>Disciplina de referência: {{ arquivo.disciplina.nome }}</p>
                             <p>Ano de referência: {{ arquivo.ano }}</p>
                             <p>Semestre de referência: {{ arquivo.ano }}</p>
                             <br/>
     
                             <h6 class="modal-title">Sobre o Arquivo:</h6>
-                            <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                            <p>Tipo de conteúdo: {{ arquivo.tipo_conteudo}}</p>
                             <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
                             <br/>
     
@@ -116,7 +116,7 @@
                             </div>
                             <div class="modal-body">
                                 <h6 class="modal-title">Referências:</h6>
-                                <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                                <p>Usuário que postou: {{ arquivo.author.username }}</p>
                                 <p>Professor de referência: {{ arquivo.professor.nome }}</p>
                                 <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
                                 <p>Ano de referência: {{ arquivo.ano }}</p>
@@ -124,7 +124,7 @@
                                 <br/>
     
                                 <h6 class="modal-title">Sobre o Arquivo:</h6>
-                                <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                                <p>Tipo de conteúdo: {{ arquivo.tipo_conteudo}}</p>
                                 <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
                                 <br/>
     
