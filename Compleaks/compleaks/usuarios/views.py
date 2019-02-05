@@ -62,38 +62,79 @@ def listar():
 			.paginate(page=page, per_page=1)
 	return render_template('todos_users.html', users=users)
 
-@usuarios.route('/busca', methods=['POST', 'GET'])
+@usuarios.route('/busca/<int:admin>/<int:filtro>/<pesquisa>', methods=['POST', 'GET'])
+@usuarios.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None}, methods=['POST', 'GET'])
 @login_required
-def buscar():
+def buscar(admin,filtro,pesquisa):
 	form = BuscarUsuarioForm()
 	page = request.args.get('page', 1, type=int)
-	users = Usuario.query.order_by(Usuario.username.desc()).paginate(page=page, per_page=1)
+	users = Usuario.query.order_by(Usuario.username).paginate(page=page, per_page=1)
 	existe_user = True
-	
+	navigation_data = []
+	navigation_data.append(filtro)
+	navigation_data.append(admin)
+	navigation_data.append(pesquisa)
+
 	if form.validate_on_submit():
 
 		if int(form.filtrar.data) == 1:
 			
-			existe_user = Usuario.query.filter(Usuario.username.contains(form.username.data)).first()
+			pesquisa = form.username.data
+			existe_user = Usuario.query.filter(Usuario.username.contains(pesquisa)).first()
 			users = Usuario.query\
-				.filter(Usuario.username.contains(form.username.data))\
-				.all().paginate(page=page, per_page=1)
+				.filter(Usuario.username.contains(pesquisa))\
+				.paginate(page=page, per_page=1)
 		
 		if int(form.filtrar.data) == 2:				
-			existe_user = Usuario.query.filter(Usuario.nome.contains(form.nome.data)).first()
-			users = Usuario.query.filter(Usuario.nome.contains(form.nome.data))\
-					.all().paginate(page=page, per_page=1)
+
+			pesquisa = form.nome.data
+			existe_user = Usuario.query.filter(Usuario.nome.contains(pesquisa)).first()
+			users = Usuario.query.filter(Usuario.nome.contains(pesquisa))\
+					.paginate(page=page, per_page=1)
 
 		if int(form.filtrar.data) is 3:
-			existe_user = Usuario.query.filter(Usuario.email.contains(form.email.data)).first()
-			users = Usuario.query.filter(Usuario.email.contains(form.email.data))\
-					.all().paginate(page=page, per_page=1)
+
+			pesquisa = form.email.data
+			existe_user = Usuario.query.filter(Usuario.email.contains(pesquisa)).first()
+			users = Usuario.query.filter(Usuario.email.contains(pesquisa))\
+					.paginate(page=page, per_page=1)
 
 		admin_only = form.administrators.data
 
-		return render_template('buscar.html',admin_only=admin_only, users=users, existe_user=existe_user, form=form)
+		navigation_data.clear()
+		navigation_data.append(int(form.filtrar.data))
+		if admin_only:
+			navigation_data.append(1)
+		else:
+			navigation_data.append(0)
+		navigation_data.append(pesquisa)
 
-	return render_template('buscar.html',admin_only=False, users=users, existe_user=existe_user, form=form)
+		return render_template('buscar_user.html',admin_only=admin_only, users=users, existe_user=existe_user, navigation_data=navigation_data, form=form)
+
+	if filtro:
+
+		if filtro == 1:
+			
+			existe_user = Usuario.query.filter(Usuario.username.contains(pesquisa)).first()
+			users = Usuario.query\
+				.filter(Usuario.username.contains(pesquisa))\
+				.paginate(page=page, per_page=1)
+		
+		if filtro == 2:				
+			existe_user = Usuario.query.filter(Usuario.nome.contains(pesquisa)).first()
+			users = Usuario.query.filter(Usuario.nome.contains(pesquisa))\
+				.paginate(page=page, per_page=1)
+
+		if filtro is 3:
+			existe_user = Usuario.query.filter(Usuario.email.contains(pesquisa)).first()
+			users = Usuario.query.filter(Usuario.email.contains(pesquisa))\
+					.paginate(page=page, per_page=1)
+
+		admin_only = bool(admin)
+
+		return render_template('buscar_user.html',admin_only=admin_only, users=users, existe_user=existe_user, navigation_data=navigation_data, form=form)
+
+	return render_template('buscar_user.html',admin_only=False, users=users, existe_user=existe_user, navigation_data=navigation_data, form=form)
 
 @usuarios.route('/exclusao/<int:user_id>', methods=['POST', 'GET'])
 @login_required

@@ -86,64 +86,194 @@ def editar(arq_id):
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
-	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
-	tem_arquivo = arquivos.first()
+	page = request.args.get('page', 1, type=int)
+	arquivos = Arquivo.query.filter_by(is_eligible=True)\
+				.order_by(Arquivo.data_submissao.desc())\
+				.paginate(page=page, per_page=5)
+	tem_arquivo = Arquivo.query.order_by(Arquivo.data_submissao.desc()).first()
 	if tem_arquivo is None:
 		abort(404)
-		
-	return render_template('todos_arquivos.html', arquivos=arquivos)
+	
+	if current_user.is_admin:
+		arquivos = Arquivo.query\
+				.order_by(Arquivo.data_submissao.desc())\
+				.paginate(page=page, per_page=5)
+		return render_template('todos_arquivos_adm.html', arquivos=arquivos)
+	else:
+		return render_template('todos_arquivos_normal.html', arquivos=arquivos)
 
-@arquivos.route('/buscar', methods=['POST', 'GET'])
-def buscar():
+@arquivos.route('/busca/<admin>/<int:filtro>/<pesquisa>/<tip_arquiv>', methods=['POST', 'GET'])
+@arquivos.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None,"tip_arquiv":None}, methods=['POST', 'GET'])
+def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 	form = BuscarMaterialForm()
-	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())
+	page = request.args.get('page', 1, type=int)
+	arquivos = Arquivo.query.order_by(Arquivo.data_submissao.desc())\
+				.paginate(page=page, per_page=5)
 	existe_arquivo = True
+	navigation_data = []
+	navigation_data.append(filtro)
+	if current_user.is_admin:
+		navigation_data.append("adm")
+	else:
+		navigation_data.append("normal")
+
+	navigation_data.append(pesquisa)
+	navigation_data.append(tip_arquiv)
 
 	if form.validate_on_submit():
-
-		if int(form.filtrar.data) == 1:
-			
-			existe_arquivo = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).first()
-			arquivos = Arquivo.query.filter(Arquivo.disciplina_id.contains(int(form.disciplina.data))).all()
 		
-		if int(form.filtrar.data) == 2:
-				
-			existe_arquivo = Arquivo.query.filter_by(professor_id=int(form.professor.data)).first()
-			arquivos = Arquivo.query.filter_by(professor_id=int(form.professor.data))
-
-		if int(form.filtrar.data) is 3:
-			existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=form.tipo_arquivo.data).first()
-
 		tip_arquiv = form.tipo_arquivo.data
 
-		return render_template('buscar.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, form=form)
+		if tip_arquiv != 'all':
 
-	return render_template('buscar.html', tip_arquiv="all", arquivos=arquivos ,existe_arquivo=existe_arquivo, form=form)
+			if int(form.filtrar.data) == 1:
+
+				pesquisa = form.disciplina.data
+				existe_arquivo = Arquivo.query\
+								.filter(Arquivo.disciplina_id\
+								.contains(int(pesquisa)))\
+								.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter(Arquivo.disciplina_id\
+							.contains(int(pesquisa)))\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+			
+			if int(form.filtrar.data) == 2:
+				
+				pesquisa = 	form.professor.data
+				existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+								.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(professor_id=int(pesquisa))\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+
+			if int(form.filtrar.data) is 3:
+				pesquisa = "False"
+				existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+		
+		else:
+			if int(form.filtrar.data) == 1:
+
+				pesquisa = form.disciplina.data
+				existe_arquivo = Arquivo.query\
+								.filter(Arquivo.disciplina_id\
+								.contains(int(pesquisa)))\
+								.first()
+				arquivos = Arquivo.query\
+							.filter(Arquivo.disciplina_id\
+							.contains(int(pesquisa)))\
+							.paginate(page=page, per_page=5)
+			
+			if int(form.filtrar.data) == 2:
+				
+				pesquisa = 	form.professor.data
+				existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+								.first()
+				arquivos = Arquivo.query\
+							.filter_by(professor_id=int(pesquisa))\
+							.paginate(page=page, per_page=5)
+
+			if int(form.filtrar.data) is 3:
+				pesquisa = "False"
+				existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+		
+		navigation_data.clear()
+		navigation_data.append(int(form.filtrar.data))
+		if current_user.is_admin:
+			navigation_data.append("adm")
+		else:
+			navigation_data.append("normal")
+		navigation_data.append(pesquisa)
+		navigation_data.append(tip_arquiv)
+
+		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
+
+	if filtro:
+
+		if tip_arquiv != 'all':
+
+			if filtro == 1:
+
+				existe_arquivo = Arquivo.query\
+								.filter(Arquivo.disciplina_id\
+								.contains(int(pesquisa)))\
+								.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter(Arquivo.disciplina_id\
+							.contains(int(pesquisa)))\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+			
+			if filtro == 2:
+				
+				existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+								.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(professor_id=int(pesquisa))\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+
+			if filtro is 3:
+				existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+		
+		else:
+			print("To aqui¹")
+			if filtro == 1:
+
+				existe_arquivo = Arquivo.query\
+								.filter(Arquivo.disciplina_id\
+								.contains(int(pesquisa)))\
+								.first()
+				arquivos = Arquivo.query\
+							.filter(Arquivo.disciplina_id\
+							.contains(int(pesquisa)))\
+							.paginate(page=page, per_page=5)
+			
+			if filtro == 2:
+				
+				existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+								.first()
+				arquivos = Arquivo.query\
+							.filter_by(professor_id=int(pesquisa))\
+							.paginate(page=page, per_page=5)
+
+			if filtro is 3:
+				existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv).first()
+				arquivos = Arquivo.query\
+							.filter_by(tipo_conteudo=tip_arquiv)\
+							.paginate(page=page, per_page=5)
+
+		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)		
+
+	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
 
 @arquivos.route('/excluir/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
 def excluir(arq_id):
-	if not current_user.is_amin:
+	if not current_user.is_admin:
 		abort(403)
-	arquivo = Arquivo.query.get_or_404(id)
+	arquivo = Arquivo.query.get_or_404(arq_id)
 	arquivo.is_eligible = False
 	arquivo.id_deletor = current_user.id
-	arquivo.data_deletado = datetime.utcnow
-
-	if request.method == "POST":
-		try:
-			arquivo.motivo_delete = request.form.get("motivo"+str(arquivo.id))
-		except Exception as e:
-			flash("Aqui não tem bobo não porra!")
-			print(e)#pretendo mandar um email avisando que alguem tentou uma violação
-			abort(403)
+	arquivo.data_deletado = datetime.now()
 	
 	db.session.commit()
 	flash("Arquivo excluido com sucesso!")
 	return redirect(url_for('arquivos.listar'))
 
-@arquivos.route('/redefinir/<int:user_id>', methods=['POST', 'GET'])
+@arquivos.route('/redefinir/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
 def redefinir(arq_id):
 	if not current_user.is_admin:
@@ -153,9 +283,7 @@ def redefinir(arq_id):
 	arquivo.is_eligible = True
 	arquivo.data_deletado = None
 	arquivo.id_deletor = None
-
-	arquivo.motivo_delete = None
 		
 	db.session.commit()
 	flash("Usuário acabou de ser redefinido ao sistema!")
-	return redirect(url_for('usuarios.listar'))
+	return redirect(url_for('arquivos.listar'))

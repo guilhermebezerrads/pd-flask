@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block resultado %}
+
+{% if existe_arquivo %}    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Contribuinte</th>
+            <th scope="col">Tipo de Conteudo</th>
+            <th scope="col">Professor</th>
+            <th scope="col">Diciplina</th>
+            <th scope="col">Mais</th>
+            {% if current_user.is_authenticated %}
+                <th scope="col">Deletar</th>
+                <th scope="col">Editar</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+    
+        {% for arquivo in arquivos.items %}
+        {% if current_user.is_authenticated %}
+            <tr>
+                {% if current_user == arquivo.author%}
+                    <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Deletar Arquivo?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Você tem certeza que deja deletar esse arquivo?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    
+                                <form action="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} " method="POST" id="{{arquivo.id}}">
+                                    <input type="submit" value="Deletar" class="btn btn-danger">
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                {% endif %}
+                    
+                <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Informações do Arquivo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="modal-title">Referências:</h6>
+                            <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                            <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                            <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                            <p>Ano de referência: {{ arquivo.ano }}</p>
+                            <p>Semestre de referência: {{ arquivo.ano }}</p>
+                            <br/>
+    
+                            <h6 class="modal-title">Sobre o Arquivo:</h6>
+                            <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                            <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
+                            <br/>
+    
+                            <h6 class="modal-title">Observações:</h6>
+                            <p>{{ arquivo.observações }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <td>{{ arquivo.author.username }}</td>
+                <td>{{ arquivo.tipo_conteudo}}</td>
+                <td>{{ arquivo.professor.nome }}</td>
+                <td>{{ arquivo.disciplina.nome }}</td>
+    
+                   
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                </td>  
+                    {% if current_user == arquivo.author %}
+                        <td >    
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
+                        </td>
+                    {% else %}
+                        <td>Indisponível</td>
+                        <td>Indisponível</td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Informações do Arquivo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h6 class="modal-title">Referências:</h6>
+                                <p>Usuáario que postou: {{ arquivo.author.username }}</p>
+                                <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                                <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                                <p>Ano de referência: {{ arquivo.ano }}</p>
+                                <p>Semestre de referência: {{ arquivo.ano }}</p>
+                                <br/>
+    
+                                <h6 class="modal-title">Sobre o Arquivo:</h6>
+                                <p>Tipo de Conteúdo: {{ arquivo.tipo_conteudo}}</p>
+                                <p>Data de referência: {{ arquivo.data_submissao.strftime("%d-%m-%Y") }}</p>
+                                <br/>
+    
+                                <h6 class="modal-title">Observações:</h6>
+                                <p>{{ arquivo.observações }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <a href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}" class="btn btn-danger">Baixar</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <td>{{ arquivo.author.username }}</td>
+                    <td>{{ arquivo.tipo_conteudo}}</td>
+                    <td>{{ arquivo.professor.nome }}</td>
+                    <td>{{ arquivo.disciplina.nome }}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+      </table> 
+      <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if arquivos.page == page_num and page_num %}
+                        <li class="page-item disabled">
+                            {% if not navigation_data[0] %}
+                                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3],) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        </li>
+                    {% elif page_num %}
+                        <li class="page-item">
+                            {% if not navigation_data[0] %}
+                                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3],) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>     
+  {% else %}
+  <br/>
+  <div class="text-center">
+    <h1 >Nenhum Resultado Encontrado</h1>
+  </div>
+  {% endif %}
+  {% endblock %}

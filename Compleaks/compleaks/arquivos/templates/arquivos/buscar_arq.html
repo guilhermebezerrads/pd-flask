@@ -1,4 +1,4 @@
-{% extends "ver_consulta.html" %}
+{% extends "ver_consulta_arq_{}.html".format(navigation_data[1]) %}
 
 {% block title %}Consulta{% endblock %}
 
@@ -57,7 +57,8 @@
     </div>
     <br>
     {{ form.submit }}
-</form>  
+</form>
+
     {% block resultado %}
         {{ super() }}
     {% endblock %}
