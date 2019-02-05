@@ -31,7 +31,7 @@ class AdicionarUsuarioForm(FlaskForm):
 	
 	email = StringField("Email: ", validators=[DataRequired(message="Campo Obrigatório"), Email(message="Campo Obrigatório"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
 	senha = PasswordField("Senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
-	conf_senha = PasswordField("Cinfirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
+	conf_senha = PasswordField("Confirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
 
 	submit = SubmitField("Adicionar: ")
 
