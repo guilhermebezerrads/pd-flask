@@ -30,15 +30,15 @@ def adicionar():
 		db.session.add(novo_user)
 		db.session.commit()
 
-		flash("Obrigado por se juntar, disfrute o máximo possível do Compleaks!")
+		flash("Agradecemos o seu cadastro. Entre agora mesmo na sua conta e aproveite o Compleaks.")
 
 		return redirect(url_for('usuarios.login'))
 
 	if Usuario.query.filter_by(username=form.username.data).first():
-		flash(f"O nome de usuário ja existe!")
+		flash(f"Esse nome de usuário já existe.")
 
 	if Usuario.query.filter_by(email=form.email.data).first():
-		flash(f"O e-mail já está e uso!")
+		flash(f"Esse e-mail já está em uso.")
 
 	return render_template('adicionar_usuario.html', form=form)
 
@@ -47,7 +47,7 @@ def adicionar():
 @login_required
 def logout():
 	logout_user()
-	flash("Usuário deslogado com sucesso!")
+	flash("Você foi deslogado com sucesso.")
 	return redirect(url_for('principal.index'))
 
 @usuarios.route('/lista', methods=['POST', 'GET'])
@@ -145,7 +145,7 @@ def deletar(user_id):
 	user = Usuario.query.get_or_404(user_id)
 
 	if current_user == user:
-		flash("Você não pode se deletar do sistema")
+		flash("Você não pode desativar a si mesmo do sistema.")
 		abort(403)
 	
 	user.is_eligible = False
@@ -161,7 +161,7 @@ def deletar(user_id):
 			abort(403)
 		
 	db.session.commit()
-	flash("Usuário acabou de se tornar inoperante no sistema!")
+	flash("O usuário foi desativado do sistema.")
 	return redirect(url_for('usuarios.listar'))
 
 @usuarios.route('/redefinicao/<int:user_id>', methods=['POST', 'GET'])
@@ -177,7 +177,7 @@ def redefinir(user_id):
 	user.motivo_delete = None
 		
 	db.session.commit()
-	flash("Usuário acabou de redefinido ao sistema!")
+	flash("O usuário foi ativado novamente no sistema.")
 	return redirect(url_for('usuarios.listar'))
 
 @usuarios.route('/login', methods=['POST', 'GET'])
@@ -193,7 +193,7 @@ def login():
 			if user.check_password(form.senha.data):
 
 				login_user(user)
-				flash("Logado com Sucesso!")
+				flash("Você foi logado com sucesso.")
 			
 				return redirect(url_for('principal.index'))
 
