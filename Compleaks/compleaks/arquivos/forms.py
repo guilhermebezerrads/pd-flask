@@ -14,7 +14,8 @@ class BuscarMaterialForm(FlaskForm):
 	disciplina = SelectField("Diciplina do arquivo", choices=selecteds.listaDiciplinas())
 	filtrar = SelectField("Pesquisar por", choices=[('0','Todos'),('1','Disciplina'),
 												('2','Professor'), ('3','Tipo de Arquivo')])
-	tipo_arquivo = SelectField("Tipo do arquivo", choices=[('all','todos'), ('apostila','Apostila'),
+	tipo_arquivo = SelectField("Tipo do arquivo", choices=[('all','todos'), 
+		('apostila','Apostila'),
 		('slide','Apresentação/Slides'),('lista','Lista de exercícios'),
 		('prova','Prova'),('trabalho','Trabalho'),('outro','Outro')])
 	professor = SelectField("Nome do Professor", choices=selecteds.listaProfessores())
@@ -25,7 +26,8 @@ class AdicionarArquivoForm(FlaskForm):
 
 	selecteds = Preenche()
 
-	disciplina = SelectField("Diciplina do arquivo", choices=selecteds.listaDiciplinas(), validators=[DataRequired()])
+	disciplina = SelectField("Diciplina do arquivo", choices=selecteds.listaDiciplinas(), 
+		validators=[DataRequired()])
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])
@@ -33,9 +35,12 @@ class AdicionarArquivoForm(FlaskForm):
 		('slide','Apresentação/Slides'),('lista','Lista de exercícios'),
 		('prova','Prova'),('trabalho','Trabalho'),('outro','Outro')], 
 		validators=[DataRequired()])
-	professor = SelectField("Nome do Professor", choices=selecteds.listaProfessores(), validators=[DataRequired()])
-	observacoes = TextField("Observações", validators=[DataRequired(), Length(min=10, max=120, message="Minimo de 10 caracteres e máximo de 120 por favor!")])
-	arquivo = FileField("Arquivo", validators=[DataRequired(), FileAllowed(['jpg', 'png', 'pdf', 'bmp' , 'jpeg', 'gif'])])
+	professor = SelectField("Nome do Professor", choices=selecteds.listaProfessores(), 
+		validators=[DataRequired()])
+	observacoes = TextField("Observações", validators=[DataRequired(), 
+		Length(min=10, max=120, message="Minimo de 10 caracteres e máximo de 120 por favor!")])
+	arquivo = FileField("Arquivo", validators=[DataRequired(), 
+		FileAllowed(['jpg', 'png', 'pdf', 'bmp' , 'jpeg', 'gif'])])
 
 	submit = SubmitField("Adicionar")
 
@@ -43,7 +48,8 @@ class EditarArquivoForm(FlaskForm):
 
 	selecteds = Preenche()
 
-	disciplina = SelectField("Diciplina do arquivo", choices=selecteds.listaDiciplinas(), validators=[DataRequired()])	
+	disciplina = SelectField("Diciplina do arquivo", choices=selecteds.listaDiciplinas(), 
+		validators=[DataRequired()])	
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])	
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])
@@ -51,7 +57,9 @@ class EditarArquivoForm(FlaskForm):
 		('slide','Apresentação/Slides'),('lista','Lista de exercícios'),
 		('prova','Prova'),('trabalho','Trabalho'),('outro','Outro')], 
 		validators=[DataRequired()])
-	professor = SelectField("Nome do Professor", choices=selecteds.listaProfessores(), validators=[DataRequired()])	
-	observacoes = TextField("Observações", validators=[DataRequired(), Length(min=10, max=120, message="Minimo de 10 caracteres e máximo de 120 por favor!")])
+	professor = SelectField("Nome do Professor", choices=selecteds.listaProfessores(), 
+		validators=[DataRequired()])	
+	observacoes = TextField("Observações", validators=[DataRequired(), 
+		Length(min=10, max=120, message="Minimo de 10 caracteres e máximo de 120 por favor!")])
 
 	submit = SubmitField("Atualizar")
