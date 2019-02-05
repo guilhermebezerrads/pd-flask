@@ -91,7 +91,7 @@ def redefinir(disc_id):
 	disciplina.motivo_delete = None
 
 	db.session.commit()
-	flash("Disciplina {} acabou de redefinido ao sistema!".format(disciplina.nome))
+	flash(f"Disciplina {disciplina.nome} foi restaurada no sistema.")
 	return redirect(url_for('disciplinas.listar'))
 
 
@@ -109,6 +109,6 @@ def buscar():
 		if current_user.is_authenticated and current_user.is_admin:
 			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
 		else:
-			return render_template('resultado_busca_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
+			return render_template('resultado_busca_disc_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
 
 	return render_template('buscar_disciplina.html',form=form)

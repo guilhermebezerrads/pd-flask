@@ -20,7 +20,7 @@
     </thead>
     <tbody>
 
-    {% for arquivo in arquivos.itmes %}
+    {% for arquivo in arquivos.items %}
     {% if current_user.is_authenticated %}
         <tr>
             {% if current_user == arquivo.author%}
