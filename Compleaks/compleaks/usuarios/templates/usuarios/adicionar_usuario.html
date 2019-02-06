@@ -3,91 +3,111 @@
 {% block title %}Adicionar usuário{% endblock %}
 
 {% block content %}
-<p>Obrigado por estar se juntando à nossa comunidade!</p>
+<div class="container">
+    <div class="page-header">
+        <h1>Cadastre-se</h1>
+    </div>
+    <br>
+    <div class="row">
+            <div class="col-sm-6">
+                <h3>Informações de acesso</h3>
+                <form method="POST">
+                <div class="form-group">
+                    {{ form.hidden_tag() }}
+                    {{ form.username.label }}{{ form.username(class="form-control") }}
+                    {% if form.errors.username %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.username %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    <br>
+                    {{ form.email.label }}{{ form.email(class="form-control") }}
+                    {% if form.errors.email %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.email %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    <br>
+                    {{ form.senha.label }}{{ form.senha(class="form-control") }}
+                    {% if form.errors.senha %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.senha %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    
+                    <br>
+                    {{ form.conf_senha.label }}{{ form.conf_senha(class="form-control") }}
+                    {% if form.errors.conf_senha %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.conf_senha %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    <br>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3>Outras</h3>
+                <div class="form-group">
+                    {{ form.nome.label }}{{ form.nome(class="form-control") }}
+                    {% if form.errors.nome %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.nome %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    <br>
+                    {{ form.curso.label }}{{ form.curso(class="form-control") }}
+                    {% if form.errors.curso %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.curso %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                    <br>
+                    {{ form.periodo.label }}{{ form.periodo(class="form-control") }}
+                    {% if form.errors.periodo %}
+                        <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.periodo %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">  
+            {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.username.label }}{{ form.username }}
-
-        {% if form.errors.username %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.username %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-
-        <br>
-        {{ form.nome.label }}{{ form.nome }}
-        {% if form.errors.nome %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.nome %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-        <br>
-        {{ form.curso.label }}{{ form.curso }}
-        {% if form.errors.curso %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.curso %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-        <br>
-        {{ form.periodo.label }}{{ form.periodo }}
-        {% if form.errors.periodo %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.periodo %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-        <br>
-        {{ form.email.label }}{{ form.email }}
-        {% if form.errors.email %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.email %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-        <br>
-        {{ form.senha.label }}{{ form.senha }}
-        {% if form.errors.senha %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.senha %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
+</div>
+<!-- <p>Obrigado por estar se juntando à nossa comunidade!</p> -->
+    
         
-        <br>
-        {{ form.conf_senha.label }}{{ form.conf_senha }}
-        {% if form.errors.conf_senha %}
-            <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for e in form.errors.conf_senha %}
-                    <li>{{ e }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-        {% endif %}
-        <br>
-        {{ form.submit }}
-    </form>
-
 {% endblock %}
