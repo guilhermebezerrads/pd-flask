@@ -3,17 +3,16 @@
 {% block resultado %}
 
 {% if existe_arquivo %}        
-<table class="table">
+<table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th scope="col">Contribuinte</th>
-            <th scope="col">Tipo de Conteudo</th>
+            <th scope="col">Tipo de conteúdo</th>
             <th scope="col">Professor</th>
             <th scope="col">Disciplina</th>
             <th scope="col">Mais</th>
             {% if current_user.is_authenticated %}
-                <th scope="col">Deletar</th>
-                <th scope="col">Editar</th>
+                <th scope="col">Opções</th>
             {% endif %}
           </tr>
         </thead>
@@ -138,21 +137,19 @@
     
             
                 <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
                 </td>  
-                <td >     
+                <td>     
                 {% if arquivo.is_eligible %}
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
                 {% else  %}
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#red_confirm{{arquivo.id}}" >Redefinir</button>
                 {% endif %}
-                </td>
-    
+
                 {% if current_user == arquivo.author %}
-                    <td>
-                        <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
-                    </td>
+                    <a class="btn btn-secondary" href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}">Editavel</a>
                 {% endif %}
+                </td>
                 </tr>
             {% endif %}
         {% endfor %}

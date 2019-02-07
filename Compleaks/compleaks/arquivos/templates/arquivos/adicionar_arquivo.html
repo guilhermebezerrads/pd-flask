@@ -4,102 +4,126 @@
 
 {% block content %}
     
-<div class="container well">
-    <form action="" method="POST" action="" enctype="multipart/form-data">
+<div class="container">
+    <div class="page-header">
+        <h1>Adicionar arquivo</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="" method="POST" action="" enctype="multipart/form-data">
+            {{ form_add.hidden_tag() }}
 
-      {{ form_add.hidden_tag() }}
-      
+            <div class="form-group">
+                {{ form_add.disciplina.label }} {{ form_add.disciplina(class="form-control") }}
+                {% if form_add.errors.disciplina %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.disciplina %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
 
-        <p><strong>Disciplina</strong>:</p>
-        {{ form_add.disciplina(class="form-control") }}
-        {% if form_add.errors.disciplina %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.disciplina %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="form-group">
+                {{ form_add.ano.label }} {{ form_add.ano(class="form-control") }}
+                {% if form_add.errors.ano %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.ano %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form_add.semestre.label }} {{ form_add.semestre(class="form-control") }}
+                {% if form_add.errors.semestre %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.semestre %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form_add.tipo_conteudo.label }} {{ form_add.tipo_conteudo(class="form-control") }}
+                {% if form_add.errors.tipo_conteudo %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.tipo_conteudo %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
-        {% endif %}
+        <div class="col-sm-6">
 
-        <p><strong>Ano</strong>:</p>
-        {{ form_add.ano(class="form-control") }}
-        {% if form_add.errors.ano %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.ano %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="form-group">
+                {{ form_add.professor.label }} {{ form_add.professor(class="form-control") }}
+                {% if form_add.errors.professor %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.professor %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form_add.observacoes.label }} {{ form_add.observacoes(class="form-control") }}
+                {% if form_add.errors.observacoes %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.tipo_conteudo %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <div class="custom-file">
+                    {{ form_add.arquivo.label }} <br> {{ form_add.arquivo() }}
+                </div>
+                {% if form_add.errors.arquivo %}
+                <div class="alert alert-danger" role="alert">
+                  <ul>
+                    {% for e in form_add.errors.arquivo %}
+                      <li>{{ e }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
-        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
 
-        <p><strong>Semestre</strong>:</p>
-        {{ form_add.semestre(class="form-control") }}
-        {% if form_add.errors.semestre %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.semestre %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="form-group">
+                <br>
+                {{ form_add.submit(class="btn btn-primary btn-lg") }}
+            </div>
+            
+            </form>
         </div>
-        {% endif %}
+    </div>
 
-        <p><strong>Tipo de Conteúdo</strong>:</p>
-        {{ form_add.tipo_conteudo(class="form-control") }}
-        {% if form_add.errors.tipo_conteudo %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.tipo_conteudo %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <p><strong>Professor</strong>:</p>
-        {{ form_add.professor(class="form-control") }}
-        {% if form_add.errors.professor %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.professor %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <p><strong>Outras Informações</strong>:</p>
-        {{ form_add.observacoes(class="form-control") }}
-        {% if form_add.errors.observacoes %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form_add.errors.tipo_conteudo %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <p><strong>Selecione o Arquivo</strong>(apenas PDF ou imagens com no máximo <strong>10mb</strong>):</p>
-        {{ form_add.arquivo(class="form-control") }}
-        {% if form_add.errors.arquivo %}
-        <div class="alert alert-danger" role="alert">
-          <ul>
-            {% for e in form_add.errors.arquivo %}
-              <li>{{ e }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-
-        <br><br>
-
-        <div class="form-group">
-            {{ form_add.submit(class="btn btn-outline-info") }}
-        </div>
-
-    </form>
 </div>
+
 {% endblock %}

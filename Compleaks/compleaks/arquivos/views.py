@@ -44,7 +44,8 @@ def adicionar():
 		os.remove(destination)
 
 		new_arq = Arquivo(arquivo=nome, disciplina_id=disciplina, ano=ano, semestre=semestre,
-						 tipo_conteudo=tipo, professor_id=professor, usuario_id=current_user.id)
+						 tipo_conteudo=tipo, professor_id=professor, 
+						 usuario_id=current_user.id)
 		
 		new_arq.observacoes = observacoes
 
@@ -104,8 +105,10 @@ def listar():
 	else:
 		return render_template('todos_arquivos_normal.html', arquivos=arquivos)
 
-@arquivos.route('/busca/<admin>/<int:filtro>/<pesquisa>/<tip_arquiv>', methods=['POST', 'GET'])
-@arquivos.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None,"tip_arquiv":None}, methods=['POST', 'GET'])
+@arquivos.route('/busca/<admin>/<int:filtro>/<pesquisa>/<tip_arquiv>', 
+	methods=['POST', 'GET'])
+@arquivos.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None,
+	"tip_arquiv":None}, methods=['POST', 'GET'])
 def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 	form = BuscarMaterialForm()
@@ -197,7 +200,8 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 		navigation_data.append(pesquisa)
 		navigation_data.append(tip_arquiv)
 
-		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
+		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
+			existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
 
 	if filtro:
 
@@ -231,7 +235,6 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 							.paginate(page=page, per_page=5)
 		
 		else:
-			print("To aqui¹")
 			if filtro == 1:
 
 				existe_arquivo = Arquivo.query\
@@ -257,9 +260,11 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 							.filter_by(tipo_conteudo=tip_arquiv)\
 							.paginate(page=page, per_page=5)
 
-		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)		
+		return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
+			existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)		
 
-	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
+	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,
+		existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
 
 @arquivos.route('/excluir/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
