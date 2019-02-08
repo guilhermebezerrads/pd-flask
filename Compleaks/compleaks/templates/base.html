@@ -68,15 +68,17 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Professores</a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
                     <a class="dropdown-item" href="{{url_for('professores.buscar')}}">Buscar</a>
                     <div class="dropdown-divider"></div>
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated or current_user.is_admin %}
                         <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
+                        {% if current_user.is_admin %}
                         <a class="dropdown-item" href="{{url_for('professores.editar')}}">Editar</a>
                         <a class="dropdown-item" href="{{url_for('professores.excluir')}}">Excluir</a>
-                    {% endif %}    
+                        {% endif %}
+                    {% endif %}
                 </div>
             </li>
             {% if current_user.is_admin %}

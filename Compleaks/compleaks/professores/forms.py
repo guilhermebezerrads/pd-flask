@@ -19,6 +19,13 @@ class EditarProfessorForm(FlaskForm):
 
     id = IntegerField("Id do professor:", validators=[DataRequired()])
     novo_nome = StringField("Novo nome completo:", validators=[DataRequired()])
+    nova_unidade = SelectField("Nova Unidade Acadêmica: ", choices=lista_unidades_academicas(), validators=[DataRequired()])
+    submit = SubmitField("Editar")
+
+class EditarProfessorUserForm(FlaskForm):
+
+    novo_nome = StringField("Novo nome:", validators=[DataRequired()])
+    nova_unidade = SelectField("Nova Unidade Acadêmica: ", choices=lista_unidades_academicas(), validators=[DataRequired()])
     submit = SubmitField("Editar")
 
 class ExcluirProfessorForm(FlaskForm):
