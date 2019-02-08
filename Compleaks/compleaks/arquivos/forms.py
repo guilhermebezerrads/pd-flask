@@ -10,7 +10,8 @@ from compleaks.arquivos.preenche_select import Preenche
 class BuscarMaterialForm(FlaskForm):
 
 	selecteds = Preenche()
-
+	professor = StringField("Digite o nome do professor:")
+	disciplina = StringField("Digite o nome da disciplina:")
 	filtrar = SelectField("Pesquisar por", choices=[('0','Todos'),('1','Disciplina'),
 												('2','Professor'), ('3','Tipo de Arquivo')])
 	tipo_arquivo = SelectField("Tipo do arquivo", choices=[('all','todos'), 

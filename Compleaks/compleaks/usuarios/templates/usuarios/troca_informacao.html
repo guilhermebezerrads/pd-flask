@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Mudar Informações{% endblock %}
-
+ 
 {% block content %}
 <div class="container">
     <div class="page-header">
@@ -178,7 +178,7 @@ Lindomar Batista</small></p>
                                 <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
 
 
-                                <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" data-target="#del_confirm"><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
+                                <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" ><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
                                 
                                 
                                 <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" data-target="#del_confirm{{arquivo.id}}"><img class="img-responsive deletar" data-toggle="tooltip" data-placement="top" title="Deletar" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Deletar"/></a>

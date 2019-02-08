@@ -49,7 +49,7 @@
                                         <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a> 
 
                                         <form action="{{url_for('arquivos.redefinir', arq_id=arquivo.id)}}" method="POST">
-                                            <button type="button" class="btn btn-danger" data-toggle="modal"  >Redefinir</button>
+                                            <button type="submit" class="btn btn-danger" data-toggle="modal"  >Redefinir</button>
                                         </form>
                                     </div>
                                     </div>
@@ -110,7 +110,7 @@
 
                                         {% if current_user == arquivo.author%}
 
-                                            <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" data-target="#del_confirm"><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
+                                            <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" ><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
                                             
                                         {% endif %}
                                             

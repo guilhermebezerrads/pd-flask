@@ -5,7 +5,9 @@ from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm,
 										BuscarMaterialForm, 
 										EditarArquivoForm)
-from compleaks.arquivos.models import Arquivo, Disciplina
+from compleaks.arquivos.models import Arquivo
+from compleaks.professores.models import Professor
+from compleaks.disciplinas.models import Disciplina
 import jinja2
 import datetime
 import os
@@ -19,14 +21,48 @@ arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 def adicionar():
 	form_add = AdicionarArquivoForm()
 
+	professores = Professor.query.filter_by(is_eligible=True)
+	disciplinas = Disciplina.query.filter_by(is_eligible=True)
+
 	if form_add.validate_on_submit():
 		data = datetime.now()
 
-		disciplina = form_add.disciplina.data
+		if request.method == 'POST':
+
+			disciplina = request.form.get("disciplina")
+			professor = request.form.get("professor")
+
+		try:
+			disciplina = (int(disciplina))
+		except ValueError as e:
+			form_add = AdicionarArquivoForm()
+			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
+			return render_template('adicionar_arquivo.html',professores=professores, 
+									disciplinas=disciplinas, form_add=form_add)
+		except NameError as e:
+			form_add = AdicionarArquivoForm()
+			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
+			return render_template('adicionar_arquivo.html',professores=professores, 
+									disciplinas=disciplinas, form_add=form_add)
+
+		if not disciplina:
+			form_add = AdicionarArquivoForm()
+			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
+			return render_template('adicionar_arquivo.html',professores=professores, 
+									disciplinas=disciplinas, form_add=form_add)		
+			
+		try:
+			professor = (int(professor))
+		except ValueError as e:
+			professor = 0
+		except NameError as e:
+			professor = 0
+
+		page = request.args.get('page', 1, type=int)
+			
 		ano = int(form_add.ano.data)
 		semestre = form_add.semestre.data
 		tipo = form_add.tipo_conteudo.data
-		professor = form_add.professor.data
 		observacoes = form_add.observacoes.data
 
 		nome = disciplina + " - " + tipo + " - " + str(data.strftime('%d - %m - %y, %H-%M-%S'))
@@ -53,14 +89,18 @@ def adicionar():
 		db.session.add(new_arq)
 		db.session.commit()
 
-		flash("Nossa comunidade agradece a sua contribuição.")
+		flash("Nossa comunidade agradece a sua contribuição.", "success")
 	
-	return render_template('adicionar_arquivo.html', form_add=form_add)
+	return render_template('adicionar_arquivo.html',professores=professores, 
+									disciplinas=disciplinas, form_add=form_add)
 
 @arquivos.route('/editar/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
 def editar(arq_id):
 	form = EditarArquivoForm()
+
+	professores = Professor.query.filter_by(is_eligible=True)
+	disciplinas = Disciplina.query.filter_by(is_eligible=True)
 
 	arquivo = Arquivo.query.get_or_404(arq_id)
 
@@ -68,25 +108,57 @@ def editar(arq_id):
 		abort(403)
 
 	if form.validate_on_submit() and arquivo.is_eligible:
+
+		if request.method == 'POST':
+
+			disciplina = request.form.get("disciplina")
+			professor = request.form.get("professor")
+
+		try:
+			disciplina = (int(disciplina))
+		except ValueError as e:
+			form = EditarArquivoForm()
+			flash("Não foi possivel realizar a operação!", "danger")
+			return redirect(url_for('arquivos.buscar'))
+
+		except NameError as e:
+			form = EditarArquivoForm()
+			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
+			return redirect(url_for('arquivos.buscar'))
+
+		if not disciplina:
+			form = EditarArquivoForm()
+			flash("Não foi possivel realizar a operação!", "danger")
+			return redirect(url_for('arquivos.buscar'))	
+			
+		try:
+			professor = (int(professor))
+		except ValueError as e:
+			professor = 0
+		except NameError as e:
+			professor = 0
+
 		arquivo.ano = form.ano.data
 		arquivo.semestre = form.semestre.data
 		arquivo.tipo_conteudo = int(form.tipo_conteudo.data)
-		arquivo.professor_id = form.professor.data
+		arquivo.professor_id = professor
 		arquivo.observacoes = form.observacoes.data
-		arquivo.disciplina_id =form.disciplina.data
+		arquivo.disciplina_id = disciplina
 
 		db.session.commit()
 
-		flash("Nossa comunidade agradece a sua contribuição.")
+		flash("Nossa comunidade agradece a sua contribuição.", "success")
 
 	form.ano.data = arquivo.ano
 	form.semestre.data = arquivo.semestre
 	form.tipo_conteudo.data = arquivo.tipo_conteudo
-	form.professor.data = arquivo.professor_id
+	professor_selecionado = arquivo.professor_id
 	form.observacoes.data = arquivo.observacoes
-	form.disciplina.data = arquivo.disciplina_id
+	disciplina_selecionada = arquivo.disciplina_id
 	
-	return render_template('editar_arquivo.html', form=form)
+	return render_template('editar_arquivo.html',professores=professores, 
+									disciplinas=disciplinas, prof_selecionado=professor_selecionado,
+									disc_selecionada=disciplina_selecionada, form=form)
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
@@ -819,5 +891,5 @@ def redefinir(arq_id):
 	arquivo.id_deletor = None
 		
 	db.session.commit()
-	flash("O arquivo foi restaurado com sucesso.")
-	return redirect(url_for('arquivos.listar'))
+	flash("O arquivo foi restaurado com sucesso.", "success")
+	return redirect(url_for('arquivos.buscar'))

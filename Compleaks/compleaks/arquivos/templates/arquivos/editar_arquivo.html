@@ -4,88 +4,117 @@
 
 {% block content %}
 <div class="container well">
-    <form action="" method="POST" enctype="multipart/form-data">
+    <div class="page-header">
+        <h1>Editar arquivo</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="" method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
 
-      {{ form.hidden_tag() }}
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Disciplina</label>
+              </div>
+              <select required="Esse campo é obrigatório!" name="disciplina" class="custom-select" id="inputGroupSelect01">
+                {% for disciplina in disciplinas %}
+                    {% if disciplina.id == disc_selecionada  %}
+                        <option selected value="{{ disciplina.id }}">{{ disciplina.nome }}</option>  
+                    {% else %}         
+                        <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>  
+                    {% endif %}                    
+                {% endfor %}
+              </select>
+            </div>
 
-        <p><strong>Disciplina</strong>:</p>
-        {{ form.disciplina(class="form-control") }}
-        {% if form.errors.disciplina %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.disciplina %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="form-group">
+                {{ form.ano.label }} {{ form.ano(class="form-control") }}
+                {% if form.errors.ano %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.ano %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.semestre.label }} {{ form.semestre(class="form-control") }}
+                {% if form.errors.semestre %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.semestre %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.tipo_conteudo.label }} {{ form.tipo_conteudo(class="form-control") }}
+                {% if form.errors.tipo_conteudo %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.tipo_conteudo %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
-        {% endif %}
+        <div class="col-sm-6">
 
-        <p><strong>Ano</strong>:</p>
-        {{ form.ano(class="form-control") }}
-        {% if form.errors.ano %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.ano %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Professor <small>(0pcional)</small></label>
+              </div>
+              <select name="professor" class="custom-select" id="inputGroupSelect01">
+                {% if not prof_selecionado %}
+                    <option value="0" selected>Sem Professor</option>
+                {% else %}
+                    <option value="0" >Sem Professor</option>
+                {% endif %}
+                {% for professor in professores %}
+                     {% if professor.id == prof_selecionado %}
+                        <option selected value="{{ professor.id }}">{{ professor.nome }}</option>  
+                    {% else %}         
+                        <option value="{{ professor.id }}">{{ professor.nome }}</option>  
+                    {% endif %}         
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+                {{ form.observacoes.label }} {{ form.observacoes(class="form-control") }}
+                {% if form.errors.observacoes %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.tipo_conteudo %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
-        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
 
-        <p><strong>Semestre</strong>:</p>
-        {{ form.semestre(class="form-control") }}
-        {% if form.errors.semestre %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.semestre %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
+            <div class="form-group">
+                <br>
+                {{ form.submit(class="btn btn-primary btn-lg") }}
+            </div>
+            
+            </form>
         </div>
-        {% endif %}
-
-        <p><strong>Tipo de Conteúdo</strong>:</p>
-        {{ form.tipo_conteudo(class="form-control") }}
-        {% if form.errors.tipo_conteudo %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.tipo_conteudo %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <p><strong>Professor</strong>:</p>
-        {{ form.professor(class="form-control") }}
-        {% if form.errors.preofessor %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.professor %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <p><strong>Outras Informações</strong>:</p>
-        {{ form.observacoes(class="form-control") }}
-        {% if form.errors.observações %}
-        <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.observações %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        {% endif %}
-
-        <br><br>
-
-        <div>
-            {{ form.submit() }}
-        </div>
-
-    </form>
+    </div>
 </div>
 {% endblock %}
