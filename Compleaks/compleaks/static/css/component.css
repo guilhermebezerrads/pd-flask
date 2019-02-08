@@ -1,3 +1,7 @@
+.download{
+	margin-left: 40% !important;
+}
+
 .image {
   width: 30% !important;
   margin: 0 auto !important;
@@ -16,6 +20,16 @@
 
 .cancel{
 	width: 10% !important;
+}
+@media only screen and (max-width: 767px) {
+	.sumiras{
+		display: none!important;
+	}	
+}
+@media only screen and (max-width: 600px) {
+	.download{
+		width: 20% !important;
+	}	
 }
 
 @media only screen and (max-width: 400px) {

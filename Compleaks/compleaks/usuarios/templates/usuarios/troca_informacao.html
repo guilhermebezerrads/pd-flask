@@ -100,7 +100,7 @@
             </form>
         </div>
     </div>
-</div>
+
 <br/>
 <br/>
 <div class="page-header">
@@ -113,8 +113,9 @@ Lindomar Batista</small></p>
 </div>
 {% for row in arquivos_rows %}
     {% if row %}
+    <div class="row">
         {% for arquivo in row %}
-              <div class="row">
+              
                 <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -214,32 +215,22 @@ Lindomar Batista</small></p>
                   </div>
                 </div>
               </div>
-
-
-            </div><!--Fim row-->
-            
-        {% endfor %}
+            {% endfor %}
+         </div><!--Fim row-->
     {% endif %}
 {% endfor %}
+
 <br/>
-<nav aria-label="Page navigation example">
+<nav  aria-label="Page navigation example" style="position: static;">
     <ul class="pagination justify-content-center">
         {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if arquivos.page == page_num and page_num %}
                 <li class="page-item disabled">
-                    {% if not navigation_data[0] %}
-                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
-                    {% else %}
-                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
-                    {% endif %}
+                    <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
                 </li>
             {% elif page_num %}
-                <li class="page-item">
-                    {% if not navigation_data[0] %}
-                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
-                    {% else %}
-                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
-                    {% endif %}
+                <li class="page-item">                    
+                    <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
                 </li>
             {% else %}
                 ...
@@ -247,5 +238,5 @@ Lindomar Batista</small></p>
         {% endfor %}
     </ul>
 </nav>
-
+</div>
 {% endblock %}

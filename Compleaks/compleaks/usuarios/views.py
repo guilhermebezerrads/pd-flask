@@ -40,25 +40,25 @@ def usuario(user_id):
 	arquivos_row_3 = []
 
 	for arquivo in arquivos.items:
-		arquivos_row_1.append(arquivo)
-		if contador > 4:
+		if contador >= 4:
 			break 
+		arquivos_row_1.append(arquivo)
 		contador = contador + 1
 
 	contador = 0
 	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
 		if contador >= 4:
 			arquivos_row_2.append(arquivo)
-		elif contador > 8:
-			break
 		contador = contador + 1				
 
 	contador = 0
 	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
 		if contador >= 8:
 			arquivos_row_3.append(arquivo)
-		elif contador > 12:
-			break
 		contador = contador + 1				
 
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
@@ -329,31 +329,32 @@ def troca():
 	arquivos_row_2 = []
 	arquivos_row_3 = []
 
+	contador = 0
 	for arquivo in arquivos.items:
-		arquivos_row_1.append(arquivo)
-		if contador > 4:
+		if contador >= 4:
 			break 
+		arquivos_row_1.append(arquivo)
 		contador = contador + 1
 
 	contador = 0
 	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
 		if contador >= 4:
 			arquivos_row_2.append(arquivo)
-		elif contador > 8:
-			break
 		contador = contador + 1				
 
 	contador = 0
 	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
 		if contador >= 8:
 			arquivos_row_3.append(arquivo)
-		elif contador > 12:
-			break
-		contador = contador + 1				
+		contador = contador + 1					
 
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
-	quantidade = len(current_user.arquivos)
+	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3) 
 
 	return render_template('troca_informacao.html',
 							form_email=form_email,

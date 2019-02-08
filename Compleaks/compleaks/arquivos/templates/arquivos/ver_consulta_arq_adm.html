@@ -164,7 +164,7 @@
             {% endif %}
         {% endfor %}
 <br/>
-      <nav aria-label="Page navigation example">
+      <nav style="position: static;" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                     {% if arquivos.page == page_num and page_num %}
