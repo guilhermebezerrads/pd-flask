@@ -27,7 +27,7 @@ class Arquivo(db.Model):
 	disciplinas = db.relationship(Disciplina)
 	usuarios = db.relationship(Usuario)
 
-	professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'))
+	professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'), nullable=True)
 	disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 
