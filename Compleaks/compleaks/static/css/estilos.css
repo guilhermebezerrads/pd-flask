@@ -1,0 +1,96 @@
+.imagem_fundo{
+    z-index: 1 !important;
+    width: 100% !important; 
+}
+.imagem_fundo{
+    z-index: 1 !important;
+    width: 100% !important; 
+}
+
+.leed-button{
+    z-index: 3 !important;
+    position: absolute !important;
+    width: 30% !important;
+    margin-top: 40% !important;
+    margin-left: 35% !important;
+   
+}
+.logotipo{
+    z-index: 3 !important;
+    font-family: 'Lobster', Arial, Helvetica, sans-serif;
+    position: absolute !important;
+    margin-top: 4% !important;
+    margin-left: 20%;
+    font-size: 220px;
+}
+
+.leed-button{
+    z-index: 3 !important;
+    position: absolute !important;
+    margin-top: 40% !important;
+    margin-left: 20%;
+}
+@media only screen and (max-width: 900px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 12%;
+        font-size: 200px;
+    }   
+}
+
+
+@media only screen and (max-width: 780px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 13%;
+        font-size: 170px;
+    }   
+}
+
+@media only screen and (max-width: 670px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 11%;
+        font-size: 150px;
+    }   
+}
+
+@media only screen and (max-width: 570px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 11%;
+        font-size: 120px;
+    }   
+}
+
+@media only screen and (max-width: 470px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:9%;
+        font-size: 110px;
+    }   
+}
+
+@media only screen and (max-width: 400px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:8%;
+        font-size: 90px;
+    }   
+}
+
+@media only screen and (max-width: 330px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left:11%;
+        font-size: 70px;
+    }   
+}
+
+@media only screen and (max-width: 250px) {
+    .logotipo{
+        margin-top: 5% !important;
+        margin-left:11%;
+        font-size: 50px;
+    }   
+}

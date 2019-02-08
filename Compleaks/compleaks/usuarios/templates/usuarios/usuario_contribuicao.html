@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}
+{{user.username}}
+{% endblock%}
+
+{% block content %}
+<div class="page-header">
+    <h1>Todas as Contribuições de {{user.username}} ({{contribuiu}})</h1>
+    <hr/>
+    <p>
+    <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
+
+Lindomar Batista</small></p>
+</div>
+{% for row in arquivos_rows %}
+    {% if row %}
+        {% for arquivo in row %}
+
+                <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title text-center">Informações do Arquivo</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="modal-title">Observações do usuário:</h5>
+                                <h5><p class="text-center">{{ arquivo.observacao }}</p></h6>
+                                <br/>
+
+                                <h5 class="modal-title">Referências:</h5>
+                                <p>Usuáario que postou: <a href="{{url_for('usuarios.usuario' user_id=arquivo.author.id)}}"> {{ arquivo.author.username }}</a></p>
+                                <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                                <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                                <p>Ano de referência: {{ arquivo.ano }}</p>
+                                <p>Semestre de referência: {{ arquivo.ano }}</p>
+                                <br/>
+
+                                <h5 class="modal-title">Sobre o Arquivo:</h5>
+                                <br/>
+                                    <p>
+                                    
+                                    <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="button" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
+                                    
+                                    <a href="#"><img src="{{url_for('static', filename='images/icones/arquivo/'+arquivo.extensao+'.svg')}}" data-toggle="tooltip" data-placement="button" title="Arquivo {{arquivo.extensao}}" class="image marcas" alt="Tipo de arquivo é {{arquivo.extensao}}"></a>
+
+                                    <a href="{{url_for('usuarios.usuario' user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+
+                                </p>
+                                <br/>
+                                <p>Data de referência: {{ arquivo.data_submissao.strftime("%d/%m/%Y") }}</p>
+                                <br/>
+                            </div>
+                            <div class="modal-footer">
+                                
+                                <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
+                                
+                                <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive download" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>
+                            
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-lg-3 col-sm-6">
+                <div class="dist card">
+                  <div class="card-body">
+                    <h4 style="font-family: sans-serif;" class="card-title text-center text-truncate">{{arquivo.disciplina.nome}}</h4><hr>
+
+                    <p class="card-text">
+                        
+                        <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="button" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
+                        
+                        <a href="#"><img src="{{url_for('static', filename='images/icones/arquivo/'+arquivo.extensao+'.svg')}}" data-toggle="tooltip" data-placement="button" title="Arquivo {{arquivo.extensao}}" class="image marcas" alt="Tipo de arquivo é {{arquivo.extensao}}"></a>
+
+                        <a href="{{url_for('usuarios.usuario' user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+
+                    </p>
+                    <h5><p class="card-text text-truncate">{{arquivo.observacoes}}</p><hr></h5>
+
+                    <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><img class="img-responsive info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações" src="{{url_for('static', filename='images/icones/padrao/info.svg')}}" alt="mais"></a>
+
+                    <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive download" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>>
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div><!--Fim row-->
+            
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+<br/>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if arquivos.page == page_num and page_num %}
+                <li class="page-item disabled">
+                    {% if not navigation_data[0] %}
+                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
+                    {% else %}
+                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
+                    {% endif %}
+                </li>
+            {% elif page_num %}
+                <li class="page-item">
+                    {% if not navigation_data[0] %}
+                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
+                    {% else %}
+                        <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
+                    {% endif %}
+                </li>
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+{% endblock%}

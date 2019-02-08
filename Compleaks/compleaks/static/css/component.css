@@ -1,0 +1,47 @@
+.image {
+  width: 30% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.info {
+  width: 20% !important;
+  margin: 0 0 0 5% !important;
+  padding: 0 !important;
+}
+
+.deletar{
+	width: 50% !important;
+}
+
+.cancel{
+	width: 10% !important;
+}
+
+@media only screen and (max-width: 400px) {
+	.cancel{
+		width: 20% !important;
+	}	
+
+	.deletar{
+		width: 70% !important;
+	}
+}
+
+.dist{
+  margin-top: 4% !important;
+}
+
+.direita{
+	margin-left: 30%;
+}
+
+.marcas{
+	margin-left: 1.5% !important
+}
+
+.apagodo{
+	background-color: red;
+}
+
+/*# sourceMappingURL=component.css.map */

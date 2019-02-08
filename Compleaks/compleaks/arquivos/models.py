@@ -15,6 +15,7 @@ class Arquivo(db.Model):
 	semestre = db.Column(db.String(80))
 	tipo_conteudo = db.Column(db.String(120))
 	observacoes = db.Column(db.Text)
+	extensao = db.Column(db.String(6))
 	data_submissao = db.Column(db.DateTime, default=datetime.now())
 	
 	data_deletado = db.Column(db.DateTime, nullable=True)
@@ -32,7 +33,7 @@ class Arquivo(db.Model):
 
 
 	def __init__(self, arquivo, disciplina_id, ano, semestre, tipo_conteudo, 
-		professor_id, usuario_id):
+		professor_id, usuario_id, extensao):
 		self.arquivo = arquivo
 		self.ano = ano
 		self.semestre = semestre
@@ -40,6 +41,7 @@ class Arquivo(db.Model):
 		self.disciplina_id = disciplina_id
 		self.professor_id = professor_id
 		self.usuario_id = usuario_id
+		self.extensao = extensao
 		self.is_eligible = True
 
 

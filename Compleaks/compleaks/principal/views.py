@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, url_for
 from compleaks import db
 
 principal = Blueprint('principal', __name__)

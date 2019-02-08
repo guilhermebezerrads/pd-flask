@@ -2,14 +2,86 @@ from flask import (render_template, request,
 					 Blueprint, url_for, redirect, request, flash, abort)
 from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_user,login_required,logout_user
-from compleaks import db
+from compleaks import db, mail
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
 										TrocaSenhaForm, AdicionarUsuarioForm,
-										BuscarUsuarioForm)
+										BuscarUsuarioForm, RecuperarSenhaFrom,
+										ResetarSenhaForm)
 from compleaks.usuarios.models import Usuario
+from compleaks.arquivos.models import Arquivo
+from flask_mail import Message
 from datetime import datetime
 
 usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
+
+
+@usuarios.route('/usuario/<int:user_id>', methods= ['POST', 'GET'])
+def usuario(user_id):
+
+	user = Usuario.query.get_or_404(user_id)
+
+	if not user.is_eligible and current_user.is_authenticated:
+		if not user.is_admin:
+			abort(404)
+	elif user == current_user:
+		return redirect(url_for('usuarios.troca'))
+
+	quantidade = len(user.arquivos)
+
+	page = request.args.get('page', 1, type=int)	
+	arquivos = Arquivo.query\
+					.filter(Arquivo.usuario_id\
+					.contains(int(current_user.id)))\
+					.filter_by(is_eligible=True)\
+					.paginate(page=page, per_page=12)
+
+	arquivos_row_1 = []
+	arquivos_row_2 = []
+	arquivos_row_3 = []
+
+	for arquivo in arquivos.items:
+		arquivos_row_1.append(arquivo)
+		if contador > 4:
+			break 
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		elif contador > 8:
+			break
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		elif contador > 12:
+			break
+		contador = contador + 1				
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+	return render_template('usuario_contribuicao.html', user=user, 
+							contribuiu=quantidade, arquivos=arquivos)
+
+
+def send_wellcome_email(user):
+
+	msg = Message('bem vindo ao compleaks',
+                  sender='noreply@demo.com',
+                  recipients=[user.email])
+
+	msg.html = render_template("bem_vindo_menssage.html", user=user,
+					 link=url_for('usuarios.login', _external=True),
+					 link_image=url_for('static', filename='images/Escolar.jpg', _external=True))
+
+	msg.body = f''' Seja muito bem vindo ao Compleaks {user.username}
+	Nós realmente estamos animados para facilitar sua vida enquanto estudante. Use e abuse de todo material que conseguir encontrar. Mas sempre lembrando que a sua contribuição para a nossa comunidade faz toda a diferença!
+
+'''
+	mail.send(msg)
 
 @usuarios.route('/cadastro', methods=['POST', 'GET'])
 def adicionar():
@@ -31,6 +103,7 @@ def adicionar():
 		db.session.commit()
 
 		flash("Agradecemos o seu cadastro. Entre agora mesmo na sua conta e aproveite o Compleaks.")
+		send_wellcome_email(novo_user)
 
 		return redirect(url_for('usuarios.login'))
 
@@ -68,7 +141,8 @@ def listar():
 def buscar(admin,filtro,pesquisa):
 	form = BuscarUsuarioForm()
 	page = request.args.get('page', 1, type=int)
-	users = Usuario.query.order_by(Usuario.username).paginate(page=page, per_page=1)
+	users = Usuario.query.order_by(Usuario.username).paginate(page=page, per_page=3)
+	print(len(users.items))
 	existe_user = True
 	navigation_data = []
 	navigation_data.append(filtro)
@@ -157,7 +231,6 @@ def deletar(user_id):
 			user.motivo_delete = request.form.get("motivo{}".format(user_id))
 		except Exception as e:
 			flash("Aqui não tem bobo não porra!")
-			print(e)#pretendo mandar um email avisando que alguem tentou uma violação
 			abort(403)
 		
 	db.session.commit()
@@ -218,7 +291,7 @@ def troca():
 	form_senha =  TrocaSenhaForm()
 
 	if form_email.validate_on_submit():
-		if Usuario.query.filter_by(email=form_email.email.data).first() and not current_user.email == form_email.novo_email.data:
+		if Usuario.query.filter_by(email=form_email.novo_email.data).first() and not current_user.email == form_email.novo_email.data:
 			flash(f"O e-mail já está e uso!")
 			
 		elif current_user.check_password(form_email.senha_atual.data) and not current_user.email == form_email.novo_email.data:
@@ -244,9 +317,107 @@ def troca():
 			current_user.hhash = bcrypt.generate_password_hash(form_senha.nova_senha.data)
 			db.session.commit()
 			flash("Senha trocada com sucesso!")
-
 	
+	page = request.args.get('page', 1, type=int)	
+	arquivos = Arquivo.query\
+					.filter(Arquivo.usuario_id\
+					.contains(int(current_user.id)))\
+					.filter_by(is_eligible=True)\
+					.paginate(page=page, per_page=12)
+
+	arquivos_row_1 = []
+	arquivos_row_2 = []
+	arquivos_row_3 = []
+
+	for arquivo in arquivos.items:
+		arquivos_row_1.append(arquivo)
+		if contador > 4:
+			break 
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		elif contador > 8:
+			break
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		elif contador > 12:
+			break
+		contador = contador + 1				
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+	quantidade = len(current_user.arquivos)
 
 	return render_template('troca_informacao.html',
 							form_email=form_email,
-							form_senha=form_senha)
+							form_senha=form_senha,
+							arquivos_rows=arquivos_rows,
+							contribuiu=quantidade, 
+							arquivos=arquivos)
+
+
+def send_reset_email(user):
+	token = user.get_reset_token()
+	msg = Message('Requisição de Troca de Senha Compleaks',
+                  sender='noreply@demo.com',
+                  recipients=[user.email])
+
+	msg.html = render_template("resetar_senha_menssage.html", link=url_for('usuarios.reset_token', token=token, _external=True))
+
+	msg.body = f'''Para resetar sua senha, segue o link abixo:
+{url_for('usuarios.reset_token', token=token, _external=True)}
+
+Se você não solicitou esta modificação, apenas ignore esse email e nenhuma mudança será feita.
+'''
+	mail.send(msg)
+
+
+@usuarios.route("/resetar_senha", methods=['GET', 'POST'])
+def reset_request():
+
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
+	form = RecuperarSenhaFrom()
+	
+	if not form.check_email_cadastrado() and form.validate_on_submit():
+		flash('Esse email não está cadastrado no sistema', 'dangerus')
+
+	if form.validate_on_submit() and form.check_email_cadastrado():
+		
+		user = Usuario.query.filter_by(email=form.email.data).first()
+		send_reset_email(user)
+		flash('Um e-mail foi enviado para resetar sua senha! Siga suas devidas instruções.', 'info')
+		return redirect(url_for('usuarios.login'))	
+
+	return render_template('forgot_password.html', form=form)
+
+
+@usuarios.route("/resetar_senha/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+
+	bcrypt = Bcrypt()
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+	user = Usuario.verify_reset_token(token)
+
+	if user is None:
+		flash('Esse token de ativação é invalido ou expirou', 'warning')
+		return redirect(url_for('usuarios.reset_request'))
+	form = ResetarSenhaForm()
+
+	if form.validate_on_submit():
+		hashed_password = bcrypt.generate_password_hash(form.senha.data)
+		user.senha = hashed_password
+		db.session.commit()
+		flash('Sua senha foi trocada co sucesso! Já pode se logar no sistema', 'success')
+		return redirect(url_for('usuarios.login'))
+	
+	return render_template('resetar_senha.html', form=form)
