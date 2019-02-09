@@ -1,11 +1,13 @@
 from flask import render_template, Blueprint, url_for
 from compleaks import db
+from compleaks.usuarios.forms import LoginForm
 
 principal = Blueprint('principal', __name__)
 
 @principal.route('/')
 def index():
-    return render_template('index.html')
+	form = LoginForm()
+	return render_template('index.html', form=form)
 
 
 # @app.errorhandler(404)

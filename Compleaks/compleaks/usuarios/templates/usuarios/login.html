@@ -36,8 +36,18 @@
                             </div>
                         {% endif %}
                     </div>
-                    {{ form.submit(class="btn btn-primary") }}
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary") }}
+                        <small class="text-muted ml-2">
+                            <a href="{{ url_for('usuarios.reset_request') }}">Esqueceu sua senha?</a>
+                        </small>
+                    </div>
                 </form>
+            </div>
+            <div class="col-12 border-top pt-3">
+                <small class="text-muted">
+                    Precisa de uma Conta? <a class="ml-2" href="{{ url_for('usuarios.adicionar') }}">Registre-se</a>
+                </small>
             </div>
         </div>
     </div>
