@@ -40,7 +40,7 @@ def editar():
 		disciplina = Disciplina.query.get(id)
 
 		if disciplina is None:
-			flash("Id da disciplina inexistente!")
+			flash("Id da disciplina inexistente!", "warning")
 			return redirect(url_for('disciplinas.editar'))
 
 		disciplina.nome = novo_nome
@@ -95,7 +95,7 @@ def redefinir(disc_id):
 	disciplina.motivo_delete = None
 
 	db.session.commit()
-	flash(f"Disciplina {disciplina.nome} foi restaurada no sistema.")
+	flash(f"Disciplina {disciplina.nome} foi restaurada no sistema.", "success")
 	return redirect(url_for('disciplinas.listar'))
 
 

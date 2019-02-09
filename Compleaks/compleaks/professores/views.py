@@ -116,7 +116,7 @@ def redefinir(prof_id):
 	professor.motivo_delete = None
 
 	db.session.commit()
-	flash(f"Professor {professor.nome} foi restaurado no sistema.")
+	flash(f"Professor {professor.nome} foi restaurado no sistema.", "success")
 	return redirect(url_for('professores.listar'))
 
 @professores.route('/user_excluir/<int:prof_id>,<motivo_delete>', methods=['POST', 'GET'])
@@ -135,7 +135,7 @@ def user_excluir(prof_id, motivo_delete):
 
 	db.session.commit()
 
-	flash(f"Professor {professor.nome} foi excluido do sistema.")
+	flash(f"Professor {professor.nome} foi excluido do sistema.", "success")
 	return redirect(url_for('professores.listar'))
 
 @professores.route('/user_editar/<int:prof_id>', methods=['POST', 'GET'])
@@ -159,7 +159,7 @@ def user_editar(prof_id):
 		Professor.query.filter_by(id=id).update(dict(nome=novo_nome))
 		Professor.query.filter_by(id=id).update(dict(unidade_academica_id=nova_unidade))
 		db.session.commit()
-		flash(f"Professor {professor.nome} foi editado no sistema.")
+		flash(f"Professor {professor.nome} foi editado no sistema.", "success")
 		return redirect(url_for('professores.listar'))
 
 	return render_template('editar_professor_user.html',form=form)

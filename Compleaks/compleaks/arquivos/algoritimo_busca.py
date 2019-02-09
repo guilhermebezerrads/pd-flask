@@ -663,7 +663,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 					 	arquivos_rows=arquivos_rows, form_login=form_login,
-				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form, flash_login=flash_login)			
+				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)			
 
 	contador = 0
 	arquivos_row_1.clear()
