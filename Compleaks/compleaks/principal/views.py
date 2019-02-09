@@ -6,7 +6,7 @@ principal = Blueprint('principal', __name__)
 
 @principal.route('/')
 def index():
-	form = LoginForm()
+	form_login = LoginForm()
 	return render_template('index.html', form=form)
 
 

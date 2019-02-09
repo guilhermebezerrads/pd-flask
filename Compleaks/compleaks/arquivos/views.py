@@ -8,6 +8,7 @@ from compleaks.arquivos.forms import (AdicionarArquivoForm,
 from compleaks.arquivos.models import Arquivo
 from compleaks.professores.models import Professor
 from compleaks.disciplinas.models import Disciplina
+from compleaks.usuarios.forms import LoginForm
 import jinja2
 import datetime
 import os
@@ -155,6 +156,8 @@ def editar(arq_id):
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():
+
+	form_login = LoginForm()
 	page = request.args.get('page', 1, type=int)
 	arquivos = Arquivo.query.filter_by(is_eligible=True)\
 				.order_by(Arquivo.data_submissao.desc())\
@@ -168,12 +171,12 @@ def listar():
 			arquivos = Arquivo.query\
 					.order_by(Arquivo.data_submissao.desc())\
 					.paginate(page=page, per_page=12)
-			return render_template('todos_arquivos_adm.html', arquivos=arquivos)
+			return render_template('todos_arquivos_adm.html', arquivos=arquivos, form_login=form_login)
 		else:
-			return render_template('todos_arquivos_normal.html', arquivos=arquivos)
+			return render_template('todos_arquivos_normal.html', arquivos=arquivos, form_login=form_login)
 
 	except:
-		return render_template('todos_arquivos_normal.html', arquivos=arquivos)
+		return render_template('todos_arquivos_normal.html', arquivos=arquivos, form_login=form_login)
 
 
 

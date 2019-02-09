@@ -18,6 +18,8 @@ usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
 @usuarios.route('/usuario/<int:user_id>', methods= ['POST', 'GET'])
 def usuario(user_id):
 
+	form_login = LoginForm()
+
 	user = Usuario.query.get_or_404(user_id)
 
 	if not user.is_eligible and current_user.is_authenticated:
@@ -64,7 +66,8 @@ def usuario(user_id):
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 	return render_template('usuario_contribuicao.html', user=user, 
-							contribuiu=quantidade, arquivos=arquivos)
+							contribuiu=quantidade, arquivos=arquivos,
+							form_login=form_login)
 
 
 def send_wellcome_email(user):
@@ -85,6 +88,9 @@ def send_wellcome_email(user):
 
 @usuarios.route('/cadastro', methods=['POST', 'GET'])
 def adicionar():
+
+	form_login = LoginForm()
+
 	form = AdicionarUsuarioForm()
 
 	if form.validate_on_submit() and not Usuario.query.filter_by(username=form.username.data).first() and not Usuario.query.filter_by(email=form.email.data).first(): 
@@ -113,7 +119,7 @@ def adicionar():
 	if Usuario.query.filter_by(email=form.email.data).first():
 		flash(f"Esse e-mail já está em uso.")
 
-	return render_template('adicionar_usuario.html', form=form)
+	return render_template('adicionar_usuario.html', form=form, form_login=form_login)
 
 
 @usuarios.route('/logout')
@@ -280,7 +286,7 @@ def login():
 			flash("Email e/ou senha incorretos", "alert")
 
 
-	return render_template('login.html', form=form)
+	return render_template('index.html', form=form)
 
 
 @usuarios.route('/troca', methods=['POST', 'GET'])
@@ -383,6 +389,8 @@ Se você não solicitou esta modificação, apenas ignore esse email e nenhuma m
 @usuarios.route("/resetar_senha", methods=['GET', 'POST'])
 def reset_request():
 
+	form_login = LoginForm()
+
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
 
@@ -398,11 +406,13 @@ def reset_request():
 		flash('Um e-mail foi enviado para resetar sua senha! Siga suas devidas instruções.', 'info')
 		return redirect(url_for('usuarios.login'))	
 
-	return render_template('forgot_password.html', form=form)
+	return render_template('forgot_password.html', form=form, form_login=form_login)
 
 
 @usuarios.route("/resetar_senha/<token>", methods=['GET', 'POST'])
 def reset_token(token):
+
+	form_login = LoginForm()
 
 	bcrypt = Bcrypt()
 	if current_user.is_authenticated:
@@ -421,4 +431,4 @@ def reset_token(token):
 		flash('Sua senha foi trocada co sucesso! Já pode se logar no sistema', 'success')
 		return redirect(url_for('usuarios.login'))
 	
-	return render_template('resetar_senha.html', form=form)
+	return render_template('resetar_senha.html', form=form, form_login=form_login)

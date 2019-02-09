@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from compleaks import db
 from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, EditarDisciplinaForm, ExcluirDisciplinaForm)
 from compleaks.disciplinas.models import Disciplina
+from compleaks.usuarios.forms import LoginForm
 from datetime import datetime
 
 disciplinas = Blueprint('disciplinas', __name__,template_folder='templates/disciplinas')
@@ -10,6 +11,7 @@ disciplinas = Blueprint('disciplinas', __name__,template_folder='templates/disci
 @disciplinas.route('/adicionar', methods=['POST', 'GET'])
 @login_required
 def adicionar():
+
 	if not current_user.is_admin:
 		abort(403)
 	form = AdicionarDisciplinaForm()
@@ -50,11 +52,13 @@ def editar():
 @disciplinas.route('/listar', methods=['POST', 'GET'])
 def listar():
 
+	form_login = LoginForm()
+
 	disciplinadb = Disciplina.query.order_by(Disciplina.nome.desc())
 	if current_user.is_authenticated and current_user.is_admin:
-		return render_template('listar_disciplina.html',disciplinadb=disciplinadb)
+		return render_template('listar_disciplina.html',disciplinadb=disciplinadb, form_login=form_login)
 	else:
-		return render_template('lista_disciplina_out.html',disciplinadb=disciplinadb)
+		return render_template('lista_disciplina_out.html',disciplinadb=disciplinadb, form_login=form_login)
 
 
 @disciplinas.route('/excluir', methods=['POST', 'GET'])
@@ -98,6 +102,8 @@ def redefinir(disc_id):
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
 def buscar():
 
+	form_login = LoginForm()
+
 	form = BuscarDisciplinaForm()
 
 	if form.validate_on_submit():
@@ -107,8 +113,8 @@ def buscar():
 		disciplinas = Disciplina.query.filter(Disciplina.nome.contains(nome))
 
 		if current_user.is_authenticated and current_user.is_admin:
-			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
+			return render_template('resultado_busca_disc.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina, form_login=form_login)
 		else:
-			return render_template('resultado_busca_disc_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina)
+			return render_template('resultado_busca_disc_out.html',disciplinas=disciplinas , existe_disciplina=existe_disciplina, form_login=form_login)
 
-	return render_template('buscar_disciplina.html',form=form)
+	return render_template('buscar_disciplina.html',form=form, form_login=form_login)

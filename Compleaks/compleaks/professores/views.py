@@ -5,6 +5,7 @@ from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessor
 from compleaks.professores.models import Professor
 from datetime import datetime
 from compleaks.professores.dapartamentos import lista_unidades_academicas
+from compleaks.usuarios.forms import LoginForm
 
 professores = Blueprint('professores', __name__,template_folder='templates/professores')
 
@@ -52,11 +53,13 @@ def editar():
 
 @professores.route('/listar')
 def listar():
+
+	form_login = LoginForm()
 	professoresdb = Professor.query.order_by(Professor.nome.asc())
 	if current_user.is_authenticated and current_user.is_admin:
-		return render_template('listar_professor.html', professoresdb=professoresdb, lista = lista_unidades_academicas())
+		return render_template('listar_professor.html', professoresdb=professoresdb, lista = lista_unidades_academicas(), form_login=form_login)
 	else:
-		return render_template('listar_professor_out.html',professoresdb=professoresdb, lista = lista_unidades_academicas())
+		return render_template('listar_professor_out.html',professoresdb=professoresdb, lista = lista_unidades_academicas(), form_login=form_login)
 
 @professores.route('/excluir', methods=['POST', 'GET'])
 @login_required
@@ -85,7 +88,7 @@ def excluir():
 @professores.route('/buscar', methods=['POST', 'GET'])
 def buscar():
 
-
+	form_login = LoginForm()
 	form = BuscarProfessorForm()
 
 	if form.validate_on_submit():
@@ -95,11 +98,11 @@ def buscar():
 		professores = Professor.query.filter(Professor.nome.contains(nome))
 
 		if current_user.is_authenticated and current_user.is_admin:
-			return render_template('resultado_busca.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas())
+			return render_template('resultado_busca.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
 		else:
-			return render_template('resultado_busca_out.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas())
+			return render_template('resultado_busca_out.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
 	
-	return render_template('buscar_professor.html',form=form)
+	return render_template('buscar_professor.html',form=form, form_login=form_login)
 
 @professores.route('/redefinir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required
