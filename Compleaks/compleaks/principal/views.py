@@ -7,7 +7,7 @@ principal = Blueprint('principal', __name__)
 @principal.route('/')
 def index():
 	form_login = LoginForm()
-	return render_template('index.html', form=form)
+	return render_template('index.html', form_login=form_login)
 
 
 # @app.errorhandler(404)

@@ -261,15 +261,15 @@ def redefinir(user_id):
 
 @usuarios.route('/login', methods=['POST', 'GET'])
 def login():
-	form = LoginForm()
+	form_login = LoginForm()
 
-	if form.validate_on_submit():
-		user = Usuario.query.filter_by(email=form.email.data).first()
+	if form_login.validate_on_submit():
+		user = Usuario.query.filter_by(email=form_login.email.data).first()
 		print(user)
 
 		if user is not None and user.is_eligible is True:
 			
-			if user.check_password(form.senha.data):
+			if user.check_password(form_login.senha.data):
 
 				login_user(user)
 				flash("Você foi logado com sucesso.")
@@ -286,7 +286,7 @@ def login():
 			flash("Email e/ou senha incorretos", "alert")
 
 
-	return render_template('index.html', form=form)
+	return redirect(url_for('principal.index'))
 
 
 @usuarios.route('/troca', methods=['POST', 'GET'])
