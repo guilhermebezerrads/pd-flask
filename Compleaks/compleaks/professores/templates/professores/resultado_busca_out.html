@@ -5,23 +5,26 @@
 {% block content %}
 
     {% if existe_professor %}
-    <table class="table" >
-        <thead>
-            <tr>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        {% for professor in professores %}
-            <tbody>
+        <table class="table" >
+            <thead>
                 <tr>
-                    <td>{{ professor.nome }}</td>
+                    <th>Nome</th>
+                    <th>Unidade acadêmica</th>
                 </tr>
-            </tbody>
-
-        {% endfor %}
+            </thead>
+            {% for professor in professores %}
+                {% if professor.is_eligible %}
+                    <tbody>
+                        <tr>
+                            <td>{{ professor.nome }}</td>
+                            <td>{{ lista[ professor.unidade_academica_id ][1] }}</td>
+                        </tr>
+                    </tbody>
+                {% endif %}
+            {% endfor %}
         </table>
     {% else %}
-        <h3>Não existe o professor</h3>
+        <h3>Sem resultados para sua pesquisa</h3>
     {% endif %}
 
 {% endblock %}
