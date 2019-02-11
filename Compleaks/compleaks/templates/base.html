@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/docs.css')}}">
     {% block mais_import %}
     {% endblock %}
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
     <script src="{{url_for('static', filename='js/docs.js')}}"></script>
     <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
