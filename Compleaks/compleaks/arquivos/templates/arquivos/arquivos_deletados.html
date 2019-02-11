@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 {% block title %}
-{{user.username}}
+Arquivos deletados.
 {% endblock%}
 
 {% block content %}
 <div class="page-header">
-    <h1>Todas as Contribuições de {{user.username}} ({{contribuiu}})</h1>
+    <h1>Todos os arquivos deletado</h1>
     <hr/>
-    <p>
-    <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
-
-Lindomar Batista</small></p>
 </div>
 {% for row in arquivos_rows %}
     {% if row %}
@@ -47,7 +43,7 @@ Lindomar Batista</small></p>
                                     
                                     <a href="#"><img src="{{url_for('static', filename='images/icones/arquivo/'+arquivo.extensao+'.svg')}}" data-toggle="tooltip" data-placement="button" title="Arquivo {{arquivo.extensao}}" class="image marcas" alt="Tipo de arquivo é {{arquivo.extensao}}"></a>
 
-                                    <a href="{{url_for('usuarios.usuario',  user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+                                    <a href="{{url_for('usuarios.usuario', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
 
                                 </p>
                                 <br/>
@@ -101,11 +97,11 @@ Lindomar Batista</small></p>
         {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if arquivos.page == page_num and page_num %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="{{ url_for('usuarios.usuario',user_id=user.id, page=page_num) }}">{{ page_num }}</a></li>
+                    <a class="page-link" href="{{ url_for('arquivos.deletados') }}">{{ page_num }}</a></li>
                 </li>
             {% elif page_num %}
                 <li class="page-item">                    
-                    <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
+                    <a class="page-link" href="{{ url_for('arquivos.deletados') }}">{{ page_num }}</a></li>
                 </li>
             {% else %}
                 ...

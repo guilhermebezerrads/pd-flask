@@ -85,7 +85,7 @@
 
                                             {% endif %}
                                             
-                                            <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive download" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>
+                                            <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>
                                         
                                         </div>
                                         </div>
@@ -107,7 +107,7 @@
                   
 
                     </p>
-                    <h5><p class="card-text text-truncate">{{arquivo.observacoes}}</p></h5>
+                    <h5><p class="card-text text-truncate"><a data-toggle="tooltip" data-placement="top" title="{{arquivo.observacoes}}">{{arquivo.observacoes}}</a></p></h5>
 
                     <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><img class="img-responsive info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações" src="{{url_for('static', filename='images/icones/padrao/info.svg')}}" alt="mais"></a>
 

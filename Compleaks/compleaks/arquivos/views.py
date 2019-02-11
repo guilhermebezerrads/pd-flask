@@ -208,3 +208,43 @@ def redefinir(arq_id):
 	db.session.commit()
 	flash("O arquivo foi restaurado com sucesso.", "success")
 	return redirect(url_for('arquivos.buscar'))
+
+
+@arquivos.route('/deletados', methods=['GET', "POST"])
+def deletados():
+	if not current_user.is_admin:
+		abort(404)
+
+	page = request.args.get('page', 1, type=int)	
+	arquivos = Arquivo.query.filter_by(is_eligible=False).paginate(page=page, per_page=12)
+
+	arquivos_row_1 = []
+	arquivos_row_2 = []
+	arquivos_row_3 = []
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			break 
+		arquivos_row_1.append(arquivo)
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		contador = contador + 1				
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+
+	return render_template('arquivos_deletados.html', arquivos=arquivos, arquivos_rows=arquivos_rows)
