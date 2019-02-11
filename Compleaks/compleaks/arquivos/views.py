@@ -61,7 +61,7 @@ def adicionar():
 		tipo = form_add.tipo_conteudo.data
 		observacoes = form_add.observacoes.data
 
-		nome = str(disciplina) + " - " + tipo + " - " + str(data.strftime('%d - %m - %y'))
+		nome = str(disciplina) + " - " + tipo + " - " + str(data.strftime('%d - %m - %y, %H-%M-%S'))
 		target = os.path.join(current_app.root_path, 'static/uploads')
 
 		file_name = target + "/" + nome + ".zip"

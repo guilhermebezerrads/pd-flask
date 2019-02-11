@@ -1,3 +1,6 @@
+body{
+    overflow: auto;
+}
 .imagem_fundo{
     z-index: 1 !important;
     width: 100% !important; 
