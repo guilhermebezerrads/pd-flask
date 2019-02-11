@@ -19,7 +19,7 @@
                 <label class="input-group-text" for="inputGroupSelect01">Disciplina</label>
               </div>
               <select required="Esse campo é obrigatório!" name="disciplina" class="custom-select" id="inputGroupSelect01">
-                {% for disciplina in disciplimnas %}
+                {% for disciplina in disciplinas %}
                     <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>           
                 {% endfor %}
               </select>
