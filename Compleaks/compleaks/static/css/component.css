@@ -1,6 +1,16 @@
 .download{
 	margin-left: 40% !important;
+	width: 25%;
 }
+
+.sumido{
+    display: none;
+    width: 110%;
+    margin-left: -5%;
+    height: 0%;
+    color: white !important;
+
+} 
 
 .image {
   width: 30% !important;
@@ -21,29 +31,9 @@
 .cancel{
 	width: 10% !important;
 }
-@media only screen and (max-width: 767px) {
-	.sumiras{
-		display: none!important;
-	}	
-}
-@media only screen and (max-width: 600px) {
-	.download{
-		width: 20% !important;
-	}	
-}
-
-@media only screen and (max-width: 400px) {
-	.cancel{
-		width: 20% !important;
-	}	
-
-	.deletar{
-		width: 70% !important;
-	}
-}
 
 .dist{
-  margin-top: 4% !important;
+  margin-top: 10% !important;
 }
 
 .direita{
@@ -56,6 +46,63 @@
 
 .apagodo{
 	background-color: red;
+}
+
+@media only screen and (max-width: 767px) {
+	.sumiras{
+		display: none!important;
+	}	
+}
+@media only screen and (max-width: 600px) {
+	
+	
+
+	.download{
+		width: 26% !important;
+	}	
+	.info {
+  		width: 24% !important;
+	}
+	p{
+		font-size: 15px
+	}
+	.card-title{
+		font-size: 18px;
+	}
+}
+
+@media only screen and (max-width: 577px) {
+	.cancel{
+		width: 20% !important;
+	}	
+
+	.deletar{
+		width: 70% !important;
+	}
+	.dist{
+ 		 margin-top: 1% !important;
+ 		 margin-left: 0%;
+ 		 margin-right: 0%;
+	}
+
+	.card{
+		padding: 0% !important;
+		margin-left: 0%;
+ 		margin-right: 0%;
+	}
+	.card-body{
+		padding: 5% !important;
+		margin-left: 0%;
+ 		margin-right: 0%;
+ 		text-alignt: center;
+	}
+
+	.row .col-6{
+		padding: 1.5% !important;
+		margin-left: 0%;
+ 		margin-right: 0%;
+	}
+
 }
 
 /*# sourceMappingURL=component.css.map */

@@ -3,12 +3,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %} - Compleaks</title>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="{{url_for('static', filename='fonts/stilosa.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/component.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.2.1/materia/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/navbar-fixed-right.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/navbar-fixed-left.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/docs.css')}}">
+    {% block mais_import %}
+    {% endblock %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
     <script src="{{url_for('static', filename='js/docs.js')}}"></script>
@@ -115,9 +119,10 @@
         </ul>
     </div>
 </nav>
-
-<div class="container">
-{% block divisao %}    <div class="jumbotron"> {% endblock %}
+{% block divisao %}
+<div class="container-fluid">
+    <div class="jumbotron"> 
+{% endblock %}
             <div class="col-md-8">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -198,13 +203,35 @@
     </div>   
 {% endif %}
 
-    <footer>
-    <div>
-        <p for="text">Desenvolvido por:</p>
-        <a href="http://ijunior.com.br/site/">UFMG Informática Jr</a><br>
-        <label for="text">© 2019 Compleaks. Todos os direitos reservados</label>
-    </div>
-</footer>
+<footer >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">
+            <span>Compleaks</span>
+            
+          </div>
+          <div class="col-md-2">
+            <h4>company</h4>
+           
+          </div>
+          <div class="col-md-2">
+            <h4>comunidade</h4>
+            
+          </div>
+          <div class="col-md-2">
+            <h4>links úteis</h4>
+          
+          </div>
+            <div class="col-lg-4">
+                <a href="http://ijunior.com.br/site/"><img class="centraliza" src="{{url_for('static', filename='images/logo.png')}}"></a>
+            </div>
+          
+        </div>
+        <div class="row">
+            <label for="text">© 2019 Compleaks. Todos os direitos reservados</label>
+        </div>
+      
+    </footer>
 
 </div>
 
