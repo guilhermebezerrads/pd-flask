@@ -14,7 +14,7 @@
             <form method="GET">
               {{ form.hidden_tag() }}
               <div class="form-group">
-                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control") }}
+                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro") }}
                   {% if form.errors.filtrar %}
                       <div class="alert alert-danger" role="alert">
                         <ul>
@@ -25,9 +25,13 @@
                       </div>
                   {% endif %}
               </div>
+
+              <div class="form-group" id="pesquisa">
+                
+              </div>
               
-              <div class="form-group" id="pesquisa2">
-              {{ form.disciplina.label }} {{ form.disciplina(class="form-control") }}
+              <div style="display: none;" class="form-group" id="pesquisa_disciplina">
+              {{ form.disciplina.label }} {{ form.disciplina(class="form-control", placeholder="Nome da disciplina") }}
               {% if form.errors.disciplina %}
                   <div class="alert alert-danger" role="alert">
                     <ul>
@@ -39,8 +43,8 @@
               {% endif %}
               </div>
               
-              <div class="form-group" id="pesquisa3">
-              {{ form.professor.label }} {{ form.professor(class="form-control") }}
+              <div style="display: none;" class="form-group" id="pesquisa_professor">
+              {{ form.professor.label }} {{ form.professor(class="form-control", placeholder="Nome do professor") }}
               {% if form.errors.professor %}
                   <div class="alert alert-danger" role="alert">
                     <ul>
@@ -51,7 +55,7 @@
                   </div>
               {% endif %}
               </div>
-              <div class="form-group" id="pesquisa1">
+              <div style="display: none;" class="form-group" id="pesquisa_tipo">
                 {{ form.tipo_arquivo.label }} {{ form.tipo_arquivo(class="form-control") }}
                 {% if form.errors.tipo_arquivo %}
                     <div class="alert alert-danger" role="alert">
@@ -65,7 +69,7 @@
               </div>
               
               <div class="form-group">
-                {{ form.submit(class="btn btn-primary") }}
+                {{ form.submit(class="btn btn-primary", id="submit") }}
               </div>
           </form>
 
@@ -78,6 +82,12 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/pesquisa_arq.js') }}"></script>
+
+<script type="text/javascript">
+  inicial();
+</script>
 
 
 

@@ -21,7 +21,7 @@ function user_pesquisa_email() {
 }
 
 
-document.getElementById("submit").onkeypress = function (){
+document.getElementById("submit").onsubmit = function (){
 	switch(this.selectedIndex){
 	case 1:
 		pesq_username.innerHTML = "";

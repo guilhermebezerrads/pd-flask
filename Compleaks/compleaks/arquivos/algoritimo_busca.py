@@ -11,6 +11,9 @@ from compleaks.disciplinas.models import Disciplina
 from compleaks.arquivos.views import arquivos
 from compleaks.usuarios.forms import LoginForm
 
+'''Tipo, preciso de filtrar a query que quero por tipode usuário e tipo de arquivo, logo, acaba que para
+seguir o mesmo rumo na paginação preciso ter o estado anterior, o que causa essas grandes quantidades de
+linhas é o fato	de uma query tem de ser feita na mesma instrução, ou seja não pode ser filtrada depois'''
 @arquivos.route('/busca/<admin>/<int:filtro>/<pesquisa>/<tip_arquiv>', 
 	methods=['POST', 'GET'])
 @arquivos.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None,
