@@ -1,7 +1,8 @@
 from flask import render_template, Blueprint, url_for, redirect, flash, abort
 from flask_login import current_user, login_required
 from compleaks import db
-from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessorForm, EditarProfessorForm, EditarProfessorUserForm, ExcluirProfessorForm)
+from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessorForm, EditarProfessorForm, 
+										ExcluirProfessorForm)
 from compleaks.professores.models import Professor
 from datetime import datetime
 from compleaks.professores.dapartamentos import lista_unidades_academicas
@@ -28,62 +29,21 @@ def adicionar():
 
 	return render_template('adicionar_professor.html', form=form)
 
-@professores.route('/editar', methods=['POST', 'GET'])
-@login_required
-def editar():
-
-	if not (current_user.is_admin or current_user.is_authenticated):
-		abort(403)
-
-	form = EditarProfessorForm()
-
-	if form.validate_on_submit():
-		id = form.id.data
-		professor = Professor.query.get(id)
-		if not (current_user.is_admin or current_user.id==professor.id_criador):
-			abort(403)
-		novo_nome = form.novo_nome.data
-		nova_unidade = int(form.nova_unidade.data)
-		Professor.query.filter_by(id=id).update(dict(nome=novo_nome))
-		Professor.query.filter_by(id=id).update(dict(unidade_academica_id=nova_unidade))
-		db.session.commit()
-
-		return redirect(url_for('professores.listar'))
-	return render_template('editar_professor.html',form=form)
-
 @professores.route('/listar')
 def listar():
-
+	form_excluir = ExcluirProfessorForm()
+	form_editar = EditarProfessorForm()
+	form_buscar = BuscarProfessorForm()
 	form_login = LoginForm()
 	professoresdb = Professor.query.order_by(Professor.nome.asc())
 	if current_user.is_authenticated and current_user.is_admin:
-		return render_template('listar_professor.html', professoresdb=professoresdb, lista = lista_unidades_academicas(), form_login=form_login)
+		return render_template('listar_professor.html', professoresdb=professoresdb, 
+		lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
+		form_editar=form_editar, form_buscar=form_buscar)
 	else:
-		return render_template('listar_professor_out.html',professoresdb=professoresdb, lista = lista_unidades_academicas(), form_login=form_login)
-
-@professores.route('/excluir', methods=['POST', 'GET'])
-@login_required
-def excluir():
-	if not (current_user.is_admin or current_user.is_authenticated):
-		abort(403)
-
-	form = ExcluirProfessorForm()
-
-	if form.validate_on_submit():
-		id = form.id.data
-		professor = Professor.query.get(id)
-		if not (current_user.is_admin or current_user.id==professor.id_criador):
-			abort(403)
-		prof = Professor.query.get_or_404(id)
-		prof.id_deletor = current_user.id
-		prof.is_eligible = False
-		prof.data_deletado = datetime.now()
-		prof.motivo_delete = form.motivo_delete.data
-		db.session.commit()
-
-		return redirect(url_for('professores.listar'))
-
-	return render_template('excluir_professor.html',form=form)
+		return render_template('listar_professor_out.html',professoresdb=professoresdb, 
+		lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
+		form_editar=form_editar, form_buscar=form_buscar)
 
 @professores.route('/buscar', methods=['POST', 'GET'])
 def buscar():
@@ -98,9 +58,11 @@ def buscar():
 		professores = Professor.query.filter(Professor.nome.contains(nome))
 
 		if current_user.is_authenticated and current_user.is_admin:
-			return render_template('resultado_busca.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
+			return render_template('resultado_busca.html',professores=professores , 
+			existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
 		else:
-			return render_template('resultado_busca_out.html',professores=professores , existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
+			return render_template('resultado_busca_out.html',professores=professores , 
+			existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
 	
 	return render_template('buscar_professor.html',form=form, form_login=form_login)
 
@@ -119,47 +81,42 @@ def redefinir(prof_id):
 	flash(f"Professor {professor.nome} foi restaurado no sistema.", "success")
 	return redirect(url_for('professores.listar'))
 
-@professores.route('/user_excluir/<int:prof_id>,<motivo_delete>', methods=['POST', 'GET'])
+#Funções de editar e excluir disponiveis apenas para administradores e usuarios "criadores"
+@professores.route('/excluir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required
-def user_excluir(prof_id, motivo_delete):
-
+def excluir(prof_id):
 	professor = Professor.query.get(prof_id)
-
-	if not (current_user.is_admin or (current_user.id == professor.id_criador)):
+	if not (current_user.is_admin or current_user.id==professor.id_criador):
 		abort(403)
 
-	professor.is_eligible = False
-	professor.data_deletado = datetime.now()
-	professor.id_deletor = current_user.id
-	professor.motivo_delete = motivo_delete
+	form_excluir = ExcluirProfessorForm()
 
-	db.session.commit()
+	if form_excluir.validate_on_submit():
+		prof = Professor.query.get_or_404(prof_id)
+		prof.id_deletor = current_user.id
+		prof.is_eligible = False
+		prof.data_deletado = datetime.now()
+		prof.motivo_delete = form_excluir.motivo_delete.data
+		db.session.commit()
+		flash("O professor {} foi excluido com sucesso!".format(professor.nome),"success")
+	return redirect(url_for('professores.listar', form_excluir=form_excluir))
 
-	flash(f"Professor {professor.nome} foi excluido do sistema.", "success")
-	return redirect(url_for('professores.listar'))
-
-@professores.route('/user_editar/<int:prof_id>', methods=['POST', 'GET'])
+@professores.route('/editar/<int:prof_id>', methods=['POST', 'GET'])
 @login_required
-def user_editar(prof_id):
-
-	professor = Professor.query.get(prof_id)
-
-	if not (current_user.is_admin or current_user.is_authenticated):
-		abort(403)
-
-	form = EditarProfessorUserForm()
-	
+def editar(prof_id):
 	id = prof_id
+	professor = Professor.query.get(id)
+	if not (current_user.is_admin or current_user.id==professor.id_criador):
+		abort(403)
 
-	if form.submit.data:
-		if not (current_user.is_admin or current_user.id==professor.id_criador):
-			abort(403)
-		novo_nome = form.novo_nome.data
-		nova_unidade = int(form.nova_unidade.data)
+	form_editar = EditarProfessorForm()
+
+	if form_editar.validate_on_submit():		
+		novo_nome = form_editar.novo_nome.data
+		nova_unidade = int(form_editar.nova_unidade.data)
 		Professor.query.filter_by(id=id).update(dict(nome=novo_nome))
 		Professor.query.filter_by(id=id).update(dict(unidade_academica_id=nova_unidade))
 		db.session.commit()
-		flash(f"Professor {professor.nome} foi editado no sistema.", "success")
-		return redirect(url_for('professores.listar'))
+		flash("O tutor {} foi editado com sucesso!".format(professor.nome),"success")
 
-	return render_template('editar_professor_user.html',form=form)
+	return redirect(url_for('professores.listar', form_editar=form_editar))

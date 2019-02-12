@@ -13,6 +13,7 @@
                 {% endif %}
             </tr>
         </thead>
+       
         {% for professor in professoresdb %}
             {% if professor.is_eligible %}
                 <tbody>
@@ -22,7 +23,7 @@
                         {% if current_user.is_authenticated %}
                             {% if current_user.id == professor.id_criador %}
                             <td>
-                                <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#editar{{professor.id}}" >Editar</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#editar{{professor.id}}" >Editar</button>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#excluir{{professor.id}}" >Excluir</button>
                             </td>
                             {% else %}
@@ -34,57 +35,71 @@
             {% endif %}
 
             {% if professor.is_eligible %}
-
-        <div class="modal" tabindex="-1" role="dialog" id="editar{{professor.id}}">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Editar professor?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    
-                        
-                        <div class="modal-body">
-                            <p>Você tem certeza que deseja editar esse professor?</p>
-                            <br/>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url_for('professores.user_editar', prof_id=professor.id) }} " method="POST">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <input type="submit" value="Editar" class="btn btn-danger">
+                
+                <!--EDITAR PROFESSOR-->
+                <div class="modal fade" tabindex="-1" role="dialog" id="editar{{professor.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar professor?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ url_for('professores.editar', prof_id=professor.id) }}" method="POST">
+                                <div class="modal-body">
+                                    <p>Você tem certeza que deseja editar esse professor?</p>
+                                    <h6 class="modal-title">Dados de Cadastro</h6>
+                                    <p>Nome: {{ professor.nome }} </p>
+                                    <br>
+                                    {{ form_editar.hidden_tag() }}
+                                    {{form_editar.novo_nome.label}}
+                                    {{form_editar.novo_nome(class="input-group input-group-text", value=professor.nome )}}
+                                    <br>
+                                    {{form_editar.nova_unidade.label}}<p class="text-danger">SELECIONE</p>
+                                    {{form_editar.nova_unidade}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    {{ form_editar.submit(class="btn btn-danger") }}
+                                </div>
                             </form>
                         </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="modal" tabindex="-1" role="dialog" id="excluir{{professor.id}}">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Excluir professor?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Você tem certeza que deseja excluir esse professor?</p>
-                        <br/>
-                    </div>
-                    <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-    
-                            <form action="{{ url_for('professores.user_excluir', prof_id=professor.id, motivo_delete='Exclusão por usuário comum') }} " method="POST">
-                                <input type="submit" value="Excluir" class="btn btn-danger">
+                
+                <!--EXCLUIR PROFESSOR-->
+                <div class="modal fade" tabindex="-1" role="dialog" id="excluir{{professor.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Excluir professor?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ url_for('professores.excluir', prof_id=professor.id) }}" method="POST">
+                                <div class="modal-body">
+                                    <p>Você tem certeza que deseja excluir esse professor?</p>
+                                    <h6 class="modal-title">Dados de Cadastro</h6>
+                                    <p>  Nome: {{ professor.nome }} </p>
+                                    <br>
+                                    <h6 class="modal-title">Motivo da exclusão</h6>
+                                    
+                                    {{ form_excluir.hidden_tag() }}
+                                    {{ form_excluir.motivo_delete(class="input-group input-group-text") }}
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    {{ form_excluir.submit(class="btn btn-danger") }}
+                                </div>
                             </form>
                         </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-    {% endif %}
+            {% endif %}
 
         {% endfor %}
     </table>
