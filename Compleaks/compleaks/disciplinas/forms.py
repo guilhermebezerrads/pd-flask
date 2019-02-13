@@ -9,17 +9,14 @@ class AdicionarDisciplinaForm(FlaskForm):
 
 class BuscarDisciplinaForm(FlaskForm):
 
-    nome = StringField("Nome da disciplina:", validators=[DataRequired()])
+    nome = StringField("Nome da disciplina:")
     submit = SubmitField("Buscar")
 
 class EditarDisciplinaForm(FlaskForm):
 
-    id = IntegerField("Id da disciplina:", validators=[DataRequired()])
     novo_nome = StringField("Novo nome:", validators=[DataRequired()])
     submit = SubmitField("Editar")
 
 class ExcluirDisciplinaForm(FlaskForm):
-
-    id = IntegerField("Id da disciplina:", validators=[DataRequired()])
-    motivo = StringField("Motivo da exclusão pro favor:")
+    motivo = StringField("Motivo da exclusão por favor:")
     submit = SubmitField("Excluir")

@@ -3,46 +3,65 @@
 {% block title %}Listar disciplina{% endblock %}
 
 {% block content %}
-{% if current_user.is_admin %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
+  <!--CONFIGURAÇÃO PARA ADMINISTRADOR-->
+  {% if current_user.is_admin %}
 
-    {% for disciplina in disciplinadb: %}
+    <div>
+        <form class="form-group" action="{{ url_for('disciplinas.buscar') }}" method="POST">
+            <h1>Buscar disciplina</h1>
+            {{ form_buscar.hidden_tag() }}
+            {{form_buscar.nome.label}}
+            {{form_buscar.nome(class="form-control", placeholder="Digite o nome da disciplina aqui" )}}
+            {{ form_buscar.submit(class="btn btn-success") }}
+            
+        </form>
+    </div>
 
+    <br>
 
-            {% if not disciplina.is_eligible %}
-              <article color="red">
-                <tbody>
-                  <tr>
-                    <td>{{ disciplina.id }}</td>
-                    <td>{{ disciplina.nome }}</td>
-                    <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{disciplina.id}}" >Redefinir</button></td>
-                  </tr>
-                </tbody>
-              </article>
-            {% else %}
+    {% if busca %}
+        {% if existe_disciplina %}
+        {% else %}
+            <h2>Sem resultados para busca</h2>
+            <br>
+        {% endif %}
+    {% endif %}
+            
+    <table class="table" >
+        <h2>Disciplinas</h2>
+        <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              
+              <th>Ação</th>
+            </tr>
+        </thead>
 
-                  <tbody>
-                    <tr>
-                      <td>{{ disciplina.id }}</td>
-                      <td>{{ disciplina.nome }}</td>
-                      <td>None</td>
-                    </tr>
-                  </tbody>
+        {% for disciplina in disciplinadb %}
+            <tbody>
+                <tr>
+                    {% if not disciplina.is_eligible %}
+                        <article color="red">
+                            <td>{{ disciplina.id }}</td>
+                            <td>{{ disciplina.nome }}</td>
+                            <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#redefinir{{disciplina.id}}" >Redefinir</button></td>
+                        </article>
+                    {% else %}
+                        <td>{{ disciplina.id }}</td>
+                        <td>{{ disciplina.nome }}</td>
+                        <td>                                
+                            <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#editar{{disciplina.id}}" >Editar</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#excluir{{disciplina.id}}" >Excluir</button>
+                        </td>
+                    {% endif %}
+                </tr>
+            </tbody>
 
-            {% endif %}
-
-            {% if not disciplina.is_eligible %}
-
-            <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{disciplina.id}}">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
+            <!--REDEFINIR DISCIPLINA-->
+            <div class="modal fade" tabindex="-1" role="dialog" id="redefinir{{disciplina.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Redefinir disciplina?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -50,20 +69,17 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>Você tem certeza que deja redefinir essa disciplina?</p>
+                            <p>Você tem certeza que deseja redefinir essa disciplina?</p>
                             <br/>
                             <h6 class="modal-title">Dados de Cadastro</h6>
                             <p>  Nome: {{ disciplina.nome }} </p>
-                            <p> Data de Registro: {{disciplina.data_criacao.strftime('%B %d, %Y') }} </p>
-                            <br/>
                             <br/>
                             <h6 class="modal-title">Dados de Exclusão</h6>
-                            <p> Data de Exclusão: {{disciplina.data_deletado.strftime('%B %d, %Y') }} </p>
-                            <p> Id do usuário que excluiu: {{disciplina.id_deletor}} </p>
+                            <p> Id do usuário que excluiu: {{ disciplina.id_deletor }} </p>
                             {% if disciplina.motivo_delete %}
-                                <p> Motivo da Exclusão: {{disciplina.motivo_delete}} </p>
+                                <p> Motivo da Exclusão: {{ disciplina.motivo_delete }} </p>
                             {% else %}
-                                <p> Nenhum metivo de Exclusão Cadastrado </p>
+                                <p> Nenhum motivo de Exclusão Cadastrado </p>
                             {% endif %}
                             <br/>
                         </div>
@@ -74,14 +90,193 @@
                                 <input type="submit" value="Redefinir" class="btn btn-danger">
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--EDITAR DISCIPLINA-->
+            <div class="modal fade" tabindex="-1" role="dialog" id="editar{{disciplina.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar disciplina?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ url_for('disciplinas.editar', disc_id=disciplina.id) }}" method="POST">
+                            <div class="modal-body">
+                                <p>Você tem certeza que deseja editar essa disciplina?</p>
+                                <h6 class="modal-title">Dados de Cadastro</h6>
+                                <p>Nome: {{ disciplina.nome }} </p>
+                                <br>
+                                {{ form_editar.hidden_tag() }}
+                                {{form_editar.novo_nome.label}}
+                                {{form_editar.novo_nome(class="form-control", value=disciplina.nome )}}
+                              </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                {{ form_editar.submit(class="btn btn-danger") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!--EXCLUIR DISCIPLINA-->
+            <div class="modal fade" tabindex="-1" role="dialog" id="excluir{{disciplina.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Excluir disciplina?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ url_for('disciplinas.excluir', disc_id=disciplina.id) }}" method="POST">
+                            <div class="modal-body">
+                                <p>Você tem certeza que deseja excluir essa disciplina?</p>
+                                <h6 class="modal-title">Dados de Cadastro</h6>
+                                <p>  Nome: {{ disciplina.nome }} </p>
+                                <br>
+                                <h6 class="modal-title">Motivo da exclusão</h6>
+                                
+                                {{ form_excluir.hidden_tag() }}
+                                {{ form_excluir.motivo.label}}
+                                {{ form_excluir.motivo(class="form-control", placeholder="Digite o motivo aqui") }}
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                {{ form_excluir.submit(class="btn btn-danger") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+        {% endfor %}
+
+    </table>
+
+    <!--CONFIGURAÇÃO PARA USUARIOS-->
+    {% else %}
+    <div>
+        <form class="form-group" action="{{ url_for('disciplinas.buscar') }}" method="POST">
+            <h1>Buscar disciplina</h1>
+            {{ form_buscar.hidden_tag() }}
+            {{form_buscar.nome.label}}
+            {{form_buscar.nome(class="form-control", placeholder="Digite o nome da disciplina aqui" )}}
+            {{ form_buscar.submit(class="btn btn-success") }}
+            
+        </form>
+    </div>
+
+    <br>
+
+    {% if busca %}
+        {% if existe_disciplina %}
+        {% else %}
+            <h2>Sem resultados para busca</h2>
+            <br>
+        {% endif %}
+    {% endif %}
+
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>Nome</th>
+                {% if current_user.is_authenticated %}
+                <th>Ação</th>
+                {% endif %}
+            </tr>
+        </thead>
+        
+        {% for disciplina in disciplinadb %}
+            {% if disciplina.is_eligible %}
+                <tbody>
+                    <tr>
+                        <td>{{ disciplina.nome }}</td>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.id == disciplina.id_criador %}
+                            <td>
+                                <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#editar{{disciplina.id}}" >Editar</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#excluir{{disciplina.id}}" >Excluir</button>
+                            </td>
+                            {% else %}
+                            <td>Nenhuma</td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                </tbody>
+            {% endif %}
+
+            {% if disciplina.is_eligible %}
+                
+                <!--EDITAR DISCIPLINA-->
+                <div class="modal fade" tabindex="-1" role="dialog" id="editar{{disciplina.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar disciplina?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ url_for('disciplinas.editar', disc_id=disciplina.id) }}" method="POST">
+                                <div class="modal-body">
+                                    <p>Você tem certeza que deseja editar essa disciplina?</p>
+                                    <h6 class="modal-title">Dados de Cadastro</h6>
+                                    <p>Nome: {{ disciplina.nome }} </p>
+                                    <br>
+                                    {{ form_editar.hidden_tag() }}
+                                    {{form_editar.novo_nome.label}}
+                                    {{form_editar.novo_nome(class="input-group input-group-text", value=disciplina.nome )}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    {{ form_editar.submit(class="btn btn-danger") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!--EXCLUIR DISCIPLINA-->
+                <div class="modal fade" tabindex="-1" role="dialog" id="excluir{{disciplina.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Excluir disciplina?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ url_for('disciplinas.excluir', disc_id=disciplina.id) }}" method="POST">
+                                <div class="modal-body">
+                                    <p>Você tem certeza que deseja excluir essa disciplina?</p>
+                                    <h6 class="modal-title">Dados de Cadastro</h6>
+                                    <p>  Nome: {{ disciplina.nome }} </p>
+                                    <br>
+                                    <h6 class="modal-title">Motivo da exclusão</h6>
+                                    
+                                    {{ form_excluir.hidden_tag() }}
+                                    {{ form_excluir.motivo.label }}
+                                    {{ form_excluir.motivo(class="form-control", placeholder="Digite o motivo aqui")}}
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    {{ form_excluir.submit(class="btn btn-danger") }}
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
             {% endif %}
 
-    {% endfor %}
-  </table>
-
-{% endif %}
+        {% endfor %}
+    </table>
+  {% endif %}
 {% endblock %}

@@ -4,11 +4,11 @@
 
 {% block content %}
 
-    <form method="POST">
+    <form class="form-group" method="POST">
         {{ form.hidden_tag() }}
-        {{ form.nome.label }}{{ form.nome }}
+        {{ form.nome.label }}{{ form.nome(class="form-control", placeholder="Digite o nome da disciplina aqui") }}
         <br>
-        {{ form.submit }}
+        {{ form.submit(class="btn btn-primary") }}
     </form>
 
 {% endblock %}
