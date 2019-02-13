@@ -12,7 +12,7 @@ class AdicionarProfessorForm(FlaskForm):
 
 class BuscarProfessorForm(FlaskForm):
 
-    nome = StringField("Nome do professor:", validators=[DataRequired()])
+    nome = StringField("Nome do professor:")
     submit = SubmitField("Buscar")
 
 #Formularios ativos para excluir e adicionar usando apenas a pagina de listar por meio da modal

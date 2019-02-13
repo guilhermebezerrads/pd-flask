@@ -36,35 +36,34 @@ def listar():
 	form_buscar = BuscarProfessorForm()
 	form_login = LoginForm()
 	professoresdb = Professor.query.order_by(Professor.nome.asc())
-	if current_user.is_authenticated and current_user.is_admin:
-		return render_template('listar_professor.html', professoresdb=professoresdb, 
-		lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
-		form_editar=form_editar, form_buscar=form_buscar)
-	else:
-		return render_template('listar_professor_out.html',professoresdb=professoresdb, 
-		lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
-		form_editar=form_editar, form_buscar=form_buscar)
+
+	return render_template('listar_professor.html', professoresdb=professoresdb, 
+	lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
+	form_editar=form_editar, form_buscar=form_buscar)
 
 @professores.route('/buscar', methods=['POST', 'GET'])
 def buscar():
 
 	form_login = LoginForm()
-	form = BuscarProfessorForm()
+	form_excluir = ExcluirProfessorForm()
+	form_editar = EditarProfessorForm()
+	form_buscar = BuscarProfessorForm()
+	professoresdb = None
+	existe_professor = False
+	busca = False
 
-	if form.validate_on_submit():
-
-		nome = form.nome.data
-		existe_professor = Professor.query.filter(Professor.nome.contains(nome)).first()
-		professores = Professor.query.filter(Professor.nome.contains(nome))
-
-		if current_user.is_authenticated and current_user.is_admin:
-			return render_template('resultado_busca.html',professores=professores , 
-			existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
+	if form_buscar.validate_on_submit():
+		busca=True
+		nome = form_buscar.nome.data
+		if nome == None:
+			professoresdb = Professor.query.order_by(Professor.nome.asc())
 		else:
-			return render_template('resultado_busca_out.html',professores=professores , 
-			existe_professor=existe_professor, lista = lista_unidades_academicas(), form_login=form_login)
+			existe_professor = Professor.query.filter(Professor.nome.contains(nome)).first()
+			professoresdb = Professor.query.filter(Professor.nome.contains(nome))
 	
-	return render_template('buscar_professor.html',form=form, form_login=form_login)
+	return render_template('listar_professor.html', form_buscar=form_buscar, professoresdb=professoresdb, 
+	existe_professor=existe_professor, form_login=form_login, busca=busca, lista = lista_unidades_academicas(),
+	form_excluir=form_excluir, form_editar=form_editar)
 
 @professores.route('/redefinir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required
@@ -81,7 +80,6 @@ def redefinir(prof_id):
 	flash(f"Professor {professor.nome} foi restaurado no sistema.", "success")
 	return redirect(url_for('professores.listar'))
 
-#Funções de editar e excluir disponiveis apenas para administradores e usuarios "criadores"
 @professores.route('/excluir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required
 def excluir(prof_id):
