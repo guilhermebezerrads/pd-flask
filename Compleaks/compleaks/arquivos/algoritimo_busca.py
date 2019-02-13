@@ -10,6 +10,7 @@ from compleaks.professores.models import Professor
 from compleaks.disciplinas.models import Disciplina
 from compleaks.arquivos.views import arquivos
 from compleaks.usuarios.forms import LoginForm
+import re
 
 '''Tipo, preciso de filtrar a query que quero por tipode usuário e tipo de arquivo, logo, acaba que para
 seguir o mesmo rumo na paginação preciso ter o estado anterior, o que causa essas grandes quantidades de
@@ -70,24 +71,28 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					if int(form.filtrar.data) == 1:
 
 						pesquisa = form.disciplina.data
-						existe_arquivo = Arquivo.query\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv).first()
+						print(existe_arquivo)
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo.like('%'+tip_arquiv+'%'))\
 									.paginate(page=page, per_page=12)
 					
 					if int(form.filtrar.data) == 2:
 						
 						pesquisa = 	form.professor.data
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query\
-									.filter_by(professor_id=int(pesquisa))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo == tip_arquiv)\
 									.paginate(page=page, per_page=12)
 
 					if int(form.filtrar.data) is 3:
@@ -101,22 +106,25 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					if int(form.filtrar.data) == 1:
 
 						pesquisa = form.disciplina.data
-						existe_arquivo = Arquivo.query\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.first()
-						arquivos = Arquivo.query\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.first()
+						arquivos =db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
 									.paginate(page=page, per_page=12)
 					
 					if int(form.filtrar.data) == 2:
 						
 						pesquisa = 	form.professor.data
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.first()
-						arquivos = Arquivo.query\
-									.filter_by(professor_id=int(pesquisa))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
 									.paginate(page=page, per_page=12)
 
 					if int(form.filtrar.data) is 3:
@@ -175,23 +183,27 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 					if filtro == 1:
 
-						existe_arquivo = Arquivo.query\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo == tip_arquiv)\
 									.paginate(page=page, per_page=12)
 					
 					if filtro == 2:
 						
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query\
-									.filter_by(professor_id=int(pesquisa))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+											.first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo == tip_arquiv)\
 									.paginate(page=page, per_page=12)
 
 					if filtro is 3:
@@ -203,21 +215,24 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				else:
 					if filtro == 1:
 
-						existe_arquivo = Arquivo.query\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.first()
-						arquivos = Arquivo.query\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
 									.paginate(page=page, per_page=12)
 					
 					if filtro == 2:
 						
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.first()
-						arquivos = Arquivo.query\
-									.filter_by(professor_id=int(pesquisa))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
 									.paginate(page=page, per_page=12)
 
 					if filtro is 3:
@@ -270,25 +285,31 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					if int(form.filtrar.data) == 1:
 
 						pesquisa = form.disciplina.data
-						existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 					
 					if int(form.filtrar.data) == 2:
 						
 						pesquisa = 	form.professor.data
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(tipo_conteudo=tip_arquiv)\
-										.filter_by(is_eligible=True).first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter_by(professor_id=int(pesquisa))\
-									.filter_by(tipo_conteudo=tip_arquiv)\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 
 					if int(form.filtrar.data) is 3:
@@ -303,22 +324,27 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					if int(form.filtrar.data) == 1:
 
 						pesquisa = form.disciplina.data
-						existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 					
 					if int(form.filtrar.data) == 2:
 						
 						pesquisa = 	form.professor.data
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(is_eligible=True).first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter_by(professor_id=int(pesquisa))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 
 					if int(form.filtrar.data) is 3:
@@ -334,6 +360,8 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				if current_user.is_authenticated: 
 					if current_user.is_admin:
 						navigation_data.append("adm")
+					else:
+						navigation_data.append("normal")
 				else:
 					navigation_data.append("normal")
 				navigation_data.append(pesquisa)
@@ -378,23 +406,27 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 					if filtro == 1:
 
-						existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+						existe_arquivo =  db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter_by(tipo_conteudo=tip_arquiv)\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
 									.filter_by(tipo_conteudo=tip_arquiv)\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 					
 					if filtro == 2:
 						
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(tipo_conteudo=tip_arquiv)\
-										.filter_by(is_eligible=True).first()
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter_by(tipo_conteudo=tip_arquiv)\
+											.filter(Arquivo.is_eligible == True).first()
 						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter_by(professor_id=int(pesquisa))\
+									.filter(Arquivo.professor.nome.contains(pesquisa))\
 									.filter_by(tipo_conteudo=tip_arquiv)\
 									.paginate(page=page, per_page=12)
 
@@ -408,21 +440,26 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				else:
 					if filtro == 1:
 
-						existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-										.filter(Arquivo.disciplina_id\
-										.contains(int(pesquisa)))\
-										.first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+											.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+									.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 					
 					if filtro == 2:
 						
-						existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
-										.filter_by(is_eligible=True).first()
-						arquivos = Arquivo.query.filter_by(is_eligible=True)\
-									.filter_by(professor_id=int(pesquisa))\
+						existe_arquivo = db.session.query(Arquivo)\
+											.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+											.filter(Professor.nome.like('%'+pesquisa+'%'))\
+											.filter(Arquivo.is_eligible == True).first()
+						arquivos = db.session.query(Arquivo)\
+									.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+									.filter(Professor.nome.like('%'+pesquisa+'%'))\
+									.filter(Arquivo.is_eligible == True)\
 									.paginate(page=page, per_page=12)
 
 					if filtro is 3:
@@ -467,6 +504,270 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 	else:
 
 		if form.validate_on_submit():
+			
+			tip_arquiv = form.tipo_arquivo.data
+
+			if tip_arquiv != 'all':
+
+				if int(form.filtrar.data) == 1:
+
+					pesquisa = form.disciplina.data
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+										.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+								.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+				
+				if int(form.filtrar.data) == 2:
+					
+					pesquisa = 	form.professor.data
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+										.filter(Professor.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+								.filter(Professor.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.tipo_conteudo == tip_arquiv)\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+
+				if int(form.filtrar.data) is 3:
+					pesquisa = "False"
+					existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv)\
+										.filter_by(is_eligible=True).first()
+					arquivos = Arquivo.query.filter_by(is_eligible=True)\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.paginate(page=page, per_page=12)
+			
+			else:
+				if int(form.filtrar.data) == 1:
+
+					pesquisa = form.disciplina.data
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+										.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+								.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+				
+				if int(form.filtrar.data) == 2:
+					
+					pesquisa = 	form.professor.data
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+										.filter(Professor.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+								.filter(Professor.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+
+				if int(form.filtrar.data) is 3:
+					pesquisa = "False"
+					existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv)\
+										.filter_by(is_eligible=True).first()
+					arquivos = Arquivo.query.filter_by(is_eligible=True)\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.paginate(page=page, per_page=12)
+			
+			navigation_data.clear()
+			navigation_data.append(int(form.filtrar.data))
+			if current_user.is_authenticated: 
+				if current_user.is_admin:
+					navigation_data.append("adm")
+				else:
+					navigation_data.append("normal")
+			else:
+				navigation_data.append("normal")
+			navigation_data.append(pesquisa)
+			navigation_data.append(tip_arquiv)
+
+
+			contador = 0
+			arquivos_row_1.clear()
+			arquivos_row_2.clear()
+			arquivos_row_3.clear()
+			for arquivo in arquivos.items:
+				if contador >= 4:
+					break
+				arquivos_row_1.append(arquivo) 
+				contador = contador + 1
+
+			contador = 0
+			for arquivo in arquivos.items:
+				if contador >= 8:
+					break
+				if contador >= 4:
+					arquivos_row_2.append(arquivo)
+				contador = contador + 1				
+
+			contador = 0
+			for arquivo in arquivos.items:
+				if contador >= 12:
+					break
+				if contador >= 8:
+					arquivos_row_3.append(arquivo)
+				contador = contador + 1	
+		
+			arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
+				 	arquivos_rows=arquivos_rows, form_login=form_login,
+				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
+
+		if filtro:
+
+			if tip_arquiv != 'all':
+
+				if filtro == 1:
+
+					existe_arquivo =  db.session.query(Arquivo)\
+										.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+										.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+										.filter_by(tipo_conteudo=tip_arquiv)\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+								.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+				
+				if filtro == 2:
+					
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+										.filter(Professor.nome.like('%'+pesquisa+'%'))\
+										.filter_by(tipo_conteudo=tip_arquiv)\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = Arquivo.query.filter_by(is_eligible=True)\
+								.filter(Arquivo.professor.nome.contains(pesquisa))\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.paginate(page=page, per_page=12)
+
+				if filtro is 3:
+					existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv)\
+									.filter_by(is_eligible=True).first()
+					arquivos = Arquivo.query.filter_by(is_eligible=True)\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.paginate(page=page, per_page=12)
+			
+			else:
+				if filtro == 1:
+
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+										.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Disciplina, Arquivo.disciplina_id == Disciplina.id)\
+								.filter(Disciplina.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+				
+				if filtro == 2:
+					
+					existe_arquivo = db.session.query(Arquivo)\
+										.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+										.filter(Professor.nome.like('%'+pesquisa+'%'))\
+										.filter(Arquivo.is_eligible == True).first()
+					arquivos = db.session.query(Arquivo)\
+								.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
+								.filter(Professor.nome.like('%'+pesquisa+'%'))\
+								.filter(Arquivo.is_eligible == True)\
+								.paginate(page=page, per_page=12)
+
+				if filtro is 3:
+					existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv)\
+									.filter_by(is_eligible=True).first()
+					arquivos = Arquivo.query.filter_by(is_eligible=True)\
+								.filter_by(tipo_conteudo=tip_arquiv)\
+								.paginate(page=page, per_page=12)
+
+			contador = 0
+			arquivos_row_1.clear()
+			arquivos_row_2.clear()
+			arquivos_row_3.clear()
+			for arquivo in arquivos.items:
+				if contador >= 4:
+					break
+				arquivos_row_1.append(arquivo) 
+				contador = contador + 1
+
+			contador = 0
+			for arquivo in arquivos.items:
+				if contador >= 8:
+					break
+				if contador >= 4:
+					arquivos_row_2.append(arquivo)
+				contador = contador + 1				
+
+			contador = 0
+			for arquivo in arquivos.items:
+				if contador >= 12:
+					break
+				if contador >= 8:
+					arquivos_row_3.append(arquivo)
+				contador = contador + 1	
+			
+			arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
+				 	arquivos_rows=arquivos_rows, form_login=form_login,
+				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
+	
+	contador = 0
+	arquivos_row_1.clear()
+	arquivos_row_2.clear()
+	arquivos_row_3.clear()
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			break
+		arquivos_row_1.append(arquivo) 
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		contador = contador + 1	
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+	print(arquivos_rows)
+
+	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,
+			arquivos_rows=arquivos_rows, form_login=form_login,
+		existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
+
+
+
+	'''
+	else:
+
+		if form.validate_on_submit():
 				
 			tip_arquiv = form.tipo_arquivo.data
 
@@ -476,23 +777,23 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 					pesquisa = form.disciplina.data
 					existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+									.filter(Arquivo.disciplina.nome\
+									.contains(pesquisa))\
 									.filter_by(tipo_conteudo=tip_arquiv).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter(Arquivo.disciplina_id\
-								.contains(int(pesquisa)))\
+								.filter(Arquivo.disciplina.nome\
+								.contains(pesquisa))\
 								.filter_by(tipo_conteudo=tip_arquiv)\
 								.paginate(page=page, per_page=12)
 				
 				if int(form.filtrar.data) == 2:
 					
 					pesquisa = 	form.professor.data
-					existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+					existe_arquivo = Arquivo.query.filter(Arquivo.professor.nome.contains(pesquisa))\
 									.filter_by(tipo_conteudo=tip_arquiv)\
 									.filter_by(is_eligible=True).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter_by(professor_id=int(pesquisa))\
+								.filter(Arquivo.professor.nome.contains(pesquisa))\
 								.filter_by(tipo_conteudo=tip_arquiv)\
 								.paginate(page=page, per_page=12)
 
@@ -509,21 +810,21 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 
 					pesquisa = form.disciplina.data
 					existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+									.filter(Arquivo.disciplina.nome\
+									.contains(pesquisa))\
 									.first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter(Arquivo.disciplina_id\
-								.contains(int(pesquisa)))\
+								.filter(Arquivo.disciplina.nome\
+								.contains(pesquisa))\
 								.paginate(page=page, per_page=12)
 				
 				if int(form.filtrar.data) == 2:
 					
 					pesquisa = 	form.professor.data
-					existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+					existe_arquivo = Arquivo.query.filter(Arquivo.professor.nome.contains(pesquisa))\
 									.filter_by(is_eligible=True).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter_by(professor_id=int(pesquisa))\
+								.filter(Arquivo.professor.nome.contains(pesquisa))\
 								.paginate(page=page, per_page=12)
 
 				if int(form.filtrar.data) is 3:
@@ -584,22 +885,22 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				if filtro == 1:
 
 					existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+									.filter(Arquivo.disciplina.nome\
+									.contains(pesquisa))\
 									.filter_by(tipo_conteudo=tip_arquiv).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter(Arquivo.disciplina_id\
-								.contains(int(pesquisa)))\
+								.filter(Arquivo.disciplina.nome\
+								.contains(pesquisa))\
 								.filter_by(tipo_conteudo=tip_arquiv)\
 								.paginate(page=page, per_page=12)
 				
 				if filtro == 2:
 					
-					existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+					existe_arquivo = Arquivo.query.filter(Arquivo.professor.nome.contains(pesquisa))\
 									.filter_by(tipo_conteudo=tip_arquiv)\
 									.filter_by(is_eligible=True).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter_by(professor_id=int(pesquisa))\
+								.filter(Arquivo.professor.nome.contains(pesquisa))\
 								.filter_by(tipo_conteudo=tip_arquiv)\
 								.paginate(page=page, per_page=12)
 
@@ -614,20 +915,20 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				if filtro == 1:
 
 					existe_arquivo = Arquivo.query.filter_by(is_eligible=True)\
-									.filter(Arquivo.disciplina_id\
-									.contains(int(pesquisa)))\
+									.filter(Arquivo.disciplina.nome\
+									.contains(pesquisa))\
 									.first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter(Arquivo.disciplina_id\
-								.contains(int(pesquisa)))\
+								.filter(Arquivo.disciplina.nome\
+								.contains(pesquisa))\
 								.paginate(page=page, per_page=12)
 				
 				if filtro == 2:
 					
-					existe_arquivo = Arquivo.query.filter_by(professor_id=int(pesquisa))\
+					existe_arquivo = Arquivo.query.filter(Arquivo.professor.nome.contains(pesquisa))\
 									.filter_by(is_eligible=True).first()
 					arquivos = Arquivo.query.filter_by(is_eligible=True)\
-								.filter_by(professor_id=int(pesquisa))\
+								.filter(Arquivo.professor.nome.contains(pesquisa))\
 								.paginate(page=page, per_page=12)
 
 				if filtro is 3:
@@ -667,37 +968,5 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 					 	arquivos_rows=arquivos_rows, form_login=form_login,
 				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)			
-
-	contador = 0
-	arquivos_row_1.clear()
-	arquivos_row_2.clear()
-	arquivos_row_3.clear()
-	for arquivo in arquivos.items:
-		if contador >= 4:
-			break
-		arquivos_row_1.append(arquivo) 
-		contador = contador + 1
-
-	contador = 0
-	for arquivo in arquivos.items:
-		if contador >= 8:
-			break
-		if contador >= 4:
-			arquivos_row_2.append(arquivo)
-		contador = contador + 1				
-
-	contador = 0
-	for arquivo in arquivos.items:
-		if contador >= 12:
-			break
-		if contador >= 8:
-			arquivos_row_3.append(arquivo)
-		contador = contador + 1	
-
-	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
-
-	print(arquivos_rows)
-
-	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,
-			arquivos_rows=arquivos_rows, form_login=form_login,
-		existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
+	
+	'''

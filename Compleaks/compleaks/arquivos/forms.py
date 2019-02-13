@@ -9,7 +9,6 @@ from compleaks.arquivos.preenche_select import Preenche
 
 class BuscarMaterialForm(FlaskForm):
 
-	selecteds = Preenche()
 	professor = StringField("Digite o nome do professor:")
 	disciplina = StringField("Digite o nome da disciplina:")
 	filtrar = SelectField("Pesquisar por", choices=[('0','Todos'),('1','Disciplina'),
@@ -23,7 +22,6 @@ class BuscarMaterialForm(FlaskForm):
 
 class AdicionarArquivoForm(FlaskForm):
 
-	selecteds = Preenche()
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])
@@ -39,8 +37,6 @@ class AdicionarArquivoForm(FlaskForm):
 	submit = SubmitField("Adicionar")
 
 class EditarArquivoForm(FlaskForm):
-
-	selecteds = Preenche()
 
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])	
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 

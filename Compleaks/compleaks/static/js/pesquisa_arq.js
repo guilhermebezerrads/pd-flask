@@ -1,27 +1,28 @@
 var pesq_disciplina = document.getElementById("pesquisa_disciplina");
 var pesq_professor = document.getElementById("pesquisa_professor");
 var pesq_tipo = document.getElementById("pesquisa_tipo")
+var tipo_display = document.getElementById('tipo');
 var pesquisa_display = document.getElementById("pesquisa");
 
 
 function arq_pesquisa_todos() {
 	pesquisa_display.innerHTML = "";
-    pesq_tipo.innerHTML = "";
+    tipo_display.innerHTML = "";
 }
 
 function arq_pesquisa_disciplinae() {
     pesquisa_display.innerHTML = pesq_disciplina.innerHTML;
-    document.getElementById('tipo').innerHTML = pesq_tipo.innerHTML
+    tipo_display.innerHTML = pesq_tipo.innerHTML
 }
 
 function arq_pesquisa_professor() {
     pesquisa_display.innerHTML = pesq_professor.innerHTML;
-    document.getElementById('tipo').innerHTML = pesq_tipo.innerHTML
+    tipo_display.innerHTML = pesq_tipo.innerHTML
 }
 
 function arq_pesquisa_tipo() {
 	pesquisa_display.innerHTML = "";
-    document.getElementById('tipo').innerHTML = pesq_tipo.innerHTML
+    tipo_display.innerHTML = pesq_tipo.innerHTML
 }
 
 document.getElementById("submit").onsubmit = function (){

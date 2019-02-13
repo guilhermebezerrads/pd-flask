@@ -25,6 +25,7 @@ document.getElementById("submit").onsubmit = function (){
 	switch(this.selectedIndex){
 	case 1:
 		pesq_username.innerHTML = "";
+		console.log("To aqui porrarasdasda")
 		break;  	
 	case 2:
 		pesq_nome.innerHTML = "";

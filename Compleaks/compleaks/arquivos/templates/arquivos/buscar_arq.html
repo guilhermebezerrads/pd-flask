@@ -11,7 +11,7 @@
     <br>
     <div class="row">
         <div class="col-md-12">
-            <form method="GET">
+            <form method="POST">
               {{ form.hidden_tag() }}
               <div class="form-group">
                   {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro") }}
@@ -27,6 +27,10 @@
               </div>
 
               <div class="form-group" id="pesquisa">
+                
+              </div>
+
+              <div class="form-group" id="tipo">
                 
               </div>
               
