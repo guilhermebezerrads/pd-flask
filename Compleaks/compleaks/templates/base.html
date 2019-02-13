@@ -70,13 +70,10 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Disciplinas</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
                     <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
                     <div class="dropdown-divider"></div>
                     {% if current_user.is_authenticated and current_user.is_admin %}
                         <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
-                        <a class="dropdown-item" href="{{url_for('disciplinas.editar')}}">Editar</a>
-                        <a class="dropdown-item" href="{{url_for('disciplinas.excluir')}}">Excluir</a>
                     {% endif %}    
                 </div>
             </li>
