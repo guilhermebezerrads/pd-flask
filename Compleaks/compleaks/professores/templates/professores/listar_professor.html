@@ -53,9 +53,9 @@
                             <td>{{ professor.id }}</td>
                             <td>{{ professor.nome }}</td>
                             <td>{{ lista[ professor.unidade_academica_id ][1] }}</td>
-                            <td>                                
-                                <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#editar{{professor.id}}" >Editar</button>
-                                <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#excluir{{professor.id}}" >Excluir</button>
+                            <td>
+                                <a data-dismiss="modal" data-toggle="modal" data-target="#editar{{professor.id}}"><img class="img-responsive delete" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
+                                <a data-dismiss="modal" data-toggle="modal" data-target="#excluir{{professor.id}}"><img class="img-responsive delete icone" data-toggle="tooltip" data-placement="top" title="Excluir" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Excluir"/></a>
                             </td>
                         {% endif %}
                     </tr>
@@ -207,8 +207,8 @@
                             {% if current_user.is_authenticated %}
                                 {% if current_user.id == professor.id_criador %}
                                 <td>
-                                    <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#editar{{professor.id}}" >Editar</button>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#excluir{{professor.id}}" >Excluir</button>
+                                <a data-dismiss="modal" data-toggle="modal" data-target="#editar{{professor.id}}"><img class="img-responsive delete" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
+                                <a data-dismiss="modal" data-toggle="modal" data-target="#excluir{{professor.id}}"><img class="img-responsive delete icone" data-toggle="tooltip" data-placement="top" title="Excluir" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Excluir"/></a>
                                 </td>
                                 {% else %}
                                 <td>Nenhuma</td>
