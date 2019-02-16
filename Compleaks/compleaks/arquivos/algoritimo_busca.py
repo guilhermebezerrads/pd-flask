@@ -10,7 +10,6 @@ from compleaks.professores.models import Professor
 from compleaks.disciplinas.models import Disciplina
 from compleaks.arquivos.views import arquivos
 from compleaks.usuarios.forms import LoginForm
-import re
 
 '''Tipo, preciso de filtrar a query que quero por tipode usuário e tipo de arquivo, logo, acaba que para
 seguir o mesmo rumo na paginação preciso ter o estado anterior, o que causa essas grandes quantidades de

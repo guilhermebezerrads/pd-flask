@@ -18,6 +18,7 @@ from datetime import datetime
 arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 
 from compleaks.arquivos.algoritimo_busca import buscar
+from compleaks.arquivos.busca_assincrona import busca_asn
 
 @arquivos.route('/adicionar', methods= ['POST', 'GET'])
 @login_required

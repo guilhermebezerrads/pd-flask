@@ -14,7 +14,7 @@
             <form method="POST">
               {{ form.hidden_tag() }}
               <div class="form-group">
-                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro") }}
+                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro", onchange="ao_mudar();") }}
                   {% if form.errors.filtrar %}
                       <div class="alert alert-danger" role="alert">
                         <ul>
@@ -35,7 +35,7 @@
               </div>
               
               <div style="display: none;" class="form-group" id="pesquisa_disciplina">
-              {{ form.disciplina.label }} {{ form.disciplina(class="form-control", placeholder="Nome da disciplina") }}
+              {{ form.disciplina.label }} {{ form.disciplina(class="form-control", placeholder="Nome da disciplina", onkeyup="busca_assincrona('pesquisa_assincrona' , 'none', 'filtro', 'pesquisa', 'tipo')") }}
               {% if form.errors.disciplina %}
                   <div class="alert alert-danger" role="alert">
                     <ul>
@@ -48,7 +48,7 @@
               </div>
               
               <div style="display: none;" class="form-group" id="pesquisa_professor">
-              {{ form.professor.label }} {{ form.professor(class="form-control", placeholder="Nome do professor") }}
+              {{ form.professor.label }} {{ form.professor(class="form-control", placeholder="Nome do professor", onkeyup="busca_assincrona('pesquisa_assincrona' , 'none', 'filtro', 'pesquisa', 'tipo')") }}
               {% if form.errors.professor %}
                   <div class="alert alert-danger" role="alert">
                     <ul>
@@ -73,21 +73,20 @@
               </div>
               
               <div class="form-group">
-                {{ form.submit(class="btn btn-primary", id="submit") }}
+                {{ form.submit(class="btn btn-primary", id="submit", onsubmit="submete();") }}
               </div>
           </form>
 
           <br>
-
-          {% block resultado %}
-              {{ super() }}
-          {% endblock %}
-
+          <div id="pesquisa_assincrona">
+            {% block resultado %}
+                {{ super() }}
+            {% endblock %} 
+          </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="{{ url_for('static', filename='js/pesquisa_arq.js') }}"></script>
 
 <script type="text/javascript">
   inicial();

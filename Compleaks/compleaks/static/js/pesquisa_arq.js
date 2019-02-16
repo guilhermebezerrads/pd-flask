@@ -1,6 +1,6 @@
 var pesq_disciplina = document.getElementById("pesquisa_disciplina");
 var pesq_professor = document.getElementById("pesquisa_professor");
-var pesq_tipo = document.getElementById("pesquisa_tipo")
+var pesq_tipo = document.getElementById("pesquisa_tipo");
 var tipo_display = document.getElementById('tipo');
 var pesquisa_display = document.getElementById("pesquisa");
 
@@ -67,10 +67,10 @@ function inicial(){
   		arq_pesquisa_todos();
 		break;  	
 	case 1:
-		user_pesquisa_display_username();
+		user_pesquisa_disciplina();
 		break;  	
 	case 2:
-		user_pesquisa_display_nome();
+		user_pesquisa_professor();
 		break;  	
 	case 3:
 		arq_pesquisa_tipo();
