@@ -28,19 +28,19 @@ def usuario(user_id):
 	elif user == current_user:
 		return redirect(url_for('usuarios.troca'))
 
-	quantidade = len(user.arquivos)
+	quantidade = len([arquiv for arquiv in user.arquivos if arquiv.is_eligible])
 
 	page = request.args.get('page', 1, type=int)	
 	arquivos = Arquivo.query\
 					.filter(Arquivo.usuario_id\
-					.contains(int(current_user.id)))\
+					.contains(int(user.id)))\
 					.filter_by(is_eligible=True)\
 					.paginate(page=page, per_page=12)
 
 	arquivos_row_1 = []
 	arquivos_row_2 = []
 	arquivos_row_3 = []
-
+	contador = 0
 	for arquivo in arquivos.items:
 		if contador >= 4:
 			break 
@@ -67,7 +67,7 @@ def usuario(user_id):
 
 	return render_template('usuario_contribuicao.html', user=user, 
 							contribuiu=quantidade, arquivos=arquivos,
-							form_login=form_login)
+							form_login=form_login, arquivos_rows=arquivos_rows)
 
 
 def send_wellcome_email(user):

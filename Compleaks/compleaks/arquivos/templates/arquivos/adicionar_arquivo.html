@@ -14,15 +14,17 @@
             <form action="" method="POST" action="" enctype="multipart/form-data">
             {{ form_add.hidden_tag() }}
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Disciplina</label>
-              </div>
-              <select required="Esse campo é obrigatório!" name="disciplina" class="custom-select" id="inputGroupSelect01">
-                {% for disciplina in disciplinas %}
-                    <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>           
-                {% endfor %}
-              </select>
+             <div class="form-group">
+                {{ form_add.disciplina.label }} {{ form_add.disciplina(class="form-control") }}
+                {% if form_add.errors.disciplina %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.disciplina %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
             </div>
 
             <div class="form-group">
@@ -67,16 +69,17 @@
         </div>
         <div class="col-sm-6">
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Professor <small>Opcional</small></label>
-              </div>
-              <select name="professor" class="custom-select" id="inputGroupSelect01">
-                <option value="0" selected>Sem Professor</option>
-                {% for professor in professores %}
-                    <option value="{{ professor.id }}">{{ professor.nome }}</option>           
-                {% endfor %}
-              </select>
+             <div class="form-group">
+                {{ form_add.professor.label }} {{ form_add.professor(class="form-control") }}
+                {% if form_add.errors.professor %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_add.errors.professor %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
             </div>
 
             <div class="form-group">

@@ -24,35 +24,21 @@ from compleaks.arquivos.algoritimo_busca import buscar
 def adicionar():
 	form_add = AdicionarArquivoForm()
 
-	professores = Professor.query.filter_by(is_eligible=True)
-	disciplinas = Disciplina.query.filter_by(is_eligible=True)
+	form_add.professor.choices = []
+	form_add.professor.choices.append((0, "Sem professor relacionado"))
+	form_add.professor.choices += [(professor.id, professor.nome) 
+									for professor in Professor.query.order_by('nome')
+									if professor.is_eligible]
+
+	form_add.disciplina.choices = [(disciplina.id, disciplina.nome)
+									 for disciplina in Disciplina.query.order_by('nome')
+									 if disciplina.is_eligible]
 
 	if form_add.validate_on_submit():
 		data = datetime.now()
 
-		if request.method == 'POST':
-
-			disciplina = request.form.get("disciplina")
-			professor = request.form.get("professor")
-
-		try:
-			disciplina = (int(disciplina))
-		except:
-			form_add = AdicionarArquivoForm()
-			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
-			return render_template('adicionar_arquivo.html',professores=professores, 
-									disciplinas=disciplinas, form_add=form_add)
-
-		if not disciplina:
-			form_add = AdicionarArquivoForm()
-			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
-			return render_template('adicionar_arquivo.html',professores=professores, 
-									disciplinas=disciplinas, form_add=form_add)		
-			
-		try:
-			professor = (int(professor))
-		except:
-			professor = 0
+		professor = form_add.professor.data
+		disciplina = form_add.disciplina.data
 
 		page = request.args.get('page', 1, type=int)
 			
@@ -87,16 +73,22 @@ def adicionar():
 
 		flash("Nossa comunidade agradece a sua contribuição.", "success")
 	
-	return render_template('adicionar_arquivo.html',professores=professores, 
-									disciplinas=disciplinas, form_add=form_add)
+	return render_template('adicionar_arquivo.html', form_add=form_add)
 
 @arquivos.route('/editar/<int:arq_id>', methods=['POST', 'GET'])
 @login_required
 def editar(arq_id):
 	form = EditarArquivoForm()
 
-	professores = Professor.query.filter_by(is_eligible=True)
-	disciplinas = Disciplina.query.filter_by(is_eligible=True)
+	form.professor.choices = []
+	form.professor.choices.append((0, "Sem professor relacionado"))
+	form.professor.choices += [(professor.id, professor.nome) 
+									for professor in Professor.query.order_by('nome')
+									if professor.is_eligible]
+
+	form.disciplina.choices = [(disciplina.id, disciplina.nome)
+									 for disciplina in Disciplina.query.order_by('nome')
+									 if disciplina.is_eligible]
 
 	arquivo = Arquivo.query.get_or_404(arq_id)
 
@@ -105,39 +97,12 @@ def editar(arq_id):
 
 	if form.validate_on_submit() and arquivo.is_eligible:
 
-		if request.method == 'POST':
-
-			disciplina = request.form.get("disciplina")
-			professor = request.form.get("professor")
-
-		try:
-			disciplina = (int(disciplina))
-		except ValueError as e:
-			form = EditarArquivoForm()
-			flash("Não foi possivel realizar a operação!", "danger")
-			return redirect(url_for('arquivos.buscar'))
-
-		except NameError as e:
-			form = EditarArquivoForm()
-			flash("Não foi possivel realizar a operação! Favor tente novamente", "danger")
-			return redirect(url_for('arquivos.buscar'))
-
-		if not disciplina:
-			form = EditarArquivoForm()
-			flash("Não foi possivel realizar a operação!", "danger")
-			return redirect(url_for('arquivos.buscar'))	
-			
-		try:
-			professor = (int(professor))
-		except:
-			professor = 0
-
 		arquivo.ano = form.ano.data
 		arquivo.semestre = form.semestre.data
 		arquivo.tipo_conteudo = int(form.tipo_conteudo.data)
-		arquivo.professor_id = professor
+		arquivo.professor_id = form.professor.data
 		arquivo.observacoes = form.observacoes.data
-		arquivo.disciplina_id = disciplina
+		arquivo.disciplina_id = form.disciplina.data
 
 		db.session.commit()
 
@@ -146,13 +111,12 @@ def editar(arq_id):
 	form.ano.data = arquivo.ano
 	form.semestre.data = arquivo.semestre
 	form.tipo_conteudo.data = arquivo.tipo_conteudo
-	professor_selecionado = arquivo.professor_id
+	form.professor.default = arquivo.professor_id
 	form.observacoes.data = arquivo.observacoes
-	disciplina_selecionada = arquivo.disciplina_id
+	form.disciplina.default = arquivo.disciplina_id
+	form.process()
 	
-	return render_template('editar_arquivo.html',professores=professores, 
-									disciplinas=disciplinas, prof_selecionado=professor_selecionado,
-									disc_selecionada=disciplina_selecionada, form=form)
+	return render_template('editar_arquivo.html', form=form)
 
 @arquivos.route('/listar', methods=['POST', 'GET'])
 def listar():

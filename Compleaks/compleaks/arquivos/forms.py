@@ -22,6 +22,8 @@ class BuscarMaterialForm(FlaskForm):
 
 class AdicionarArquivoForm(FlaskForm):
 
+	professor = SelectField("Escolha um professor associado:", validators=[DataRequired()])
+	disciplina = SelectField("Escilha uma disciplina associada:", validators=[DataRequired()])
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])
@@ -38,6 +40,8 @@ class AdicionarArquivoForm(FlaskForm):
 
 class EditarArquivoForm(FlaskForm):
 
+	professor = SelectField("Professor associado:", validators=[DataRequired()])
+	disciplina = SelectField("Disciplina associada:", validators=[DataRequired()])
 	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])	
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])

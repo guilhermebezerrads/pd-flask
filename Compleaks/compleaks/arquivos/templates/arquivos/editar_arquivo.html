@@ -13,19 +13,17 @@
             <form action="" method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Disciplina</label>
-              </div>
-              <select required="Esse campo é obrigatório!" name="disciplina" class="custom-select" id="inputGroupSelect01">
-                {% for disciplina in disciplinas %}
-                    {% if disciplina.id == disc_selecionada  %}
-                        <option selected value="{{ disciplina.id }}">{{ disciplina.nome }}</option>  
-                    {% else %}         
-                        <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>  
-                    {% endif %}                    
-                {% endfor %}
-              </select>
+            <div class="form-group">
+                {{ form.disciplina.label }} {{ form.disciplina(class="form-control") }}
+                {% if form.errors.disciplina %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.disciplina %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
             </div>
 
             <div class="form-group">
@@ -70,24 +68,17 @@
         </div>
         <div class="col-sm-6">
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Professor <small>(0pcional)</small></label>
-              </div>
-              <select name="professor" class="custom-select" id="inputGroupSelect01">
-                {% if not prof_selecionado %}
-                    <option value="0" selected>Sem Professor</option>
-                {% else %}
-                    <option value="0" >Sem Professor</option>
+            <div class="form-group">
+                {{ form.professor.label }} {{ form.professor(class="form-control") }}
+                {% if form.errors.professor %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.professor %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
                 {% endif %}
-                {% for professor in professores %}
-                     {% if professor.id == prof_selecionado %}
-                        <option selected value="{{ professor.id }}">{{ professor.nome }}</option>  
-                    {% else %}         
-                        <option value="{{ professor.id }}">{{ professor.nome }}</option>  
-                    {% endif %}         
-                {% endfor %}
-              </select>
             </div>
 
             <div class="form-group">
