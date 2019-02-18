@@ -71,7 +71,7 @@ def redefinir(prof_id):
 	if not current_user.is_admin:
 		abort(403)
 	professor = Professor.query.get(prof_id)
-	professor.is_eligible = True
+	professor.ativado = True
 	professor.data_deletado = None
 	professor.id_deletor = None
 	professor.motivo_delete = None
@@ -92,7 +92,7 @@ def excluir(prof_id):
 	if form_excluir.validate_on_submit():
 		prof = Professor.query.get_or_404(prof_id)
 		prof.id_deletor = current_user.id
-		prof.is_eligible = False
+		prof.ativado = False
 		prof.data_deletado = datetime.now()
 		prof.motivo_delete = form_excluir.motivo_delete.data
 		db.session.commit()

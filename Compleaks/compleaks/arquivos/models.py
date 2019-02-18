@@ -19,7 +19,7 @@ class Arquivo(db.Model):
 	data_submissao = db.Column(db.DateTime, default=datetime.now())
 	
 	data_deletado = db.Column(db.DateTime, nullable=True)
-	is_eligible = db.Column(db.Boolean)
+	ativado = db.Column(db.Boolean)
 	id_deletor = db.Column(db.Integer, nullable=True)
 	motivo_delete = db.Column(db.String(600), nullable=True)
 
@@ -42,7 +42,7 @@ class Arquivo(db.Model):
 		self.professor_id = professor_id
 		self.usuario_id = usuario_id
 		self.extensao = extensao
-		self.is_eligible = True
+		self.ativado = True
 
 
 # class Post(db.Model):

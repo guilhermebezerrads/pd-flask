@@ -12,7 +12,7 @@ class Disciplina(db.Model):
 	nome = db.Column(db.String, unique=True)
 	data_criacao = db.Column(db.DateTime, default=datetime.now())
 
-	is_eligible = db.Column(db.Boolean)
+	ativado = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)
 	id_deletor = db.Column(db.Integer, nullable=True)
 	id_criador = db.Column(db.Integer, nullable=True)
@@ -22,7 +22,7 @@ class Disciplina(db.Model):
 
 	def __init__(self, nome, id_criador):
 		self.nome = nome
-		self.is_eligible = True
+		self.ativado = True
 		self.id_criador = id_criador
 
 	def __repr__(self):

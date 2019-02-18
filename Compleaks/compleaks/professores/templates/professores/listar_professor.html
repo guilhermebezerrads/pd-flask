@@ -42,7 +42,7 @@
             {% for professor in professoresdb %}
                 <tbody>
                     <tr>
-                        {% if not professor.is_eligible %}
+                        {% if not professor.ativado %}
                             <article color="red">
                                 <td>{{ professor.id }}</td>
                                 <td>{{ professor.nome }}</td>
@@ -199,7 +199,7 @@
             </thead>
             
             {% for professor in professoresdb %}
-                {% if professor.is_eligible %}
+                {% if professor.ativado %}
                     <tbody>
                         <tr>
                             <td>{{ professor.nome }}</td>
@@ -218,7 +218,7 @@
                     </tbody>
                 {% endif %}
     
-                {% if professor.is_eligible %}
+                {% if professor.ativado %}
                     
                     <!--EDITAR PROFESSOR-->
                     <div class="modal fade" tabindex="-1" role="dialog" id="editar{{professor.id}}">

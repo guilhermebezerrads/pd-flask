@@ -1,7 +1,9 @@
 @charset "UTF-8";
 /*=============== layout ==============*/
 body {
-  background: url("../images/estante2.svg") no-repeat;
+  /*background: url("../images/estante2.svg") no-repeat;*/
+  background: url("../images/livros.jpg"),
+        linear-gradient(50deg, #ff4169, #7c26f8);
   background-attachment: fixed;
   font-family: Helvetica, Arial, sans-serif;
   overflow-x: hidden; 
@@ -39,15 +41,16 @@ html, body {
 }
 
 .texto-principal{
-  font-family: 'Topzera';
-  font-size: 200px;
-  color: #2196F3;
+  /*font-family: 'Topzera';*/
+  font-size: 100px;
+  /*color: #2196F3;*/
+  text-transform: uppercase;
 }
 
 .texto-secundario{
   font-size: 65px;
   color: white;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 
 }
 

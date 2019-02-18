@@ -11,7 +11,7 @@
             {% if row %}
                 <div class="row">
                 {% for arquivo in row %}
-                        {% if arquivo.is_eligible %}
+                        {% if arquivo.ativado %}
                             <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -94,7 +94,7 @@
                                         <br/>
                                         <p>Data de referência: {{ arquivo.data_submissao.strftime('%B %d, %Y') }}</p>
                                         <br/>
-                                        {% if not arquivo.is_eligible %}
+                                        {% if not arquivo.ativado %}
                                             <p> Data de Exclusão: {{arquivo.data_deletado.strftime('%B %d, %Y') }} </p>
                                             <p> Id do usuário que excluiu: {{arquivo.id_deletor}} </p>
                                             {% if arquivo.motivo_delete %}
@@ -114,7 +114,7 @@
                                             
                                         {% endif %}
                                             
-                                        {% if arquivo.is_eligible %}
+                                        {% if arquivo.ativado %}
                                             <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" data-target="#del_confirm{{arquivo.id}}"><img class="img-responsive deletar" data-toggle="tooltip" data-placement="top" title="Deletar" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Deletar"/></a>
 
                                         {% else %}
@@ -132,7 +132,7 @@
 
             <div class="col-lg-3 col-6">
                 <div class="dist card">
-                   {% if arquivo.is_eligible %}
+                   {% if arquivo.ativado %}
                       <div class="card-body">
                     {% else %}
                       <div class="card-body" style="background-color: #8b0000;">

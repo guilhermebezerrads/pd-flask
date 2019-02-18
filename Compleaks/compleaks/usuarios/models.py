@@ -25,7 +25,7 @@ class Usuario(db.Model, UserMixin):
 	is_admin = db.Column(db.Integer)
 	data_criacao = db.Column(db.DateTime, default=datetime.now())
 	
-	is_eligible = db.Column(db.Boolean)
+	ativado = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)
 	id_deletor = db.Column(db.Integer, nullable=True)
 	motivo_delete = db.Column(db.String(120), nullable=True)
@@ -40,7 +40,7 @@ class Usuario(db.Model, UserMixin):
 		self.curso = curso
 		self.periodo = periodo
 		self.is_admin = 0
-		self.is_eligible = True
+		self.ativado = True
 	
 	def check_password(self, pasword):
 		bcript = Bcrypt()

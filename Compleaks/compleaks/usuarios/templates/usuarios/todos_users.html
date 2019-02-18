@@ -14,12 +14,12 @@
     </thead>
     <tbody>
         {% for user in users.items %}
-            {% if not user.is_eligible %}
+            {% if not user.ativado %}
                 <tr class="table-danger">
             {% else %}
                 <tr >
             {% endif %}
-                {% if not user.is_eligible %}
+                {% if not user.ativado %}
                 <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{user.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -104,7 +104,7 @@
                 <td> {{user.email}} </td>
                 
                 <td>
-                    {% if not user.is_eligible %}
+                    {% if not user.ativado %}
                         <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#red_confirm{{user.id}}" >Redefinir</button>
                     {%else%}
                         <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#del_confirm{{user.id}}" >Deletar</button>

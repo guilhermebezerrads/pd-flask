@@ -21,12 +21,12 @@
 
     {% for arquivo in arquivos.items %}
         {% if current_user.is_admin %}
-            {% if arquivo.is_eligible %}
+            {% if arquivo.ativado %}
                 <tr>
             {% else %}
                 <tr class="table-danger">
             {% endif %}
-            {% if arquivo.is_eligible %}
+            {% if arquivo.ativado %}
                 <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            {% if not arquivo.is_eligible %}
+            {% if not arquivo.ativado %}
                 <td>{{ arquivo.author.username }}</td>
                 <td>{{ arquivo.tipo_conteudo}}</td>
                 <td>{{ arquivo.professor.nome }}</td>
@@ -141,7 +141,7 @@
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm{{arquivo.id}}" >Download</button>
             </td>  
             <td>     
-            {% if arquivo.is_eligible %}
+            {% if arquivo.ativado %}
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_confirm{{arquivo.id}}" >Deletar</button>
             {% else  %}
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#red_confirm{{arquivo.id}}" >Redefinir</button>

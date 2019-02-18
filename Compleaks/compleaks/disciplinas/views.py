@@ -75,7 +75,7 @@ def excluir(disc_id):
 	if form_excluir.validate_on_submit():
 		disc = Disciplina.query.get_or_404(disc_id)
 		disc.id_deletor = current_user.id
-		disc.is_eligible = False
+		disc.ativado = False
 		disc.data_deletado = datetime.now()
 		disc.motivo_delete = form_excluir.motivo.data
 		db.session.commit()
@@ -109,7 +109,7 @@ def redefinir(disc_id):
 	if not current_user.is_admin:
 		abort(403)
 	disciplina = Disciplina.query.get(disc_id)
-	disciplina.is_eligible = True
+	disciplina.ativado = True
 	disciplina.data_deletado = None
 	disciplina.id_deletor = None
 	disciplina.motivo_delete = None

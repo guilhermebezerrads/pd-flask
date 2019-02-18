@@ -17,6 +17,6 @@ class Preenche():
         todos_profs = Professor.query.all()
         lista_form = []
         for prof in todos_profs:
-            if prof.is_eligible:
+            if prof.ativado:
                 lista_form.append((str(prof.id), prof.nome))
         return lista_form

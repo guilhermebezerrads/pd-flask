@@ -41,7 +41,7 @@
         {% for disciplina in disciplinadb %}
             <tbody>
                 <tr>
-                    {% if not disciplina.is_eligible %}
+                    {% if not disciplina.ativado %}
                         <article color="red">
                             <td>{{ disciplina.id }}</td>
                             <td>{{ disciplina.nome }}</td>
@@ -193,7 +193,7 @@
         </thead>
         
         {% for disciplina in disciplinadb %}
-            {% if disciplina.is_eligible %}
+            {% if disciplina.ativado %}
                 <tbody>
                     <tr>
                         <td>{{ disciplina.nome }}</td>
@@ -211,7 +211,7 @@
                 </tbody>
             {% endif %}
 
-            {% if disciplina.is_eligible %}
+            {% if disciplina.ativado %}
                 
                 <!--EDITAR DISCIPLINA-->
                 <div class="modal fade" tabindex="-1" role="dialog" id="editar{{disciplina.id}}">

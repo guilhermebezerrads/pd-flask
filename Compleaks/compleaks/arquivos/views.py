@@ -29,11 +29,11 @@ def adicionar():
 	form_add.professor.choices.append((0, "Sem professor relacionado"))
 	form_add.professor.choices += [(professor.id, professor.nome) 
 									for professor in Professor.query.order_by('nome')
-									if professor.is_eligible]
+									if professor.ativado]
 
 	form_add.disciplina.choices = [(disciplina.id, disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
-									 if disciplina.is_eligible]
+									 if disciplina.ativado]
 
 	if form_add.validate_on_submit():
 		data = datetime.now()
@@ -85,18 +85,18 @@ def editar(arq_id):
 	form.professor.choices.append((0, "Sem professor relacionado"))
 	form.professor.choices += [(professor.id, professor.nome) 
 									for professor in Professor.query.order_by('nome')
-									if professor.is_eligible]
+									if professor.ativado]
 
 	form.disciplina.choices = [(disciplina.id, disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
-									 if disciplina.is_eligible]
+									 if disciplina.ativado]
 
 	arquivo = Arquivo.query.get_or_404(arq_id)
 
-	if current_user != arquivo.author or not arquivo.is_eligible:
+	if current_user != arquivo.author or not arquivo.ativado:
 		abort(403)
 
-	if form.validate_on_submit() and arquivo.is_eligible:
+	if form.validate_on_submit() and arquivo.ativado:
 
 		arquivo.ano = form.ano.data
 		arquivo.semestre = form.semestre.data
@@ -124,7 +124,7 @@ def listar():
 
 	form_login = LoginForm()
 	page = request.args.get('page', 1, type=int)
-	arquivos = Arquivo.query.filter_by(is_eligible=True)\
+	arquivos = Arquivo.query.filter_by(ativado=True)\
 				.order_by(Arquivo.data_submissao.desc())\
 				.paginate(page=page, per_page=12)
 	tem_arquivo = Arquivo.query.order_by(Arquivo.data_submissao.desc()).first()
@@ -151,7 +151,7 @@ def excluir(arq_id):
 	if not current_user.is_admin:
 		abort(403)
 	arquivo = Arquivo.query.get_or_404(arq_id)
-	arquivo.is_eligible = False
+	arquivo.ativado = False
 	arquivo.id_deletor = current_user.id
 	arquivo.data_deletado = datetime.now()
 	
@@ -166,7 +166,7 @@ def redefinir(arq_id):
 		abort(403)
 
 	arquivo = Arquivo.query.get_or_404(arq_id)
-	arquivo.is_eligible = True
+	arquivo.ativado = True
 	arquivo.data_deletado = None
 	arquivo.id_deletor = None
 		
@@ -181,7 +181,7 @@ def deletados():
 		abort(404)
 
 	page = request.args.get('page', 1, type=int)	
-	arquivos = Arquivo.query.filter_by(is_eligible=False).paginate(page=page, per_page=12)
+	arquivos = Arquivo.query.filter_by(ativado=False).paginate(page=page, per_page=12)
 
 	arquivos_row_1 = []
 	arquivos_row_2 = []

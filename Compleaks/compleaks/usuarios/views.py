@@ -22,19 +22,19 @@ def usuario(user_id):
 
 	user = Usuario.query.get_or_404(user_id)
 
-	if not user.is_eligible and current_user.is_authenticated:
+	if not user.ativado and current_user.is_authenticated:
 		if not user.is_admin:
 			abort(404)
 	elif user == current_user:
 		return redirect(url_for('usuarios.troca'))
 
-	quantidade = len([arquiv for arquiv in user.arquivos if arquiv.is_eligible])
+	quantidade = len([arquiv for arquiv in user.arquivos if arquiv.ativado])
 
 	page = request.args.get('page', 1, type=int)	
 	arquivos = Arquivo.query\
 					.filter(Arquivo.usuario_id\
 					.contains(int(user.id)))\
-					.filter_by(is_eligible=True)\
+					.filter_by(ativado=True)\
 					.paginate(page=page, per_page=12)
 
 	arquivos_row_1 = []
@@ -228,7 +228,7 @@ def deletar(user_id):
 		flash("Você não pode desativar a si mesmo do sistema.", "danger")
 		abort(403)
 	
-	user.is_eligible = False
+	user.ativado = False
 	user.data_deletado = datetime.now()
 	user.id_deletor = current_user.id
 
@@ -249,7 +249,7 @@ def redefinir(user_id):
 	if not current_user.is_admin:
 		abort(403)
 	user = Usuario.query.filter_by(id=user_id)
-	user.is_eligible = True
+	user.ativado = True
 	user.data_deletado = None
 	user.id_deletor = None
 
@@ -267,7 +267,7 @@ def login():
 		user = Usuario.query.filter_by(email=form_login.email.data).first()
 		print(user)
 
-		if user is not None and user.is_eligible is True:
+		if user is not None and user.ativado is True:
 			
 			if user.check_password(form_login.senha.data):
 
@@ -279,7 +279,7 @@ def login():
 			else:
 				flash("Email e/ou senha incorretos", "alert")
 
-		if user is not None and not user.is_eligible:
+		if user is not None and not user.ativado:
 			flash("Você foi banido do sistema por: {}".format(user.motivo_delete), "warning")
 
 		if user == None:
@@ -328,7 +328,7 @@ def troca():
 	arquivos = Arquivo.query\
 					.filter(Arquivo.usuario_id\
 					.contains(int(current_user.id)))\
-					.filter_by(is_eligible=True)\
+					.filter_by(ativado=True)\
 					.paginate(page=page, per_page=12)
 
 	arquivos_row_1 = []
