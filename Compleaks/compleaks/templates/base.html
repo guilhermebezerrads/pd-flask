@@ -24,75 +24,75 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
-    <script src="{{url_for('static', filename='js/docs.js')}}"></script>
-    <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+          $('[data-toggle="tooltip"]').tooltip()
+      })
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
+  <script src="{{url_for('static', filename='js/docs.js')}}"></script>
+  <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 
 <body style="margin-left: 0px; margin-right: 0px; padding-top: 90px;">
-<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-    {% if not current_user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        {% if not current_user.is_authenticated %}
         <a class="navbar-brand" href="{{ url_for('principal.index') }}">HOME</a>
-    {% else %}
+        {% else %}
         <a  data-toggle="tooltip" data-placement="bottom" title="Visualizar perfil" class="navbar-brand" href="{{url_for('usuarios.troca')}}"><strong>{{current_user.username}}</strong></a>
-    {% endif %}
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        {% endif %}
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav">
-            {% if not current_user.is_authenticated %}
+        <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav">
+                {% if not current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#loginModal">Log In</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
                 </li>
-            {% else %}
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('usuarios.logout')}}">Log Out</a>
                 </li>
-            {% endif %}
-           
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Arquivos</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
-                    <div class="dropdown-divider"></div>
-                    {% if current_user.is_authenticated %}
+                {% endif %}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Arquivos</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
+                        <div class="dropdown-divider"></div>
+                        {% if current_user.is_authenticated %}
                         <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>    
                         {% if current_user.is_admin %}
-                            <a class="dropdown-item" href="{{url_for('arquivos.deletados')}}">Deletados</a>    
+                        <a class="dropdown-item" href="{{url_for('arquivos.deletados')}}">Deletados</a>    
                         {% endif %}
-                    {% endif %}
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Disciplinas</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
-                    <div class="dropdown-divider"></div>
-                    {% if current_user.is_authenticated and current_user.is_admin %}
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Disciplinas</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
+                        <div class="dropdown-divider"></div>
+                        {% if current_user.is_authenticated and current_user.is_admin %}
                         <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
-                    {% endif %}    
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Professores</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
-                    <div class="dropdown-divider"></div>
-                    {% if current_user.is_authenticated or current_user.is_admin %}
+                        {% endif %}    
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Professores</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
+                        <div class="dropdown-divider"></div>
+                        {% if current_user.is_authenticated or current_user.is_admin %}
                         <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
-                    {% endif %}
-                </div>
-            </li>
-            {% if current_user.is_admin %}
+                        {% endif %}
+                    </div>
+                </li>
+                {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuários</a>
                     <div class="dropdown-menu">
@@ -100,113 +100,113 @@
                         <a class="dropdown-item" href="{{url_for('usuarios.buscar')}}">Buscar</a>
                     </div>
                 </li>
-            {% endif %}
-        </ul>
-        <ul class="navbar-nav sumiras">
-            <li class="nav-item">
-                <a class="nav-link" data-class="fixed-left">
-                    <i class="fa fa-arrow-left"></i>
-                    Fixar a Esquerda
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link active" data-class="fixed-top">
-                    <i class="fa fa-arrow-up"></i>
-                    Fixar no Topo
-                    <small>(original)</small>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-class="fixed-right">
-                    <i class="fa fa-arrow-right"></i>
-                    Fixar a Direita
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-{% block divisao %}
-<div class="container-fluid">
-    <div class="jumbotron"> 
-{% endblock %}
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav sumiras">
+                <li class="nav-item">
+                    <a class="nav-link" data-class="fixed-left">
+                        <i class="fa fa-arrow-left"></i>
+                        Fixar a Esquerda
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link active" data-class="fixed-top">
+                        <i class="fa fa-arrow-up"></i>
+                        Fixar no Topo
+                        <small>(original)</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-class="fixed-right">
+                        <i class="fa fa-arrow-right"></i>
+                        Fixar a Direita
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% block divisao %}
+    <div class="container-fluid">
+        <div class="jumbotron" style="background-color: white;"> 
+            {% endblock %}
             <div class="col-md-8">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
               {% for category, message in messages %}
-                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+              <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
                   {{ message }}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              {% endfor %}
+                </button>
+            </div>
+            {% endfor %}
             {% endif %}
-          {% endwith %}
+            {% endwith %}
 
         </div>
 
-            {% block content %}
-            
-            {% endblock %}
+        {% block content %}
+
+        {% endblock %}
 
 
+    </div>
+</div>
+{% if not current_user.is_authenticated %}
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="POST"  action="{{url_for('usuarios.login')}}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            {{ form_login.hidden_tag() }}
+            {{ form_login.email.label }}{{ form_login.email(class="form-control") }}
+            {% if form_login.errors.email %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_login.errors.email %}
+                    <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <br>
+            {{ form_login.senha.label }}{{ form_login.senha(class="form-control") }}
+            {% if form_login.errors.senha %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form_login.errors.senha %}
+                    <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
     </div>
-{% if not current_user.is_authenticated %}
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <form method="POST"  action="{{url_for('usuarios.login')}}">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                    {{ form_login.hidden_tag() }}
-                    {{ form_login.email.label }}{{ form_login.email(class="form-control") }}
-                    {% if form_login.errors.email %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_login.errors.email %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                    <br>
-                    {{ form_login.senha.label }}{{ form_login.senha(class="form-control") }}
-                    {% if form_login.errors.senha %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_login.errors.senha %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-              </div>
-                <div class="border-top pt-3">
-                    <small class="text-muted">
-                        Precisa de uma Conta? <a class="ml-2" href="{{ url_for('usuarios.adicionar') }}">Registre-se</a>
-                    </small>
-                </div>
-              <div class="modal-footer">
-                <div class="form-group">
-                {{ form_login.submit(class="btn btn-primary") }}
-                    <small class="text-muted ml-2">
-                        <a href="{{ url_for('usuarios.reset_request') }}">Esqueceu sua senha?</a>
-                    </small>
-                </div>
-                
-              </div>
-            </div>
-        </form>
-      </div>
-    </div>   
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Precisa de uma Conta? <a class="ml-2" href="{{ url_for('usuarios.adicionar') }}">Registre-se</a>
+        </small>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            {{ form_login.submit(class="btn btn-primary") }}
+            <small class="text-muted ml-2">
+                <a href="{{ url_for('usuarios.reset_request') }}">Esqueceu sua senha?</a>
+            </small>
+        </div>
+
+    </div>
+</div>
+</form>
+</div>
+</div>   
 {% endif %}
 <br/>
 <br/>
@@ -215,34 +215,34 @@
 <br/>
 <br/>
 <footer >
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2">
-            <span>Compleaks</span>
-            
-          </div>
-          <div class="col-md-2">
-            <h4>company</h4>
-           
-          </div>
-          <div class="col-md-2">
-            <h4>comunidade</h4>
-            
-          </div>
-          <div class="col-md-2">
-            <h4>links úteis</h4>
-          
-          </div>
-            <div class="col-lg-4">
-                <a href="http://ijunior.com.br/site/"><img class="centraliza" src="{{url_for('static', filename='images/logo.png')}}"></a>
-            </div>
-          
-        </div>
-        <div class="row">
-            <label for="text">© 2019 Compleaks. Todos os direitos reservados</label>
-        </div>
-      
-    </footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <span>Compleaks</span>
+
+    </div>
+    <div class="col-md-2">
+        <h4>company</h4>
+
+    </div>
+    <div class="col-md-2">
+        <h4>comunidade</h4>
+
+    </div>
+    <div class="col-md-2">
+        <h4>links úteis</h4>
+
+    </div>
+    <div class="col-lg-4">
+        <a href="http://ijunior.com.br/site/"><img class="centraliza" src="{{url_for('static', filename='images/logo.png')}}"></a>
+    </div>
+
+</div>
+<div class="row">
+    <label for="text">© 2019 Compleaks. Todos os direitos reservados</label>
+</div>
+
+</footer>
 
 </div>
 

@@ -29,88 +29,88 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         Arquivos
-                     </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
-                        <div class="dropdown-divider"></div>
-                        {% if current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>    
-                        {% endif %}
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         Disciplinas
-                     </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
-                        <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
-                        <div class="dropdown-divider"></div>
-                        {% if current_user.is_authenticated and current_user.is_admin %}
-                            <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
-                            <a class="dropdown-item" href="{{url_for('disciplinas.editar')}}">Editar</a>
-                            <a class="dropdown-item" href="{{url_for('disciplinas.excluir')}}">Excluir</a>
-                        {% endif %}    
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         Professores
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
-                        <a class="dropdown-item" href="{{url_for('professores.buscar')}}">Buscar</a>
-                        <div class="dropdown-divider"></div>
-                        {% if current_user.is_authenticated or current_user.is_admin %}
-                            <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
-                        {% endif %}    
-
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         Usuários
-                     </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if not current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
-                        {% endif %}
-                        {% if current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Editar</a>
-                            {% if current_user.is_admin %}
-                                <a class="dropdown-item" href="{{url_for('usuarios.listar')}}">Listar</a>
-                                <a class="dropdown-item" href="{{url_for('usuarios.buscar')}}">Buscar</a>
-                            {% endif %}    
-                        {% endif %}
-                        <div class="dropdown-divider"></div>
-                        {% if not current_user.is_authenticated %}
-                            <a class="dropdown-item" href="{{url_for('usuarios.login')}}">Login</a>
-                        {% else %}
-                            <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Logout</a>
-                        {% endif %}
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    {% block divisao %}
-        <div class="jumbotron">
-    {% endblock %}
-        {% for mensagem in get_flashed_messages()  %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {{mensagem}}
+                       Arquivos
+                   </a>
+                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('arquivos.listar')}}">Listar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
+                    <div class="dropdown-divider"></div>
+                    {% if current_user.is_authenticated %}
+                    <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>    
+                    {% endif %}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Disciplinas
+               </a>
+               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{url_for('disciplinas.buscar')}}">Buscar</a>
+                <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Listar</a>
+                <div class="dropdown-divider"></div>
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
+                <a class="dropdown-item" href="{{url_for('disciplinas.editar')}}">Editar</a>
+                <a class="dropdown-item" href="{{url_for('disciplinas.excluir')}}">Excluir</a>
+                {% endif %}    
             </div>
-        {% endfor %}
-        {% block content %}
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Professores
+           </a>
+           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{url_for('professores.listar')}}">Listar</a>
+            <a class="dropdown-item" href="{{url_for('professores.buscar')}}">Buscar</a>
+            <div class="dropdown-divider"></div>
+            {% if current_user.is_authenticated or current_user.is_admin %}
+            <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
+            {% endif %}    
 
-        {% endblock %} 
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Usuários
+       </a>
+       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% if not current_user.is_authenticated %}
+        <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar-se</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Editar</a>
+        {% if current_user.is_admin %}
+        <a class="dropdown-item" href="{{url_for('usuarios.listar')}}">Listar</a>
+        <a class="dropdown-item" href="{{url_for('usuarios.buscar')}}">Buscar</a>
+        {% endif %}    
+        {% endif %}
+        <div class="dropdown-divider"></div>
+        {% if not current_user.is_authenticated %}
+        <a class="dropdown-item" href="{{url_for('usuarios.login')}}">Login</a>
+        {% else %}
+        <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Logout</a>
+        {% endif %}
     </div>
+</li>
+</ul>
+</div>
+</nav>
+{% block divisao %}
+<div class="jumbotron">
+    {% endblock %}
+    {% for mensagem in get_flashed_messages()  %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{mensagem}}
+    </div>
+    {% endfor %}
+    {% block content %}
+
+    {% endblock %} 
+</div>
 
 
 <footer>

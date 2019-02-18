@@ -4,144 +4,144 @@
 
 {% block divisao %}<div > <div>{% endblock %}
 
-{% block mais_import %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">{% endblock %}
+    {% block mais_import %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">{% endblock %}
 
-{% block content %}
+    {% block content %}
     <div class="capa">
       <div class="texto-capa">
           <h1 class="texto-principal">Compleaks</h1>
           <h1 class="texto-secundario">Compartilhe <br/>Conhecimento</h1>
           <a href="" class="btn btn-custom btn-azul btn-lg"> Aproiveite o Compleaks</a>
       </div>
+  </div>
+  <section id="explicando">
+    <div class="container-fluid">
+        <div class="row text-center">
+            <div class="col-12">
+               <h2>O Compleaks é seu também</h2>
+               <p>
+                Compartilhe suas fontes de estudo e materias para que todos possam procurar em um só lugar. Pesquise matérias em diversos formatos e para diversos objetivo de forma rápida e divertida.
+            </p>
+            <h3>Aqui vc vai encontrar:</h3>
+            <br/>
+            <br/>
+        </div>
+        
     </div>
-    <section id="explicando">
-        <div class="container-fluid">
-            <div class="row text-center">
-                <div class="col-12">
-                     <h2>O Compleaks é seu também</h2>
-                    <p>
-                        Compartilhe suas fontes de estudo e materias para que todos possam procurar em um só lugar. Pesquise matérias em diversos formatos e para diversos objetivo de forma rápida e divertida.
-                    </p>
-                    <h3>Aqui vc vai encontrar:</h3>
-                    <br/>
-                    <br/>
-                </div>
-               
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-12">
-                   <div class="row">
-                        <div class="col-12">
-                          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/apostila.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Apostilas</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/lista.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Listas de exercício</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/prova.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Provas anteriores</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                          <img  src="{{url_for('static', filename='images/icones/conteudo/slide.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Slides de aula</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                          <img src="{{url_for('static', filename='images/icones/conteudo/trabalho.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Trabalhos anteriores</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-12">
-                          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/outro.svg')}}">  
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>E muito mais a sua espera</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-lg-4 col-12">
+         <div class="row">
+            <div class="col-12">
+              <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/apostila.svg')}}">  
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <p>Apostilas</p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/lista.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Listas de exercício</p>
+    </div>
+</div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/prova.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Provas anteriores</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-12">
+        <div class="row">
+            <div class="col-12">
+              <img  src="{{url_for('static', filename='images/icones/conteudo/slide.svg')}}">  
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <p>Slides de aula</p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img src="{{url_for('static', filename='images/icones/conteudo/trabalho.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Trabalhos anteriores</p>
+    </div>
+</div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/outro.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>E muito mais a sua espera</p>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="comentario">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h2 >Deixe sua opinião registrada.</h2>                    
+                <p >Compartilhe as suas experiências academicâs e contribua para a comunidade de estudantes de forma simples e fácil, pois a sua opinião pode fazer a diferênça.</p>
             </div>
         </div>
-    </section>
-    <section id="comentario">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <h2 >Deixe sua opinião registrada.</h2>                    
-                    <p >Compartilhe as suas experiências academicâs e contribua para a comunidade de estudantes de forma simples e fácil, pois a sua opinião pode fazer a diferênça.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2>Professores</h2>
-                    <div style="border-radius: 5000px;" class="card">
-                      
-                      <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                          <p><strong>Comentário anônimo</strong></p>
-                          <p>Esse professor é uma maravilha, super recomendo, muita paciência para esplicar cada detalhe. </p>
-                          <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
-                        </blockquote>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <h2 >Disciplinas</h2>
-                    <div style="border-radius: 5000px;" class="card">
-                      <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                          <p><strong>Username</strong></p>
-                          <p>Muito cuidado na última prova, é nela que a maioria acaba #$as%d%$$as#d@ ...</p>
-                          <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
-                        </blockquote>
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Professores</h2>
+                <div style="border-radius: 5000px;" class="card">
+                  
+                  <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                      <p><strong>Comentário anônimo</strong></p>
+                      <p>Esse professor é uma maravilha, super recomendo, muita paciência para esplicar cada detalhe. </p>
+                      <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
+                  </blockquote>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-6">
+        <h2 >Disciplinas</h2>
+        <div style="border-radius: 5000px;" class="card">
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p><strong>Username</strong></p>
+              <p>Muito cuidado na última prova, é nela que a maioria acaba #$as%d%$$as#d@ ...</p>
+              <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
+          </blockquote>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
 
 {% endblock %}
