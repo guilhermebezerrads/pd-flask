@@ -34,7 +34,7 @@
 </head>
 
 <body style="margin-left: 0px; margin-right: 0px; padding-top: 90px;">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         {% if not current_user.is_authenticated %}
         <a class="navbar-brand" href="{{ url_for('principal.index') }}">HOME</a>
         {% else %}
