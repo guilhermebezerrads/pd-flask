@@ -29,6 +29,7 @@ html, body {
   padding: 40px 0px;
   display: table;
   width: 100%;
+  background-color: rgba(0,0,0,0.5);
 }
 
 .texto-capa {
@@ -46,13 +47,11 @@ html, body {
   /*text-transform: uppercase;*/
 }
 
-.texto-secundario{
-  font-family: 'Comfortaa';
-  font-size: 50px;
+/*.texto-secundario{
+  font-size: 40px;
   color: white;
-  /*text-transform: uppercase;*/
 
-}
+}*/
 
 @media only screen and (max-width: 1100px){
   .texto-principal{
@@ -235,6 +234,6 @@ h3{
 }
 
 #comentario h2, #comentario .col-12 p{
-  color: #2196F3;
+  color:/* #2196F3*/ #fff;
 }
 /*# sourceMappingURL=estilo.css.map */
