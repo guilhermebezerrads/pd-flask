@@ -170,6 +170,15 @@ html, body {
   color: white;
 }
 
+
+/* Seção Pesquisar */
+
+#pesquisar{
+  background: white;
+  padding: 40px;
+  text-align: center;
+}
+
 /* -- seção explicando -- */
 #explicando{
   text-align: center;
