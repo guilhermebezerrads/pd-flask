@@ -53,10 +53,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{current_user.username}}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Ver perfil</a>
+                        <a class="dropdown-item" href="{{url_for('usuarios.perfil', user_id=current_user.id)}}">Ver perfil</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{url_for('usuarios.troca')}}">Editar perfil</a>    
-                        <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Log Out</a>
+                        <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Sair</a>
                     </div>
                 </li>
                 {% endif %}

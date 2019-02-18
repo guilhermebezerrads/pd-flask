@@ -15,8 +15,8 @@ from datetime import datetime
 usuarios = Blueprint('usuarios', __name__,template_folder='templates/usuarios')
 
 
-@usuarios.route('/usuario/<int:user_id>', methods= ['POST', 'GET'])
-def usuario(user_id):
+@usuarios.route('/perfil/<int:user_id>', methods= ['POST', 'GET'])
+def perfil(user_id):
 
 	form_login = LoginForm()
 
@@ -25,8 +25,8 @@ def usuario(user_id):
 	if not user.ativado and current_user.is_authenticated:
 		if not user.is_admin:
 			abort(404)
-	elif user == current_user:
-		return redirect(url_for('usuarios.troca'))
+	# elif user == current_user:
+	# 	return redirect(url_for('usuarios.troca'))
 
 	quantidade = len([arquiv for arquiv in user.arquivos if arquiv.ativado])
 
