@@ -12,7 +12,7 @@ disciplinas = Blueprint('disciplinas', __name__,template_folder='templates/disci
 @login_required
 def adicionar():
 
-	if not current_user.is_authenticated:
+	if not current_user.is_amin:
 		abort(403)
 
 	form = AdicionarDisciplinaForm()
