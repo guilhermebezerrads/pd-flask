@@ -55,7 +55,7 @@ html, body {
 
 @media only screen and (max-width: 1100px){
   .texto-principal{
-    font-size: 250px;
+    font-size: 95px;
   }
   .texto-secundario{
     font-size: 60px;
@@ -65,7 +65,7 @@ html, body {
 
 @media only screen and (max-width: 1000px){
   .texto-principal{
-    font-size: 130px;
+    font-size: 90px;
   }
   .texto-secundario{
     font-size: 55px;
@@ -75,7 +75,7 @@ html, body {
 
 @media only screen and (max-width: 767px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 85px;
   }
   .texto-secundario{
     font-size: 35px;
@@ -85,7 +85,7 @@ html, body {
 
 @media only screen and (max-width: 650px){
   .texto-principal{
-    font-size: 120px;
+    font-size: 75px;
   }
   .texto-secundario{
     font-size: 40px;
@@ -95,7 +95,7 @@ html, body {
 
 @media only screen and (max-width: 400px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 70.5px;
   }
   .texto-secundario{
     font-size: 35px;
@@ -105,7 +105,7 @@ html, body {
 
 @media only screen and (max-width: 380px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 65px;
   }
   .texto-secundario{
     font-size: 35px;
@@ -115,7 +115,7 @@ html, body {
 
 @media only screen and (max-width: 375px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 62.5px;
   }
   .texto-secundario{
     font-size: 35px;
@@ -125,7 +125,7 @@ html, body {
 
 @media only screen and (max-width: 360px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 60px;
   }
   .texto-secundario{
     font-size: 35px;
@@ -135,7 +135,7 @@ html, body {
 
 @media only screen and (max-width: 320px){
   .texto-principal{
-    font-size: 100px;
+    font-size: 50px;
   }
   .texto-secundario{
     font-size: 35px;
