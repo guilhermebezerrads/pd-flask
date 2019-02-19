@@ -60,7 +60,7 @@
               {% endif %}
               </div>
               <div style="display: none;" class="form-group" id="pesquisa_tipo">
-                {{ form.tipo_arquivo.label }} {{ form.tipo_arquivo(class="form-control") }}
+                {{ form.tipo_arquivo.label }} {{ form.tipo_arquivo(class="form-control", onchange="busca_assincrona('pesquisa_assincrona' , 'none', 'filtro', 'pesquisa', 'tipo')") }}
                 {% if form.errors.tipo_arquivo %}
                     <div class="alert alert-danger" role="alert">
                       <ul>

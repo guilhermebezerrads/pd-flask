@@ -49,7 +49,7 @@
                                             <br/>
 
                                             <h5 class="modal-title">Referências:</h5>
-                                            <p>Usuáario que postou: <a href="{{url_for('usuarios.usuario', user_id=arquivo.author.id)}}"> {{ arquivo.author.username }}</a></p>
+                                            <p>Usuáario que postou: <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"> {{ arquivo.author.username }}</a></p>
                                             <p>Professor de referência: {{ arquivo.professor.nome }}</p>
                                             <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
                                             <p>Ano de referência: {{ arquivo.ano }}</p>
@@ -65,7 +65,7 @@
                                                 
                                                 <a href="#"><img src="{{url_for('static', filename='images/icones/arquivo/'+arquivo.extensao+'.svg')}}" data-toggle="tooltip" data-placement="bottom" title="Arquivo {{arquivo.extensao}}" class="image marcas" alt="Tipo de arquivo é {{arquivo.extensao}}"></a>
 
-                                                <a href="{{url_for('usuarios.usuario', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+                                                <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
 
                                             </p>
                                             <br/>
@@ -103,7 +103,7 @@
                         <a href="#"><img src="{{url_for('static', filename='images/icones/arquivo/'+arquivo.extensao+'.svg')}}" data-toggle="tooltip" data-placement="bottom" title="Arquivo {{arquivo.extensao}}" class="image marcas" alt="Tipo de arquivo é {{arquivo.extensao}}"></a>
 
                    
-                        <a class="sumiras" href="{{url_for('usuarios.usuario', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+                        <a class="sumiras" href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
                   
 
                     </p>

@@ -27,11 +27,11 @@ def adicionar():
 
 	form_add.professor.choices = []
 	form_add.professor.choices.append((0, "Sem professor relacionado"))
-	form_add.professor.choices += [(professor.id, professor.nome) 
+	form_add.professor.choices += [(str(professor.id), professor.nome) 
 									for professor in Professor.query.order_by('nome')
 									if professor.ativado]
 
-	form_add.disciplina.choices = [(disciplina.id, disciplina.nome)
+	form_add.disciplina.choices = [(str(disciplina.id), disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
 									 if disciplina.ativado]
 
@@ -63,8 +63,8 @@ def adicionar():
 		zip_archive.write(destination, destination[len(target) + 1:])
 		os.remove(destination)
 
-		new_arq = Arquivo(arquivo=nome, disciplina_id=disciplina, ano=ano, semestre=semestre,
-						 tipo_conteudo=tipo, professor_id=professor, 
+		new_arq = Arquivo(arquivo=nome, disciplina_id=int(disciplina), ano=ano, semestre=semestre,
+						 tipo_conteudo=tipo, professor_id=int(professor), 
 						 usuario_id=current_user.id, extensao=extensao)
 		
 		new_arq.observacoes = observacoes

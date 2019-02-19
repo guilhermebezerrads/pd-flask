@@ -60,7 +60,7 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 		tipo_arquivo = tipo_arquivo[3].value;
 
 		if (pesquisa == ''){
-			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+tipo_arquivo, true);			
+			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, true);			
 		}else{
 			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+pesquisa+'/'+tipo_arquivo, true);			
 		}
