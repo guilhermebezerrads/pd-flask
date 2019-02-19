@@ -44,17 +44,23 @@ class Arquivo(db.Model):
 		self.extensao = extensao
 		self.ativado = True
 
+class Avaliacao_Arquivo(db.Model):
 
-# class Post(db.Model):
+	__tablename__ = 'avaliacao_arquivo'
 
-# 	__tablename__ = 'posts'
+	id = db.Column(db.Integer, primary_key=True)
+	nota = db.Column(db.Integer, nullable=False)
+	data_nota = db.Column(db.DateTime, default=datetime.now())
 
-# 	id = db.Column(db.Integer, primary_key=True)
-# 	titulo = db.Column(db.String(100))
-# 	conteudo = db.Column(db.Text)
-# 	data = db.Column(db.DateTime)
-# 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+	arquivos = db.relationship(Arquivo)
+	usuarios = db.relationship(Usuario)
 
-# 	def __init__(self, titulo, conteudo):
-# 		self.titulo = titulos
-# 		self.conteudo = conteudo
+	arquivo_id = db.Column(db.Integer, db.ForeignKey('arquivos.id'), nullable=False)
+	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+
+	def __init__(self, nota, usuario_id, arquivo_id, data_nota):
+		self.nota = nota
+		self.arquivo_id = arquivo_id
+		self.usuario_id = usuario_id
+		self.data_nota = data_nota
+
