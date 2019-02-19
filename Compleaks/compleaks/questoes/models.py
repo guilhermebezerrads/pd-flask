@@ -10,14 +10,18 @@ class Questao(db.Model):
 	enunciado = db.Column(db.Text, nullable=False)
 	data_criacao = db.Column(db.DateTime, nullable=False)
 
+	ativado = db.Column(db.Boolean, default=True)
+
 	disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 
 	alternativas = db.relationship('alternativas', backref='questao', uselist=True)
 
-	def __init__(self, enunciado, disciplina_id):
+	def __init__(self, enunciado, disciplina_id, usuario_id, data_criacao):
 		self.enunciado = enunciado
 		self.disciplina_id = disciplina_id
+		self.usuario_id = usuario_id
+		self.data_criacao = data_criacao
 
 class Alternativa(object):
 	
