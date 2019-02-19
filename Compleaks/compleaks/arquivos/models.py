@@ -64,16 +64,3 @@ class Avaliacao_Arquivo(db.Model):
 		self.usuario_id = usuario_id
 		self.data_nota = data_nota
 
-# class Post(db.Model):
-
-# 	__tablename__ = 'posts'
-
-# 	id = db.Column(db.Integer, primary_key=True)
-# 	titulo = db.Column(db.String(100))
-# 	conteudo = db.Column(db.Text)
-# 	data = db.Column(db.DateTime)
-# 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
-
-# 	def __init__(self, titulo, conteudo):
-# 		self.titulo = titulos
-# 		self.conteudo = conteudo

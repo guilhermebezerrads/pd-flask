@@ -26,3 +26,9 @@ def editar(id):
 def excluir(id):
 
 	pass
+
+@questoes.route('/restaurar/<id>', methods=['POST', 'GET'])
+@login_required
+def restaurar(id):
+
+	pass
