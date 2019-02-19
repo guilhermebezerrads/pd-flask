@@ -83,11 +83,11 @@ def editar(arq_id):
 
 	form.professor.choices = []
 	form.professor.choices.append((0, "Sem professor relacionado"))
-	form.professor.choices += [(professor.id, professor.nome) 
+	form.professor.choices += [(str(professor.id), professor.nome) 
 									for professor in Professor.query.order_by('nome')
 									if professor.ativado]
 
-	form.disciplina.choices = [(disciplina.id, disciplina.nome)
+	form.disciplina.choices = [(str(disciplina.id), disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
 									 if disciplina.ativado]
 
@@ -101,9 +101,9 @@ def editar(arq_id):
 		arquivo.ano = form.ano.data
 		arquivo.semestre = form.semestre.data
 		arquivo.tipo_conteudo = int(form.tipo_conteudo.data)
-		arquivo.professor_id = form.professor.data
+		arquivo.professor_id = int(form.professor.data)
 		arquivo.observacoes = form.observacoes.data
-		arquivo.disciplina_id = form.disciplina.data
+		arquivo.disciplina_id = int(form.disciplina.data)
 
 		db.session.commit()
 
