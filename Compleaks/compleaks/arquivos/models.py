@@ -46,7 +46,7 @@ class Arquivo(db.Model):
 
 class Avaliacao_Arquivo(db.Model):
 
-	__tablename__ = 'avalicao_arquivo'
+	__tablename__ = 'avaliacao_arquivo'
 
 	id = db.Column(db.Integer, primary_key=True)
 	nota = db.Column(db.Integer, nullable=False)
