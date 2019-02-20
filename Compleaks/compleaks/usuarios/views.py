@@ -400,7 +400,6 @@ def troca():
 							form_curso=form_curso,
 							form_periodo=form_periodo)
 
-
 def send_reset_email(user):
 	token = user.get_reset_token()
 	msg = Message('Requisição de Troca de Senha Compleaks',
@@ -463,3 +462,112 @@ def reset_token(token):
 		return redirect(url_for('usuarios.login'))
 	
 	return render_template('resetar_senha.html', form=form, form_login=form_login)
+
+@usuarios.route('/meu-perfil', methods=['POST', 'GET'])
+@login_required
+def meu_perfil():
+	
+	form_email = TrocaEmailForm()
+	form_senha =  TrocaSenhaForm()
+	form_nome = TrocaNomeForm()
+	form_username = TrocaUsernameForm()
+	form_curso = TrocaCursoForm()
+	form_periodo = TrocaPeriodoForm()
+
+	if form_nome.validate_on_submit():
+		current_user.nome = form_nome.novo_nome.data
+		db.session.commit()
+		flash("Nome trocado com sucesso!", "warning")
+
+	if form_username.validate_on_submit():
+		current_user.username = form_username.novo_username.data
+		db.session.commit()
+		flash("Nome de usuário trocado com sucesso!", "warning")
+	
+	if form_curso.validate_on_submit():
+		current_user.curso = form_curso.novo_curso.data
+		db.session.commit()
+		flash("Curso trocado com sucesso!", "warning")
+
+	if form_periodo.validate_on_submit():
+		current_user.periodo = form_periodo.novo_periodo.data
+		db.session.commit()
+		flash("Periodo trocado com sucesso!", "warning")
+
+	if form_email.validate_on_submit():
+		if Usuario.query.filter_by(email=form_email.novo_email.data).first() and not current_user.email == form_email.novo_email.data:
+			flash(f"O e-mail já está e uso!", "warning")
+			
+		elif current_user.check_password(form_email.senha_atual.data) and not current_user.email == form_email.novo_email.data:
+			current_user.email = form_email.novo_email.data
+			db.session.commit()
+			flash("Email trocado com sucesso!", "warning")
+		
+		elif current_user.email == form_email.novo_email.data:
+			flash("O novo email e o antigo não podem ser iguais!", "warning")
+
+		else:
+			flash("Senha atual incorreta!", "warning")
+
+
+	bcrypt = Bcrypt()
+	if form_senha.validate_on_submit():
+		if current_user.check_password(password=form_senha.senha_atual.data):
+			flash(f"A senha atual não é válida!", "warning")
+		elif current_user.hhash ==  bcrypt.generate_password_hash(form_senha.nova_senha.data):
+			flash("A nova senha e a antiga não podem ser iguais!")
+		
+		else:
+			current_user.hhash = bcrypt.generate_password_hash(form_senha.nova_senha.data)
+			db.session.commit()
+			flash("Senha trocada com sucesso!", "success")
+	
+	page = request.args.get('page', 1, type=int)	
+	arquivos = Arquivo.query\
+					.filter(Arquivo.usuario_id\
+					.contains(int(current_user.id)))\
+					.filter_by(ativado=True)\
+					.paginate(page=page, per_page=12)
+
+	arquivos_row_1 = []
+	arquivos_row_2 = []
+	arquivos_row_3 = []
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			break 
+		arquivos_row_1.append(arquivo)
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		contador = contador + 1					
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3) 
+
+	return render_template('perfil_usuario.html',
+							form_email=form_email,
+							form_senha=form_senha,
+							arquivos_rows=arquivos_rows,
+							contribuiu=quantidade, 
+							arquivos=arquivos, 
+							current_user=current_user,
+							form_nome=form_nome,
+							form_username=form_username,
+							form_curso=form_curso,
+							form_periodo=form_periodo)
