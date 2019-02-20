@@ -12,7 +12,7 @@ disciplinas = Blueprint('disciplinas', __name__,template_folder='templates/disci
 @login_required
 def adicionar():
 
-	if not current_user.is_amin:
+	if not current_user.is_admin:
 		abort(403)
 
 	form = AdicionarDisciplinaForm()
@@ -89,7 +89,7 @@ def editar(disc_id):
 	
 	id = disc_id
 	disciplina = Disciplina.query.get(id)
-	if not (current_user.is_admin or current_user.id==disciplina.id_criador):
+	if not (current_user.id==disciplina.id_criador):
 		abort(403)
 
 	form_editar = EditarDisciplinaForm()
