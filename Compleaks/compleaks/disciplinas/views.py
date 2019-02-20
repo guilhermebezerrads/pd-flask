@@ -66,9 +66,11 @@ def buscar():
 @disciplinas.route('/excluir/<int:disc_id>', methods=['POST', 'GET'])
 @login_required
 def excluir(disc_id):
-	disciplina = Disciplina.query.get(disc_id)
-	if not (current_user.is_admin or current_user.id==disciplina.id_criador):
+
+	if not (current_user.is_admin):
 		abort(403)
+		
+	disciplina = Disciplina.query.get(disc_id)
 
 	form_excluir = ExcluirDisciplinaForm()
 
@@ -86,12 +88,14 @@ def excluir(disc_id):
 @disciplinas.route('/editar/<int:disc_id>', methods=['POST', 'GET'])
 @login_required
 def editar(disc_id):
+
+	if not (current_user.is_admin):
+		abort(403)
+
 	
 	id = disc_id
 	disciplina = Disciplina.query.get(id)
-	if not (current_user.id==disciplina.id_criador):
-		abort(403)
-
+	
 	form_editar = EditarDisciplinaForm()
 
 	if form_editar.validate_on_submit():
