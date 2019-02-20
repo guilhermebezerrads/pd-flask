@@ -20,12 +20,21 @@
                 {{ current_user.nome }}
             </div>
             <div class="col-sm-2">
-                <a href="">Editar</a>
+                <button type="button" class="btn btn-light" onclick="formulario_nome('editar_nome')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR NOME-->
-        <div class="jumbotrom">
-            
+        <div id="editar_nome">
+            <form method="POST">
+                {{ form_nome.hidden_tag() }}
+                <div class="form-group">
+                    {{ form_nome.novo_nome.label }}{{ form_nome.novo_nome(class="form-control", value= current_user.nome) }}
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="formulario_nome_cancelar('editar_nome')">Cancelar</button>
+                    {{ form_nome.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
         <div class="dropdown-divider"></div>
 
@@ -37,12 +46,21 @@
                 {{ current_user.username }}
             </div>
             <div class="col-sm-2">
-                <a href="">Editar</a>
+                <button type="button" class="btn btn-light" onclick="formulario_username('editar_username')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR USERNAME-->
-        <div class="jumbotrom">
-            
+        <div id="editar_username">
+            <form method="POST">
+                {{ form_username.hidden_tag() }}
+                <div class="form-group">
+                    {{ form_username.novo_username.label }}{{ form_username.novo_username(class="form-control", value= current_user.username) }}
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="formulario_username_cancelar('editar_username')">Cancelar</button>
+                    {{ form_username.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
         <div class="dropdown-divider"></div>
 
@@ -54,11 +72,11 @@
                 {{ current_user.email }}
             </div>
             <div class="col-sm-2">
-                <button class="btn btn-link" onclick="formulario_email('editar_email')">Editar</button>
+                <button type="button" class="btn btn-light" onclick="formulario_email('editar_email')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR EMAIL-->
-        <div class="jumbotrom" id="editar_email">
+        <div id="editar_email">
             <form method="POST">
                 {{ form_email.hidden_tag() }}
                 <div class="form-group">
@@ -113,12 +131,21 @@
                 {{ current_user.curso }}
             </div>
             <div class="col-sm-2">
-                <a href="">Editar</a>
+                <button type="button" class="btn btn-light" onclick="formulario_curso('editar_curso')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR CURSO-->
-        <div class="jumbotrom">
-            
+        <div id="editar_curso">
+            <form method="POST">
+                {{ form_curso.hidden_tag() }}
+                <div class="form-group">
+                    {{ form_curso.novo_curso.label }}{{ form_curso.novo_curso(class="form-control", value= current_user.curso) }}
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="formulario_curso_cancelar('editar_curso')">Cancelar</button>
+                    {{ form_curso.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
         <div class="dropdown-divider"></div>
 
@@ -130,12 +157,21 @@
                 {{ current_user.periodo }}º
             </div>
             <div class="col-sm-2">
-                <a href="">Editar</a>
+                <button type="button" class="btn btn-light" onclick="formulario_periodo('editar_periodo')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR PERIODO-->
-        <div class="jumbotrom">
-            
+        <div id="editar_periodo">
+            <form method="POST">
+                {{ form_periodo.hidden_tag() }}
+                <div class="form-group">
+                    {{ form_periodo.novo_periodo.label }}{{ form_periodo.novo_periodo(class="form-control", value= current_user.periodo) }}
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="formulario_periodo_cancelar('editar_periodo')">Cancelar</button>
+                    {{ form_periodo.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
         <div class="dropdown-divider"></div>
 
@@ -147,7 +183,7 @@
                 ****** 
             </div>
             <div class="col-sm-2">
-                <button class="btn btn-link" onclick="formulario_senha('editar_senha')">Editar</button>
+                <button type="button" class="btn btn-light" onclick="formulario_senha('editar_senha')">Editar</button>
             </div>
         </div>
         <!--FORMULARIO PARA ALTERAR SENHA-->

@@ -6,7 +6,9 @@ from compleaks import db, mail
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
 										TrocaSenhaForm, AdicionarUsuarioForm,
 										BuscarUsuarioForm, RecuperarSenhaFrom,
-										ResetarSenhaForm)
+										ResetarSenhaForm, TrocaNomeForm,
+										TrocaUsernameForm, TrocaCursoForm,
+										TrocaPeriodoForm)
 from compleaks.usuarios.models import Usuario
 from compleaks.arquivos.models import Arquivo
 from flask_mail import Message
@@ -295,6 +297,30 @@ def troca():
 	
 	form_email = TrocaEmailForm()
 	form_senha =  TrocaSenhaForm()
+	form_nome = TrocaNomeForm()
+	form_username = TrocaUsernameForm()
+	form_curso = TrocaCursoForm()
+	form_periodo = TrocaPeriodoForm()
+
+	if form_nome.validate_on_submit():
+		current_user.nome = form_nome.novo_nome.data
+		db.session.commit()
+		flash("Nome trocado com sucesso!", "warning")
+
+	if form_username.validate_on_submit():
+		current_user.username = form_username.novo_username.data
+		db.session.commit()
+		flash("Nome de usuário trocado com sucesso!", "warning")
+	
+	if form_curso.validate_on_submit():
+		current_user.curso = form_curso.novo_curso.data
+		db.session.commit()
+		flash("Curso trocado com sucesso!", "warning")
+
+	if form_periodo.validate_on_submit():
+		current_user.periodo = form_periodo.novo_periodo.data
+		db.session.commit()
+		flash("Periodo trocado com sucesso!", "warning")
 
 	if form_email.validate_on_submit():
 		if Usuario.query.filter_by(email=form_email.novo_email.data).first() and not current_user.email == form_email.novo_email.data:
@@ -368,7 +394,11 @@ def troca():
 							arquivos_rows=arquivos_rows,
 							contribuiu=quantidade, 
 							arquivos=arquivos, 
-							current_user=current_user)
+							current_user=current_user,
+							form_nome=form_nome,
+							form_username=form_username,
+							form_curso=form_curso,
+							form_periodo=form_periodo)
 
 
 def send_reset_email(user):

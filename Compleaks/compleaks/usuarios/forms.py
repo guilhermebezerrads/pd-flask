@@ -74,6 +74,21 @@ class RecuperarSenhaFrom(FlaskForm):
 class ResetarSenhaForm(FlaskForm):
 
 	senha = PasswordField("Senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
-	conf_senha = PasswordField("Cinfirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
+	conf_senha = PasswordField("Confirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
 	submit = SubmitField('Resetar Senha')
 
+class TrocaNomeForm(FlaskForm):
+	novo_nome = StringField("Edite seu nome", validators=[DataRequired()])
+	submit = SubmitField("Trocar")
+
+class TrocaUsernameForm(FlaskForm):
+	novo_username = StringField("Edite seu nome de usuário", validators=[DataRequired()])
+	submit = SubmitField("Trocar")
+
+class TrocaCursoForm(FlaskForm):
+	novo_curso = StringField("Edite seu curso", validators=[DataRequired()])
+	submit = SubmitField("Trocar")
+
+class TrocaPeriodoForm(FlaskForm):
+	novo_periodo = SelectField("Edite seu periodo", choices=prenche_periodos(), validators=[DataRequired()])
+	submit = SubmitField("Trocar")
