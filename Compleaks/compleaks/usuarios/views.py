@@ -367,7 +367,8 @@ def troca():
 							form_senha=form_senha,
 							arquivos_rows=arquivos_rows,
 							contribuiu=quantidade, 
-							arquivos=arquivos)
+							arquivos=arquivos, 
+							current_user=current_user)
 
 
 def send_reset_email(user):
