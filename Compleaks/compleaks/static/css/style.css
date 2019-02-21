@@ -28,3 +28,32 @@
 #editar_periodo{
 	display: none;
 }
+
+.botao_confirmacao {
+	color: #ffffff;
+	padding: 10px 20px;
+	background: -moz-linear-gradient(
+		top,
+		#e65353 0%,
+		#ff3640);
+	background: -webkit-gradient(
+		linear, left top, left bottom,
+		from(#e65353),
+		to(#ff3640));
+	-moz-border-radius: 1px;
+	-webkit-border-radius: 1px;
+	border-radius: 1px;
+	border: 0px solid #000000;
+	-moz-box-shadow:
+		0px 0px 0px rgba(000,000,000,1),
+		inset 0px 0px 1px rgba(255,255,255,0.8);
+	-webkit-box-shadow:
+		0px 0px 0px rgba(000,000,000,1),
+		inset 0px 0px 1px rgba(255,255,255,0.8);
+	box-shadow:
+		0px 0px 0px rgba(000,000,000,1),
+		inset 0px 0px 1px rgba(255,255,255,0.8);
+	text-shadow:
+		0px -1px 0px rgba(255,255,255,0.5),
+		0px 1px 0px rgba(255,255,255,0.3);	
+}
