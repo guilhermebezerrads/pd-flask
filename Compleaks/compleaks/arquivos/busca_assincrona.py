@@ -165,7 +165,7 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 				arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 				return render_template('busca_assincrona_adm.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-					 	arquivos_rows=arquivos_rows, 
+					 	arquivos_rows=arquivos_rows, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data)
 
 	if filtro:
@@ -266,7 +266,7 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 		arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 		return render_template('busca_assincrona_normal.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-			 	arquivos_rows=arquivos_rows, 
+			 	arquivos_rows=arquivos_rows, dist=dist,
 			existe_arquivo=existe_arquivo, navigation_data=navigation_data)
 	
 	contador = 0
@@ -300,5 +300,5 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 	print(arquivos_rows)
 
 	return render_template('busca_assincrona_{}.html'.format(navigation_data[1]), tip_arquiv="all", arquivos=arquivos ,
-			arquivos_rows=arquivos_rows, 
+			arquivos_rows=arquivos_rows, dist=dist,
 		existe_arquivo=existe_arquivo, navigation_data=navigation_data)

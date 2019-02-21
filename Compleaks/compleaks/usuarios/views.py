@@ -68,7 +68,7 @@ def perfil(user_id):
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 	return render_template('usuario_contribuicao.html', user=user, 
-							contribuiu=quantidade, arquivos=arquivos,
+							contribuiu=quantidade, arquivos=arquivos, dist=dist,
 							form_login=form_login, arquivos_rows=arquivos_rows)
 
 
@@ -391,6 +391,7 @@ def troca():
 	return render_template('troca_informacao.html',
 							form_email=form_email,
 							form_senha=form_senha,
+							dist=dist,
 							arquivos_rows=arquivos_rows,
 							contribuiu=quantidade, 
 							arquivos=arquivos, 
@@ -565,6 +566,7 @@ def meu_perfil():
 							form_senha=form_senha,
 							arquivos_rows=arquivos_rows,
 							contribuiu=quantidade, 
+							dist=dist,
 							arquivos=arquivos, 
 							current_user=current_user,
 							form_nome=form_nome,

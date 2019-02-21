@@ -175,7 +175,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos,
-					 	arquivos_rows=arquivos_rows,
+					 	arquivos_rows=arquivos_rows, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
 
 			if filtro:
@@ -272,7 +272,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-					 	arquivos_rows=arquivos_rows, form_login=form_login,
+					 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)	
 
 		else:
@@ -398,7 +398,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-					 	arquivos_rows=arquivos_rows, form_login=form_login,
+					 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
 
 			if filtro:
@@ -499,7 +499,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-					 	arquivos_rows=arquivos_rows, form_login=form_login,
+					 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)	
 
 	else:
@@ -625,7 +625,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 			arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-				 	arquivos_rows=arquivos_rows, form_login=form_login,
+				 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
 
 		if filtro:
@@ -726,7 +726,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 			arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
-				 	arquivos_rows=arquivos_rows, form_login=form_login,
+				 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 				existe_arquivo=existe_arquivo, navigation_data=navigation_data, form=form)
 	
 	contador = 0
