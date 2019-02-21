@@ -273,7 +273,7 @@ def login():
 			
 			if user.check_password(form_login.senha.data):
 
-				login_user(user)
+				login_user(user, remember=form_login.lembrar.data)
 				flash("Você foi logado com sucesso.", "success")
 			
 				return redirect(url_for('principal.index'))
