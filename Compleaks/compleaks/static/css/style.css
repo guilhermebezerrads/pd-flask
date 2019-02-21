@@ -1,0 +1,30 @@
+/*Definindo tamanho para DELETE*/
+.icone{
+    width: 35px;
+    height: 35px;
+}
+
+/*Definindo display desativado para forms PERFIL USER*/
+#editar_email{
+	display: none;
+}
+
+#editar_senha{
+	display: none;
+}
+
+#editar_nome{
+	display: none;
+}
+
+#editar_username{
+	display: none;
+}
+
+#editar_curso{
+	display: none;
+}
+
+#editar_periodo{
+	display: none;
+}
