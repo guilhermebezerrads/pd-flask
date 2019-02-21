@@ -37,6 +37,7 @@ app.config['MAIL_USERNAME'] = "jinformatica471@gmail.com"
 app.config['MAIL_PASSWORD'] = 'ijunior1034'
 
 mail = Mail(app)
+dist = [1,2,3,4,5] 
 
 ############################################################
 ################## BLUEPRINTS ##############################

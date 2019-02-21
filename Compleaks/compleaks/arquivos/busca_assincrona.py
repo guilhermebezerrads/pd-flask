@@ -1,6 +1,6 @@
 from flask import (render_template, Blueprint, url_for, redirect,
  					flash, current_app, request, abort)
-from compleaks import db
+from compleaks import db, dist
 from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm,
 										BuscarMaterialForm, 

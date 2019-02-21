@@ -1,6 +1,6 @@
 from flask import (render_template, Blueprint, url_for, redirect,
  					flash, current_app, request, abort)
-from compleaks import db
+from compleaks import db, dist
 from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm,
 										BuscarMaterialForm, 
@@ -37,7 +37,6 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				.filter_by(ativado=True).paginate(page=page, per_page=12)
 	existe_arquivo = True
 
-	dist = [1,2,3,4,5] 
 
 	arquivos_row_1 = []
 	arquivos_row_2 = []

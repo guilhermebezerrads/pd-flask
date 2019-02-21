@@ -2,7 +2,7 @@ from flask import (render_template, request,
 					 Blueprint, url_for, redirect, request, flash, abort)
 from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_user,login_required,logout_user
-from compleaks import db, mail
+from compleaks import db, mail, dist
 from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm, 
 										TrocaSenhaForm, AdicionarUsuarioForm,
 										BuscarUsuarioForm, RecuperarSenhaFrom,
@@ -560,6 +560,7 @@ def meu_perfil():
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3) 
+
 
 	return render_template('perfil_usuario.html',
 							form_email=form_email,
