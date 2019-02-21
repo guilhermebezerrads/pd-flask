@@ -40,6 +40,7 @@ class LoginForm(FlaskForm):
 
 	email = StringField("Email", validators=[DataRequired(message="Campo Obrigatório"), Email(message="Campo Obrigatório"), Length(min=3, max=120, message="Minimo de 3 caracteres e máximo de 120 por favor!")])
 	senha = PasswordField("Senha", validators=[DataRequired(), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
+	lembrar = BooleanField("Lembrar-me")
 	submit = SubmitField("Entrar")
 
 
