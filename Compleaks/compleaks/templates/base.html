@@ -21,8 +21,8 @@
   <!-- Start your project here-->
   
   <!--Navbar -->
-  <nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
-    <a class="navbar-brand" href="#">Navbar</a>
+  <nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color lighten-1">
+    <a class="navbar-brand" href="{{ url_for('principal.index') }}">Compleaks</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
     aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -30,34 +30,184 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home
+        <a class="nav-link" href="{{ url_for('principal.index') }}">Página inicial
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Arquivos
+        </a>
+        <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
+          <a class="dropdown-item" href="{{url_for('arquivos.buscar')}}">Buscar</a>
+          {% if current_user.is_authenticated %}  
+            <a class="dropdown-item" href="{{url_for('arquivos.adicionar')}}">Adicionar</a>
+            {% if current_user.is_admin %}
+              <a class="dropdown-item" href="{{url_for('arquivos.deletados')}}">Deletados</a>
+            {% endif %}
+          {% endif %}
+        </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Disciplina
+        </a>
+        <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
+          <a class="dropdown-item" href="{{url_for('disciplinas.listar')}}">Buscar</a>
+          {% if current_user.is_authenticated %}
+            <a class="dropdown-item" href="{{url_for('disciplinas.adicionar')}}">Adicionar</a>
+          {% endif %}
+        </div>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">Professores
+        </a>
+        <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
+          <a class="dropdown-item" href="{{url_for('professores.listar')}}">Buscar</a>
+          {% if current_user.is_authenticated %}  
+            <a class="dropdown-item" href="{{url_for('professores.adicionar')}}">Adicionar</a>
+          {% endif %}
+        </div>
+      </li>
+      {% if current_user.is_admin %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Usuários
+          </a>
+          <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
+            <a class="dropdown-item" href="{{url_for('usuarios.listar')}}">Listar</a>
+            <a class="dropdown-item" href="{{url_for('usuarios.buscar')}}">Buscar</a>
+          </div>
+        </li>
+      {% endif %}
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item avatar">
-        <a class="nav-link p-0" href="#">
-          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="35">
-        </a>
-      </li>
+      {% if not current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <i class="fas fa-user"></i></a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+            <a class="dropdown-item" data-toggle="modal" data-target="#elegantModalForm">Entrar</a>
+            <a class="dropdown-item" href="{{url_for('usuarios.adicionar')}}">Cadastrar</a>
+          </div>
+        </>
+      {% else %}
+        <li class="nav-item avatar dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="35">
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="{{url_for('usuarios.meu_perfil')}}">Minha conta</a>
+            <a class="dropdown-item" href="{{url_for('usuarios.logout')}}">Sair</a>
+          </div>
+        </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
 <!--/.Navbar -->
 
-  <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
-    {% block content %}
+  <!--CONTEUDO DO SITE E ALERTA-->
+  <div class="container-fluid">
+    <div class="jumbotron" style="background-color: white;"> 
+      {% block divisao %}
+      {% endblock %}
+      <div class="col-md-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
 
-    {% endblock %} 
+      <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        {% block content %}
+      
+        {% endblock %} 
+      </div>
+
+    </div>
   </div>
-  
+  <!--/CONTEUDO DO SITE E ALERTA-->
+
+<!--MODAL-->
+{% if not current_user.is_authenticated %}
+<!-- Modal MDBootstrap-->
+<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <!--Content-->
+    <div class="modal-content form-elegant">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Entrar</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body mx-4">
+        <!--Body-->
+        <form method="POST"  action="{{url_for('usuarios.login')}}">
+          {{ form_login.hidden_tag() }}
+          <div class="md-form mb-5">
+            {{ form_login.email(id="Form-email1", class="form-control validate") }}
+            {% if form_login.errors.email %}
+            <div class="alert alert-danger" role="alert">
+              <ul>
+                {% for e in form_login.errors.email %}
+                  <li>{{ e }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            <label data-error="wrong" data-success="right" for="Form-email1">Digite seu email</label>
+          </div>
+
+          <div class="md-form pb-3">
+            {{ form_login.senha(id="Form-pass1", class="form-control validate") }}
+            {% if form_login.errors.senha %}
+              <div class="alert alert-danger" role="alert">
+                <ul>
+                  {% for e in form_login.errors.senha %}
+                  <li>{{ e }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            <label data-error="wrong" data-success="right" for="Form-pass1">Digite sua senha</label>
+            <p class="font-small gray-text d-flex justify-content-end">Esqueceu sua <a href="{{ url_for('usuarios.reset_request') }}" class="blue-text ml-1">
+                Senha?</a></p>
+          </div>
+
+          <div class="text-center mb-3">
+            {{ form_login.submit(class="btn blue-gradient btn-block btn-rounded z-depth-1a") }}
+          </div>
+        </form>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer mx-5 pt-3 mb-1">
+        <p class="font-small grey-text d-flex justify-content-end">Não é um membro? <a href="{{ url_for('usuarios.adicionar') }}" class="blue-text ml-1">
+            Cadastre-se</a></p>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!-- Modal MDBootstrap -->
+{% endif %}
+<!--/MODAL-->
+
 <!-- Footer -->
 <footer class="page-footer font-small special-color-dark teal pt-4">
 
@@ -111,6 +261,11 @@
   <script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.3.1.min.js')}}"></script>
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="{{url_for('static',filename='js/popper.min.js')}}"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
   <!-- MDB core JavaScript -->
