@@ -3,15 +3,27 @@
 {% block title %}Adicionar professor{% endblock %}
 
 {% block content %}
+    <div class="page-header">
+        <h1>Adicionar professor</h1>
+        <hr/>
+    </div>
 
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ form.nome.label }}{{ form.nome }}
-        <br/>
+        <!-- Material outline input with prefix-->
+        <div class="md-form md-outline">
+            <i class="fas fa-chalkboard-teacher prefix"></i>
+            {{ form.nome(id="inputIconEx1", class="form-control") }}
+            <label for="inputIconEx1">Nome do professor</label>
+            <small id="emailHelp2" class="form-text text-muted">Adicione corretamente o nome do professor.</small>
+        </div>
         {{ form.unidade_academica.label }}
-        {{ form.unidade_academica }}
+        <div class="md-form md-outline" style=" margin-top: -5px;">
+            <i class="fas fa-university prefix"></i>
+            {{ form.unidade_academica(class="browser-default custom-select", style="margin-left:25px;")}}
+        </div>
         <br>
-        {{ form.submit }}
+        {{ form.submit(class="btn btn-primary") }}
     </form>
 
 {% endblock %}
