@@ -32,6 +32,8 @@ class Usuario(db.Model, UserMixin):
 
 	arquivos = db.relationship('Arquivo', backref='author', lazy=True)
 
+	avaliacoes = db.relationship('Avaliacao_Arquivo', backref='avaliador', lazy=True)
+
 	def __init__(self, username, hhash, nome, email, curso, periodo):
 		self.username = username
 		self.nome = nome

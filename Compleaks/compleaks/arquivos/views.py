@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from compleaks.arquivos.forms import (AdicionarArquivoForm,
 										BuscarMaterialForm, 
 										EditarArquivoForm)
-from compleaks.arquivos.models import Arquivo
+from compleaks.arquivos.models import Arquivo, Avaliacao_Arquivo
 from compleaks.professores.models import Professor
 from compleaks.disciplinas.models import Disciplina
 from compleaks.usuarios.forms import LoginForm
@@ -13,7 +13,7 @@ import jinja2
 import datetime
 import os
 from zipfile import ZipFile
-from datetime import datetime				
+from datetime import datetime		
 
 arquivos = Blueprint('arquivos', __name__,template_folder='templates/arquivos')
 
@@ -213,3 +213,45 @@ def deletados():
 
 
 	return render_template('arquivos_deletados.html', arquivos=arquivos, arquivos_rows=arquivos_rows)
+
+@arquivos.route("/avaliar/<int:id_arq>/<int:nota>", methods=['POST', 'GET'])
+@login_required
+def avaliar(id_arq, nota):
+
+	if nota > 5 or nota <= 0:
+		abort(404)
+
+	arquivo = Arquivo.query.get(id_arq)
+
+	if arquivo is None:
+		abort(404)
+
+	if not arquivo.ativado:
+		abort(404)
+
+	avaliacao = Avaliacao_Arquivo.query.filter_by(usuario_id=current_user.id)\
+				.filter_by(arquivo_id=arquivo.id).first()
+
+	if avaliacao != None:
+		avaliacao.nota = nota
+
+	else:
+		
+		avaliacao = Avaliacao_Arquivo(nota, current_user.id, arquivo.id)
+		db.session.add(avaliacao)
+
+
+	db.session.commit()
+	todas_notas = Avaliacao_Arquivo.query.filter_by(arquivo_id=arquivo.id)
+	total = 0
+	i = 0
+	for pnt in todas_notas:
+		total += pnt.nota
+		i += 1
+
+	total = int(total/i)
+
+	arquivo.nota = total
+	db.session.commit()
+
+	return "Foda-se"

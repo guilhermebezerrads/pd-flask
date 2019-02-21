@@ -37,6 +37,8 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				.filter_by(ativado=True).paginate(page=page, per_page=12)
 	existe_arquivo = True
 
+	dist = [1,2,3,4,5] 
+
 	arquivos_row_1 = []
 	arquivos_row_2 = []
 	arquivos_row_3 = []
@@ -758,7 +760,7 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 	print(arquivos_rows)
 
 	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,
-			arquivos_rows=arquivos_rows, form_login=form_login,
+			arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
 		existe_arquivo=existe_arquivo, navigation_data=navigation_data,form=form)
 
 
