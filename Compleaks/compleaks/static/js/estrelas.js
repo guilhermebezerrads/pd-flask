@@ -3,18 +3,14 @@ function colorir(id, valor){
     valor = parseInt(valor);
 
     stars = document.getElementsByClassName("star-"+id);
-    
-    if(stars[valor-1].name != "star"){
-        for(i=0; i<=valor-1; i++){
-            stars[i].name = "star";
-        }
-    }else{
-        for(i=4; i>valor-1; i--){
-            stars[i].name = "star-outline";
-        }
+
+    for(i=4; i>=0; i--){
+        stars[i].name = "star-outline";
     }
 
-    pontua(id, valor);
+    for(i=0; i<=valor-1; i++){
+        stars[i].name = "star";
+    }        
     
 }
 
