@@ -8,12 +8,20 @@
 
     <div>
         <form class="form-group" action="{{ url_for('disciplinas.buscar') }}" method="POST">
-            <h1>Buscar disciplina</h1>
+            <div class="page-header" style="margin-bottom: 30px;">
+                <h1>Buscar disciplina</h1>
+                <hr/>
+            </div>
             {{ form_buscar.hidden_tag() }}
-            {{form_buscar.nome.label}}
-            {{form_buscar.nome(class="form-control", placeholder="Digite o nome da disciplina aqui" )}}
-            {{ form_buscar.submit(class="btn btn-success") }}
+            <!-- Material outline input with prefix-->
+            <div class="md-form md-outline">
+                {{form_buscar.nome(id="inputIconEx1", class="form-control")}}
+                <label for="inputIconEx1">Nome da disciplina</label>
+                <small id="emailHelp2" class="form-text text-muted">Deixe vazio e pressione enter para mostrar todas.</small>
+            </div>
             
+            {{ form_buscar.submit(class="btn btn-primary") }}
+                        
         </form>
     </div>
 
@@ -86,8 +94,8 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
-                            <form action="{{ url_for('disciplinas.redefinir', disc_id=disciplina.id) }} " method="POST">
-                                <input type="submit" value="Redefinir" class="btn btn-danger">
+                            <form id="id_form" action="{{ url_for('disciplinas.redefinir', disc_id=disciplina.id) }} " method="POST">
+                                <input type="submit" value="Redefinir" for="#id_form">
                             </form>
                         </div>
                     </div>
@@ -116,7 +124,7 @@
                               </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                {{ form_editar.submit(class="btn btn-danger") }}
+                                {{ form_editar.submit()}}
                             </div>
                         </form>
                     </div>
@@ -148,7 +156,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                {{ form_excluir.submit(class="btn btn-danger") }}
+                                {{ form_excluir.submit() }}
                             </div>
                         </form>
                     </div>
@@ -163,12 +171,20 @@
     {% else %}
     <div>
         <form class="form-group" action="{{ url_for('disciplinas.buscar') }}" method="POST">
-            <h1>Buscar disciplina</h1>
+            <div class="page-header" style="margin-bottom: 30px;">
+                <h1>Buscar disciplina</h1>
+                <hr/>
+            </div>
             {{ form_buscar.hidden_tag() }}
-            {{form_buscar.nome.label}}
-            {{form_buscar.nome(class="form-control", placeholder="Digite o nome da disciplina aqui" )}}
-            {{ form_buscar.submit(class="btn btn-success") }}
+            <!-- Material outline input with prefix-->
+            <div class="md-form md-outline">
+                {{form_buscar.nome(id="inputIconEx1", class="form-control")}}
+                <label for="inputIconEx1">Nome da disciplina</label>
+                <small id="emailHelp2" class="form-text text-muted">Deixe vazio e pressione enter para mostrar todas.</small>
+            </div>
             
+            {{ form_buscar.submit(class="btn btn-primary") }}
+                        
         </form>
     </div>
 

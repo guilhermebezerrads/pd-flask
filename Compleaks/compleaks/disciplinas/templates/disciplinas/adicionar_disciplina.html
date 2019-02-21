@@ -3,10 +3,22 @@
 {% block title %}Adicionar disciplina{% endblock %}
 
 {% block content %}
+    <div class="page-header">
+        <h1>Adicionar disciplina</h1>
+        <hr/>
+    </div>
 
-    <form class="form-group" method="POST">
+      
+    <form class="form-group" method="POST" style="margin-top: 50px;">
         {{ form.hidden_tag() }}
-        {{ form.nome.label }}{{ form.nome(class="form-control", placeholder="Digite o nome da disciplina aqui") }}
+        <!-- Material outline input with prefix-->
+        <div class="md-form md-outline">
+            <i class="fas fa-book-open prefix"></i>
+            {{ form.nome(id="inputIconEx1", class="form-control") }}
+            <label for="inputIconEx1">Nome da disciplina</label>
+            <small id="emailHelp2" class="form-text text-muted">Adicione corretamente o nome da disciplina.</small>
+        </div>
+
         <br>
         {{ form.submit(class="btn btn-primary") }}
     </form>
