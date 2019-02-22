@@ -12,6 +12,34 @@
     
     <!--INFORMAÇÕES SOBRE O USUARIO-->
     <div class="container">
+       <!--  <div class="row">
+            <div class="col-sm-12 text-center" style="padding-bottom: 5px;">
+                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
+            </div>
+        </div> -->
+        <div class="dropdown-divider"></div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
+            </div>
+        </div>
+        <!--FORMULARIO PARA ALTERAR NOME-->
+        <div id="editar_avatar">
+            <form method="POST">
+                {{ form_avatar.hidden_tag() }}
+                <div class="form-group">
+                    {{ form_avatar.avatar.label(class="form-group",for="avatar") }} 
+                    {{ form_avatar.avatar(class="form-control-file", id="avatar") }} 
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="formulario_avatar_cancelar('editar_avatar')">Cancelar</button>
+                    {{ form_avatar.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
         <div class="row">
             <div class="col-sm-4">
                 Nome

@@ -3,6 +3,7 @@ from wtforms import (StringField, IntegerField, SubmitField,
 					PasswordField, BooleanField, SelectField)
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from compleaks.usuarios.models import Usuario
+from flask_wtf.file import FileField, FileAllowed
 
 def prenche_periodos():
 	#como em medidica temos até 24 periodos
@@ -77,6 +78,10 @@ class ResetarSenhaForm(FlaskForm):
 	senha = PasswordField("Senha: ", validators=[DataRequired(), EqualTo('conf_senha', message="As senhas pressisam de ser igual"), Length(min=0, max=250, message="Minimo de 3 caracteres e máximo de 250 por favor!")])
 	conf_senha = PasswordField("Confirmar Senha: ", validators=[DataRequired(message="Campo Obrigatório")])
 	submit = SubmitField('Resetar Senha')
+
+class TrocaAvatarForm(FlaskForm):
+	avatar = FileField('Atualizar avatar', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+	submit = SubmitField("Trocar")
 
 class TrocaNomeForm(FlaskForm):
 	novo_nome = StringField("Edite seu nome", validators=[DataRequired()])

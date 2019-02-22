@@ -8,7 +8,7 @@ from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm,
 										BuscarUsuarioForm, RecuperarSenhaFrom,
 										ResetarSenhaForm, TrocaNomeForm,
 										TrocaUsernameForm, TrocaCursoForm,
-										TrocaPeriodoForm)
+										TrocaPeriodoForm, TrocaAvatarForm)
 from compleaks.usuarios.models import Usuario
 from compleaks.arquivos.models import Arquivo
 from flask_mail import Message
@@ -23,6 +23,7 @@ def perfil(user_id):
 	form_login = LoginForm()
 
 	user = Usuario.query.get_or_404(user_id)
+	avatar = url_for('static', filename='images/avatares/'+user.avatar)
 
 	if not user.ativado and current_user.is_authenticated:
 		if not user.is_admin:
@@ -69,7 +70,8 @@ def perfil(user_id):
 
 	return render_template('usuario_contribuicao.html', user=user, 
 							contribuiu=quantidade, arquivos=arquivos, dist=dist,
-							form_login=form_login, arquivos_rows=arquivos_rows)
+							form_login=form_login, arquivos_rows=arquivos_rows, 
+							avatar=avatar)
 
 
 def send_wellcome_email(user):
@@ -468,12 +470,20 @@ def reset_token(token):
 @login_required
 def meu_perfil():
 	
+	avatar = url_for('static', filename='images/avatares/'+current_user.avatar)
+
+	form_avatar = TrocaAvatarForm()
 	form_email = TrocaEmailForm()
 	form_senha =  TrocaSenhaForm()
 	form_nome = TrocaNomeForm()
 	form_username = TrocaUsernameForm()
 	form_curso = TrocaCursoForm()
 	form_periodo = TrocaPeriodoForm()
+
+	if form_avatar.validate_on_submit():
+		current_user.nome = form_avatar.avatar.data
+		db.session.commit()
+		flash("Avatar trocado com sucesso!", "warning")
 
 	if form_nome.validate_on_submit():
 		current_user.nome = form_nome.novo_nome.data
@@ -573,4 +583,6 @@ def meu_perfil():
 							form_nome=form_nome,
 							form_username=form_username,
 							form_curso=form_curso,
-							form_periodo=form_periodo)
+							form_periodo=form_periodo,
+							form_avatar=form_avatar,
+							avatar=avatar)
