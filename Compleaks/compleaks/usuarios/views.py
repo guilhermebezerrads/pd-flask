@@ -11,6 +11,7 @@ from compleaks.usuarios.forms import (LoginForm, TrocaEmailForm,
 										TrocaPeriodoForm, TrocaAvatarForm)
 from compleaks.usuarios.models import Usuario
 from compleaks.arquivos.models import Arquivo
+from compleaks.usuarios.avatar_gerenciador import adicionar_avatar
 from flask_mail import Message
 from datetime import datetime
 
@@ -481,9 +482,11 @@ def meu_perfil():
 	form_periodo = TrocaPeriodoForm()
 
 	if form_avatar.validate_on_submit():
-		current_user.nome = form_avatar.avatar.data
+		username = current_user.username
+		pic = adicionar_avatar(form_avatar.avatar.data, username)
+		current_user.avatar = pic
 		db.session.commit()
-		flash("Avatar trocado com sucesso!", "warning")
+		flash("Avatar atualizado com sucesso!", "warning")
 
 	if form_nome.validate_on_submit():
 		current_user.nome = form_nome.novo_nome.data

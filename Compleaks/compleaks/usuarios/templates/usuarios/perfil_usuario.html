@@ -28,7 +28,7 @@
         </div>
         <!--FORMULARIO PARA ALTERAR NOME-->
         <div id="editar_avatar">
-            <form method="POST">
+            <form method="POST"  action="" enctype="multipart/form-data">
                 {{ form_avatar.hidden_tag() }}
                 <div class="form-group">
                     {{ form_avatar.avatar.label(class="form-group",for="avatar") }} 

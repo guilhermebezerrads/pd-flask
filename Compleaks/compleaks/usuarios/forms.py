@@ -80,7 +80,7 @@ class ResetarSenhaForm(FlaskForm):
 	submit = SubmitField('Resetar Senha')
 
 class TrocaAvatarForm(FlaskForm):
-	avatar = FileField('Atualizar avatar', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+	avatar = FileField('Atualizar avatar', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
 	submit = SubmitField("Trocar")
 
 class TrocaNomeForm(FlaskForm):
