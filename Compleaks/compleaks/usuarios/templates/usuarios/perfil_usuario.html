@@ -2,322 +2,156 @@
 {% block title %}Mudar Informações{% endblock %}
  
 {% block content %}
-    <!--CABEÇALHO-->
-    <div class="page-header">
-        <h1>Editar informações</h1>
-        <hr/>
-    </div>
+    <!--BARRA DE NAVEGAÇÃO-->
+    <div class="tabs">    
+        <input type="radio" id="tab1" name="tab-control" checked>
+        <input type="radio" id="tab2" name="tab-control">
+        <input type="radio" id="tab3" name="tab-control">  
+        <input type="radio" id="tab4" name="tab-control">
+        <ul>
+          <li title="Perfil">
+            <label for="tab1">
+              <i class="fas fa-user-alt"></i>
+            </label>
+            <label for="tab2" role="button">            
+              <span>Perfil</span>
+            </label>
+          </li>
+          <li title="Mensagens">
+            <label for="tab2">
+              <i class="fas fa-envelope"></i>
+            </label>
+            <label for="tab2" role="button">            
+              <span>Mensagens</span>
+            </label>
+          </li>
+          <li title="Contribuições">
+            <label for="tab3">
+              <i class="far fa-address-book"></i>
+            </label>
+            <label for="tab3" role="button">            
+              <span>Contribuições</span>
+            </label>
+          </li>
+          <li title="Recomendações">
+            <label for="tab4">
+              <i class="far fa-star"></i>
+            </label>
+            <label for="tab4" role="button">            
+              <span>Recomendações</span>
+            </label>
+          </li>
     
-    <br>
+        </ul>
+        
+        <div class="slider"><div class="indicator"></div></div>
+        <div class="content">
+          <section>
+            <h2>Perfil</h2>
     
-    <!--INFORMAÇÕES SOBRE O USUARIO-->
-    <div class="container">
-       <!--  <div class="row">
-            <div class="col-sm-12 text-center" style="padding-bottom: 5px;">
-                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
-            </div>
-        </div> -->
-        <div class="row">
-            <div class="col-sm-12 text-center">
-                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br><button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar avatar</button>
-            </div>
-            <!-- <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
-            </div> -->
-        </div>
-        <!--FORMULARIO PARA ALTERAR NOME-->
-        <div id="editar_avatar">
-            <form method="POST"  action="" enctype="multipart/form-data">
-                {{ form_avatar.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_avatar.avatar.label(class="form-group",for="avatar") }} 
-                    {{ form_avatar.avatar(class="form-control-file", id="avatar") }} 
+            <!--INFORMAÇÕES SOBRE O USUARIO-->
+            <div class="container">
+                <!--  <div class="row">
+                    <div class="col-sm-12 text-center" style="padding-bottom: 5px;">
+                        <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
+                    </div>
+                </div> -->
+        
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br><button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar avatar</button>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
+                    </div> -->
                 </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_avatar_cancelar('editar_avatar')">Cancelar</button>
-                    {{ form_avatar.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-        <div class="row">
-            <div class="col-sm-4">
-                Nome
-            </div>
-            <div class="col-sm-6">
-                {{ current_user.nome }}
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_nome('editar_nome')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR NOME-->
-        <div id="editar_nome">
-            <form method="POST">
-                {{ form_nome.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_nome.novo_nome.label }}{{ form_nome.novo_nome(class="form-control", value= current_user.nome) }}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_nome_cancelar('editar_nome')">Cancelar</button>
-                    {{ form_nome.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-            <div class="col-sm-4">
-                Nome de usuário
-            </div>
-            <div class="col-sm-6">
-                {{ current_user.username }}
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_username('editar_username')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR USERNAME-->
-        <div id="editar_username">
-            <form method="POST">
-                {{ form_username.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_username.novo_username.label }}{{ form_username.novo_username(class="form-control", value= current_user.username) }}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_username_cancelar('editar_username')">Cancelar</button>
-                    {{ form_username.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-            <div class="col-sm-4">
-                E-mail
-            </div>
-            <div class="col-sm-6">
-                {{ current_user.email }}
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_email('editar_email')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR EMAIL-->
-        <div id="editar_email">
-            <form method="POST">
-                {{ form_email.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_email.senha_atual.label }}{{ form_email.senha_atual(class="form-control") }}
-                    {% if form_email.errors.senha_atual %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_email.errors.senha_atual %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form_email.novo_email.label }}{{ form_email.novo_email(class="form-control") }}
-                    {% if form_email.errors.novo_email %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_email.errors.novo_email %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form_email.conf_email.label }}{{ form_email.conf_email(class="form-control") }}
-                    {% if form_email.errors.conf_email %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_email.errors.conf_email %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_email_cancelar('editar_email')">Cancelar</button>
-                    {{ form_email.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-            <div class="col-sm-4">
-                Curso
-            </div>
-            <div class="col-sm-6">
-                {{ current_user.curso }}
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_curso('editar_curso')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR CURSO-->
-        <div id="editar_curso">
-            <form method="POST">
-                {{ form_curso.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_curso.novo_curso.label }}{{ form_curso.novo_curso(class="form-control", value= current_user.curso) }}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_curso_cancelar('editar_curso')">Cancelar</button>
-                    {{ form_curso.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-            <div class="col-sm-4">
-                Periodo
-            </div>
-            <div class="col-sm-6">
-                {{ current_user.periodo }}º
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_periodo('editar_periodo')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR PERIODO-->
-        <div id="editar_periodo">
-            <form method="POST">
-                {{ form_periodo.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_periodo.novo_periodo.label }}{{ form_periodo.novo_periodo(class="form-control", value= current_user.periodo) }}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_periodo_cancelar('editar_periodo')">Cancelar</button>
-                    {{ form_periodo.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-            <div class="col-sm-4">
-                Senha
-            </div>
-            <div class="col-sm-6">
-                ****** 
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-light" onclick="formulario_senha('editar_senha')">Editar</button>
-            </div>
-        </div>
-        <!--FORMULARIO PARA ALTERAR SENHA-->
-        <div class="jumbotrom" id="editar_senha">
-            <form method="POST">
-                {{ form_senha.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_senha.senha_atual.label }}{{ form_senha.senha_atual(class="form-control") }}
-                    {% if form_senha.errors.senha_atual %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_senha.errors.senha_atual %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form_senha.nova_senha.label }}{{ form_senha.nova_senha(class="form-control") }}
-                    {% if form_senha.errors.nova_senha %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_senha.errors.nova_senha %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form_senha.conf_senha.label }}{{ form_senha.conf_senha(class="form-control") }}
-                    {% if form_senha.errors.conf_senha %}
-                        <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for e in form_senha.errors.conf_senha %}
-                                <li>{{ e }}</li>
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="formulario_senha_cancelar('editar_senha')">Cancelar</button>
-                    {{ form_senha.submit(class="btn btn-primary") }}
-                </div>
-            </form>
-        </div>
-        <div class="dropdown-divider"></div>
-    </div>
-    
-    <br/>
-    <br/>
-
-    <!--EDITAR USER OLD-->
-    <div>
-
-        <!--
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3>Trocar senha</h3>
-                    <form method="POST">
-                        {{ form_senha.hidden_tag() }}
+                <!--FORMULARIO PARA ALTERAR AVATAR-->
+                <div id="editar_avatar" style=" display: none;">
+                    <form method="POST"  action="" enctype="multipart/form-data">
+                        {{ form_avatar.hidden_tag() }}
                         <div class="form-group">
-                            {{ form_senha.senha_atual.label }}{{ form_senha.senha_atual(class="form-control") }}
-                            {% if form_senha.errors.senha_atual %}
-                                <div class="alert alert-danger" role="alert">
-                                <ul>
-                                    {% for e in form_senha.errors.senha_atual %}
-                                        <li>{{ e }}</li>
-                                    {% endfor %}
-                                </ul>
-                                </div>
-                            {% endif %}
+                             
+                            <div class="custom-file">
+                                
+                                {{ form_avatar.avatar(class="custom-file-input", id="avatar") }} 
+                                {{ form_avatar.avatar.label(class="custom-file-label",for="avatar") }}
+                                
+                            </div>
+                            
                         </div>
                         <div class="form-group">
-                            {{ form_senha.nova_senha.label }}{{ form_senha.nova_senha(class="form-control") }}
-                            {% if form_senha.errors.nova_senha %}
-                                <div class="alert alert-danger" role="alert">
-                                <ul>
-                                    {% for e in form_senha.errors.nova_senha %}
-                                        <li>{{ e }}</li>
-                                    {% endfor %}
-                                </ul>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            {{ form_senha.conf_senha.label }}{{ form_senha.conf_senha(class="form-control") }}
-                            {% if form_senha.errors.conf_senha %}
-                                <div class="alert alert-danger" role="alert">
-                                <ul>
-                                    {% for e in form_senha.errors.conf_senha %}
-                                        <li>{{ e }}</li>
-                                    {% endfor %}
-                                </ul>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            {{ form_senha.submit(class="btn btn-primary") }}
+                            <button type="button" class="btn btn-secondary" onclick="formulario_avatar_cancelar('editar_avatar')">Cancelar</button>
+                            {{ form_avatar.submit(class="btn btn-primary") }}
                         </div>
                     </form>
                 </div>
-                <div class="col-sm-6">
-                    <h3>Alterar E-mail</h3>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        Nome
+                    </div>
+                    <div class="col-sm-6">
+                        {{ current_user.nome }}
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_nome('editar_nome')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR NOME-->
+                <div id="editar_nome" style=" display: none;">
+                    <form method="POST">
+                        {{ form_nome.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_nome.novo_nome.label }}{{ form_nome.novo_nome(class="form-control", value= current_user.nome) }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_nome_cancelar('editar_nome')">Cancelar</button>
+                            {{ form_nome.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        Nome de usuário
+                    </div>
+                    <div class="col-sm-6">
+                        {{ current_user.username }}
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_username('editar_username')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR USERNAME-->
+                <div id="editar_username" style=" display: none;">
+                    <form method="POST">
+                        {{ form_username.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_username.novo_username.label }}{{ form_username.novo_username(class="form-control", value= current_user.username) }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_username_cancelar('editar_username')">Cancelar</button>
+                            {{ form_username.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        E-mail
+                    </div>
+                    <div class="col-sm-6">
+                        {{ current_user.email }}
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_email('editar_email')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR EMAIL-->
+                <div id="editar_email" style=" display: none;">
                     <form method="POST">
                         {{ form_email.hidden_tag() }}
                         <div class="form-group">
@@ -357,14 +191,156 @@
                             {% endif %}
                         </div>
                         <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_email_cancelar('editar_email')">Cancelar</button>
                             {{ form_email.submit(class="btn btn-primary") }}
                         </div>
                     </form>
                 </div>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        Curso
+                    </div>
+                    <div class="col-sm-6">
+                        {{ current_user.curso }}
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_curso('editar_curso')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR CURSO-->
+                <div id="editar_curso" style=" display: none;">
+                    <form method="POST">
+                        {{ form_curso.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_curso.novo_curso.label }}{{ form_curso.novo_curso(class="form-control", value= current_user.curso) }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_curso_cancelar('editar_curso')">Cancelar</button>
+                            {{ form_curso.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        Periodo
+                    </div>
+                    <div class="col-sm-6">
+                        {{ current_user.periodo }}º
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_periodo('editar_periodo')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR PERIODO-->
+                <div id="editar_periodo" style=" display: none;">
+                    <form method="POST">
+                        {{ form_periodo.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_periodo.novo_periodo.label }}{{ form_periodo.novo_periodo(class="form-control", value= current_user.periodo) }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_periodo_cancelar('editar_periodo')">Cancelar</button>
+                            {{ form_periodo.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown-divider"></div>
+        
+                <div class="row">
+                    <div class="col-sm-4">
+                        Senha
+                    </div>
+                    <div class="col-sm-6">
+                        ****** 
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-light" onclick="formulario_senha('editar_senha')">Editar</button>
+                    </div>
+                </div>
+                <!--FORMULARIO PARA ALTERAR SENHA-->
+                <div class="jumbotrom" id="editar_senha" style=" display: none;">
+                    <form method="POST">
+                        {{ form_senha.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_senha.senha_atual.label }}{{ form_senha.senha_atual(class="form-control") }}
+                            {% if form_senha.errors.senha_atual %}
+                                <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    {% for e in form_senha.errors.senha_atual %}
+                                        <li>{{ e }}</li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form_senha.nova_senha.label }}{{ form_senha.nova_senha(class="form-control") }}
+                            {% if form_senha.errors.nova_senha %}
+                                <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    {% for e in form_senha.errors.nova_senha %}
+                                        <li>{{ e }}</li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form_senha.conf_senha.label }}{{ form_senha.conf_senha(class="form-control") }}
+                            {% if form_senha.errors.conf_senha %}
+                                <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    {% for e in form_senha.errors.conf_senha %}
+                                        <li>{{ e }}</li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="formulario_senha_cancelar('editar_senha')">Cancelar</button>
+                            {{ form_senha.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown-divider"></div>
             </div>
-        -->
-
+            <!--/INFORMAÇÕES-->
+          
+          </section>
+          
+          <section>
+            <h2>Mensagens</h2>
+            
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
+    
+          </section>
+          
+          <section>
+            <h2>Contribuições</h2>
+           
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+    
+          </section>
+          
+          <section>
+            <h2>Recomendações</h2>
+    
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
+    
+          </section>
+          
+        </div>
     </div>
+    
+    
+    
+    <br/>
+    <br/>
 
     <!--CONTRIBUIÇÕES-->
     <div>

@@ -13,6 +13,7 @@
   <!-- Material Design Bootstrap -->
   <link href="{{url_for('static',filename='css/mdb.min.css')}}" rel="stylesheet">
   <!-- Your custom styles (optional) -->
+
   <script type="text/javascript" src="{{url_for('static',filename='js/pesquisa_arq_2.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static',filename='js/pesquisa_user.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static',filename='js/estrelas.js')}}"></script>
@@ -134,7 +135,7 @@
         {% endwith %}
       </div>
 
-      <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+      <div style="margin-bottom: 50px; margin-top: 50px;">
         {% block content %}
       
         {% endblock %} 
