@@ -24,6 +24,8 @@ class Usuario(db.Model, UserMixin):
 	periodo = db.Column(db.Integer)
 	is_admin = db.Column(db.Integer)
 	data_criacao = db.Column(db.DateTime, default=datetime.now)
+
+	avatar = db.Column(db.String(120), default="default_profile.png")
 	
 	ativado = db.Column(db.Boolean)
 	data_deletado = db.Column(db.DateTime, nullable=True)
