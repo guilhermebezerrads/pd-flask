@@ -17,14 +17,13 @@
                 <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
             </div>
         </div> -->
-        <div class="dropdown-divider"></div>
         <div class="row">
             <div class="col-sm-12 text-center">
-                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
+                <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br><button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar avatar</button>
             </div>
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
                 <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
-            </div>
+            </div> -->
         </div>
         <!--FORMULARIO PARA ALTERAR NOME-->
         <div id="editar_avatar">
@@ -40,6 +39,7 @@
                 </div>
             </form>
         </div>
+        <div class="dropdown-divider"></div>
         <div class="row">
             <div class="col-sm-4">
                 Nome
