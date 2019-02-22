@@ -271,4 +271,4 @@ def avaliar(id_arq, nota):
 	arquivo.nota = total
 	db.session.commit()
 
-	return "Foda-se"
+	return str(nota)

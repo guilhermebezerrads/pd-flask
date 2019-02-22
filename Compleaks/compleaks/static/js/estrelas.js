@@ -2,7 +2,7 @@ function colorir(id, valor){
     id = parseInt(id);
     valor = parseInt(valor);
 
-    stars = document.getElementsByClassName("star-"+id);
+    var stars = document.getElementsByClassName("star-"+id);
 
     for(i=4; i>=0; i--){
         stars[i].name = "star-outline";
@@ -44,7 +44,9 @@ function pontua(id, valor){
         id = parseInt(id);
         valor = parseInt(valor);
 
-        stars = document.getElementsByClassName("star-"+id);
+        var stars = document.getElementsByClassName("star-"+id);
+
+        //baloom.setAttribute("onclick","");
 
         ajax.open("POST", "/arquivos/avaliar/"+id+"/"+valor, true);
         ajax.onreadystatechange = function(){
@@ -54,7 +56,27 @@ function pontua(id, valor){
                 result = result.replace(/\+/g, " ");
                 if(result=="Apagado"){
                     alert("Voto apagado!");
+
+                    for(i=4; i>=0; i--){
+                        stars[i].name = "star-outline";
+                    }
+
+                }else{
+
+                    result = parseInt(result);
+
+                    for(i=4; i>=0; i--){
+                        stars[i].name = "star-outline";
+                    }
+                    
+                    for(i=0; i<=valor-1; i++){
+                        stars[i].name = "star";
+                        stars[i].setAttribute("onmouseout","colorir("+id+", "+result+");");
+                    }
+
                 }
+
+                
             }
         }
 
