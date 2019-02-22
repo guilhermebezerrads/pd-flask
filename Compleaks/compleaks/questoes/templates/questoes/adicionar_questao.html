@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar arquivo{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>Adicionar Uma questão</h1>
+    </div>
+    <br>
+    <form action="" method="POST" action="" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.disciplina.label }} {{ form.disciplina(class="form-control") }}
+                {% if form.errors.disciplina %}
+	                <div class="alert alert-danger" role="alert">
+		                <ul>
+		                    {% for e in form.errors.disciplina %}
+		                        <li>{{ e }}</li>
+		                    {% endfor %}
+		                </ul>
+	                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.enunciado.label }} {{ form.enunciado(class="form-control") }}
+                {% if form.errors.enunciado %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.enunciado %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+
+             <div class="form-group">
+                {{ form.opcao_a.label }} {{ form.opcao_a(class="form-control") }}
+                {% if form.errors.opcao_a %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.opcao_a %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.opcao_b.label }} {{ form.opcao_b(class="form-control") }}
+                {% if form.errors.opcao_b %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.opcao_b %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.opcao_c.label }} {{ form.opcao_c(class="form-control") }}
+                {% if form.errors.opcao_c %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.opcao_c %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.opcao_d.label }} {{ form.opcao_d(class="form-control") }}
+                {% if form.errors.opcao_d %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.opcao_d %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                <br>
+                {{ form.submit(class="btn btn-primary btn-lg") }}
+            </div>          
+          
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock %}
