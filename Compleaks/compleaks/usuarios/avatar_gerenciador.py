@@ -10,7 +10,7 @@ def adicionar_avatar(upload_avatar, username):
 
 	storage_filename = str(username)+'.'+ext_type
 
-	filepath = os.path.join(current_app.root_path, 'static/imagens/avatares', storage_filename)
+	filepath = os.path.join(current_app.root_path, 'static/images/avatares', storage_filename)
 
 	tamanho = (300,300)
 
