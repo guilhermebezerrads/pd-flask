@@ -7,10 +7,12 @@ function colorir(id, valor){
     for(i=4; i>=0; i--){
         stars[i].name = "star-outline";
     }
+    
 
     for(i=0; i<=valor-1; i++){
         stars[i].name = "star";
-    }        
+    }
+
     
 }
 
@@ -38,19 +40,23 @@ function pontua(id, valor){
     if(document.getElementById){//Varifica se a funca ger funciona
 
         var ajax = openAjax();
+
+        id = parseInt(id);
+        valor = parseInt(valor);
+
+        stars = document.getElementsByClassName("star-"+id);
+
         ajax.open("POST", "/arquivos/avaliar/"+id+"/"+valor, true);
-        /*ajax.onreadystatechange = function(){
+        ajax.onreadystatechange = function(){
         
-            if(ajax.readyState == 1){
-               console.log('Carregando Resultados...');
-            }
-
             if(ajax.readyState == 4){
-
-            }else{
-                alert("Erro ao carregar ---");
+                var result = ajax.responseText;
+                result = result.replace(/\+/g, " ");
+                if(result=="Apagado"){
+                    alert("Voto apagado!");
+                }
             }
-        }*/
+        }
 
     }
 

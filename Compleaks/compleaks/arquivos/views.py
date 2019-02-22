@@ -218,7 +218,7 @@ def deletados():
 @login_required
 def avaliar(id_arq, nota):
 
-	if nota > 5 or nota <= 0:
+	if nota > 5 or nota < 0:
 		abort(404)
 
 	arquivo = Arquivo.query.get(id_arq)
@@ -231,6 +231,23 @@ def avaliar(id_arq, nota):
 
 	avaliacao = Avaliacao_Arquivo.query.filter_by(usuario_id=current_user.id)\
 				.filter_by(arquivo_id=arquivo.id).first()
+	
+	if nota == 1 and avaliacao:
+		if avaliacao.nota == 1:
+			db.session.delete(avaliacao)
+			db.session.commit()
+			todas_notas = Avaliacao_Arquivo.query.filter_by(arquivo_id=arquivo.id)
+			total = 0
+			i = 0
+			for pnt in todas_notas:
+				total += pnt.nota
+			i += 1
+
+			total = int(total/i)
+
+			arquivo.nota = total
+			db.session.commit()
+			return "Apagado"
 
 	if avaliacao != None:
 		avaliacao.nota = nota

@@ -8,7 +8,8 @@ class Questao(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	enunciado = db.Column(db.Text, nullable=False)
-	data_criacao = db.Column(db.DateTime, nullable=False)
+	data_criacao = db.Column(db.DateTime, default=datetime.now)
+	correta = db.Column(db.Integer, default=False)
 
 	ativado = db.Column(db.Boolean, default=True)
 
@@ -17,11 +18,11 @@ class Questao(db.Model):
 
 	alternativas = db.relationship('alternativas', backref='questao', uselist=True)
 
-	def __init__(self, enunciado, disciplina_id, usuario_id, data_criacao):
+	def __init__(self, enunciado, disciplina_id, usuario_id, data_criacao, correta):
 		self.enunciado = enunciado
 		self.disciplina_id = disciplina_id
 		self.usuario_id = usuario_id
-		self.data_criacao = data_criacao
+		self.correta = correta
 
 class Alternativa(object):
 	
@@ -29,12 +30,12 @@ class Alternativa(object):
 
 	id = db.Column(db.Integer, primary_key=True)
 	conteudo = db.Column(db.Text, nullable=False)
-	correta = db.Column(db.Boolean, default=False)
+	opcao = db.Column(db.Integer)
 
 	questao_id = db.Column(db.Integer, db.ForeignKey('questoes.id'), nullable=False)
 
-	def __init__(self, conteudo, questao_id, correta):
+	def __init__(self, conteudo, questao_id, opcao):
 		self.conteudo = conteudo
 		self.questao_id = questao_id
-		self.correta = correta
+		self.opcao = opcao
 
