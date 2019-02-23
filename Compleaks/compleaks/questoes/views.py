@@ -20,9 +20,9 @@ def adicionar():
 	if form.validate_on_submit():
 
 		#dados gerais
-		disciplina = int(form_add.disciplina.data)
+		disciplina = int(form.disciplina.data)
 		enunciado = form.enunciado.data
-		correta = form.correta.data
+		correta = int(form.correta.data)
 
 		new_quest = Questao(enunciado=enunciado, disciplina_id=disciplina,
 		 					usuario_id=current_user.id, correta=correta)
@@ -37,21 +37,21 @@ def adicionar():
 		alter_a = Alternativa(conteudo=conteudo, questao_id=quest.id, opcao=1)
 
 		#alternativa b)
-		conteudo = form.opcao_a.data
+		conteudo = form.opcao_b.data
 		alter_b = Alternativa(conteudo=conteudo, questao_id=quest.id, opcao=2)
 
 		#alternativa c)
-		conteudo = form.opcao_a.data
+		conteudo = form.opcao_c.data
 		alter_c = Alternativa(conteudo=conteudo, questao_id=quest.id, opcao=3)
 
 		#alternativa d)
-		conteudo = form.opcao_a.data
+		conteudo = form.opcao_d.data
 		alter_d = Alternativa(conteudo=conteudo, questao_id=quest.id, opcao=4)
 
-		db.session.add_all(alter_d, alter_c, alter_b, alter_a)
+		db.session.add_all([alter_d, alter_c, alter_b, alter_a])
 		db.session.commit()
 
-
+	flash("Questao cadastrada com sucesso", "success")
 
 	return render_template('adicionar_questao.html', form=form)
 

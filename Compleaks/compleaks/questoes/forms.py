@@ -8,7 +8,7 @@ class AdicionarQuestaoForm(FlaskForm):
 				Length( max=400, message="Máximo de 400 por favor!")])
 	disciplina = SelectField("Disciplina:", validators=[DataRequired()])
 	correta = SelectField("Correta:", validators=[DataRequired()],
-				 choices=[(1,"a)"), (2,"b)"), (3,"c)"),(4,"d)")])
+				 choices=[("1","a)"), ("2","b)"), ("3","c)"),("4","d)")])
 	opcao_a = StringField("a)", validators=[DataRequired(), 
 			Length(min=4, max=120, message="Minimo de 4 caracteres e máximo de 120 por favor!")])
 	opcao_b = StringField("b)", validators=[DataRequired(),
