@@ -55,10 +55,10 @@ function pontua(id, valor){
                 var result = ajax.responseText;
                 result = result.replace(/\+/g, " ");
                 if(result=="Apagado"){
-                    alert("Voto apagado!");
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
+                         stars[i].setAttribute("onmouseout","colorir("+id+", "+0+");");
                     }
 
                 }else{
@@ -67,11 +67,11 @@ function pontua(id, valor){
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
+                        stars[i].setAttribute("onmouseout","colorir("+id+", "+result+");");
                     }
                     
                     for(i=0; i<=valor-1; i++){
                         stars[i].name = "star";
-                        stars[i].setAttribute("onmouseout","colorir("+id+", "+result+");");
                     }
 
                 }
