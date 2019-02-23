@@ -1,6 +1,7 @@
 from compleaks import db
 from compleaks.disciplinas.models import Disciplina
 from compleaks.usuarios.models import Usuario
+from datetime import datetime
 
 class Questao(db.Model):
 
@@ -16,7 +17,7 @@ class Questao(db.Model):
 	disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 
-	alternativas = db.relationship('alternativas', backref='questao', uselist=True)
+	alternativas = db.relationship('Alternativa', backref='questao', uselist=True)
 
 	def __init__(self, enunciado, disciplina_id, usuario_id, data_criacao, correta):
 		self.enunciado = enunciado
@@ -24,7 +25,7 @@ class Questao(db.Model):
 		self.usuario_id = usuario_id
 		self.correta = correta
 
-class Alternativa(object):
+class Alternativa(db.Model):
 	
 	__tablename__ = 'alternativas'
 

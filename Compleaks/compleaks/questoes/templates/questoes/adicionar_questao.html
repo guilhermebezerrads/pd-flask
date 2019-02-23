@@ -40,8 +40,24 @@
                 {% endif %}
             </div>
 
+             <div class="form-group">
+                {{ form.correta.label }} {{ form.correta(class="form-control") }}
+                {% if form.errors.correta %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.correta %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+
         </div>
         <div class="col-sm-6">
+            <hr/>
+            <h4>Alternativas</h4>
 
              <div class="form-group">
                 {{ form.opcao_a.label }} {{ form.opcao_a(class="form-control") }}

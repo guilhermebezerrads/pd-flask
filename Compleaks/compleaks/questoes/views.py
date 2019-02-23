@@ -8,7 +8,6 @@ from compleaks.questoes.forms import AdicionarQuestaoForm
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 
-
 @questoes.route('/adicionar', methods=['POST', 'GET'])
 @login_required
 def adicionar():
