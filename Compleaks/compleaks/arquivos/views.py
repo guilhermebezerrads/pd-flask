@@ -50,7 +50,7 @@ def adicionar():
 
 		nome = str(disciplina) + " - " + tipo + " - " + str(data.strftime('%d - %m - %y, %H-%M-%S'))
 		target = os.path.join(current_app.root_path, 'static/uploads')
-
+		"""
 		file_name = target + "/" + nome + ".zip"
 
 		file = form_add.arquivo.data
@@ -62,6 +62,19 @@ def adicionar():
 		zip_archive = ZipFile(file_name, "w")
 		zip_archive.write(destination, destination[len(target) + 1:])
 		os.remove(destination)
+		"""
+		
+		file_name = target + "/" + nome + ".zip"
+		zip_archive = ZipFile(file_name, "w")
+
+		for file in request.files.getlist("file"):
+			filename = file.filename
+			destination = "/".join([target, filename])
+			file.save(destination)
+			zip_archive.write(destination, destination[len(target) + 1:])
+			os.remove(destination)
+
+		zip_archive.close()
 
 		new_arq = Arquivo(arquivo=nome, disciplina_id=int(disciplina), ano=ano, semestre=semestre,
 						 tipo_conteudo=tipo, professor_id=int(professor), 

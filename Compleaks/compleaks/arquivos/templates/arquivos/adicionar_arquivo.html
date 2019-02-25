@@ -95,19 +95,12 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
+           <div class="form-group">
                 <div class="custom-file">
-                    {{ form_add.arquivo.label }} <br> {{ form_add.arquivo() }}
+                  <input type="file" name="file" class="custom-file-input" id="customFile" multiple required>
+                  <label class="custom-file-label" for="customFile">Selecione o Arquivo</label>
+                  <small class="form-text text-muted">(apenas PDF ou imagens com no máximo 10mb)</small>
                 </div>
-                {% if form_add.errors.arquivo %}
-                <div class="alert alert-danger" role="alert">
-                  <ul>
-                    {% for e in form_add.errors.arquivo %}
-                      <li>{{ e }}</li>
-                    {% endfor %}
-                  </ul>
-                </div>
-                {% endif %}
             </div>
 
         </div>
