@@ -35,7 +35,7 @@ class Arquivo(db.Model):
 
 
 	def __init__(self, arquivo, disciplina_id, ano, semestre, tipo_conteudo, 
-		professor_id, usuario_id, extensao):
+		professor_id, usuario_id):
 		self.arquivo = arquivo
 		self.ano = ano
 		self.semestre = semestre

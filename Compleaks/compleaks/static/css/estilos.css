@@ -1,0 +1,304 @@
+body{
+    overflow: auto;
+}
+.imagem_fundo{
+    z-index: 1 !important;
+    width: 100% !important; 
+}
+.imagem_fundo{
+    z-index: 1 !important;
+    width: 100% !important; 
+}
+
+.centraliza{
+    text-align: center !important;
+    display: table-cell !important;
+    vertical-align: middle !important;
+    display: table !important;
+    width: 100% !important;
+}
+
+.leed-button{
+    text-align: center;
+    z-index: 3 !important;
+    position: absolute !important;
+    width: 30% !important;
+    height: 8.5% !important;
+    text-align: center !important;
+    display: table-cell !important;
+    vertical-align: middle !important;
+    margin-top: 29% !important;
+    margin-left: 25% !important;
+    transition: background 0.4s, color 0.4s !important;
+    border-radius: 500px !important;
+    border: 1px solif red;
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    padding: 10px 35px;
+    margin: 0px 15px;
+    text-transform: uppercase;
+    background: #4040ff !important;
+   
+}
+
+.leed-button:hover{
+    background: #4a28ea!important;
+    color: white !important;
+}
+.leed-button-2:hover{
+    background: #4a28ea!important;
+    color: white !important;
+}
+.logotipo{
+    z-index: 3 !important;
+    font-family: 'Topzera', Helvetica, Arial, Helvetica, sans-serif;
+    position: absolute !important;
+    margin-top: 4% !important;
+    margin-left: 15%;
+    font-size: 210px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 11%;
+        font-size: 195px;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 10%;
+        font-size: 190px;
+    }   
+}
+
+@media only screen and (max-width: 1000px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 8%;
+        font-size: 175px;
+    }   
+}
+
+@media only screen and (max-width: 900px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 8%;
+        font-size: 150px;
+    }   
+}
+
+
+@media only screen and (max-width: 830px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 5%;
+        font-size: 150px;
+    }   
+}
+
+@media only screen and (max-width: 800px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 6%;
+        font-size: 135px;
+    }   
+}
+
+@media only screen and (max-width: 767px) {
+    .logotipo{
+        margin-top: 3% !important;
+        margin-left: 13%;
+        font-size: 150px;
+    }   
+
+    .leed-button-2{
+        text-align: center;
+        display: block;
+        z-index: 3 !important;
+        position: absolute !important;
+        width: 40% !important;
+        height: 8.5% !important;
+        text-align: center !important;
+        display: table-cell !important;
+        vertical-align: middle !important;
+        margin-top: 35% !important;
+        margin-left: 25% !important;
+        transition: background 0.4s, color 0.4s !important;
+        border-radius: 500px !important;
+        border: 1px solif red;
+        -webkit-border-radius: 500px;
+        -moz-border-radius: 500px;
+        padding: 10px 35px;
+        margin: 0px 15px;
+        text-transform: uppercase;
+        background: #4040ff !important;
+
+    }
+
+}
+
+@media only screen and (max-width: 670px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 8.6%;
+        font-size: 150px;
+    }
+    .leed-button-2{
+       
+        width: 40% !important;
+        height: 8.5% !important;
+        text-align: center !important;
+        display: table-cell !important;
+        margin-top: 37% !important;
+        margin-left: 25% !important;
+        padding: 10px 35px;
+
+    }   
+}
+
+@media only screen and (max-width: 570px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 9.7%;
+        font-size: 125px;
+    }   
+}
+
+@media only screen and (max-width: 550px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 7.7%;
+        font-size: 125px;
+    }   
+
+}
+
+@media only screen and (max-width: 500px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 6.7%;
+        font-size: 125px;
+    }   
+}
+
+@media only screen and (max-width: 480px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left: 6%;
+        font-size: 125px;
+    }   
+}
+
+
+@media only screen and (max-width: 470px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:9%;
+        font-size: 110px;
+    }   
+}
+
+@media only screen and (max-width: 440px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:7%;
+        font-size: 110px;
+    }   
+}
+
+@media only screen and (max-width: 420px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:5%;
+        font-size: 100px;
+    }
+    .leed-button-2{
+         width: 45% !important;
+        height: 8.5% !important;
+        text-align: center !important;
+        display: table-cell !important;
+        margin-top: 37,5% !important;
+        margin-left: 22.5% !important;
+        padding: 10px 35px;
+
+    }   
+}
+
+
+
+@media only screen and (max-width: 400px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:8%;
+        font-size: 90px;
+    }  
+     
+}
+
+@media only screen and (max-width: 380px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:8%;
+        font-size: 85px;
+    }
+      .leed-button-2{
+         width: 40% !important;
+        margin-left: 25% !important;
+        padding: 0px 0px !important;
+
+    }    
+}
+
+@media only screen and (max-width: 360px) {
+    .logotipo{
+        margin-top: 2% !important;
+        margin-left:7%;
+        font-size: 80px;
+    }   
+}
+
+
+@media only screen and (max-width: 330px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left:9%;
+        font-size: 70px;
+    }   
+}
+
+@media only screen and (max-width: 300px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left:6%;
+        font-size: 67px;
+    } 
+}
+
+@media only screen and (max-width: 280px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left:6%;
+        font-size: 60px;
+    }  
+}
+
+@media only screen and (max-width: 250px) {
+    .logotipo{
+        margin-top: 1% !important;
+        margin-left:5%;
+        font-size: 50px;
+    }   
+}
+
+footer{
+  background: #2196F3;
+  padding: 80px 0px 40px 0px;
+  position: relative;
+}
+
+footer .centraliza{
+  width: 100%;
+}
