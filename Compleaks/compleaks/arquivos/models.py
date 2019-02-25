@@ -15,7 +15,6 @@ class Arquivo(db.Model):
 	semestre = db.Column(db.String(80))
 	tipo_conteudo = db.Column(db.String(120))
 	observacoes = db.Column(db.Text)
-	extensao = db.Column(db.String(6))
 	data_submissao = db.Column(db.DateTime, default=datetime.now)
 	nota = db.Column(db.Integer, nullable=True)
 	
@@ -44,7 +43,6 @@ class Arquivo(db.Model):
 		self.disciplina_id = disciplina_id
 		self.professor_id = professor_id
 		self.usuario_id = usuario_id
-		self.extensao = extensao
 		self.ativado = True
 
 class Avaliacao_Arquivo(db.Model):

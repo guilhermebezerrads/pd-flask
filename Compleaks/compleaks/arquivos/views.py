@@ -26,7 +26,7 @@ def adicionar():
 	form_add = AdicionarArquivoForm()
 
 	form_add.professor.choices = []
-	form_add.professor.choices.append((0, "Sem professor relacionado"))
+	form_add.professor.choices.append(("0", "Sem professor relacionado"))
 	form_add.professor.choices += [(str(professor.id), professor.nome) 
 									for professor in Professor.query.order_by('nome')
 									if professor.ativado]
@@ -34,8 +34,10 @@ def adicionar():
 	form_add.disciplina.choices = [(str(disciplina.id), disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
 									 if disciplina.ativado]
+	print("Aloha")
 
 	if form_add.validate_on_submit():
+		print("Aloha")
 		data = datetime.now()
 
 		professor = form_add.professor.data
@@ -63,7 +65,7 @@ def adicionar():
 		zip_archive.write(destination, destination[len(target) + 1:])
 		os.remove(destination)
 		"""
-		
+		print("Aloha")
 		file_name = target + "/" + nome + ".zip"
 		zip_archive = ZipFile(file_name, "w")
 
@@ -76,9 +78,10 @@ def adicionar():
 
 		zip_archive.close()
 
+		print("Aloha")
 		new_arq = Arquivo(arquivo=nome, disciplina_id=int(disciplina), ano=ano, semestre=semestre,
 						 tipo_conteudo=tipo, professor_id=int(professor), 
-						 usuario_id=current_user.id, extensao=extensao)
+						 usuario_id=current_user.id)
 		
 		new_arq.observacoes = observacoes
 

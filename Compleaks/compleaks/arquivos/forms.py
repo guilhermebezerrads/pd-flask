@@ -33,8 +33,8 @@ class AdicionarArquivoForm(FlaskForm):
 		validators=[DataRequired()])
 	observacoes = TextField("Observações", validators=[DataRequired(), 
 		Length(min=10, max=120, message="Minimo de 10 caracteres e máximo de 120 por favor!")])
-	arquivo = FileField("Arquivo", validators=[DataRequired(), 
-		FileAllowed(['jpg', 'png', 'pdf', 'bmp' , 'jpeg', 'gif'])])
+	#arquivo = FileField("Arquivo", validators=[DataRequired(), 
+	#	FileAllowed(['jpg', 'png', 'pdf', 'bmp' , 'jpeg', 'gif'])])
 
 	submit = SubmitField("Adicionar")
 
