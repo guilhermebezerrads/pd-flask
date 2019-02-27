@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Questão{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h2>Questão</h2>
+        <hr>
+    </div>
+    {% for quest in questoes %}
+        <h4>{{ quest.enunciado }}</h4>
+        <div class="container" style="margin-bottom: 20px;">   
+            <form  class="form-group" method="POST" action="{{url_for('questoes.ver', id=quest.id)}}">
+                {{ form_questao.hidden_tag() }}    
+                {{ form_questao.radio_alternativas()}}
+                {{ form_questao.submit(class="btn btn-primary") }}
+            </form>                   
+        </div>
+    {% endfor %}
+    
+</div>
+
+{% endblock %}

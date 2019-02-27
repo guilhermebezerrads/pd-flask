@@ -4,7 +4,7 @@ from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
 from compleaks.questoes.models import  Questao, Alternativa
-from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm
+from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 
@@ -80,11 +80,8 @@ def buscar():
 			questoes = Questao.query.filter(Questao.disciplina_id.contains(disc))
 		else:
 			query = db.session.query(Questao)
-			existe = db.session.query(Questao)
 			query = Questao.query.filter(Questao.disciplina_id.contains(disc))
 			query = Questao.query.filter(Questao.enunciado.contains(enun))
-			existe = Questao.query.filter(Questao.disciplina_id.contains(disc)).first()
-			existe = Questao.query.filter(Questao.enunciado.contains(enun)).first()
 			questoes= query.all()
 			existe_questao = query.all()
 
@@ -109,3 +106,20 @@ def excluir(id):
 def restaurar(id):
 
 	pass
+
+@questoes.route('/ver-questao/<int:id>', methods=['POST', 'GET'])
+@login_required
+def ver(id):
+	form_questao = FazerQuestaoForm()
+	questoes = Questao.query.filter(Questao.id.contains(id))
+	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
+	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
+									 for alternativa in Alternativa.query.filter(Alternativa.questao_id.contains(id))]
+	for quest in questoes:
+		if form_questao.validate_on_submit():
+			if int(quest.correta)==int(form_questao.radio_alternativas.data):
+				flash("Alternativa correta, meus parabens!", "success")
+			else:
+				flash("Alternativa errada, tente novamente!", "danger")	
+
+	return render_template('ver_questao.html', questoes=questoes, alternativas=alternativas, form_questao=form_questao)

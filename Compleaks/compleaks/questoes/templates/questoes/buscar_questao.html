@@ -42,10 +42,12 @@
 
     <div class="container">
         {% for quest in questoes %}
-            
-            <h5 class="text-info font-weight-bold">
-                Questão
-            </h5>
+            <a href="{{url_for('questoes.ver', id=quest.id)}}">
+                <h5 class="text-info font-weight-bold">
+                    Questão
+                </h5>
+            </a>
+
             <span class="btn-success btn-sm">
                 {{ disciplinas[quest.disciplina_id-1][1] }}
             </span>

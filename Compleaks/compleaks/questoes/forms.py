@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import (StringField, SubmitField, BooleanField, SelectField, TextAreaField)
+from wtforms import (StringField, SubmitField, BooleanField, SelectField, TextAreaField, RadioField)
 from wtforms.validators import DataRequired, Length
 
 class AdicionarQuestaoForm(FlaskForm):	
@@ -35,3 +35,7 @@ class BuscarQuestaoForm(FlaskForm):
 	disciplina = SelectField("Selecione a disciplina que deseja buscar", validators=[DataRequired()])
 	enunciado = StringField("Enunciado:")
 	submit = SubmitField("Buscar")
+
+class FazerQuestaoForm(FlaskForm):
+	radio_alternativas = RadioField("Selecione a resposta correta", validators=[DataRequired()])
+	submit = SubmitField("Pronto")
