@@ -141,7 +141,7 @@
                                 <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
 
 
-                                <a class="sumiras" href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+                                <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
 
 
                             </p>
@@ -157,7 +157,8 @@
                                                 {% endif %}
                                             {% endfor %}    
                                         {% endif %}
-                                    {% endfor %}  
+                                    {% endfor %} 
+                                    <small>({{arquivo.nota}})</small> 
                                 </div>
 
                                 <div id="atual2-{{arquivo.id}}">
@@ -171,14 +172,17 @@
                                             <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                         {% endif %}
                                     {% endfor %}
+                                    <small>({{arquivo.nota}})</small>
                                 </div>
-
+                                
                                 <script type="text/javascript">
-                                     if (document.getElementById("atual1-{{arquivo.id}}").childNodes.length > 1){
+                                     if (document.getElementById("atual1-{{arquivo.id}}").childNodes.length > 3){
                                         document.getElementById("atual2-{{arquivo.id}}").style.display = 'none';
+                                    }else{
+                                        document.getElementById("atual1-{{arquivo.id}}").style.display = 'none';
                                     }
                                 </script>
-                                <small>({{arquivo.nota}})</small>
+                                
                             </p>
 
                             <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><img class="img-responsive info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações" src="{{url_for('static', filename='images/icones/padrao/info.svg')}}" alt="mais"></a>
