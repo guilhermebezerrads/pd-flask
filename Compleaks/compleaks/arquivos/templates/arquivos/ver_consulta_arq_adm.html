@@ -147,13 +147,13 @@
                             </p>
                             <p>
                                 <div id="atual1-{{arquivo.id}}">
-                                    {%for avl in arquivos.avaliacoes %} 
+                                    {%for avl in arquivo.avaliacoes %} 
                                         {%if avl in current_user.avaliacoes%}
                                             {% for i in dist %}
                                                 {% if avl.nota >= (i)%}
-                                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
+                                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
                                                 {% else %}
-                                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                                 {% endif %}
                                             {% endfor %}    
                                         {% endif %}

@@ -54,23 +54,30 @@ function pontua(id, valor){
             if(ajax.readyState == 4){
                 var result = ajax.responseText;
                 result = result.replace(/\+/g, " ");
-                if(result=="Apagado"){
+                result = result.split(".")
+                let num = parseInt(result[1]);
+                if(result[0]=="Apagado"){
+
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
-                         stars[i].setAttribute("onmouseout","colorir("+id+", "+0+");");
+                        stars[i].style.color = " rgb(255, 217, 0)"
+                         stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+                    }
+
+                    for(i=0; i<=num-1; i++){
+                        stars[i].name = "star";
                     }
 
                 }else{
 
-                    result = parseInt(result);
-
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
-                        stars[i].setAttribute("onmouseout","colorir("+id+", "+result+");");
+                        stars[i].style.color = " rgb(243, 38, 54)"
+                        stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
                     }
                     
-                    for(i=0; i<=valor-1; i++){
+                    for(i=0; i<=num-1; i++){
                         stars[i].name = "star";
                     }
 

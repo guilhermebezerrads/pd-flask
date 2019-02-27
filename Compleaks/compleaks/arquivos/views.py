@@ -248,8 +248,8 @@ def avaliar(id_arq, nota):
 	avaliacao = Avaliacao_Arquivo.query.filter_by(usuario_id=current_user.id)\
 				.filter_by(arquivo_id=arquivo.id).first()
 	
-	if nota == 1 and avaliacao:
-		if avaliacao.nota == 1:
+	if (avaliacao) :
+		if  (nota == avaliacao.nota) or (nota == 0):
 			db.session.delete(avaliacao)
 			db.session.commit()
 			todas_notas = Avaliacao_Arquivo.query.filter_by(arquivo_id=arquivo.id)
@@ -263,7 +263,7 @@ def avaliar(id_arq, nota):
 
 			arquivo.nota = total
 			db.session.commit()
-			return "Apagado"
+			return "Apagado.{}".format(total)
 
 	if avaliacao != None:
 		avaliacao.nota = nota
@@ -287,4 +287,4 @@ def avaliar(id_arq, nota):
 	arquivo.nota = total
 	db.session.commit()
 
-	return str(nota)
+	return ("nada."+str(nota))
