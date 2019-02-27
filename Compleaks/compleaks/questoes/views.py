@@ -4,7 +4,7 @@ from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
 from compleaks.questoes.models import  Questao, Alternativa
-from compleaks.questoes.forms import AdicionarQuestaoForm
+from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 
@@ -51,15 +51,46 @@ def adicionar():
 		db.session.add_all([alter_d, alter_c, alter_b, alter_a])
 		db.session.commit()
 
-	flash("Questao cadastrada com sucesso", "success")
+		flash("Questao cadastrada com sucesso", "success")
 
 	return render_template('adicionar_questao.html', form=form)
 
 @questoes.route('/buscar', methods=['POST', 'GET'])
 @login_required
 def buscar():
+	form_buscar = BuscarQuestaoForm()
+	questoes = Questao.query.order_by(Questao.enunciado.asc())
+	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
+	busca = False
+	existe_questao = False
+	form_buscar.disciplina.choices = [(str(disciplina.id), disciplina.nome)
+									 for disciplina in Disciplina.query.order_by('nome')
+									 if disciplina.ativado]
+	disciplinas = [(str(disciplina.id), disciplina.nome)
+									 for disciplina in Disciplina.query.order_by('id')
+									 if disciplina.ativado]
+	
+	if form_buscar.validate_on_submit():
+		busca = True
+		disc = form_buscar.disciplina.data
+		enun = form_buscar.enunciado.data
+		
+		if enun=="":
+			existe_questao =Questao.query.filter(Questao.disciplina_id.contains(disc)).first()
+			questoes = Questao.query.filter(Questao.disciplina_id.contains(disc))
+		else:
+			query = db.session.query(Questao)
+			existe = db.session.query(Questao)
+			query = Questao.query.filter(Questao.disciplina_id.contains(disc))
+			query = Questao.query.filter(Questao.enunciado.contains(enun))
+			existe = Questao.query.filter(Questao.disciplina_id.contains(disc)).first()
+			existe = Questao.query.filter(Questao.enunciado.contains(enun)).first()
+			questoes= query.all()
+			existe_questao = query.all()
 
-	return render_template('buscar_questao.html')
+	return render_template('buscar_questao.html', questoes=questoes, alternativas=alternativas, disciplinas=disciplinas,
+												 form_buscar=form_buscar, busca=busca, existe_questao=existe_questao,
+												 )
 
 @questoes.route('/editar/<id>', methods=['POST', 'GET'])
 @login_required

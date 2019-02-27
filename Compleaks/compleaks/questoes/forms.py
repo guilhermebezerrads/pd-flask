@@ -31,3 +31,7 @@ class EditarQuestaoForm(FlaskForm):
 	opcao_d = StringField("d)", validators=[DataRequired()])
 	submit = SubmitField("Adicionar")
 
+class BuscarQuestaoForm(FlaskForm):
+	disciplina = SelectField("Selecione a disciplina que deseja buscar", validators=[DataRequired()])
+	enunciado = StringField("Enunciado:")
+	submit = SubmitField("Buscar")

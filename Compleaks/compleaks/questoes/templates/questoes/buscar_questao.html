@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar arquivo{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div>
+        <form class="form-group" method="POST">
+            <div class="page-header" style="margin-bottom: 30px;">
+                <h1>Buscar questão</h1>
+                <hr/>
+            </div>
+            {{ form_buscar.hidden_tag() }}
+            <div class="form-group">
+                {{form_buscar.disciplina.label}}{{ form_buscar.disciplina(class="form-control") }}
+            </div>
+            <!-- Material outline input with prefix-->
+            <div class="md-form md-outline">
+                {{form_buscar.enunciado(id="inputIconEx1", class="form-control")}}
+                <label for="inputIconEx1">Enunciado da questão (não obrigatorio)</label>
+                <small id="emailHelp2" class="form-text text-muted">Deixe vazio e pressione enter para mostrar todas.</small>
+            </div>
+                
+            {{ form_buscar.submit(class="btn btn-primary") }}
+            
+        </form>
+    </div>
+
+    <div class="page-header">
+        <h2>Questões</h2>
+        <hr>
+    </div>
+
+    {% if busca %}
+        {% if existe_questao %}
+        {% else %}
+            <h2>Sem resultados para busca</h2>
+            <br>
+        {% endif %}
+    {% endif %}    
+
+    <div class="container">
+        {% for quest in questoes %}
+            
+            <h5 class="text-info font-weight-bold">
+                Questão
+            </h5>
+            <span class="btn-success btn-sm">
+                {{ disciplinas[quest.disciplina_id-1][1] }}
+            </span>
+            <span class="btn-success btn-sm" style="margin-left: 5px;">
+                Comentarios (2)
+            </span>
+            <h5 style="margin-top: 10px; margin-bottom: -2px;">
+                {{ quest.enunciado }} 
+            </h5>
+            <div class="container" style="margin-bottom: 20px;">
+                
+                {% for altv in alternativas %}
+                    {% if altv.questao_id==quest.id %}
+                        {{ altv.conteudo }}
+                        <br>
+                    {% endif %}    
+                {% endfor %}
+    
+            </div>
+    
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
