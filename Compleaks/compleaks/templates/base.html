@@ -7,6 +7,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>{% block title %}{% endblock %} - Compleaks</title>
   <!-- My CSS -->
+  {% block mais_import %}{% endblock %}
   <link href="{{url_for('static',filename='css/component.css')}}" rel="stylesheet">
   <link href="{{url_for('static',filename='css/estilos.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
@@ -132,10 +133,10 @@
 <!--/.Navbar -->
 
   <!--CONTEUDO DO SITE E ALERTA-->
+  {% block divisao %}
   <div class="container-fluid">
     <div class="jumbotron" style="background-color: white;"> 
-      {% block divisao %}
-      {% endblock %}
+  {% endblock %}
       <div class="col-md-8">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}

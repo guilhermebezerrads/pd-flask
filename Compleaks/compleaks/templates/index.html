@@ -2,37 +2,174 @@
 
 {% block title %}Página inicial{% endblock %}
 
-{% block content %}
+{% block divisao %}<div > <div>{% endblock %}
 
-<section>
-  <h1>Seja bem-vindo ao Compleaks</h1>
-  <p>Eu caminhei sozinho pela rua <br>
-Falei com as estrelas e com a lua <br>
-Deitei no banco da praça <br>
-Tentando te esquecer <br>
-Adormeci e sonhei com você <br>
-No sonho, você veio provocante <br>
-Me deu um beijo doce e me abraçou <br>
-E bem na hora "H" no ponto alto do amor <br>
-Já era dia, o guarda me acordou <br>
-Seu guarda, eu não sou vagabundo <br>
-Eu não sou delinquente, sou um cara carente <br>
-Eu dormi na praça, pensando nela <br>
-Seu guarda, seja me amigo <br>
-Me bata, me prenda, faça tudo comigo
-Mas não me deixe, ficar sem ela
-No sonho, você veio provocante
-Me deu um beijo doce e me abraçou
-E bem na hora "H" no ponto alto do amor
-Já era dia, o guarda me acordou
-Seu guarda, eu não sou vagabundo
-Eu não sou delinquente, sou um cara carente
-Eu dormi na praça, pensando nela
-Seu guarda, seja me amigo
-Me bata, me prenda, faça tudo comigo
-Mas não me deixe, ficar sem ela</p>
-</section>    
+    {% block mais_import %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font/index.css') }}">
+    {% endblock %}
 
-
+    {% block content %}
+    <div class="capa">
+      <div class="texto-capa">
+          <br/>
+          <br/>
+          <br/>
+          <h1 class="texto-principal" style="font-family: Comfortaa;">Compleaks</h1>
+          <!-- <h1 class="texto-secundario">Compartilhe <br/> conhecimento</h1> -->
+          <br/>
+          <br/>
+          <br/>
+          {% if not current_user.is_authenticated %}
+            <a  href="{{url_for('usuarios.adicionar')}}" class="btn-custom btn-azul btn-lg"> Aproiveite o Compleaks</a>
+            <br/>
+            <br/>
+            <br/>
+            <a href="" data-toggle="modal" data-target="#elegantModalForm" class="btn-custom btn-azul btn-lg"> Entrar Agora</a>
+          {% endif %}
+      </div>
+  </div>
+<!--   <section id="pesquisar">
+    <div class="container-fluid">
+      <h2>Pesquisar</h2>
+      <p>Encontre provas, listas de exercícios e outros tipos de arquivo compartilhados por alunos da UFMG.</p>
+      <form>
+        <div class="form-group">
+          <label for="pesquisar">Pesquisar</label>
+          <input type="email" class="form-control" id="pesquisar" placeholder="Procure por algo...">
+        </div>
+      </form>
+    </div>
+  </section> -->
+  <section id="explicando">
+    <div class="container-fluid">
+        <div class="row text-center">
+            <div class="col-12">
+               <h2>O Compleaks é seu também</h2>
+               <br>
+               <p>
+                Compartilhe suas fontes de estudo e materias para que todos possam procurar em um só lugar. Pesquise matérias em diversos formatos e para diversos objetivo de forma rápida e divertida.
+            </p>
+            <h3>Aqui vc vai encontrar:</h3>
+            <br/>
+            <br/>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-12">
+         <div class="row">
+            <div class="col-12">
+              <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/apostila.svg')}}">  
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <p>Apostilas</p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/lista.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Listas de exercício</p>
+    </div>
+</div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/prova.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Provas anteriores</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-12">
+        <div class="row">
+            <div class="col-12">
+              <img  src="{{url_for('static', filename='images/icones/conteudo/slide.svg')}}">  
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <p>Slides de aula</p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img src="{{url_for('static', filename='images/icones/conteudo/trabalho.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>Trabalhos anteriores</p>
+    </div>
+</div>
+</div>
+<div class="col-lg-4 col-12">
+    <div class="row">
+        <div class="col-12">
+          <img  class="images" src="{{url_for('static', filename='images/icones/conteudo/outro.svg')}}">  
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <p>E muito mais a sua espera</p>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="comentario">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h2 >Deixe sua opinião registrada.</h2>                    
+                <p >Compartilhe as suas experiências academicâs e contribua para a comunidade de estudantes de forma simples e fácil, pois a sua opinião pode fazer a diferênça.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Professores</h2>
+                <div class="card">
+                  
+                  <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                      <p><strong>Comentário anônimo</strong></p>
+                      <p>Esse professor é uma maravilha, super recomendo, muita paciência para esplicar cada detalhe. </p>
+                      <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
+                  </blockquote>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-6">
+        <h2 >Disciplinas</h2>
+        <div class="card">
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p><strong>Username</strong></p>
+              <p>Muito cuidado na última prova, é nela que a maioria acaba #$as%d%$$as#d@ ...</p>
+              <p class="blockquote-footer">Publicado em - <cite title="Source Title">10/02/2019</cite></p>
+          </blockquote>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
 
 {% endblock %}
