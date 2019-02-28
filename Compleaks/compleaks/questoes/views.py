@@ -3,6 +3,7 @@ from flask import (render_template, Blueprint, url_for, redirect,
 from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
+from compleaks.usuarios.models import Usuario
 from compleaks.questoes.models import  Questao, Alternativa
 from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm
 
@@ -116,16 +117,18 @@ def restaurar(id):
 def ver(id):
 	if not (current_user.is_authenticated):
 		abort(403)
-	form_questao = FazerQuestaoForm()
+	form_questao = FazerQuestaoForm() 
 	questoes = Questao.query.filter(Questao.id.contains(id))
 	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
 	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
 									 for alternativa in Alternativa.query.filter(Alternativa.questao_id.contains(id))]
 	for quest in questoes:
+		usuario = Usuario.query.get(quest.usuario_id)
+		disciplina = Disciplina.query.get(quest.disciplina_id)
 		if form_questao.validate_on_submit():
 			if int(quest.correta)==int(form_questao.radio_alternativas.data):
 				flash("Alternativa correta, meus parabens!", "success")
 			else:
 				flash("Alternativa errada, tente novamente!", "danger")	
 
-	return render_template('ver_questao.html', questoes=questoes, alternativas=alternativas, form_questao=form_questao)
+	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, questoes=questoes, alternativas=alternativas, form_questao=form_questao)
