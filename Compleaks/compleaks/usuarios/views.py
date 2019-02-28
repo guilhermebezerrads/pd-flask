@@ -483,10 +483,11 @@ def meu_perfil():
 
 	if form_avatar.validate_on_submit():
 		username = current_user.username
-		pic = adicionar_avatar(form_avatar.avatar.data, username)
-		current_user.avatar = pic
-		db.session.commit()
-		flash("Avatar atualizado com sucesso!", "warning")
+		if not form_avatar.avatar.data == None:
+			pic = adicionar_avatar(form_avatar.avatar.data, username)
+			current_user.avatar = pic
+			db.session.commit()
+			flash("Avatar atualizado com sucesso!", "warning")
 
 	if form_nome.validate_on_submit():
 		current_user.nome = form_nome.novo_nome.data
