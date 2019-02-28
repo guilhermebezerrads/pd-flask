@@ -26,7 +26,7 @@ Se você não solicitou esta modificação, apenas ignore esse email e nenhuma m
 
 
 @principal.route('/feedback')
-def index():
+def feedback():
 	form_login = LoginForm()
 	form = FeedBackForm()
 
