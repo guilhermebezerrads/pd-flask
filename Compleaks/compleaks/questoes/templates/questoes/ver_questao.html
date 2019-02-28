@@ -31,10 +31,11 @@
                             <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
                                 alt="Generic placeholder image" height="50">
                             <div class="media-body">
-                                <h5 class="mt-0 font-weight-bold blue-text">Carlos Henrique</h5>
+                                <h5 class="mt-0 font-weight-bold blue-text">{{ current_user.nome }}</h5>
                                 <div class="form-group basic-textarea rounded-corners">
                                 <textarea class="form-control z-depth-1" id="exampleFormControlTextarea3" style="width: 400px;" rows="3" placeholder="Escreva seu comentario..."></textarea>
                                 </div>
+                                <button type="button" class="btn btn-primary">Enviar</button>
                             </div>
                         </div>
                     </div>
