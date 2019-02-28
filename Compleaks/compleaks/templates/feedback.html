@@ -13,8 +13,9 @@
     <div class="row">
             {{ form.hidden_tag() }}
         <div class="col-sm-6">
-            <div class="form-group">
-                {{ form.titulo.label }} {{ form.titulo(class="form-control") }}
+            <div class="md-form md-outline">
+                {{form.titulo.label}}
+                {{ form.titulo( class="form-control") }}
                 {% if form.errors.titulo %}
                 <div class="alert alert-danger" role="alert">
                 <ul>
@@ -55,8 +56,9 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                {{ form.email.label }} {{ form.email(class="form-control") }}
+            <div class="md-form md-outline">
+                {{form.email.label}}
+                {{ form.email( class="form-control") }}
                 {% if form.errors.email %}
                 <div class="alert alert-danger" role="alert">
                 <ul>

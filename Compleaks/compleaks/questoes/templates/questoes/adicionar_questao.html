@@ -59,8 +59,9 @@
             <hr/>
             <h4>Alternativas</h4>
 
-             <div class="form-group">
-                {{ form.opcao_a.label }} {{ form.opcao_a(class="form-control") }}
+             <div class="md-form md-outline">
+                {{ form.opcao_a(id="opcao_a", class="form-control") }}
+                <label for="opcao_a">a)</label>
                 {% if form.errors.opcao_a %}
                 <div class="alert alert-danger" role="alert">
                 <ul>
@@ -72,8 +73,9 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                {{ form.opcao_b.label }} {{ form.opcao_b(class="form-control") }}
+            <div class="md-form md-outline">
+                {{ form.opcao_b(id="opcao_b", class="form-control") }}
+                <label for="opcao_b">b)</label>
                 {% if form.errors.opcao_b %}
                 <div class="alert alert-danger" role="alert">
                 <ul>
@@ -85,8 +87,9 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                {{ form.opcao_c.label }} {{ form.opcao_c(class="form-control") }}
+            <div class="md-form md-outline">
+                {{ form.opcao_c(id="opcao_c", class="form-control") }}
+                <label for="opcao_c">c)</label>
                 {% if form.errors.opcao_c %}
                 <div class="alert alert-danger" role="alert">
                 <ul>
@@ -98,8 +101,9 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                {{ form.opcao_d.label }} {{ form.opcao_d(class="form-control") }}
+            <div class="md-form md-outline">
+                {{ form.opcao_d(id="opcao_d", class="form-control") }}
+                <label for="opcao_d">d)</label>
                 {% if form.errors.opcao_d %}
                 <div class="alert alert-danger" role="alert">
                 <ul>
