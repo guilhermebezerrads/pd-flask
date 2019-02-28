@@ -89,20 +89,20 @@
           </div>
         </li>
       {% endif %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false"> Questões
-        </a>
-        <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
-          <a class="dropdown-item" href="{{url_for('questoes.buscar')}}">Buscar</a>
-          {% if current_user.is_authenticated %}  
+      {% if current_user.is_authenticated %} 
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"> Questões
+          </a>
+          <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
+            <a class="dropdown-item" href="{{url_for('questoes.buscar')}}">Buscar</a> 
             <a class="dropdown-item" href="{{url_for('questoes.adicionar')}}">Adicionar</a>
             {% if current_user.is_admin %}
               <a class="dropdown-item" href="">Deletados</a>
             {% endif %}
-          {% endif %}
-        </div>
-      </li>
+          </div>
+        </li>
+      {% endif %}
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
       {% if not current_user.is_authenticated %}

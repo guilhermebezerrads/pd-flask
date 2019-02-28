@@ -42,18 +42,29 @@
 
     <div class="container">
         {% for quest in questoes %}
+            
             <a href="{{url_for('questoes.ver', id=quest.id)}}">
                 <h5 class="text-info font-weight-bold">
                     Questão
                 </h5>
             </a>
-
-            <span class="btn-success btn-sm">
-                {{ disciplinas[quest.disciplina_id-1][1] }}
-            </span>
-            <span class="btn-success btn-sm" style="margin-left: 5px;">
-                Comentarios (2)
-            </span>
+            <div class="row" style="height: 30px;">
+                <div class="col-md-6 d-flex justify-content-start">
+                    <span class="btn-success btn-sm" style="height: 30px;">
+                        {{ disciplinas[quest.disciplina_id-1][1] }}
+                    </span>
+                    <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;">
+                        Comentarios (2)
+                    </span>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    {% if current_user.is_admin or current_user.id == quest.usuario_id %}
+                        <button class="btn btn-link"><i class="fas fa-edit"></i>Editar</button>
+                        <button class="btn btn-link"><i class="fas fa-trash-alt"></i>Excluir</button>
+                    {% endif %}
+                    <button class="btn btn-link"><i class="fas fa-exclamation-triangle"></i>Reportar</button>
+                </div>
+            </div>
             <h5 style="margin-top: 10px; margin-bottom: -2px;">
                 {{ quest.enunciado }} 
             </h5>
@@ -67,6 +78,7 @@
                 {% endfor %}
     
             </div>
+            <hr>
     
         {% endfor %}
     </div>

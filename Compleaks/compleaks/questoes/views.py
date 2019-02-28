@@ -11,6 +11,8 @@ questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 @questoes.route('/adicionar', methods=['POST', 'GET'])
 @login_required
 def adicionar():
+	if not (current_user.is_authenticated):
+		abort(403)
 	form = AdicionarQuestaoForm()
 
 	form.disciplina.choices = [(str(disciplina.id), disciplina.nome)
@@ -58,6 +60,8 @@ def adicionar():
 @questoes.route('/buscar', methods=['POST', 'GET'])
 @login_required
 def buscar():
+	if not (current_user.is_authenticated):
+		abort(403)
 	form_buscar = BuscarQuestaoForm()
 	questoes = Questao.query.order_by(Questao.enunciado.asc())
 	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
@@ -110,6 +114,8 @@ def restaurar(id):
 @questoes.route('/ver-questao/<int:id>', methods=['POST', 'GET'])
 @login_required
 def ver(id):
+	if not (current_user.is_authenticated):
+		abort(403)
 	form_questao = FazerQuestaoForm()
 	questoes = Questao.query.filter(Questao.id.contains(id))
 	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
