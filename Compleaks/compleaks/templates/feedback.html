@@ -6,13 +6,41 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>Enviar um Feedback do sistema</h1>
+        <h1>Envie um Feedback do sistema</h1>
     </div>
     <br>
     <form method="POST" >
     <div class="row">
-        <div class="col-sm-6">
             {{ form.hidden_tag() }}
+        <div class="col-sm-6">
+            <div class="form-group">
+                {{ form.titulo.label }} {{ form.titulo(class="form-control") }}
+                {% if form.errors.titulo %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.titulo %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.texto.label }} {{ form.texto(class="form-control") }}
+                {% if form.errors.texto %}
+                <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.texto %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="col-sm-6">
 
             <div class="form-group">
                 {{ form.tipo.label }} {{ form.tipo(class="form-control") }}
@@ -24,20 +52,6 @@
 		                    {% endfor %}
 		                </ul>
 	                </div>
-                {% endif %}
-            </div>
-
-
-             <div class="form-group">
-                {{ form.titulo.label }} {{ form.titulo(class="form-control") }}
-                {% if form.errors.titulo %}
-                <div class="alert alert-danger" role="alert">
-                <ul>
-                    {% for e in form.errors.titulo %}
-                        <li>{{ e }}</li>
-                    {% endfor %}
-                </ul>
-                </div>
                 {% endif %}
             </div>
 
@@ -56,21 +70,8 @@
 
 
         </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                {{ form.texto.label }} {{ form.texto(class="form-control") }}
-                {% if form.errors.texto %}
-                <div class="alert alert-danger" role="alert">
-                <ul>
-                    {% for e in form.errors.texto %}
-                        <li>{{ e }}</li>
-                    {% endfor %}
-                </ul>
-                </div>
-                {% endif %}
-            </div>
 
-        </div>
+        
     </div>
     <div class="row">
         <div class="col-sm-12">

@@ -4,9 +4,9 @@ from wtforms.validators import DataRequired, Length, Email
 
 class FeedBackForm(FlaskForm):	
 
-	texto = TextAreaField("Email de contato:", validators=[DataRequired(), 
+	texto = TextAreaField("Menssagem:", validators=[DataRequired(), 
 				Length( max=1000, message="Máximo de 400 por favor!")])
-	tipo = SelectField("Tipo de erro:", validators=[DataRequired()],
+	tipo = SelectField("Tipo de FeedBack:", validators=[DataRequired()],
 				 choices=[("Sugestão de melhoria","Sugestão de melhoria"),
 				  ("Reclamações","Reclamações"), ("Repostar Erro","Repostar Erro"),
 				  ("Outro","Outro")])
