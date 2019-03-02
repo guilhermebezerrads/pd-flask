@@ -14,7 +14,7 @@
         <div class="container" style="margin-bottom: 20px;">   
             <form  class="form-group" method="POST" action="{{url_for('questoes.ver', id=quest.id)}}">
                 {{ form_questao.hidden_tag() }}    
-                {{ form_questao.radio_alternativas()}}
+                {{ form_questao.radio_alternativas(style="list-style-type: none;")}}
                 {{ form_questao.submit(class="btn btn-primary") }}
             </form>                   
         </div>
@@ -28,42 +28,75 @@
                 <div class="row">
                     <div class="media">
                         <div class="media mt-3 shadow-textarea">
-                            <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
-                                alt="Generic placeholder image" height="50">
+                            <img src="{{url_for('static', filename='images/avatares/'+current_user.avatar)}}" class="rounded-circle z-depth-0" alt="Avatar" height="50" style="object-fit: cover;">
                             <div class="media-body">
                                 <h5 class="mt-0 font-weight-bold blue-text">{{ current_user.nome }}</h5>
-                                <div class="form-group basic-textarea rounded-corners">
-                                <textarea class="form-control z-depth-1" id="exampleFormControlTextarea3" style="width: 400px;" rows="3" placeholder="Escreva seu comentario..."></textarea>
-                                </div>
-                                <button type="button" class="btn btn-primary">Enviar</button>
+                                <form method="POST">
+                                    {{ form_comentario.hidden_tag() }}
+                                    {{ form_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva seu comentario...") }}
+                                    {{ form_comentario.submit(class="btn btn-primary") }}
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="media">
-                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
-                            alt="Avatar" height="50">
-                        <div class="media-body">
-                            <h5 class="mt-0 font-weight-bold blue-text">Danny Tatuum</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
-                            odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
-                            fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="media">
-                        <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
-                            alt="Avatar" height="50">
-                        <div class="media-body">
-                            <h5 class="mt-0 font-weight-bold blue-text">Anna Smith</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
-                            odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
-                            fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-                </div>
+                {% for comment in comentarios %}
+                    {% for user in usuarios %}
+                        {% if user.id == comment.usuario_id %}
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="media">
+                                    <img src="{{url_for('static', filename='images/avatares/'+user.avatar)}}" class="rounded-circle z-depth-0" alt="Avatar" height="50" style="object-fit: cover;">
+                                    <div class="media-body">
+                                        
+                                        <h5 class="mt-0 font-weight-bold blue-text">                                        
+                                            {{ user.nome }}                                        
+                                        </h5>
+                                        <div class="grey-text" style="margin-left: 5px; margin-top: -8px;">
+                                            <div class="mb-1 navbar-expand-lg" style="position: relative; display: flex; align-items: center;">
+                                                {{ comment.data_criacao.strftime('%d %b, %Y') }}
+                                            
+                                                <ul class="navbar-nav ml-auto">
+                                                    <li class="nav-item dropdown">
+                                                    <a class="nav-link" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fas fa-angle-down"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                                        <button class="dropdown-item" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Editar</button>
+                                                        {% if current_user.is_admin or current_user.id == comment.usuario_id %}
+                                                            <form method="POST">
+                                                                {{ form_excluir_comentario.hidden_tag() }}
+                                                                {{ form_excluir_comentario.id_comment(style="display: None;", value=comment.id) }}
+                                                                {{ form_excluir_comentario.excluir(class="dropdown-item")}}
+                                                            </form>
+                                                        {% endif %}
+                                                        <a class="dropdown-item" href="#">Reportar</a>
+                                                       
+                                                    </div>
+                                                    </li>
+                                                </ul>
+                                                 
+                                            </div>
+                                        </div>
+                                       
+                                        <div id="ver_comentario">
+                                            {{ comment.conteudo }}
+                                        </div>
+                                        <div style="display:none" id="form_editar_comentario{{comment.id}}">
+                                            <form method="POST">
+                                                {{ form_editar_comentario.hidden_tag() }}
+                                                {{ form_editar_comentario.id_coment(style="display: None;", value=comment.id) }}
+                                                {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", placeholder="Digite seu novo comentario", style="height: auto;") }}
+                                                <button class="btn btn-light" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Cancelar</button>
+                                                {{ form_editar_comentario.enviar(class="btn btn-primary") }}
+                                            </form>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
                 
             </div>
         </div>
@@ -71,13 +104,15 @@
         <div class="col-md-6">
             <h5>Detalhes</h5>
             <div class="container">
-                <p>Questão referente a materia de {{ disciplina.nome }}.</p>
-                <p>Criador da questão é {{ usuario.nome }}.</p>
-                {% if current_user.is_admin or current_user.id == quest.usuario_id %}
-                    <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
-                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
-                {% endif %}
-                <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
+                {% for quest in questoes %}
+                    <p>Questão referente a materia de {{ disciplina.nome }}.</p>
+                    <p>Criador da questão é {{ usuario.nome }}.</p>
+                    {% if current_user.is_admin or current_user.id == quest.usuario_id %}
+                        <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
+                        <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
+                    {% endif %}
+                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
+                {% endfor %}
             </div>
         </div>
         

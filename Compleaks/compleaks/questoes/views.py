@@ -4,8 +4,8 @@ from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
 from compleaks.usuarios.models import Usuario
-from compleaks.questoes.models import  Questao, Alternativa
-from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm
+from compleaks.questoes.models import  Questao, Alternativa, Comentario
+from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm, ComentarioQuestaoForm, ExcluirComentarioQuestaoForm, EditarComentarioQuestaoForm
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 
@@ -63,8 +63,11 @@ def adicionar():
 def buscar():
 	if not (current_user.is_authenticated):
 		abort(403)
+	contador = 0
 	form_buscar = BuscarQuestaoForm()
-	questoes = Questao.query.order_by(Questao.enunciado.asc())
+	questoes = Questao.query.order_by(Questao.data_criacao.desc())
+	comentarios = [[comentario.questao_id,comentario.id]
+									 for comentario in Comentario.query.order_by('questao_id')]
 	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
 	busca = False
 	existe_questao = False
@@ -92,7 +95,7 @@ def buscar():
 
 	return render_template('buscar_questao.html', questoes=questoes, alternativas=alternativas, disciplinas=disciplinas,
 												 form_buscar=form_buscar, busca=busca, existe_questao=existe_questao,
-												 )
+												 comentarios=comentarios, contador=contador)
 
 @questoes.route('/editar/<id>', methods=['POST', 'GET'])
 @login_required
@@ -118,6 +121,10 @@ def ver(id):
 	if not (current_user.is_authenticated):
 		abort(403)
 	form_questao = FazerQuestaoForm() 
+	form_comentario = ComentarioQuestaoForm()
+	form_excluir_comentario = ExcluirComentarioQuestaoForm()
+	form_editar_comentario = EditarComentarioQuestaoForm()
+	usuarios = Usuario.query.all()
 	questoes = Questao.query.filter(Questao.id.contains(id))
 	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
 	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
@@ -125,10 +132,31 @@ def ver(id):
 	for quest in questoes:
 		usuario = Usuario.query.get(quest.usuario_id)
 		disciplina = Disciplina.query.get(quest.disciplina_id)
+		comentarios = Comentario.query.filter(Comentario.questao_id.contains(quest.id))
 		if form_questao.validate_on_submit():
 			if int(quest.correta)==int(form_questao.radio_alternativas.data):
 				flash("Alternativa correta, meus parabens!", "success")
 			else:
 				flash("Alternativa errada, tente novamente!", "danger")	
 
-	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, questoes=questoes, alternativas=alternativas, form_questao=form_questao)
+		if form_comentario.validate_on_submit():
+			conteudo = form_comentario.conteudo.data
+			questao_id = quest.id
+			new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id)
+			db.session.add(new_comment)
+			db.session.commit()
+
+		if form_editar_comentario.validate_on_submit():
+			coment = Comentario.query.get(form_editar_comentario.id_coment.data)
+			coment.conteudo = form_editar_comentario.novo_conteudo.data
+			db.session.commit()
+
+		if form_excluir_comentario.validate_on_submit():
+			comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
+			db.session.delete(comentario)
+			db.session.commit()
+
+	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, questoes=questoes, 
+	alternativas=alternativas, form_questao=form_questao, form_comentario=form_comentario,
+	comentarios=comentarios, usuarios=usuarios, form_excluir_comentario=form_excluir_comentario,
+	form_editar_comentario=form_editar_comentario)

@@ -40,3 +40,18 @@ class Alternativa(db.Model):
 		self.questao_id = questao_id
 		self.opcao = opcao
 
+class Comentario(db.Model):
+	
+	__tablename__ = 'comentarios'
+
+	id = db.Column(db.Integer, primary_key=True)
+	conteudo = db.Column(db.Text, nullable=False)
+	data_criacao = db.Column(db.DateTime, default=datetime.now)
+
+	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+	questao_id = db.Column(db.Integer, db.ForeignKey('questoes.id'), nullable=False)
+
+	def __init__(self, conteudo, questao_id, usuario_id):
+		self.conteudo = conteudo
+		self.questao_id = questao_id
+		self.usuario_id = usuario_id

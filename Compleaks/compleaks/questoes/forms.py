@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import (StringField, SubmitField, BooleanField, SelectField, TextAreaField, RadioField)
+from wtforms import (StringField, SubmitField, BooleanField, SelectField, TextAreaField, RadioField, IntegerField)
 from wtforms.validators import DataRequired, Length
 
 class AdicionarQuestaoForm(FlaskForm):	
@@ -39,3 +39,16 @@ class BuscarQuestaoForm(FlaskForm):
 class FazerQuestaoForm(FlaskForm):
 	radio_alternativas = RadioField("Selecione a resposta correta", validators=[DataRequired()])
 	submit = SubmitField("Pronto")
+
+class ComentarioQuestaoForm(FlaskForm):
+	conteudo = TextAreaField("Conteudo", validators=[DataRequired()])
+	submit = SubmitField("Comentar")
+
+class ExcluirComentarioQuestaoForm(FlaskForm):
+	id_comment = IntegerField("Id do comentario:", validators=[DataRequired()])
+	excluir = SubmitField("Excluir")
+
+class EditarComentarioQuestaoForm(FlaskForm):
+	id_coment = IntegerField("Id do comentario:", validators=[DataRequired()])
+	novo_conteudo = TextAreaField("Conteudo", validators=[DataRequired()])
+	enviar = SubmitField("Editar")
