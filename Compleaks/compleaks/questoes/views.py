@@ -63,11 +63,15 @@ def adicionar():
 def buscar():
 	if not (current_user.is_authenticated):
 		abort(403)
-	contador = 0
+	contador = {}
 	form_buscar = BuscarQuestaoForm()
 	questoes = Questao.query.order_by(Questao.data_criacao.desc())
-	comentarios = [[comentario.questao_id,comentario.id]
+
+	comment = [comentario.questao_id
 									 for comentario in Comentario.query.order_by('questao_id')]
+	comentarios = list(set(comment))
+	for coment in comentarios:
+		contador.update({str(coment):comment.count(coment)})
 	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
 	busca = False
 	existe_questao = False
@@ -84,7 +88,7 @@ def buscar():
 		enun = form_buscar.enunciado.data
 		
 		if enun=="":
-			existe_questao =Questao.query.filter(Questao.disciplina_id.contains(disc)).first()
+			existe_questao = Questao.query.filter(Questao.disciplina_id.contains(disc)).first()
 			questoes = Questao.query.filter(Questao.disciplina_id.contains(disc))
 		else:
 			query = db.session.query(Questao)

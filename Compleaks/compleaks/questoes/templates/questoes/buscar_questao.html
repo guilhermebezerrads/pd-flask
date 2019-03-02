@@ -54,9 +54,11 @@
                         {{ disciplinas[quest.disciplina_id-1][1] }}
                     </span>
                     <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;">
-                        {% for coment in comentarios %}
-                            {{coment[0]}}
-                        {% endfor %}
+                        {% if contador[quest.id|string] %}
+                            <span>Comentarios({{contador[quest.id|string]}})</span>
+                        {% else %}
+                            <span>Comentarios(0)</span>
+                        {% endif %}
                     </span>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end">
