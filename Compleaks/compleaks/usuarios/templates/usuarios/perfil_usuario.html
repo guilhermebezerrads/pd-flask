@@ -445,9 +445,9 @@
                                                     {%if avl in current_user.avaliacoes%}
                                                         {% for i in dist %}
                                                             {% if avl.nota >= (i)%}
-                                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
+                                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
                                                             {% else %}
-                                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                                             {% endif %}
                                                         {% endfor %}    
                                                     {% endif %}
@@ -459,18 +459,18 @@
                                                 {% for i in dist %}
 
                                                     {% if not arquivo.nota %}
-                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},0);" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},0);" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                                     {% elif arquivo.nota >= (i)%}
-                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
+                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
                                                     {% else %}
-                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                                     {% endif %}
                                                 {% endfor %}
                                                 <small>({{arquivo.nota}})</small>
                                             </div>
                                             
                                             <script type="text/javascript">
-                                                if (document.getElementById("atual1-{{arquivo.id}}").childNodes.length > 3){
+                                                 if (document.getElementById("atual1-{{arquivo.id}}").childNodes.length > 3){
                                                     document.getElementById("atual2-{{arquivo.id}}").style.display = 'none';
                                                 }else{
                                                     document.getElementById("atual1-{{arquivo.id}}").style.display = 'none';
