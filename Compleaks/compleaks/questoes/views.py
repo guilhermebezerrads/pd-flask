@@ -157,8 +157,9 @@ def ver(id):
 
 		if form_excluir_comentario.validate_on_submit():
 			comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
-			db.session.delete(comentario)
-			db.session.commit()
+			if comentario:
+				db.session.delete(comentario)
+				db.session.commit()
 
 	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, questoes=questoes, 
 	alternativas=alternativas, form_questao=form_questao, form_comentario=form_comentario,
