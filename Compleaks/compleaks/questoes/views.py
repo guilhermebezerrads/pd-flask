@@ -165,3 +165,22 @@ def ver(id):
 	alternativas=alternativas, form_questao=form_questao, form_comentario=form_comentario,
 	comentarios=comentarios, usuarios=usuarios, form_excluir_comentario=form_excluir_comentario,
 	form_editar_comentario=form_editar_comentario)
+
+
+@questoes.route('/redefinir/<int:id>', methods=['POST', 'GET'])
+@login_required
+def redefinir(id):
+	if not current_user.is_admin:
+		abort(403)
+
+	quest = Questao.query.get(id)
+
+@questoes.route('/excluidas', methods=['POST', 'GET'])
+@login_required
+def excluidas():
+	if not current_user.is_admin:
+		abort(403)
+
+	questoes = Questao.query.filter_by(ativado=0)	
+
+	return render_template('excluidas_questoes.html', questoes=questoes)

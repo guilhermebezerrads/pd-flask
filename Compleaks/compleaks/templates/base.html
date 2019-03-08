@@ -99,7 +99,7 @@
             <a class="dropdown-item" href="{{url_for('questoes.buscar')}}">Buscar</a> 
             <a class="dropdown-item" href="{{url_for('questoes.adicionar')}}">Adicionar</a>
             {% if current_user.is_admin %}
-              <a class="dropdown-item" href="">Deletados</a>
+              <a class="dropdown-item" href="{{url_for('questoes.excluidas')}}">Excluidas</a>
             {% endif %}
           </div>
         </li>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Questões Excluidas{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="page-header">
+        <h2>Questões excluidas</h2>
+        <hr>
+    </div>
+
+    <div class="container">
+        {% for quest in questoes %}
+            
+            <a href="{{url_for('questoes.ver', id=quest.id)}}">
+                <h5 class="text-info font-weight-bold">
+                    Questão
+                </h5>
+            </a>
+            <div class="row" style="height: 30px;">
+                <div class="col-md-6 d-flex justify-content-start">
+                    <span class="btn-success btn-sm" style="height: 30px;">
+                        {{ disciplinas[quest.disciplina_id-1][1] }}
+                    </span>
+                    <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;">
+                        {% if contador[quest.id|string] %}
+                            <span>Comentarios({{contador[quest.id|string]}})</span>
+                        {% else %}
+                            <span>Comentarios(0)</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <button class="btn btn-link"><i class="fab fa-jedi-order"></i>Redefinir</button>
+                    
+                </div>
+            </div>
+            <h5 style="margin-top: 10px; margin-bottom: -2px;">
+                {{ quest.enunciado }} 
+            </h5>
+            <div class="container" style="margin-bottom: 20px;">
+                
+                {% for altv in alternativas %}
+                    {% if altv.questao_id==quest.id %}
+                        {{ altv.conteudo }}
+                        <br>
+                    {% endif %}    
+                {% endfor %}
+    
+            </div>
+            <hr>
+    
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
