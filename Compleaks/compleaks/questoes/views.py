@@ -174,6 +174,13 @@ def redefinir(id):
 		abort(403)
 
 	quest = Questao.query.get(id)
+	quest.ativado = True
+	db.session.commit()
+
+	flash("Questao redefinida com sucesso", "success")
+
+	return redirect(url_for('questoes.excluidas'))
+
 
 @questoes.route('/excluidas', methods=['POST', 'GET'])
 @login_required
@@ -193,7 +200,7 @@ def excluidas():
 
 	page = request.args.get('page', 1, type=int)
 	questoes = Questao.query.filter_by(ativado=False).paginate(page=page, per_page=10)	
-	
+
 	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
 
 	return render_template('excluidas_questoes.html', questoes=questoes,
