@@ -194,7 +194,7 @@ def redefinir(arq_id):
 @arquivos.route('/deletados', methods=['GET', "POST"])
 def deletados():
 	if not current_user.is_admin:
-		abort(404)
+		abort(403)
 
 	page = request.args.get('page', 1, type=int)	
 	arquivos = Arquivo.query.filter_by(ativado=False).paginate(page=page, per_page=12)

@@ -12,7 +12,7 @@
     </div>
 
     <div class="container">
-        {% for quest in questoes %}
+        {% for quest in questoes.items %}
             
             <a href="{{url_for('questoes.ver', id=quest.id)}}">
                 <h5 class="text-info font-weight-bold">
@@ -33,7 +33,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end">
-                    <button class="btn btn-link"><i class="fab fa-jedi-order"></i>Redefinir</button>
+                    <a href="{{url_for('questoes.redefinir', id=quest.id)}}"><button class="btn btn-link"><i class="fab fa-jedi-order"></i>Redefinir</button></a>
                     
                 </div>
             </div>
@@ -55,5 +55,23 @@
         {% endfor %}
     </div>
 </div>
+<br/>
+<nav style="position: static;" aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for page_num in questoes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if questoes.page == page_num and page_num %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="{{ url_for('questoes.excluidas') }}">{{ page_num }}</a></li>
+                </li>
+            {% elif page_num %}
+                <li class="page-item">                    
+                    <a class="page-link" href="{{ url_for('questoes.excluidas') }}">{{ page_num }}</a></li>
+                </li>
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
 
 {% endblock %}

@@ -181,6 +181,20 @@ def excluidas():
 	if not current_user.is_admin:
 		abort(403)
 
-	questoes = Questao.query.filter_by(ativado=0)	
+	contador = {}
+	comment = [comentario.questao_id
+									 for comentario in Comentario.query.order_by('questao_id')]
+	comentarios = list(set(comment))
+	print(comentarios)
 
-	return render_template('excluidas_questoes.html', questoes=questoes)
+	for coment in comentarios:
+		contador.update({str(coment):comment.count(coment)})
+
+
+	page = request.args.get('page', 1, type=int)
+	questoes = Questao.query.filter_by(ativado=False).paginate(page=page, per_page=10)	
+	
+	alternativas = Alternativa.query.order_by(Alternativa.id.asc())
+
+	return render_template('excluidas_questoes.html', questoes=questoes,
+							 contador=contador, alternativas=alternativas)
