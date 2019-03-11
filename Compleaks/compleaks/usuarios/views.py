@@ -69,6 +69,16 @@ def perfil(user_id):
 
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
+	for row in arquivos_rows:
+		for arquivo in row:
+			arquivo.avaliado = False
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			for avl in arquivo.avaliacoes:
+				if avl in current_user.avaliacoes:
+					arquivo.avaliado = True
+
 	return render_template('usuario_contribuicao.html', user=user, 
 							contribuiu=quantidade, arquivos=arquivos, dist=dist,
 							form_login=form_login, arquivos_rows=arquivos_rows, 
@@ -389,7 +399,17 @@ def troca():
 
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
-	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3) 
+	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3)
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			arquivo.avaliado = False
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			for avl in arquivo.avaliacoes:
+				if avl in current_user.avaliacoes:
+					arquivo.avaliado = True
 
 	return render_template('troca_informacao.html',
 							form_email=form_email,
@@ -466,6 +486,7 @@ def reset_token(token):
 		return redirect(url_for('usuarios.login'))
 	
 	return render_template('resetar_senha.html', form=form, form_login=form_login)
+
 
 @usuarios.route('/meu-perfil', methods=['POST', 'GET'])
 @login_required
@@ -574,6 +595,16 @@ def meu_perfil():
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
 	quantidade = len(arquivos_row_1) + len(arquivos_row_2) + len(arquivos_row_3) 
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			arquivo.avaliado = False
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			for avl in arquivo.avaliacoes:
+				if avl in current_user.avaliacoes:
+					arquivo.avaliado = True
 
 
 	return render_template('perfil_usuario.html',

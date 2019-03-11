@@ -61,7 +61,7 @@ function pontua(id, valor){
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
-                        stars[i].style.color = " rgb(255, 217, 0)"
+                        stars[i].style.color = " rgb(243, 38, 54)"
                          stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
                     }
 
@@ -73,7 +73,7 @@ function pontua(id, valor){
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
-                        stars[i].style.color = " rgb(243, 38, 54)"
+                        stars[i].style.color = " rgb(255, 217, 0)"
                         stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
                     }
                     
