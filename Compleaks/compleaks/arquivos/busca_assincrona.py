@@ -172,6 +172,15 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 							if avl in current_user.avaliacoes:
 								arquivo.avaliado = True
 
+				total = 0.0
+				for row in arquivos_rows:
+					for arquivo in row:
+						total = 0.0
+						for avl in arquivo.avaliacoes:
+							total = total + avl.nota
+						total = total/len(arquivo.avaliacoes)
+						arquivo.nota_decimal = round(total, 1)
+
 				return render_template('busca_assincrona_adm.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 					 	arquivos_rows=arquivos_rows, dist=dist,
 					existe_arquivo=existe_arquivo, navigation_data=navigation_data)
@@ -279,6 +288,15 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 					if avl in current_user.avaliacoes:
 						arquivo.avaliado = True
 
+		total = 0.0
+		for row in arquivos_rows:
+			for arquivo in row:
+				total = 0.0
+				for avl in arquivo.avaliacoes:
+					total = total + avl.nota
+				total = total/len(arquivo.avaliacoes)
+				arquivo.nota_decimal = round(total, 1)
+
 		return render_template('busca_assincrona_normal.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 			 	arquivos_rows=arquivos_rows, dist=dist,
 			existe_arquivo=existe_arquivo, navigation_data=navigation_data)
@@ -322,6 +340,15 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 			for avl in arquivo.avaliacoes:
 				if avl in current_user.avaliacoes:
 					arquivo.avaliado = True
+
+	total = 0.0
+	for row in arquivos_rows:
+		for arquivo in row:
+			total = 0.0
+			for avl in arquivo.avaliacoes:
+				total = total + avl.nota
+			total = total/len(arquivo.avaliacoes)
+			arquivo.nota_decimal = round(total, 1)
 
 	return render_template('busca_assincrona_{}.html'.format(navigation_data[1]), tip_arquiv="all", arquivos=arquivos ,
 			arquivos_rows=arquivos_rows, dist=dist,

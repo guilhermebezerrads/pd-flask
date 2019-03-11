@@ -79,6 +79,15 @@ def perfil(user_id):
 				if avl in current_user.avaliacoes:
 					arquivo.avaliado = True
 
+	total = 0.0
+	for row in arquivos_rows:
+		for arquivo in row:
+			total = 0.0
+			for avl in arquivo.avaliacoes:
+				total = total + avl.nota
+			total = total/len(arquivo.avaliacoes)
+			arquivo.nota_decimal = round(total, 1)
+
 	return render_template('usuario_contribuicao.html', user=user, 
 							contribuiu=quantidade, arquivos=arquivos, dist=dist,
 							form_login=form_login, arquivos_rows=arquivos_rows, 
@@ -411,6 +420,15 @@ def troca():
 				if avl in current_user.avaliacoes:
 					arquivo.avaliado = True
 
+	total = 0.0
+	for row in arquivos_rows:
+		for arquivo in row:
+			total = 0.0
+			for avl in arquivo.avaliacoes:
+				total = total + avl.nota
+			total = total/len(arquivo.avaliacoes)
+			arquivo.nota_decimal = round(total, 1)
+
 	return render_template('troca_informacao.html',
 							form_email=form_email,
 							form_senha=form_senha,
@@ -605,6 +623,15 @@ def meu_perfil():
 			for avl in arquivo.avaliacoes:
 				if avl in current_user.avaliacoes:
 					arquivo.avaliado = True
+
+	total = 0.0
+	for row in arquivos_rows:
+		for arquivo in row:
+			total = 0.0
+			for avl in arquivo.avaliacoes:
+				total = total + avl.nota
+			total = total/len(arquivo.avaliacoes)
+			arquivo.nota_decimal = round(total, 1)
 
 
 	return render_template('perfil_usuario.html',

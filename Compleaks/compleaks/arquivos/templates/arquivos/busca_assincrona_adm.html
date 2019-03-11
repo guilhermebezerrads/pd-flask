@@ -159,7 +159,7 @@
                                         {% endfor %}    
                                     {% endif %}
                                 {% endfor %} 
-                                <small>({{arquivo.nota}})</small> 
+                                <small>({{arquivo.nota_decimal}})</small> 
                             </div>
                         {% else %}
                             <div id="atual2-{{arquivo.id}}">
@@ -173,7 +173,7 @@
                                         <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
                                     {% endif %}
                                 {% endfor %}
-                                <small>({{arquivo.nota}})</small>
+                                <small>({{arquivo.nota_decimal}})</small>
                             </div>
                         {% endif %}
                         
