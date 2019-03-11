@@ -130,10 +130,8 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 									.paginate(page=page, per_page=12)
 
 					if filtro is 3:
-						existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv).first()
-						arquivos = Arquivo.query\
-									.filter_by(tipo_conteudo=tip_arquiv)\
-									.paginate(page=page, per_page=12)
+						existe_arquivo = Arquivo.query.first()
+						arquivos = Arquivo.query.paginate(page=page, per_page=12)
 
 
 				contador = 0
@@ -241,12 +239,8 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 							.paginate(page=page, per_page=12)
 
 			if filtro is 3:
-				existe_arquivo = Arquivo.query.filter_by(tipo_conteudo=tip_arquiv)\
-								.filter_by(ativado=True).first()
-				arquivos = Arquivo.query.filter_by(ativado=True)\
-							.filter_by(tipo_conteudo=tip_arquiv)\
-							.paginate(page=page, per_page=12)
-
+				existe_arquivo = Arquivo.query.first()
+				arquivos = Arquivo.query.paginate(page=page, per_page=12)
 		contador = 0
 		arquivos_row_1.clear()
 		arquivos_row_2.clear()
