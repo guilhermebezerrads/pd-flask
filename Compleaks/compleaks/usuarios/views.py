@@ -83,10 +83,15 @@ def perfil(user_id):
 	for row in arquivos_rows:
 		for arquivo in row:
 			total = 0.0
-			for avl in arquivo.avaliacoes:
-				total = total + avl.nota
-			total = total/len(arquivo.avaliacoes)
+			if len(arquivo.avaliacoes): 
+				for avl in arquivo.avaliacoes:
+					total = total + avl.nota
+				total = total/len(arquivo.avaliacoes)
+			else:
+				total = 0.0
+
 			arquivo.nota_decimal = round(total, 1)
+
 
 	return render_template('usuario_contribuicao.html', user=user, 
 							contribuiu=quantidade, arquivos=arquivos, dist=dist,
@@ -628,10 +633,15 @@ def meu_perfil():
 	for row in arquivos_rows:
 		for arquivo in row:
 			total = 0.0
-			for avl in arquivo.avaliacoes:
-				total = total + avl.nota
-			total = total/len(arquivo.avaliacoes)
+			if len(arquivo.avaliacoes): 
+				for avl in arquivo.avaliacoes:
+					total = total + avl.nota
+				total = total/len(arquivo.avaliacoes)
+			else:
+				total = 0.0
+
 			arquivo.nota_decimal = round(total, 1)
+
 
 
 	return render_template('perfil_usuario.html',

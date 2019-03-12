@@ -187,9 +187,13 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for row in arquivos_rows:
 					for arquivo in row:
 						total = 0.0
-						for avl in arquivo.avaliacoes:
-							total = total + avl.nota
-						total = total/len(arquivo.avaliacoes)
+						if len(arquivo.avaliacoes): 
+							for avl in arquivo.avaliacoes:
+								total = total + avl.nota
+							total = total/len(arquivo.avaliacoes)
+						else:
+							total = 0.0
+						
 						arquivo.nota_decimal = round(total, 1)
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos,
@@ -303,11 +307,13 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for row in arquivos_rows:
 					for arquivo in row:
 						total = 0.0
-						for avl in arquivo.avaliacoes:
-							total = total + avl.nota
-						total = total/len(arquivo.avaliacoes)
+						if len(arquivo.avaliacoes): 
+							for avl in arquivo.avaliacoes:
+								total = total + avl.nota
+							total = total/len(arquivo.avaliacoes)
+						else:
+							total = 0.0
 						arquivo.nota_decimal = round(total, 1)
-
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 					 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
@@ -449,9 +455,13 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for row in arquivos_rows:
 					for arquivo in row:
 						total = 0.0
-						for avl in arquivo.avaliacoes:
-							total = total + avl.nota
-						total = total/len(arquivo.avaliacoes)
+						if len(arquivo.avaliacoes): 
+							for avl in arquivo.avaliacoes:
+								total = total + avl.nota
+							total = total/len(arquivo.avaliacoes)
+						else:
+							total = 0.0
+
 						arquivo.nota_decimal = round(total, 1)
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
@@ -569,9 +579,13 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for row in arquivos_rows:
 					for arquivo in row:
 						total = 0.0
-						for avl in arquivo.avaliacoes:
-							total = total + avl.nota
-						total = total/len(arquivo.avaliacoes)
+						if len(arquivo.avaliacoes): 
+							for avl in arquivo.avaliacoes:
+								total = total + avl.nota
+							total = total/len(arquivo.avaliacoes)
+						else:
+							total = 0.0
+
 						arquivo.nota_decimal = round(total, 1)
 
 				return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
@@ -714,10 +728,15 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 			for row in arquivos_rows:
 				for arquivo in row:
 					total = 0.0
-					for avl in arquivo.avaliacoes:
-						total = total + avl.nota
-					total = total/len(arquivo.avaliacoes)
+					if len(arquivo.avaliacoes): 
+						for avl in arquivo.avaliacoes:
+							total = total + avl.nota
+						total = total/len(arquivo.avaliacoes)
+					else:
+						total = 0.0
+
 					arquivo.nota_decimal = round(total, 1)
+
 
 			return render_template('buscar_arq.html',tip_arquiv=tip_arquiv, arquivos=arquivos, 
 				 	arquivos_rows=arquivos_rows, form_login=form_login, dist=dist,
@@ -885,10 +904,15 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 	for row in arquivos_rows:
 		for arquivo in row:
 			total = 0.0
-			for avl in arquivo.avaliacoes:
-				total = total + avl.nota
-			total = total/len(arquivo.avaliacoes)
+			if len(arquivo.avaliacoes): 
+				for avl in arquivo.avaliacoes:
+					total = total + avl.nota
+				total = total/len(arquivo.avaliacoes)
+			else:
+				total = 0.0
+
 			arquivo.nota_decimal = round(total, 1)
+
 
 
 	return render_template('buscar_arq.html', tip_arquiv="all", arquivos=arquivos ,
