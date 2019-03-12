@@ -137,11 +137,11 @@
                     </div>
                     <div class="modal-footer">
 
-                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><i class="fas fa-window-close cancel"></i></a>
 
                         {% if current_user == arquivo.author%}
 
-                        <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" ><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                        <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" ><i class="fas fa-edit edit-icon" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
 
                         {% endif %}
 
@@ -155,7 +155,7 @@
 
                         {% endif %}
 
-                        <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
+                        <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download model-download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
 
                     </div>
                 </div>
@@ -260,4 +260,4 @@
         <h1 >Nenhum Resultado Encontrado</h1>
     </div>
     {% endif %}
-    {% endblock %}
+{% endblock %}
