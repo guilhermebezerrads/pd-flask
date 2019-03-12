@@ -17,7 +17,6 @@ from compleaks.usuarios.forms import LoginForm
 	methods=['POST', 'GET'], defaults={"pesquisa":None})
 def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 
-	print(tip_arquiv)
 
 	page = request.args.get('page', 1, type=int)
 
@@ -329,7 +328,6 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 
 	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
 
-	print(arquivos_rows)
 
 	for row in arquivos_rows:
 		for arquivo in row:
