@@ -137,7 +137,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><i class="fas fa-window-close cancel"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
 
                         {% if current_user == arquivo.author%}
 
@@ -147,7 +147,7 @@
 
                         {% if arquivo.ativado %}
 
-                        <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" data-target="#del_confirm{{arquivo.id}}"><i class="far fa-trash-alt deletar" data-toggle="tooltip" data-placement="top" title="Deletar"></i></a>
+                        <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" data-target="#del_confirm{{arquivo.id}}" style="margin-right: 20%;"><i class="far fa-trash-alt deletar" data-toggle="tooltip" data-placement="top" title="Deletar"></i></a>
 
                         {% else %}
 

@@ -18,19 +18,38 @@
   padding: 0 !important;
 }
 
-.info {
-  width: 20% !important;
-  margin: 0 0 0 5% !important;
-  padding: 0 !important;
-}
+/*Icones de arquivos*/
+/*------------------------*/
+/*Icones do modal*/
 
 .deletar{
-	width: 50% !important;
+	font-size: 30px;
 }
 
 .cancel{
 	width: 10% !important;
 }
+
+.edit-icon{
+	font-size: 30px;
+}
+.model-download{
+	font-size: 30px;
+}
+
+/*Icones do card*/
+
+.info {
+  font-size: 30px;
+  margin: 0 0 0 5% !important;
+  padding: 0 !important;
+}
+
+.download{
+	float: right;
+	font-size: 30px;
+}
+/*-----------------------------*/
 
 .dist{
   margin-top: 10% !important;
