@@ -37,6 +37,7 @@ def adicionar():
 	print("Aloha")
 
 	if form_add.validate_on_submit():
+
 		print("Aloha")
 		data = datetime.now()
 
@@ -247,6 +248,10 @@ def avaliar(id_arq, nota):
 
 	avaliacao = Avaliacao_Arquivo.query.filter_by(usuario_id=current_user.id)\
 				.filter_by(arquivo_id=arquivo.id).first()
+
+	if (nota == 0) and not avaliacao:
+		return "Apagado.{}".format(arquivo.nota)
+
 	
 	if (avaliacao) :
 		if  (nota == avaliacao.nota) or (nota == 0):

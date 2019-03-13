@@ -103,7 +103,9 @@
                         {% endif %}
  
                         <p>
+                        <i class="far fa-trash-alt"  onclick="pontua({{arquivo.id}},0);" >
                         {% if arquivo.avaliado %}
+                        </i>
                             <div id="atual3-{{arquivo.id}}">
                                 {%for avl in arquivo.avaliacoes %} 
                                     {%if avl in current_user.avaliacoes%}
