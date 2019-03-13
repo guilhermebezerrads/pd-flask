@@ -11,9 +11,23 @@ function colorir(id, valor){
 
     for(i=0; i<=valor-1; i++){
         stars[i].name = "star";
-    }
+    } 
+}
 
+function colorir2(id, valor){
+    id = parseInt(id);
+    valor = parseInt(valor);
+
+    var stars2 = document.getElementsByClassName("star2-"+id);
+
+    for(i=4; i>=0; i--){
+        stars2[i].name = "star-outline";
+    }
     
+
+    for(i=0; i<=valor-1; i++){
+        stars2[i].name = "star";
+    } 
 }
 
 function openAjax(){
@@ -45,6 +59,7 @@ function pontua(id, valor){
         valor = parseInt(valor);
 
         var stars = document.getElementsByClassName("star-"+id);
+        var stars2 = document.getElementsByClassName("star2-"+id);
 
         //baloom.setAttribute("onclick","");
 
@@ -62,11 +77,16 @@ function pontua(id, valor){
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
                         stars[i].style.color = " rgb(243, 38, 54)"
-                         stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+                        stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+
+                        stars2[i].name = "star-outline";
+                        stars2[i].style.color = " rgb(243, 38, 54)"
+                        stars2[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
                     }
 
                     for(i=0; i<=num-1; i++){
                         stars[i].name = "star";
+                        stars2[i].name = "star";
                     }
 
                 }else{
@@ -75,10 +95,15 @@ function pontua(id, valor){
                         stars[i].name = "star-outline";
                         stars[i].style.color = " rgb(255, 217, 0)"
                         stars[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+
+                        stars2[i].name = "star-outline";
+                        stars2[i].style.color = " rgb(255, 217, 0)"
+                        stars2[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
                     }
                     
                     for(i=0; i<=num-1; i++){
                         stars[i].name = "star";
+                        stars2[i].name = "star";
                     }
 
                 }
