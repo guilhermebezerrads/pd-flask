@@ -5,9 +5,20 @@
 
 {% block content %}
 <div class="page-header">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br>
+            <h2 align="center">{{user.username}}</h2>
+        </div>
+        <!-- <div class="col-sm-2">
+            <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
+        </div> -->
+    </div>
+
     <h1>Todas as Contribuições de {{user.username}} ({{contribuiu}})</h1>
     <h3>Curso: {{user.curso}}</h3>
     <h3>Periodo: {{user.periodo}}º</h3>
+    <h3>Nome: {{user.nome}}</h3>
     <hr/>
     <p>
     <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
