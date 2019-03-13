@@ -52,6 +52,57 @@ Lindomar Batista</small></p>
                                 </p>
                                 <br/>
                                 <p>Data de referência: {{ arquivo.data_submissao.strftime("%d/%m/%Y") }}</p>
+                                <p>
+                                {%if current_user.is_authenticated%}
+                                    {% if arquivo.avaliado %}
+            
+                                        <div id="atual3-{{arquivo.id}}">
+                                            <i class="far fa-trash-alt"  onclick="pontua({{arquivo.id}},0);" ></i>
+                                            {%for avl in arquivo.avaliacoes %} 
+                                                {%if avl in current_user.avaliacoes%}
+                                                    {% for i in dist %}
+                                                        {% if avl.nota >= (i)%}
+                                                            <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star2-{{arquivo.id}}" name="star"></ion-icon></label>
+                                                        {% else %}
+                                                            <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                        {% endif %}
+                                                    {% endfor %}    
+                                                {% endif %}
+                                            {% endfor %} 
+                                            <small>({{arquivo.nota_decimal}})</small> 
+                                        </div>
+                                    {% else %}
+                                        <div id="atual4-{{arquivo.id}}">
+                                            <i class="far fa-trash-alt"  onclick="pontua({{arquivo.id}},0);" ></i>
+                                            {% for i in dist %}
+
+                                                {% if not arquivo.nota %}
+                                                    <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},0);" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                {% elif arquivo.nota >= (i)%}
+                                                    <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star"></ion-icon></label>
+                                                {% else %}
+                                                    <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <small>({{arquivo.nota_decimal}})</small>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div id="atual5-{{arquivo.id}}">
+                                        {% for i in dist %}
+
+                                            {% if not arquivo.nota %}
+                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},0);" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                            {% elif arquivo.nota >= (i)%}
+                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
+                                            {% else %}
+                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <small>({{arquivo.nota_decimal}})</small>
+                                    </div>
+                                {% endif %}
+                                </p>
                                 <br/>
                             </div>
                             <div class="modal-footer">
