@@ -177,11 +177,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					for arquivo in row:
 						arquivo.avaliado = False
 
-				for row in arquivos_rows:
-					for arquivo in row:
-						for avl in arquivo.avaliacoes:
-							if avl in current_user.avaliacoes:
-								arquivo.avaliado = True
+				if current_user.is_authenticated:
+					for row in arquivos_rows:
+						for arquivo in row:
+							for avl in arquivo.avaliacoes:
+								if avl in current_user.avaliacoes:
+									arquivo.avaliado = True
 
 				total = 0.0
 				for row in arquivos_rows:
@@ -297,11 +298,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					for arquivo in row:
 						arquivo.avaliado = False
 
-				for row in arquivos_rows:
-					for arquivo in row:
-						for avl in arquivo.avaliacoes:
-							if avl in current_user.avaliacoes:
-								arquivo.avaliado = True
+				if current_user.is_authenticated:
+					for row in arquivos_rows:
+						for arquivo in row:
+							for avl in arquivo.avaliacoes:
+								if avl in current_user.avaliacoes:
+									arquivo.avaliado = True
 
 				total = 0.0
 				for row in arquivos_rows:
@@ -445,11 +447,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					for arquivo in row:
 						arquivo.avaliado = False
 
-				for row in arquivos_rows:
-					for arquivo in row:
-						for avl in arquivo.avaliacoes:
-							if avl in current_user.avaliacoes:
-								arquivo.avaliado = True
+				if current_user.is_authenticated:
+					for row in arquivos_rows:
+						for arquivo in row:
+							for avl in arquivo.avaliacoes:
+								if avl in current_user.avaliacoes:
+									arquivo.avaliado = True
 
 				total = 0.0
 				for row in arquivos_rows:
@@ -569,11 +572,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 					for arquivo in row:
 						arquivo.avaliado = False
 
-				for row in arquivos_rows:
-					for arquivo in row:
-						for avl in arquivo.avaliacoes:
-							if avl in current_user.avaliacoes:
-								arquivo.avaliado = True
+				if current_user.is_authenticated:
+					for row in arquivos_rows:
+						for arquivo in row:
+							for avl in arquivo.avaliacoes:
+								if avl in current_user.avaliacoes:
+									arquivo.avaliado = True
 
 				total = 0.0
 				for row in arquivos_rows:
@@ -718,11 +722,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for arquivo in row:
 					arquivo.avaliado = False
 
-			for row in arquivos_rows:
-				for arquivo in row:
-					for avl in arquivo.avaliacoes:
-						if avl in current_user.avaliacoes:
-							arquivo.avaliado = True
+			if current_user.is_authenticated:
+				for row in arquivos_rows:
+					for arquivo in row:
+						for avl in arquivo.avaliacoes:
+							if avl in current_user.avaliacoes:
+								arquivo.avaliado = True
 
 			total = 0.0
 			for row in arquivos_rows:
@@ -843,11 +848,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 				for arquivo in row:
 					arquivo.avaliado = False
 
-			for row in arquivos_rows:
-				for arquivo in row:
-					for avl in arquivo.avaliacoes:
-						if avl in current_user.avaliacoes:
-							arquivo.avaliado = True
+			if current_user.is_authenticated:
+				for row in arquivos_rows:
+					for arquivo in row:
+						for avl in arquivo.avaliacoes:
+							if avl in current_user.avaliacoes:
+								arquivo.avaliado = True
 			total = 0.0
 			for row in arquivos_rows:
 				for arquivo in row:
@@ -893,11 +899,12 @@ def buscar(admin,filtro,pesquisa,tip_arquiv):
 		for arquivo in row:
 			arquivo.avaliado = False
 
-	for row in arquivos_rows:
-		for arquivo in row:
-			for avl in arquivo.avaliacoes:
-				if avl in current_user.avaliacoes:
-					arquivo.avaliado = True
+	if current_user.is_authenticated:
+		for row in arquivos_rows:
+			for arquivo in row:
+				for avl in arquivo.avaliacoes:
+					if avl in current_user.avaliacoes:
+						arquivo.avaliado = True
 
 
 	total = 0.0

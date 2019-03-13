@@ -106,6 +106,7 @@
                     </p>
 
                     <p>
+                    {%if current_user.is_authenticated%}
                         {% if arquivo.avaliado %}
                             <div id="atual1-{{arquivo.id}}">
                                 {%for avl in arquivo.avaliacoes %} 
@@ -136,7 +137,21 @@
                                 <small>({{arquivo.nota_decimal}})</small>
                             </div>
                         {% endif %}
-                        
+                    {% else %}
+                        <div id="atual2-{{arquivo.id}}">
+                            {% for i in dist %}
+
+                                {% if not arquivo.nota %}
+                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},0);" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                {% elif arquivo.nota >= (i)%}
+                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
+                                {% else %}
+                                    <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" data-toggle="modal" data-target="#elegantModalForm" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
+                                {% endif %}
+                            {% endfor %}
+                            <small>({{arquivo.nota_decimal}})</small>
+                        </div>
+                    {% endif %}
                     </p>
 
                     <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a>
