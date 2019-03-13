@@ -58,7 +58,7 @@ Lindomar Batista</small></p>
                                 
                                 <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
                                 
-                                <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>
+                                <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download model-download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
                             
                             </div>
                             </div>
@@ -114,9 +114,9 @@ Lindomar Batista</small></p>
                         
                     </p>
 
-                    <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><img class="img-responsive info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações" src="{{url_for('static', filename='images/icones/padrao/info.svg')}}" alt="mais"></a>
+                    <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a>
 
-                    <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><img class="img-responsive download" data-toggle="tooltip" data-placement="top" title="Download" src="{{url_for('static', filename='images/icones/padrao/downloads.svg')}}" alt="Download"/></a>
+                    <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
 
                   </div>
                 </div>

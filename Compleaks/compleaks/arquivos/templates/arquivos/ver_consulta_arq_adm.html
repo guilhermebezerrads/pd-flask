@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-footer">
                     <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>                 
-                    <a data-toggle="tooltip" data-placement="top" title="Deletar Permanentemente" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} "> <img class="img-responsive deletar" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Deletar"/> </a>
+                    <a data-toggle="tooltip" data-placement="top" title="Deletar Permanentemente" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} "> <i class="far fa-trash-alt deletar"></i> </a>
                 </div>
             </div>
         </div>
