@@ -262,9 +262,11 @@ def avaliar(id_arq, nota):
 			i = 0
 			for pnt in todas_notas:
 				total += pnt.nota
-			i += 1
+				i += 1
 
-			total = int(total/i)
+			if i != 0:
+				total = int(total/i)
+			print(total)
 
 			arquivo.nota = total
 			db.session.commit()

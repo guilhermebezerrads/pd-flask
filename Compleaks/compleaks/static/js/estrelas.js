@@ -81,7 +81,7 @@ function pontua(id, valor){
 
                         stars2[i].name = "star-outline";
                         stars2[i].style.color = " rgb(243, 38, 54)"
-                        stars2[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+                        stars2[i].setAttribute("onmouseout","colorir2("+id+", "+num+");");
                     }
 
                     for(i=0; i<=num-1; i++){
@@ -90,6 +90,7 @@ function pontua(id, valor){
                     }
 
                 }else{
+                    console.log("Aloha");
 
                     for(i=4; i>=0; i--){
                         stars[i].name = "star-outline";
@@ -98,7 +99,7 @@ function pontua(id, valor){
 
                         stars2[i].name = "star-outline";
                         stars2[i].style.color = " rgb(255, 217, 0)"
-                        stars2[i].setAttribute("onmouseout","colorir("+id+", "+num+");");
+                        stars2[i].setAttribute("onmouseout","colorir2s("+id+", "+num+");");
                     }
                     
                     for(i=0; i<=num-1; i++){
