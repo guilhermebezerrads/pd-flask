@@ -57,7 +57,19 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 		tipo_arquivo = document.getElementById(t_arquiv).childNodes;
 
 		pesquisa = pesquisa[3];
-		tipo_arquivo = tipo_arquivo[3].value;
+		
+		try{
+			tipo_arquivo = tipo_arquivo[3].value;
+		}catch (e){
+			tipo_arquivo = 'all';
+		}
+
+		var validate = 1;
+		try{
+			validate = parseInt(adm);
+		}catch (e){
+			validate = 1;
+		}
 
 		try{
 			pesquisa = pesquisa.value;
@@ -65,8 +77,7 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 			pesquisa = '';
 		}
 		console.log(pesquisa);
-
-		if (pesquisa == ''){
+		if (pesquisa == '' || validate == 0){
 			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, true);			
 		}else{
 			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+pesquisa+'/'+tipo_arquivo, true);			

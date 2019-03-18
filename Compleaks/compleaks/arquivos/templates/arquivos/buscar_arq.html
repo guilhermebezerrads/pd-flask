@@ -14,7 +14,7 @@
             <form method="POST">
               {{ form.hidden_tag() }}
               <div class="form-group">
-                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro", onchange="ao_mudar();") }}
+                  {{ form.filtrar.label }} {{ form.filtrar(class="form-control", id="filtro", onchange="ao_mudar();busca_assincrona('pesquisa_assincrona' , '0', 'filtro', 'pesquisa', 'tipo')") }}
                   {% if form.errors.filtrar %}
                       <div class="alert alert-danger" role="alert">
                         <ul>
