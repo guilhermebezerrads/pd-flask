@@ -56,8 +56,15 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 		pesquisa = document.getElementById(pesquisar).childNodes;
 		tipo_arquivo = document.getElementById(t_arquiv).childNodes;
 
-		pesquisa = pesquisa[3].value;
+		pesquisa = pesquisa[3];
 		tipo_arquivo = tipo_arquivo[3].value;
+
+		try{
+			pesquisa = pesquisa.value;
+		}catch (e){
+			pesquisa = '';
+		}
+		console.log(pesquisa);
 
 		if (pesquisa == ''){
 			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, true);			

@@ -214,9 +214,12 @@ def busca_asn(admin,filtro,pesquisa,tip_arquiv):
 									.filter(Professor.nome.like('%'+pesquisa+'%'))\
 									.filter(Arquivo.tipo_conteudo==tip_arquiv)\
 									.filter(Arquivo.ativado == True).first()
-				arquivos = Arquivo.query.filter_by(ativado=True)\
-							.filter(Arquivo.professor.nome.contains(pesquisa))\
+
+				arquivos = db.session.query(Arquivo)\
+							.outerjoin(Professor, Arquivo.professor_id == Professor.id)\
 							.filter(Arquivo.tipo_conteudo==tip_arquiv)\
+							.filter(Professor.nome.like('%'+pesquisa+'%'))\
+							.filter(Arquivo.ativado == True)\
 							.paginate(page=page, per_page=12)
 
 			if filtro is 3:
