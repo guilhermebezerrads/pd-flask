@@ -59,3 +59,8 @@ app.register_blueprint(professores,url_prefix='/professores')
 app.register_blueprint(disciplinas,url_prefix='/disciplinas')
 app.register_blueprint(questoes,url_prefix='/questoes')
 app.register_blueprint(error_pages)
+
+#FUNÇÕES
+@app.template_filter('converte')
+def converte(s):
+    return Markup(s)
