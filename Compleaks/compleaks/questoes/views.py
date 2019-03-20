@@ -158,7 +158,8 @@ def ver(id):
 			resposta = request.args.get("responder_comentario"+str(respondido))
 
 			condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
-						.filter_by(conteudo=resposta).first()
+						.filter_by(conteudo=resposta)\
+						.filter_by(questao_id=quest.id).first()
 
 			if not condicion:
 				questao_id = quest.id
@@ -183,7 +184,8 @@ def ver(id):
 		conteudo = form_comentario.conteudo.data
 
 		condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
-					.filter_by(conteudo=conteudo).first()
+					.filter_by(conteudo=conteudo)\
+					.filter_by(questao_id=quest.id).first()
 
 		if not condicion:
 			questao_id = quest.id
