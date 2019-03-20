@@ -287,6 +287,12 @@
   <!-- Footer -->
 
   <!-- /Start your project here-->
+  <!-- /Start your project here-->
+  <script src="{{url_for('static',filename='ckeditor/ckeditor.js')}}"></script>
+  <script>
+    CKEDITOR.replace( 'comentario_questoes', { width: "70vw", height: 'auto'} );
+    CKEDITOR.replace( 'responder_comentario', { width: "60vw", height: 'auto'} );
+  </script>
 
   <!-- SCRIPTS -->
   <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
