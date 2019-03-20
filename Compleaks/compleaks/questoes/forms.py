@@ -38,11 +38,11 @@ class BuscarQuestaoForm(FlaskForm):
 
 class FazerQuestaoForm(FlaskForm):
 	radio_alternativas = RadioField("Selecione a resposta correta", validators=[DataRequired()])
-	comentar = SubmitField("Pronto")
+	submit = SubmitField("Pronto")
 
 class ComentarioQuestaoForm(FlaskForm):
 	conteudo = TextAreaField("Conteudo", validators=[DataRequired()])
-	submit = SubmitField("Comentar")
+	comentar = SubmitField("Comentar")
 
 class ExcluirComentarioQuestaoForm(FlaskForm):
 	id_comment = IntegerField("Id do comentario:", validators=[DataRequired()])
