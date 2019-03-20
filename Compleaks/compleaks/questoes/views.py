@@ -1,5 +1,5 @@
 from flask import (render_template, Blueprint, url_for, redirect,
- 					flash, current_app, request, abort)
+ 					flash, current_app, request, abort, Markup)
 from compleaks import db
 from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
@@ -124,44 +124,83 @@ def restaurar(id):
 def ver(id):
 	if not (current_user.is_authenticated):
 		abort(403)
+	
 	form_questao = FazerQuestaoForm() 
 	form_comentario = ComentarioQuestaoForm()
 	form_excluir_comentario = ExcluirComentarioQuestaoForm()
 	form_editar_comentario = EditarComentarioQuestaoForm()
+
 	usuarios = Usuario.query.all()
-	questoes = Questao.query.filter(Questao.id.contains(id))
+	quest = Questao.query.get(id)
 	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
 	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
 									 for alternativa in Alternativa.query.filter(Alternativa.questao_id.contains(id))]
-	for quest in questoes:
-		usuario = Usuario.query.get(quest.usuario_id)
-		disciplina = Disciplina.query.get(quest.disciplina_id)
-		comentarios = Comentario.query.filter(Comentario.questao_id.contains(quest.id))
-		if form_questao.validate_on_submit():
-			if int(quest.correta)==int(form_questao.radio_alternativas.data):
-				flash("Alternativa correta, meus parabens!", "success")
-			else:
-				flash("Alternativa errada, tente novamente!", "danger")	
 
-		if form_comentario.validate_on_submit():
-			conteudo = form_comentario.conteudo.data
+	usuario = Usuario.query.get(quest.usuario_id)
+	disciplina = Disciplina.query.get(quest.disciplina_id)
+	comentarios = Comentario.query.filter(Comentario.questao_id.contains(quest.id)).order_by(Comentario.data_criacao.desc())	
+	comentarios = comentarios.order_by('data_criacao')
+
+	'''if form_responder.validate_on_submit():
+		print("Ta aqui?")
+		conteudo = form_responder.conteudo.data
+		respondeu_id = form_responder.respondeu_id.data
+		questao_id = quest.id
+		if(respondeu_id):
+			responde_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=respondeu_id)
+			db.session.add(responde_comment)
+			db.session.commit()'''
+	
+	try:
+		print("1")
+		respondido = request.args.get("respondido")
+		print(respondido)
+		if respondido:
+			print("3")
+			resposta = request.args.get("responder_comentario"+str(respondido))
+			print(type(int(respondido)))
 			questao_id = quest.id
-			new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id)
-			db.session.add(new_comment)
+			responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
+			print(responde_comment)
+			db.session.add(responde_comment)
 			db.session.commit()
+		
+		else:
+			print("Não to aqui")
 
-		if form_editar_comentario.validate_on_submit():
-			coment = Comentario.query.get(form_editar_comentario.id_coment.data)
-			coment.conteudo = form_editar_comentario.novo_conteudo.data
-			db.session.commit()
+	except:
+		print("To aqui")
+	
 
-		if form_excluir_comentario.validate_on_submit():
-			comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
-			if comentario:
-				db.session.delete(comentario)
-				db.session.commit()
+	if form_questao.validate_on_submit():
+		if int(quest.correta)==int(form_questao.radio_alternativas.data):
+			flash("Alternativa correta, meus parabens!", "success")
+		else:
+			flash("Alternativa errada, tente novamente!", "danger")	
 
-	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, questoes=questoes, 
+	if form_comentario.validate_on_submit():
+		conteudo = form_comentario.conteudo.data
+		questao_id = quest.id
+		new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=0)
+		db.session.add(new_comment)
+		db.session.commit()
+
+	if form_editar_comentario.validate_on_submit():
+		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
+		coment.conteudo = form_editar_comentario.novo_conteudo.data
+		db.session.commit()
+
+	if form_excluir_comentario.validate_on_submit():
+		comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
+		if comentario:
+			comentars = Comentario.query.filter_by(respondeu_id=comentario.id)
+			for comen in comentars:
+				db.session.delete(comen)
+
+			db.session.delete(comentario)
+			db.session.commit()		
+
+	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, quest=quest, 
 	alternativas=alternativas, form_questao=form_questao, form_comentario=form_comentario,
 	comentarios=comentarios, usuarios=usuarios, form_excluir_comentario=form_excluir_comentario,
 	form_editar_comentario=form_editar_comentario)
