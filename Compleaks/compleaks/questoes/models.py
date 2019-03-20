@@ -51,7 +51,10 @@ class Comentario(db.Model):
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 	questao_id = db.Column(db.Integer, db.ForeignKey('questoes.id'), nullable=False)
 
-	def __init__(self, conteudo, questao_id, usuario_id):
+	respondeu_id = db.Column(db.Integer, nullable=False)
+
+	def __init__(self, conteudo, questao_id, usuario_id, respondeu_id):
 		self.conteudo = conteudo
 		self.questao_id = questao_id
 		self.usuario_id = usuario_id
+		self.respondeu_id = respondeu_id
