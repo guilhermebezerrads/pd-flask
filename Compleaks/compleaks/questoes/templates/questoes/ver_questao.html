@@ -9,8 +9,37 @@
         <h2>Questão</h2>
         <hr>
     </div>
-    {% for quest in questoes %}
-        <h4>{{ quest.enunciado }}</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <h4 style="display: inline-block;">{{ quest.enunciado }}</h5> <a data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+                aria-controls="multiCollapseExample1"><span class="badge badge-primary">Ver mais</span></a>
+        </div> 
+        
+        <!-- Collapsible content -->
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                        <div class="row" id="detalhe_questao">
+                            <h5>Detalhes</h5>
+                            <div class="container">
+                                {% for quest in questoes %}
+                                    <p>Questão referente a materia de {{ disciplina.nome }}.</p>
+                                    <p>Criador da questão é {{ usuario.nome }}.</p>
+                                    {% if current_user.is_admin or current_user.id == quest.usuario_id %}
+                                        <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
+                                        <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
+                                    {% endif %}
+                                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ Collapsible content -->
+        
         <div class="container" style="margin-bottom: 20px;">   
             <form  class="form-group" method="POST" action="{{url_for('questoes.ver', id=quest.id)}}">
                 {{ form_questao.hidden_tag() }}    
@@ -18,105 +47,140 @@
                 {{ form_questao.submit(class="btn btn-primary") }}
             </form>                   
         </div>
-    {% endfor %}
+    </div>
     <hr>
-    <div class="row">
-        
-        <div class="col-md-6">
-            <h5>Comentarios</h5>
+
+    <div class="row">        
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <h5>Comentários</h5>
             <div class="container">
+                <!--NOVO FOMRULARIO DE COMENTAR-->
                 <div class="row">
-                    <div class="media">
-                        <div class="media mt-3 shadow-textarea">
-                            <img src="{{url_for('static', filename='images/avatares/'+current_user.avatar)}}" class="rounded-circle z-depth-0" alt="Avatar" height="50" style="object-fit: cover;">
-                            <div class="media-body">
-                                <h5 class="mt-0 font-weight-bold blue-text">{{ current_user.nome }}</h5>
-                                <form method="POST">
-                                    {{ form_comentario.hidden_tag() }}
-                                    {{ form_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva seu comentario...") }}
-                                    {{ form_comentario.submit(class="btn btn-primary") }}
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% for comment in comentarios %}
-                    {% for user in usuarios %}
-                        {% if user.id == comment.usuario_id %}
-                            <div class="row" style="margin-top: 15px;">
-                                <div class="media">
-                                    <img src="{{url_for('static', filename='images/avatares/'+user.avatar)}}" class="rounded-circle z-depth-0" alt="Avatar" height="50" style="object-fit: cover;">
-                                    <div class="media-body">
-                                        
-                                        <h5 class="mt-0 font-weight-bold blue-text">                                        
-                                            {{ user.nome }}                                        
-                                        </h5>
-                                        <div class="grey-text" style="margin-left: 5px; margin-top: -8px;">
-                                            <div class="mb-1 navbar-expand-lg" style="position: relative; display: flex; align-items: center;">
-                                                {{ comment.data_criacao.strftime('%d %b, %Y') }}
-                                            
-                                                <ul class="navbar-nav ml-auto">
-                                                    <li class="nav-item dropdown">
-                                                    <a class="nav-link" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-                                                        <button class="dropdown-item" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Editar</button>
-                                                        {% if current_user.is_admin or current_user.id == comment.usuario_id %}
-                                                            <form method="POST">
-                                                                {{ form_excluir_comentario.hidden_tag() }}
-                                                                {{ form_excluir_comentario.id_comment(style="display: None;", value=comment.id) }}
-                                                                {{ form_excluir_comentario.excluir(class="dropdown-item")}}
-                                                            </form>
-                                                        {% endif %}
-                                                        <a class="dropdown-item" href="#">Reportar</a>
-                                                       
-                                                    </div>
-                                                    </li>
-                                                </ul>
-                                                 
-                                            </div>
-                                        </div>
-                                       
-                                        <div id="ver_comentario">
-                                            {{ comment.conteudo }}
-                                        </div>
-                                        <div style="display:none" id="form_editar_comentario{{comment.id}}">
-                                            <form method="POST">
-                                                {{ form_editar_comentario.hidden_tag() }}
-                                                {{ form_editar_comentario.id_coment(style="display: None;", value=comment.id) }}
-                                                {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", placeholder="Digite seu novo comentario", style="height: auto;") }}
-                                                <button class="btn btn-light" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Cancelar</button>
-                                                {{ form_editar_comentario.enviar(class="btn btn-primary") }}
-                                            </form>
-                                        </div>
-                                        
-                                    </div>
+                    <!-- Reply section (logged in user) -->
+                    <section >
+                        <form method="POST">
+                            {{ form_comentario.hidden_tag() }}
+                            <div class="d-md-flex flex-md-fill mt-4 px-1">
+                                <div class="d-flex justify-content-center mr-md-5">
+                                <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+current_user.avatar)}}"
+                                    alt="avatar">
+                                </div>
+                                <div class="form-group shadow-textarea">
+                                    {{ form_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva seu comentário aqui...", id="comentario_questoes", rows="4", cols="100%") }}
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-                
+                            <div class="text-center mt-4">
+                                {{ form_comentario.comentar(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </section>
+                    <!-- Reply section (logged in user) -->
+                </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <h5>Detalhes</h5>
-            <div class="container">
-                {% for quest in questoes %}
-                    <p>Questão referente a materia de {{ disciplina.nome }}.</p>
-                    <p>Criador da questão é {{ usuario.nome }}.</p>
-                    {% if current_user.is_admin or current_user.id == quest.usuario_id %}
-                        <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
-                        <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
-                    {% endif %}
-                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
-                {% endfor %}
-            </div>
-        </div>
-        
     </div>
-</div>
+    <div class="container">
+    {% for comment in comentarios %}
+        {% for user in usuarios %}
+            {% if user.id == comment.usuario_id %}
 
-{% endblock %}
+                <div class="row">
+                    <!--Section: Comments-->
+                    <section class="col">
+                        {% if comment.respondeu_id==0 %}
+                        <div class="media d-block d-md-flex mt-4">
+                        <img class="card-img-64 rounded-circle z-depth-1 d-flex mx-auto mb-3" src="{{url_for('static', filename='images/avatares/'+user.avatar)}}"
+                            alt="Generic placeholder image">
+                        <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                            <h5 class="font-weight-bold mt-0">
+                            <a class="blue-text">{{ user.nome }}</a>
+                            <a class="pull-right blue-text">
+                                <i class="fas fa-reply" data-toggle="tooltip" data-placement="right" title="Responder" onclick="responder_comentario('comentario{{comment.id}}')"></i>
+                            </a>
+                            </h5>
+                            <div class="grey-text" style="margin-left: 5px; margin-top: -20px; margin-bottom: -15px;">
+                                <div class="mb-1 navbar-expand-lg" style="position: relative; display: flex; align-items: center;">
+                                    {{ comment.data_criacao.strftime('%d %b, %Y às %H:%M') }}
+                                
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item dropdown">
+                                        <a class="nav-link" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="fas fa-angle-down"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                            <button class="dropdown-item" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Editar</button>
+                                            {% if current_user.is_admin or current_user.id == comment.usuario_id %}
+                                                <form method="POST">
+                                                    {{ form_excluir_comentario.hidden_tag() }}
+                                                    {{ form_excluir_comentario.id_comment(style="display: None;", value=comment.id) }}
+                                                    {{ form_excluir_comentario.excluir(class="dropdown-item")}}
+                                                </form>
+                                            {% endif %}
+                                            <a class="dropdown-item" href="#">Reportar</a>
+                                            
+                                        </div>
+                                        </li>
+                                    </ul>
+                                        
+                                </div>
+                            </div>
+
+                            {{ comment.conteudo | converte }}
+                            {% endif %}
+                            <!--Escrever uma resposta, a principio display é none-->
+                            <!-- Quick Reply -->
+                            <div class="md-form mt-4" style="display: none;" id="comentario{{comment.id}}">
+                                <section >
+                                    <form method="GET">
+                                        <div class="d-md-flex flex-md-fill mt-4 px-1">
+                                            <div class="d-flex justify-content-center mr-md-5">
+                                            <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+current_user.avatar)}}"
+                                                alt="avatar">
+                                            </div>
+                                            <div class="form-group shadow-textarea">
+                                                <textarea name="responder_comentario{{comment.id}}" class="form-control z-depth-1" placeholder="Escreva seu comentário aqui..." id="responder_comentario{{comment.id}}" rows="4" cols="100%"></textarea>
+                                                <input name="respondido" id="respondido" type="hidden" value="{{comment.id}}"/>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-4">
+                                            <a type="button" class="btn btn-default" onclick="responder_comentario('comentario{{comment.id}}')">Cancelar</a>
+                                            
+                                            <input type="submit" class="btn btn-primary" value="RESPONDER">
+                                        </div>
+                                    </form>
+                                </section>
+                            </div>
+                            <script>
+                                CKEDITOR.replace( 'responder_comentario{{comment.id}}', { width: "60vw", height: 'auto'} );
+                            </script>
+                            {% for resposta in comentarios %}
+                                {% if resposta.respondeu_id == comment.id %}
+                                    {% for userRespond in usuarios %}
+                                        {% if userRespond.id == resposta.usuario_id %}
+                                            <!--Se ouver respostas no comentario, manda um for aqui-->
+                                            <div class="media d-block d-md-flex mt-4">
+                                            <img class="card-img-64 rounded-circle z-depth-1 d-flex mx-auto mb-3" src="{{url_for('static', filename='images/avatares/'+userRespond.avatar)}}"
+                                                alt="Generic placeholder image">
+                                            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                                <h5 class="font-weight-bold mt-0">
+                                                <a class="blue-text" href="">{{ userRespond.nome }}</a>
+                                                </h5>
+                                                {{ resposta.conteudo | converte }}
+                                            </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        </div>
+                    
+                    </section>
+                </div>
+                
+            {% endif %}
+        {% endfor %}
+    {% endfor %}    
+    </div>            
+
+</div>
