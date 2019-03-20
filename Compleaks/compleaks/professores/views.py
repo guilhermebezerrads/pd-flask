@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, url_for, redirect, flash, abort
 from flask_login import current_user, login_required
-from compleaks import db
+from compleaks import db, dist
 from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessorForm, EditarProfessorForm, 
 										ExcluirProfessorForm)
 from compleaks.professores.models import Professor
@@ -118,3 +118,149 @@ def editar(prof_id):
 		flash("O tutor {} foi editado com sucesso!".format(professor.nome),"success")
 
 	return redirect(url_for('professores.listar', form_editar=form_editar))
+
+@professores.route('/perfil/<int:id>', methods=['POST', 'GET'])
+def perfil(id):
+	form_login = LoginForm()
+
+	professor = Professor.query.get(id)
+
+	arquivos_todos = Arquivo.query.all()
+
+	quantidade = len([arquiv for arquiv in arquivos_todos if arquiv.ativado])
+
+	page = request.args.get('page', 1, type=int)	
+	arquivos = Arquivo.query\
+					.filter(Arquivo.professor_id\
+					.contains(int(professor.id)))\
+					.filter_by(ativado=True)\
+					.paginate(page=page, per_page=12)
+
+	arquivos_row_1 = []
+	arquivos_row_2 = []
+	arquivos_row_3 = []
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 4:
+			break 
+		arquivos_row_1.append(arquivo)
+		contador = contador + 1
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 8:
+			break
+		if contador >= 4:
+			arquivos_row_2.append(arquivo)
+		contador = contador + 1				
+
+	contador = 0
+	for arquivo in arquivos.items:
+		if contador >= 12:
+			break
+		if contador >= 8:
+			arquivos_row_3.append(arquivo)
+		contador = contador + 1				
+
+	arquivos_rows = [arquivos_row_1, arquivos_row_2, arquivos_row_3]
+
+	for row in arquivos_rows:
+		for arquivo in row:
+			arquivo.avaliado = False
+
+	if current_user.is_authenticated:
+		for row in arquivos_rows:
+			for arquivo in row:
+				for avl in arquivo.avaliacoes:
+					if avl in current_user.avaliacoes:
+						arquivo.avaliado = True
+
+	total = 0.0
+	for row in arquivos_rows:
+		for arquivo in row:
+			total = 0.0
+			if len(arquivo.avaliacoes): 
+				for avl in arquivo.avaliacoes:
+					total = total + avl.nota
+				total = total/len(arquivo.avaliacoes)
+			else:
+				total = 0.0
+
+			arquivo.nota_decimal = round(total, 1)
+
+	'''Parte de Comentários'''
+
+	form_comentario = ComentarioQuestaoForm()
+	form_excluir_comentario = ExcluirComentarioQuestaoForm()
+	form_editar_comentario = EditarComentarioQuestaoForm()
+
+	usuarios = Usuario.query.all()
+
+	comentarios = Comentario.query.filter(Comentario.professor_id.contains(professor.id))\
+					.order_by(Comentario.data_criacao.desc()).order_by('data_criacao')	
+
+	try:
+		respondido = request.args.get("respondido")
+		if respondido:
+			
+			resposta = request.args.get("responder_comentario"+str(respondido))
+
+			condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+						.filter_by(conteudo=resposta)\
+						.filter_by(questao_id=quest.id).first()
+
+			if not condicion:
+				questao_id = quest.id
+				responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
+				db.session.add(responde_comment)
+				db.session.commit()
+		
+		else:
+			print("Não to aqui")
+
+	except:
+		print("To aqui")
+	
+
+	if form_questao.validate_on_submit():
+		if int(quest.correta)==int(form_questao.radio_alternativas.data):
+			flash("Alternativa correta, meus parabens!", "success")
+		else:
+			flash("Alternativa errada, tente novamente!", "danger")	
+
+	if form_comentario.validate_on_submit():
+		conteudo = form_comentario.conteudo.data
+
+		condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+					.filter_by(conteudo=conteudo)\
+					.filter_by(questao_id=quest.id).first()
+
+		if not condicion:
+			questao_id = quest.id
+			new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=0)
+			db.session.add(new_comment)
+			db.session.commit()
+
+
+	if form_editar_comentario.validate_on_submit():
+		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
+		coment.conteudo = form_editar_comentario.novo_conteudo.data
+		db.session.commit()
+
+	if form_excluir_comentario.validate_on_submit():
+		comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
+		if comentario:
+			comentars = Comentario.query.filter_by(respondeu_id=comentario.id)
+			for comen in comentars:
+				db.session.delete(comen)
+
+			db.session.delete(comentario)
+			db.session.commit()
+
+	return render_template('perfil_professor_teste.html', professor=professor,
+							form_login=form_login, arquivos=arquivos, 
+							arquivos_rows=arquivos_rows, dist=dist, contribuiu=quantidade,
+							usuarios=usuarios, comentarios=comentarios,
+							form_comentario=form_comentario,
+							form_excluir_comentario=form_excluir_comentario,
+							form_editar_comentario=form_editar_comentario )

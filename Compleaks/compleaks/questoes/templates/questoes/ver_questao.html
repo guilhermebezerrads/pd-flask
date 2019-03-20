@@ -158,7 +158,7 @@
                                         {% for userRespond in usuarios %}
                                             {% if userRespond.id == resposta.usuario_id %}
                                                 <!--Se ouver respostas no comentario, manda um for aqui-->
-                                                <div class="media d-block d-md-flex mt-4">
+                                                <blockquote class=" blockquote mb-0 media d-block d-md-flex mt-4">
                                                 <img class="card-img-64 rounded-circle z-depth-1 d-flex mx-auto mb-3" src="{{url_for('static', filename='images/avatares/'+userRespond.avatar)}}"
                                                     alt="Generic placeholder image">
                                                 <div class="media-body text-center text-md-left ml-md-3 ml-0">
@@ -167,7 +167,7 @@
                                                     </h5>
                                                     {{ resposta.conteudo | converte }}
                                                 </div>
-                                                </div>
+                                                </blockquote>
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
