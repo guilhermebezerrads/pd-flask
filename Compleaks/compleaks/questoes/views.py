@@ -152,18 +152,19 @@ def ver(id):
 			db.session.commit()'''
 	
 	try:
-		print("1")
 		respondido = request.args.get("respondido")
-		print(respondido)
 		if respondido:
-			print("3")
+			
 			resposta = request.args.get("responder_comentario"+str(respondido))
-			print(type(int(respondido)))
-			questao_id = quest.id
-			responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
-			print(responde_comment)
-			db.session.add(responde_comment)
-			db.session.commit()
+
+			condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+						.filter_by(conteudo=resposta).first()
+
+			if not condicion:
+				questao_id = quest.id
+				responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
+				db.session.add(responde_comment)
+				db.session.commit()
 		
 		else:
 			print("Não to aqui")
@@ -180,10 +181,16 @@ def ver(id):
 
 	if form_comentario.validate_on_submit():
 		conteudo = form_comentario.conteudo.data
-		questao_id = quest.id
-		new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=0)
-		db.session.add(new_comment)
-		db.session.commit()
+
+		condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+					.filter_by(conteudo=conteudo).first()
+
+		if not condicion:
+			questao_id = quest.id
+			new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=0)
+			db.session.add(new_comment)
+			db.session.commit()
+
 
 	if form_editar_comentario.validate_on_submit():
 		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
