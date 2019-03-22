@@ -3,10 +3,11 @@ from flask_login import current_user, login_required
 from compleaks import db, dist
 from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessorForm, EditarProfessorForm, 
 										ExcluirProfessorForm)
-from compleaks.professores.models import Professor
+from compleaks.professores.models import Professor, ComentarioProf
 from datetime import datetime
 from compleaks.professores.dapartamentos import lista_unidades_academicas
 from compleaks.usuarios.forms import LoginForm
+from compleaks.usuarios.models import Usuario
 
 professores = Blueprint('professores', __name__,template_folder='templates/professores')
 
@@ -120,12 +121,12 @@ def editar(prof_id):
 	return redirect(url_for('professores.listar', form_editar=form_editar))
 
 @professores.route('/perfil/<int:id>', methods=['POST', 'GET'])
+@login_required
 def perfil(id):
-	form_login = LoginForm()
 
-	professor = Professor.query.get(id)
+	professor = Professor.query.get_or_404(id)
 
-	arquivos_todos = Arquivo.query.all()
+	arquivos_todos = Arquivo.query.filter_by(professor_id=professor.id)
 
 	quantidade = len([arquiv for arquiv in arquivos_todos if arquiv.ativado])
 
@@ -196,8 +197,7 @@ def perfil(id):
 
 	usuarios = Usuario.query.all()
 
-	comentarios = Comentario.query.filter(Comentario.professor_id.contains(professor.id))\
-					.order_by(Comentario.data_criacao.desc()).order_by('data_criacao')	
+	comentarios = professor.comentarios	
 
 	try:
 		respondido = request.args.get("respondido")
@@ -205,13 +205,12 @@ def perfil(id):
 			
 			resposta = request.args.get("responder_comentario"+str(respondido))
 
-			condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+			condicion = ComentarioProf.query.filter_by(usuario_id=current_user.id)\
 						.filter_by(conteudo=resposta)\
-						.filter_by(questao_id=quest.id).first()
+						.filter_by(professor_id=professor.id).first()
 
 			if not condicion:
-				questao_id = quest.id
-				responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
+				responde_comment = ComentarioProf(conteudo=str(resposta), professor_id=professor.id, usuario_id=current_user.id, respondeu_id=int(respondido))
 				db.session.add(responde_comment)
 				db.session.commit()
 		
@@ -221,36 +220,28 @@ def perfil(id):
 	except:
 		print("To aqui")
 	
-
-	if form_questao.validate_on_submit():
-		if int(quest.correta)==int(form_questao.radio_alternativas.data):
-			flash("Alternativa correta, meus parabens!", "success")
-		else:
-			flash("Alternativa errada, tente novamente!", "danger")	
-
 	if form_comentario.validate_on_submit():
 		conteudo = form_comentario.conteudo.data
 
-		condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
+		condicion = ComentarioProf.query.filter_by(usuario_id=current_user.id)\
 					.filter_by(conteudo=conteudo)\
-					.filter_by(questao_id=quest.id).first()
+					.filter_by(professor_id=professor.id).first()
 
 		if not condicion:
-			questao_id = quest.id
-			new_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=0)
+			new_comment = ComentarioProf(conteudo=conteudo, professor_id=professor.id, usuario_id=current_user.id)
 			db.session.add(new_comment)
 			db.session.commit()
 
 
 	if form_editar_comentario.validate_on_submit():
-		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
+		coment = ComentarioProf.query.get(form_editar_comentario.id_coment.data)
 		coment.conteudo = form_editar_comentario.novo_conteudo.data
 		db.session.commit()
 
-	if form_excluir_comentario.validate_on_submit():
-		comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
+	if form_excluir_comentarioProf.validate_on_submit():
+		comentario = ComentarioProf.query.get(form_excluir_comentario.id_comment.data)
 		if comentario:
-			comentars = Comentario.query.filter_by(respondeu_id=comentario.id)
+			comentars = ComentarioProf.query.filter_by(respondeu_id=comentario.id)
 			for comen in comentars:
 				db.session.delete(comen)
 
@@ -258,9 +249,8 @@ def perfil(id):
 			db.session.commit()
 
 	return render_template('perfil_professor_teste.html', professor=professor,
-							form_login=form_login, arquivos=arquivos, 
-							arquivos_rows=arquivos_rows, dist=dist, contribuiu=quantidade,
-							usuarios=usuarios, comentarios=comentarios,
+							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
+							contribuiu=quantidade, usuarios=usuarios, comentarios=comentarios,
 							form_comentario=form_comentario,
 							form_excluir_comentario=form_excluir_comentario,
 							form_editar_comentario=form_editar_comentario )
