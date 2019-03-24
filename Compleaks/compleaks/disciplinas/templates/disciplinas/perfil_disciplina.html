@@ -1,19 +1,18 @@
 {% extends 'base.html' %}
-{% block title %}{{professor.nome}}{% endblock %}
+{% block title %}{{disciplina.nome}}{% endblock %}
  
 {% block content %}
 
-    <!--Dados do Professor-->
+    <!--Dados da disciplina-->
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <img align="center" src="{{ url_for('static', filename='images/prof.png') }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br>
-                <h2 align="center">{{professor.nome}}</h2>
+                <img align="center" src="{{ url_for('static', filename='images/disc.png') }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br>
+                <h2 align="center">{{disciplina.nome}}</h2>
             </div>
         </div>
 
-        <h1>Todas as Contribuições relacionadas ao progrssor: {{professor.nome}} ({{contribuiu}})</h1>
-        <h3>Unidade Acadêmica: {{professor.unidade_academica_id | unidade_academica}}</h3>
+        <h1>Todas as Contribuições relacionadas à disciplina {{disciplina.nome}} ({{contribuiu}})</h1>
         <hr/>
         <p>
         <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
@@ -41,7 +40,7 @@
                 <!--Material Relacionado-->
 
                     <div class="page-header">
-                        <h3>Todas os materiais relacionados a {{professor.nome}} ({{contribuiu}})</h3>
+                        <h3>Todas os materiais relacionados a {{disciplina.nome}} ({{contribuiu}})</h3>
                         <hr/>
                         <p>
                         <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
