@@ -131,21 +131,22 @@
                                 <!-- Quick Reply -->
                                 <div class="md-form mt-4" style="display: none;" id="comentario{{comment.id}}">
                                     <section >
-                                        <form method="GET">
+                                        <form method="POST">
                                             <div class="d-md-flex flex-md-fill mt-4 px-1">
+                                                {{ form_responde_comentario.hidden_tag() }}
                                                 <div class="d-flex justify-content-center mr-md-5">
-                                                <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+current_user.avatar)}}"
+                                                <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+user.avatar)}}"
                                                     alt="avatar">
                                                 </div>
                                                 <div class="form-group shadow-textarea">
-                                                    <textarea name="responder_comentario{{comment.id}}" class="form-control z-depth-1" placeholder="Escreva seu comentário aqui..." id="responder_comentario{{comment.id}}" rows="4" cols="100%"></textarea>
+                                                    {{ form_responde_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva seu comentário aqui...", id="responder_comentario{{comment.id}}", rows="4", cols="100%") }}
                                                 </div>
-                                                 <input name="respondido" id="respondido" type="hidden" value="{{comment.id}}"/>
+                                                {{ form_responde_comentario.respondeu_id(value=comment.id, style="display: none;") }}
                                             </div>
                                             <div class="text-center mt-4">
-                                                <a type="button" class="btn btn-default" onclick="responder_comentario('comentario{{comment.id}}')">Cancelar</a>
+                                                <button type="button" class="btn btn-default" onclick="responder_comentario('comentario{{comment.id}}')">Cancelar</button>
                                                 
-                                                <input type="submit" class="btn btn-primary" value="RESPONDER">
+                                                {{ form_responde_comentario.submit(class="btn btn-primary") }}
                                             </div>
                                         </form>
                                     </section>

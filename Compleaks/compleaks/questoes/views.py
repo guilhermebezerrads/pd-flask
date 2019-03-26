@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina
 from compleaks.usuarios.models import Usuario
 from compleaks.questoes.models import  Questao, Alternativa, Comentario
-from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm, ComentarioQuestaoForm, ExcluirComentarioQuestaoForm, EditarComentarioQuestaoForm
+from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm, ComentarioQuestaoForm, ExcluirComentarioQuestaoForm, EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 
@@ -125,10 +125,11 @@ def ver(id):
 	if not (current_user.is_authenticated):
 		abort(403)
 	
-	form_questao = FazerQuestaoForm() 
-	form_comentario = ComentarioQuestaoForm()
-	form_excluir_comentario = ExcluirComentarioQuestaoForm()
-	form_editar_comentario = EditarComentarioQuestaoForm()
+	form_questao = FazerQuestaoForm(prefix="form_questao") 
+	form_comentario = ComentarioQuestaoForm(prefix="form_comentario")
+	form_excluir_comentario = ExcluirComentarioQuestaoForm(prefix="form_excluir_comentario")
+	form_editar_comentario = EditarComentarioQuestaoForm(prefix="form_editar_comentario")
+	form_responde_comentario = ResponderComentarioQuestaoForm(prefix="form_responde_comentario")
 
 	usuarios = Usuario.query.all()
 	quest = Questao.query.get(id)
@@ -141,46 +142,23 @@ def ver(id):
 	comentarios = Comentario.query.filter(Comentario.questao_id.contains(quest.id)).order_by(Comentario.data_criacao.desc())	
 	comentarios = comentarios.order_by('data_criacao')
 
-	'''if form_responder.validate_on_submit():
+	if form_responde_comentario.validate_on_submit() and form_responde_comentario.submit.data:
 		print("Ta aqui?")
-		conteudo = form_responder.conteudo.data
-		respondeu_id = form_responder.respondeu_id.data
+		conteudo = form_responde_comentario.conteudo.data
+		respondeu_id = form_responde_comentario.respondeu_id.data
 		questao_id = quest.id
 		if(respondeu_id):
 			responde_comment = Comentario(conteudo=conteudo, questao_id=questao_id, usuario_id=current_user.id, respondeu_id=respondeu_id)
 			db.session.add(responde_comment)
-			db.session.commit()'''
-	
-	try:
-		respondido = request.args.get("respondido")
-		if respondido:
-			
-			resposta = request.args.get("responder_comentario"+str(respondido))
+			db.session.commit()
 
-			condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
-						.filter_by(conteudo=resposta)\
-						.filter_by(questao_id=quest.id).first()
-
-			if not condicion:
-				questao_id = quest.id
-				responde_comment = Comentario(conteudo=str(resposta), questao_id=questao_id, usuario_id=current_user.id, respondeu_id=int(respondido))
-				db.session.add(responde_comment)
-				db.session.commit()
-		
-		else:
-			print("Não to aqui")
-
-	except:
-		print("To aqui")
-	
-
-	if form_questao.validate_on_submit():
+	if form_questao.validate_on_submit() and form_questao.submit.data:
 		if int(quest.correta)==int(form_questao.radio_alternativas.data):
 			flash("Alternativa correta, meus parabens!", "success")
 		else:
 			flash("Alternativa errada, tente novamente!", "danger")	
 
-	if form_comentario.validate_on_submit():
+	if form_comentario.validate_on_submit() and form_comentario.comentar.data:
 		conteudo = form_comentario.conteudo.data
 
 		condicion = Comentario.query.filter_by(usuario_id=current_user.id)\
@@ -193,13 +171,7 @@ def ver(id):
 			db.session.add(new_comment)
 			db.session.commit()
 
-
-	if form_editar_comentario.validate_on_submit():
-		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
-		coment.conteudo = form_editar_comentario.novo_conteudo.data
-		db.session.commit()
-
-	if form_excluir_comentario.validate_on_submit():
+	if form_excluir_comentario.validate_on_submit() and form_excluir_comentario.excluir.data:
 		comentario = Comentario.query.get(form_excluir_comentario.id_comment.data)
 		if comentario:
 			comentars = Comentario.query.filter_by(respondeu_id=comentario.id)
@@ -209,10 +181,16 @@ def ver(id):
 			db.session.delete(comentario)
 			db.session.commit()		
 
+	if form_editar_comentario.is_submitted() and form_editar_comentario.submit.data:
+		coment = Comentario.query.get(form_editar_comentario.id_coment.data)
+		coment.conteudo = form_editar_comentario.novo_conteudo.data
+		db.session.commit()
+
 	return render_template('ver_questao.html',usuario=usuario, disciplina = disciplina, quest=quest, 
 	alternativas=alternativas, form_questao=form_questao, form_comentario=form_comentario,
 	comentarios=comentarios, usuarios=usuarios, form_excluir_comentario=form_excluir_comentario,
-	form_editar_comentario=form_editar_comentario)
+	form_editar_comentario=form_editar_comentario, form_responde_comentario=form_responde_comentario)
+
 
 
 @questoes.route('/redefinir/<int:id>', methods=['POST', 'GET'])
