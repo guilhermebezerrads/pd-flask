@@ -61,7 +61,13 @@ app.register_blueprint(disciplinas,url_prefix='/disciplinas')
 app.register_blueprint(questoes,url_prefix='/questoes')
 app.register_blueprint(error_pages)
 
-#FUNÇÕES
+
+
+####################################
+############FUNÇÕES#################
+####################################
+
+
 @app.template_filter('converte')
 def converte(s):
     return Markup(s)
@@ -69,4 +75,4 @@ def converte(s):
 @app.template_filter('unidade_academica')
 def unidade_academica(id):
 	lista = lista_unidades_academicas()
-	return lista[id]
+	return lista[id][1]

@@ -11,9 +11,9 @@
                 <h2 align="center">{{professor.nome}}</h2>
             </div>
         </div>
-
-        <h1>Todas as Contribuições relacionadas ao progrssor: {{professor.nome}} ({{contribuiu}})</h1>
-        <h3>Unidade Acadêmica: {{professor.unidade_academica_id | unidade_academica}}</h3>
+        <br/>
+        <br/>
+        <h4>Unidade Acadêmica: {{professor.unidade_academica_id | unidade_academica}}</h3>
         <hr/>
         <p>
         <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
@@ -27,9 +27,6 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="far fa-comments" style="font-size: 35px;"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fas fa-user-alt"></i></a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -266,8 +263,7 @@
                 
 
                     <br/>
-                    
-                    PAGINAÇÃO
+        
                     <nav  aria-label="Page navigation example" style="position: static;">
                         <ul class="pagination justify-content-center">
                             {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
@@ -296,7 +292,6 @@
 
             </section>
         </div>
-      </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="content">
           <section>
@@ -437,15 +432,7 @@
       </div>
 
       </div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-         <div class="content">
-          <section>
-            <div class="row">
-                <h2>Perfil</h2>
-            </div>
-        </section>
-      </div>
-    </div>
+
 </div>
     
     

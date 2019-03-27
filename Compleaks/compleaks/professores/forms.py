@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, IntegerField,
-                     SubmitField, SelectField)
+                     SubmitField, SelectField, TextAreaField)
 from wtforms.validators import DataRequired, Email
 from compleaks.professores.dapartamentos import lista_unidades_academicas
 

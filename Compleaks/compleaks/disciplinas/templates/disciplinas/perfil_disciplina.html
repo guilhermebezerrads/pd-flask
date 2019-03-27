@@ -11,13 +11,9 @@
                 <h2 align="center">{{disciplina.nome}}</h2>
             </div>
         </div>
+        <br/>
+        <br/>
 
-        <h1>Todas as Contribuições relacionadas à disciplina {{disciplina.nome}} ({{contribuiu}})</h1>
-        <hr/>
-        <p>
-        <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
-
-    Lindomar Batista</small></p>
     </div>
     <!--BARRA DE NAVEGAÇÃO-->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -26,9 +22,6 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="far fa-comments" style="font-size: 35px;"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fas fa-user-alt"></i></a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -48,7 +41,7 @@
                     Lindomar Batista</small></p>
                     </div>
                 {% if existe_arquivo %}
-                
+
                     {% for row in arquivos_rows %}
                     {% if row %}
                     <div class="row">
@@ -262,11 +255,7 @@
                     {% endif %}
                 {% endfor %}
 
-                
-
-                    <br/>
-                    
-                    PAGINAÇÃO
+                    <br/>                    
                     <nav  aria-label="Page navigation example" style="position: static;">
                         <ul class="pagination justify-content-center">
                             {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
@@ -294,7 +283,6 @@
                 </div>
             </section>
         </div>
-      </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="content">
           <section>
@@ -435,15 +423,6 @@
       </div>
 
       </div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-         <div class="content">
-          <section>
-            <div class="row">
-                <h2>Perfil</h2>
-            </div>
-        </section>
-      </div>
-    </div>
 </div>
     
     

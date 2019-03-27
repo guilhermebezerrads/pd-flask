@@ -1,9 +1,12 @@
-from flask import render_template, Blueprint, url_for, redirect, flash, abort
+from flask import render_template, Blueprint, url_for, redirect, flash, abort, request
 from flask_login import current_user, login_required
 from compleaks import db, dist
+from compleaks.questoes.forms import (ComentarioQuestaoForm, ExcluirComentarioQuestaoForm,
+									 EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm)
 from compleaks.professores.forms import (AdicionarProfessorForm, BuscarProfessorForm, EditarProfessorForm, 
 										ExcluirProfessorForm)
 from compleaks.professores.models import Professor, ComentarioProf
+from compleaks.arquivos.models import Arquivo
 from datetime import datetime
 from compleaks.professores.dapartamentos import lista_unidades_academicas
 from compleaks.usuarios.forms import LoginForm
@@ -238,7 +241,7 @@ def perfil(id):
 		coment.conteudo = form_editar_comentario.novo_conteudo.data
 		db.session.commit()
 
-	if form_excluir_comentarioProf.validate_on_submit():
+	if form_excluir_comentario.validate_on_submit():
 		comentario = ComentarioProf.query.get(form_excluir_comentario.id_comment.data)
 		if comentario:
 			comentars = ComentarioProf.query.filter_by(respondeu_id=comentario.id)
@@ -248,7 +251,7 @@ def perfil(id):
 			db.session.delete(comentario)
 			db.session.commit()
 
-	return render_template('perfil_professor_teste.html', professor=professor,
+	return render_template('perfil_professor.html', professor=professor,
 							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
 							contribuiu=quantidade, usuarios=usuarios, comentarios=comentarios,
 							form_comentario=form_comentario, existe_arquivo=bool(contador),

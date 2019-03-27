@@ -1,8 +1,11 @@
-from flask import (render_template, Blueprint, url_for, redirect, flash, abort)
+from flask import (render_template, Blueprint, url_for, redirect, flash, abort, request)
 from flask_login import current_user, login_required
-from compleaks import db
+from compleaks import db, dist
 from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, EditarDisciplinaForm, ExcluirDisciplinaForm)
 from compleaks.disciplinas.models import Disciplina, ComentarioDisc
+from compleaks.arquivos.models import Arquivo
+from compleaks.questoes.forms import (ComentarioQuestaoForm, ExcluirComentarioQuestaoForm,
+									 EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm)
 from compleaks.usuarios.forms import LoginForm
 from compleaks.usuarios.models import Usuario
 from datetime import datetime
@@ -252,7 +255,7 @@ def perfil(id):
 			db.session.delete(comentario)
 			db.session.commit()
 
-	return render_template('perfil_professor_teste.html', disciplina=disciplina,
+	return render_template('perfil_disciplina.html', disciplina=disciplina,
 							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
 							contribuiu=quantidade, usuarios=usuarios, comentarios=comentarios,
 							form_comentario=form_comentario, existe_arquivo=bool(contador),
