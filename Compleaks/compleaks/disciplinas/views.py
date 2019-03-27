@@ -76,6 +76,9 @@ def buscar():
 		else:
 			existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
 			disciplinadb = Disciplina.query.filter(Disciplina.nome.contains(nome)).paginate(page=page, per_page=10)	
+
+	else:
+		return redirect(url_for('disciplinas.listar'))
 	
 	if existe_professor:
 		disciplinas = disciplinadb

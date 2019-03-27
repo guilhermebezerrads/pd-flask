@@ -77,6 +77,9 @@ def buscar():
 			existe_professor = Professor.query.filter(Professor.nome.contains(nome)).first()
 			professoresdb = Professor.query.filter(Professor.nome.contains(nome)).paginate(page=page, per_page=10)
 
+	else:
+		return redirect(url_for('professoresdb.listar'))
+
 
 	if existe_professor:
 		professores = professoresdb
