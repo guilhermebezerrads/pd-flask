@@ -133,6 +133,10 @@ def perfil(id):
 
 	disciplina = Disciplina.query.get_or_404(id)
 
+	if not disciplina.ativado:
+		if not current_user.is_admin:
+			abort(403)
+
 	arquivos_todos = Arquivo.query.filter_by(disciplina_id=disciplina.id)
 
 	quantidade = len([arquiv for arquiv in arquivos_todos if arquiv.ativado])

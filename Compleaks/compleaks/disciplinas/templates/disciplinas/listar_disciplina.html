@@ -212,7 +212,7 @@
             {% if disciplina.ativado %}
                 <tbody>
                     <tr>
-                        <td>{{ disciplina.nome }}</td>
+                        <td><a href="{{url_for('disciplinas.perfil', id=disciplina.id )}}">{{ disciplina.nome }}</a></td>
                         {% if current_user.is_authenticated %}
                             {% if current_user.id == disciplina.id_criador %}
                             <td>

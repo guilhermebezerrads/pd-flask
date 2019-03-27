@@ -66,7 +66,7 @@ app.register_blueprint(error_pages)
 ####################################
 ############FUNÇÕES#################
 ####################################
-
+	
 
 @app.template_filter('converte')
 def converte(s):

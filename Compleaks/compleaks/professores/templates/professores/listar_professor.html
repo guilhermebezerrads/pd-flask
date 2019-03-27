@@ -53,13 +53,13 @@
                         {% if not professor.ativado %}
                             <article color="red">
                                 <td>{{ professor.id }}</td>
-                                <td>{{ professor.nome }}</td>
+                                <a href="{{url_for('professores.perfil', id=professor.id )}}"><td>{{ professor.nome }}</td></a>
                                 <td>{{ lista[ professor.unidade_academica_id ][1] }}</td>
                                 <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#redefinir{{professor.id}}" >Redefinir</button></td>
                             </article>
                         {% else %}
                             <td>{{ professor.id }}</td>
-                            <td>{{ professor.nome }}</td>
+                            <td><a href="{{url_for('professores.perfil', id=professor.id )}}">{{ professor.nome }}</a> </td>
                             <td>{{ lista[ professor.unidade_academica_id ][1] }}</td>
                             <td>
                                 <a data-dismiss="modal" data-toggle="modal" data-target="#editar{{professor.id}}"><img class="img-responsive delete" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>

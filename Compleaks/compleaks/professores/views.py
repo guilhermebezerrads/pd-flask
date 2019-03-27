@@ -129,6 +129,11 @@ def perfil(id):
 
 	professor = Professor.query.get_or_404(id)
 
+	if not professor.ativado:
+		if not current_user.is_admin:
+			abort(403)
+
+
 	arquivos_todos = Arquivo.query.filter_by(professor_id=professor.id)
 
 	quantidade = len([arquiv for arquiv in arquivos_todos if arquiv.ativado])

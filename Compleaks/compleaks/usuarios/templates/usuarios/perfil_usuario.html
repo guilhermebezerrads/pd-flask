@@ -384,11 +384,11 @@
                                                     <h5 class="modal-title">Referências:</h5>
                                                     <p>Usuáario que postou: <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"> {{ arquivo.author.username }}</a></p>
                                                     {% if arquivo.professor_id %}
-                                                        <p>Professor de referência: {{ arquivo.professor.nome }}</p>
+                                                        <p>Professor de referência: <a href="{{url_for('professores.perfil', id=arquivo.professor.id )}}"> {{ arquivo.professor.nome }}</a></p>
                                                     {% else %}
                                                         <p>Nenhum prefessor relacionado a este arquivo</p>
                                                     {% endif %}
-                                                    <p>Diciplina de referência: {{ arquivo.disciplina.nome }}</p>
+                                                    <p>Disciplina de referência: <a href="{{url_for('disciplinas.perfil', id=arquivo.disciplina.id )}}"> {{ arquivo.disciplina.nome }}</a></p>
                                                     <p>Ano de referência: {{ arquivo.ano }}</p>
                                                     <p>Semestre de referência: {{ arquivo.ano }}</p>
                                                     <br/>
