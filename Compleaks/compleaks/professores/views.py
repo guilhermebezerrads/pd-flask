@@ -65,6 +65,8 @@ def buscar():
 	professoresdb = None
 	existe_professor = False
 	busca = False
+	nome = None
+	professores = None
 
 	if form_buscar.validate_on_submit():
 		busca=True
@@ -75,12 +77,25 @@ def buscar():
 			existe_professor = Professor.query.filter(Professor.nome.contains(nome)).first()
 			professoresdb = Professor.query.filter(Professor.nome.contains(nome)).paginate(page=page, per_page=10)
 
-	professores = dprofessoresdb
-	professoresdb = professoresdb.items
-	
+
+	if existe_professor:
+		professores = professoresdb
+		professoresdb = professoresdb.items
+
+	'''
+	try:
+		professoresdb = professoresdb.items
+	except:
+		professoresdb = []
+		professores.iter_pages = Afs()
+	'''
 	return render_template('listar_professor.html', form_buscar=form_buscar, professoresdb=professoresdb, 
 	existe_professor=existe_professor, form_login=form_login, busca=busca, lista = lista_unidades_academicas(),
 	form_excluir=form_excluir, form_editar=form_editar, professores=professores, navigation_data=nome)
+
+def Afs(left_edge=1, right_edge=1, left_current=1, right_current=2):
+	lista = []
+	return lista
 
 @professores.route('/redefinir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required

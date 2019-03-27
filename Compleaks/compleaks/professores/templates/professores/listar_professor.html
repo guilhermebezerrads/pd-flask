@@ -29,8 +29,7 @@
         <br>
 
         {% if busca %}
-            {% if existe_professor %}
-            {% else %}
+            {% if not existe_professor %}
                 <h2>Sem resultados para busca</h2>
                 <br>
             {% endif %}
@@ -46,7 +45,7 @@
                     <th>Ação</th>
                 </tr>
             </thead>
-
+            {% if existe_professor %}
             {% for professor in professoresdb %}
                 <tbody>
                     <tr>
@@ -169,9 +168,11 @@
                 </div>
             
             {% endfor %}
+            {% endif %}
 
         </table>
 
+        {% if existe_professor %}
         <br/>
           <nav style="position: static;" aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
@@ -198,6 +199,7 @@
                     {% endfor %}
                 </ul>
             </nav> 
+        {% endif %}
 
     <!--CONFIGURAÇÃO PARA USUARIOS-->
     {% else %}
@@ -240,7 +242,7 @@
                     {% endif %}
                 </tr>
             </thead>
-            
+            {% if existe_professor %}
             {% for professor in professoresdb %}
                 {% if professor.ativado %}
                     <tbody>
@@ -329,8 +331,9 @@
                 {% endif %}
     
             {% endfor %}
+            {% endif %}
         </table>
-
+        {% if existe_professor %}
         <br/>
           <nav style="position: static;" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -356,7 +359,8 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-        </nav> 
+        </nav>
+        {% endif %}
 
     {% endif %}    
 

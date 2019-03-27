@@ -76,9 +76,11 @@ def buscar():
 		else:
 			existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
 			disciplinadb = Disciplina.query.filter(Disciplina.nome.contains(nome)).paginate(page=page, per_page=10)	
+	
+	if existe_professor:
+		disciplinas = disciplinadb
+		disciplinadb = disciplinadb.items
 
-	disciplinas = disciplinadb
-	disciplinadb = disciplinadb.items
 	
 	return render_template('listar_disciplina.html', disciplinadb=disciplinadb, busca=busca, existe_disciplina=existe_disciplina,
 	form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir, form_login=form_login,

@@ -45,7 +45,7 @@
               <th>Ação</th>
             </tr>
         </thead>
-
+        {% if existe_disciplina %}
         {% for disciplina in disciplinadb %}
             <tbody>
                 <tr>
@@ -164,8 +164,11 @@
             </div>
         
         {% endfor %}
+        {% endif %}
 
     </table>
+
+    {% if existe_disciplina %}
     <br/>
       <nav style="position: static;" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -192,6 +195,8 @@
                 {% endfor %}
             </ul>
         </nav>     
+        {% endif %}
+
 
     <!--CONFIGURAÇÃO PARA USUARIOS-->
     {% else %}
@@ -234,6 +239,7 @@
             </tr>
         </thead>
         
+        {% if existe_disciplina %}
         {% for disciplina in disciplinadb %}
             {% if disciplina.ativado %}
                 <tbody>
@@ -319,8 +325,11 @@
             {% endif %}
 
         {% endfor %}
-    </table>
+        {% endif %}
 
+    </table>
+    
+    {% if existe_disciplina %}
     <br/>
       <nav style="position: static;" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -347,5 +356,7 @@
             {% endfor %}
         </ul>
     </nav> 
+    {% endif %}
+
   {% endif %}
 {% endblock %}
