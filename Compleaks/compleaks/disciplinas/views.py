@@ -31,17 +31,29 @@ def adicionar():
 
 	return render_template('adicionar_disciplina.html', form=form)
 
-@disciplinas.route('/listar', methods=['POST', 'GET'])
-def listar():
+@disciplinas.route('/lista/<nome>', 
+	methods=['POST', 'GET'])
+@disciplinas.route('/listar', defaults={"nome":None}, methods=['POST', 'GET'])
+def listar(nome):
 	form_excluir = ExcluirDisciplinaForm()
 	form_editar = EditarDisciplinaForm()
 	form_buscar = BuscarDisciplinaForm()
 	form_login = LoginForm()
 
-	disciplinadb = Disciplina.query.order_by(Disciplina.nome.asc())
+	page = request.args.get('page', 1, type=int)
+
+	if not nome:
+		disciplinadb = Disciplina.query.order_by(Disciplina.nome.asc()).paginate(page=page, per_page=10)
+	else:
+		disciplinadb = Disciplina.query.filter(Disciplina.nome.contains(nome))\
+		.order_by(Disciplina.nome.asc()).paginate(page=page, per_page=10)	
+
+	disciplinas = disciplinadb
+	disciplinadb = disciplinadb.items
 
 	return render_template('listar_disciplina.html',disciplinadb=disciplinadb, form_login=form_login,
-							form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir)
+							form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir,
+							disciplinas=disciplinas, navigation_data=nome)
 
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
 def buscar():
@@ -53,19 +65,24 @@ def buscar():
 	disciplinadb = None
 	existe_disciplina = False
 	busca = False
+	nome = None
 
 	if form_buscar.validate_on_submit():
 		busca=True
 		nome = form_buscar.nome.data		
 
 		if nome == None:
-			disciplinadb = Disciplina.query.order_by(Disciplina.nome.asc())
+			disciplinadb = Disciplina.query.order_by(Disciplina.nome.asc()).paginate(page=page, per_page=10)	
 		else:
 			existe_disciplina = Disciplina.query.filter(Disciplina.nome.contains(nome)).first()
-			disciplinadb = Disciplina.query.filter(Disciplina.nome.contains(nome))
+			disciplinadb = Disciplina.query.filter(Disciplina.nome.contains(nome)).paginate(page=page, per_page=10)	
+
+	disciplinas = disciplinadb
+	disciplinadb = disciplinadb.items
 	
 	return render_template('listar_disciplina.html', disciplinadb=disciplinadb, busca=busca, existe_disciplina=existe_disciplina,
-	form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir, form_login=form_login)
+	form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir, form_login=form_login,
+	navigation_data=nome, disciplinas=disciplinas)
 
 @disciplinas.route('/excluir/<int:disc_id>', methods=['POST', 'GET'])
 @login_required

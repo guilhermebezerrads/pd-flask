@@ -16,7 +16,7 @@ seguir o mesmo rumo na paginação preciso ter o estado anterior, o que causa es
 linhas é o fato	de uma query tem de ser feita na mesma instrução, ou seja não pode ser filtrada depois'''
 @arquivos.route('/busca/<admin>/<int:filtro>/<pesquisa>/<tip_arquiv>', 
 	methods=['POST', 'GET'])
-@arquivos.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None,
+@arquivos.route('/busca', defaults={"filtro":None,"admin":None,"pesquisa":None,
 	"tip_arquiv":None}, methods=['POST', 'GET'])
 def buscar(admin,filtro,pesquisa,tip_arquiv):
 

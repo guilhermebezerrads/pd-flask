@@ -32,18 +32,28 @@ def adicionar():
 		return redirect(url_for('professores.listar'))
 
 	return render_template('adicionar_professor.html', form=form)
-
-@professores.route('/listar')
+@professores.route('/lista/<nome>')
+@professores.route('/listar', defaults={"nome":None},)
 def listar():
 	form_excluir = ExcluirProfessorForm()
 	form_editar = EditarProfessorForm()
 	form_buscar = BuscarProfessorForm()
 	form_login = LoginForm()
-	professoresdb = Professor.query.order_by(Professor.nome.asc())
+
+	page = request.args.get('page', 1, type=int)
+
+	if not nome:
+		professoresdb = Professor.query.order_by(Professor.nome.asc()).paginate(page=page, per_page=10)
+	else:
+		professoresdb = Professor.query.filter(Professor.nome.contains(nome))\
+		.order_by(Professor.nome.asc()).paginate(page=page, per_page=10)
+
+	professores = dprofessoresdb
+	professoresdb = professoresdb.items
 
 	return render_template('listar_professor.html', professoresdb=professoresdb, 
 	lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
-	form_editar=form_editar, form_buscar=form_buscar)
+	form_editar=form_editar, form_buscar=form_buscar, professores=professores, navigation_data=nome)
 
 @professores.route('/buscar', methods=['POST', 'GET'])
 def buscar():
@@ -60,14 +70,17 @@ def buscar():
 		busca=True
 		nome = form_buscar.nome.data
 		if nome == None:
-			professoresdb = Professor.query.order_by(Professor.nome.asc())
+			professoresdb = Professor.query.order_by(Professor.nome.asc()).paginate(page=page, per_page=10)
 		else:
 			existe_professor = Professor.query.filter(Professor.nome.contains(nome)).first()
-			professoresdb = Professor.query.filter(Professor.nome.contains(nome))
+			professoresdb = Professor.query.filter(Professor.nome.contains(nome)).paginate(page=page, per_page=10)
+
+	professores = dprofessoresdb
+	professoresdb = professoresdb.items
 	
 	return render_template('listar_professor.html', form_buscar=form_buscar, professoresdb=professoresdb, 
 	existe_professor=existe_professor, form_login=form_login, busca=busca, lista = lista_unidades_academicas(),
-	form_excluir=form_excluir, form_editar=form_editar)
+	form_excluir=form_excluir, form_editar=form_editar, professores=professores, navigation_data=nome)
 
 @professores.route('/redefinir/<int:prof_id>', methods=['POST', 'GET'])
 @login_required

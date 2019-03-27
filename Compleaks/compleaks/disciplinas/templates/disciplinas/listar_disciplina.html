@@ -166,6 +166,32 @@
         {% endfor %}
 
     </table>
+    <br/>
+      <nav style="position: static;" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% for page_num in disciplinas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if disciplinas.page == page_num and page_num %}
+                        <li class="page-item disabled">
+                            {% if not navigation_data %}
+                                <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num, nome=navigation_data) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        </li>
+                    {% elif page_num %}
+                        <li class="page-item">
+                            {% if not navigation_data %}
+                                <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num, nome=navigation_data) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>     
 
     <!--CONFIGURAÇÃO PARA USUARIOS-->
     {% else %}
@@ -294,5 +320,32 @@
 
         {% endfor %}
     </table>
+
+    <br/>
+      <nav style="position: static;" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+            {% for page_num in disciplinas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if disciplinas.page == page_num and page_num %}
+                    <li class="page-item disabled">
+                        {% if not navigation_data %}
+                            <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num) }}">{{ page_num }}</a></li>
+                        {% else %}
+                            <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num, nome=navigation_data) }}">{{ page_num }}</a></li>
+                        {% endif %}
+                    </li>
+                {% elif page_num %}
+                    <li class="page-item">
+                        {% if not navigation_data %}
+                            <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num) }}">{{ page_num }}</a></li>
+                        {% else %}
+                            <a class="page-link" href="{{ url_for('disciplinas.listar', page=page_num, nome=navigation_data) }}">{{ page_num }}</a></li>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav> 
   {% endif %}
 {% endblock %}
