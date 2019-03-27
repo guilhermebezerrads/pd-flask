@@ -34,7 +34,7 @@ def adicionar():
 	return render_template('adicionar_professor.html', form=form)
 @professores.route('/lista/<nome>')
 @professores.route('/listar', defaults={"nome":None},)
-def listar():
+def listar(nome):
 	form_excluir = ExcluirProfessorForm()
 	form_editar = EditarProfessorForm()
 	form_buscar = BuscarProfessorForm()
@@ -48,7 +48,7 @@ def listar():
 		professoresdb = Professor.query.filter(Professor.nome.contains(nome))\
 		.order_by(Professor.nome.asc()).paginate(page=page, per_page=10)
 
-	professores = dprofessoresdb
+	professores = professoresdb
 	professoresdb = professoresdb.items
 
 	return render_template('listar_professor.html', professoresdb=professoresdb, 
