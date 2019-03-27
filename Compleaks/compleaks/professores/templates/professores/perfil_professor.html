@@ -48,6 +48,7 @@
 
                     Lindomar Batista</small></p>
                     </div>
+                {% if existe_arquivo %}
 
                     {% for row in arquivos_rows %}
                     {% if row %}
@@ -284,8 +285,15 @@
                             {% endfor %}
                         </ul>
                     </nav>
+                    {% else %}
+                    <br/>
+                    <div class="text-center">
+                        <h1 >Nenhum Resultado Encontrado</h1>
+                    </div>
+                    {% endif %}
 
                 </div>
+
             </section>
         </div>
       </div>

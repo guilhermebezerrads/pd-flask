@@ -255,6 +255,6 @@ def perfil(id):
 	return render_template('perfil_professor_teste.html', disciplina=disciplina,
 							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
 							contribuiu=quantidade, usuarios=usuarios, comentarios=comentarios,
-							form_comentario=form_comentario,
+							form_comentario=form_comentario, existe_arquivo=bool(contador),
 							form_excluir_comentario=form_excluir_comentario,
 							form_editar_comentario=form_editar_comentario)
