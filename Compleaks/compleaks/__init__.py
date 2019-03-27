@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
-from compleaks.professores.departamentos import lista_unidades_academicas
+from compleaks.professores.dapartamentos import lista_unidades_academicas
 
 login_manager = LoginManager()
 
@@ -68,5 +68,5 @@ def converte(s):
 
 @app.template_filter('unidade_academica')
 def unidade_academica(id):
-	lista = lista_unidades_academicas() 
-    return lista[id]
+	lista = lista_unidades_academicas()
+	return lista[id]

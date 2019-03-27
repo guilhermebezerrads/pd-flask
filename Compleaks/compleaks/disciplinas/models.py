@@ -38,7 +38,7 @@ class ComentarioDisc(db.Model):
 	data_criacao = db.Column(db.DateTime, default=datetime.now)
 
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-	disciplina_id= db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=False)
+	disciplina_id= db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 
 	respondeu_id = db.Column(db.Integer, nullable=False)
 
