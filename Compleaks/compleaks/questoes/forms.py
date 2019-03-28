@@ -51,9 +51,9 @@ class ExcluirComentarioQuestaoForm(FlaskForm):
 class EditarComentarioQuestaoForm(FlaskForm):
 	id_coment = IntegerField("Id do comentario:", validators=[DataRequired()])
 	novo_conteudo = TextAreaField("Conteudo", validators=[DataRequired()])
-	enviar = SubmitField("Editar")
+	submit = SubmitField("Editar")
 
 class ResponderComentarioQuestaoForm(FlaskForm):
 	conteudo = TextAreaField("Conteudo", validators=[DataRequired()])
 	respondeu_id = IntegerField("Id do comentario a ser respondido")
-	responder = SubmitField("Responder")
+	submit = SubmitField("Responder")

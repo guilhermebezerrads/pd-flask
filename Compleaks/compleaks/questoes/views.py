@@ -143,7 +143,6 @@ def ver(id):
 	comentarios = comentarios.order_by('data_criacao')
 
 	if form_responde_comentario.validate_on_submit() and form_responde_comentario.submit.data:
-		print("Ta aqui?")
 		conteudo = form_responde_comentario.conteudo.data
 		respondeu_id = form_responde_comentario.respondeu_id.data
 		questao_id = quest.id

@@ -23,15 +23,13 @@
                         <div class="row" id="detalhe_questao">
                             <h5>Detalhes</h5>
                             <div class="container">
-                                {% for quest in questoes %}
-                                    <p>Questão referente a materia de {{ disciplina.nome }}.</p>
-                                    <p>Criador da questão é {{ usuario.nome }}.</p>
-                                    {% if current_user.is_admin or current_user.id == quest.usuario_id %}
-                                        <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
-                                        <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
-                                    {% endif %}
-                                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
-                                {% endfor %}
+                                <p>Questão referente a materia de {{ disciplina.nome }}.</p>
+                                <p>Criador da questão é {{ usuario.nome }}.</p>
+                                {% if current_user.is_admin or current_user.id == quest.usuario_id %}
+                                    <a class="btn-link"><i class="fas fa-edit"></i>Editar</a>
+                                    <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-trash-alt"></i>Excluir</a>
+                                {% endif %}
+                                <a class="btn-link" style="margin-left: 15px;"><i class="fas fa-exclamation-triangle"></i>Reportar</a>
                             </div>
                         </div>
                     </div>
@@ -126,6 +124,31 @@
                                 </div>
 
                                 {{ comment.conteudo | converte }}
+
+                                <!--EDITAR COMENTARIO-->
+                                <!-- Quick Reply -->
+                                <div class="md-form mt-4" style="display: none;" id="form_editar_comentario{{comment.id}}">
+                                    <section >
+                                        <form method="POST">
+                                            <div class="d-md-flex flex-md-fill mt-4 px-1">
+                                                {{ form_editar_comentario.hidden_tag() }}
+                                                <div class="d-flex justify-content-center mr-md-5">
+                                                <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+user.avatar)}}"
+                                                    alt="avatar">
+                                                </div>
+                                                <div class="form-group shadow-textarea">
+                                                    {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", rows="4", cols="100%") }}
+                                                </div>
+                                                {{ form_editar_comentario.id_coment(value=comment.id, style="display: none;") }}
+                                            </div>
+                                            <div class="text-center mt-4">
+                                                <button type="button" class="btn btn-default" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Cancelar</button>
+                                                
+                                                {{ form_editar_comentario.submit(class="btn btn-primary") }}
+                                            </div>
+                                        </form>
+                                    </section>
+                                </div>
                     
                                 <!--Escrever uma resposta, a principio display é none-->
                                 <!-- Quick Reply -->
@@ -139,7 +162,7 @@
                                                     alt="avatar">
                                                 </div>
                                                 <div class="form-group shadow-textarea">
-                                                    {{ form_responde_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva seu comentário aqui...", id="responder_comentario{{comment.id}}", rows="4", cols="100%") }}
+                                                    {{ form_responde_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva sua resposta aqui...", id="responder_comentario{{comment.id}}", rows="4", cols="100%") }}
                                                 </div>
                                                 {{ form_responde_comentario.respondeu_id(value=comment.id, style="display: none;") }}
                                             </div>
@@ -176,7 +199,7 @@
                                                                     aria-expanded="false">
                                                                     <i class="fas fa-angle-down"></i></a>
                                                                 <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-                                                                    <button class="dropdown-item" onclick="formulario_editar_comentario('form_editar_comentario{{comment.id}}')">Editar</button>
+                                                                    <button class="dropdown-item" onclick="editar_resposta('editar_resposta{{resposta.id}}')">Editar</button>
                                                                     {% if current_user.is_admin or current_user.id == resposta.usuario_id %}
                                                                         <form method="POST">
                                                                             {{ form_excluir_comentario.hidden_tag() }}
@@ -193,6 +216,30 @@
                                                         </div>
                                                     </div>
                                                     {{ resposta.conteudo | converte }}
+                                                    <!--EDITAR COMENTARIO-->
+                                                    <!-- Quick Reply -->
+                                                    <div class="md-form mt-4" style="display: none;" id="editar_resposta{{resposta.id}}">
+                                                        <section >
+                                                            <form method="POST">
+                                                                <div class="d-md-flex flex-md-fill mt-4 px-1">
+                                                                    {{ form_editar_comentario.hidden_tag() }}
+                                                                    <div class="d-flex justify-content-center mr-md-5">
+                                                                    <img class="card-img-100 z-depth-1 mb-4 rounded-circle z-depth-0" src="{{url_for('static', filename='images/avatares/'+user.avatar)}}"
+                                                                        alt="avatar">
+                                                                    </div>
+                                                                    <div class="form-group shadow-textarea">
+                                                                        {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", rows="4", cols="100%") }}
+                                                                    </div>
+                                                                    {{ form_editar_comentario.id_coment(value=resposta.id, style="display: none;") }}
+                                                                </div>
+                                                                <div class="text-center mt-4">
+                                                                    <button type="button" class="btn btn-default" onclick="editar_resposta('editar_resposta{{resposta.id}}')">Cancelar</button>
+                                                                    
+                                                                    {{ form_editar_comentario.submit(class="btn btn-primary") }}
+                                                                </div>
+                                                            </form>
+                                                        </section>
+                                                    </div>
                                                 </div>
                                                 </blockquote>
                                             {% endif %}
