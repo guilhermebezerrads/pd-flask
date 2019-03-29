@@ -137,7 +137,7 @@
                                                     alt="avatar">
                                                 </div>
                                                 <div class="form-group shadow-textarea">
-                                                    {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", rows="4", cols="100%") }}
+                                                    {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", id="comentarioCKEDITOR"+comment.id|string, rows="4", cols="100%", onclick="adicionaCKEDITOR('comentarioCKEDITOR"+comment.id|string+"')") }}
                                                 </div>
                                                 {{ form_editar_comentario.id_coment(value=comment.id, style="display: none;") }}
                                             </div>
@@ -162,7 +162,7 @@
                                                     alt="avatar">
                                                 </div>
                                                 <div class="form-group shadow-textarea">
-                                                    {{ form_responde_comentario.conteudo(class="form-control z-depth-1", placeholder="Escreva sua resposta aqui...", id="responder_comentario{{comment.id}}", rows="4", cols="100%") }}
+                                                    {{ form_responde_comentario.conteudo(class="form-control z-depth-1", id="respComentarioCKEDITOR"+comment.id|string, onclick="adicionaCKEDITOR('respComentarioCKEDITOR"+comment.id|string+"')", placeholder="Escreva sua resposta aqui...", rows="4", cols="100%") }}
                                                 </div>
                                                 {{ form_responde_comentario.respondeu_id(value=comment.id, style="display: none;") }}
                                             </div>
@@ -174,9 +174,7 @@
                                         </form>
                                     </section>
                                 </div>
-                                <script>
-                                    CKEDITOR.replace( 'responder_comentario{{comment.id}}', { width: "60vw", height: 'auto'} );
-                                </script>
+
                                 {% for resposta in comentarios %}
                                     {% if resposta.respondeu_id == comment.id %}
                                         {% for userRespond in usuarios %}
@@ -228,7 +226,7 @@
                                                                         alt="avatar">
                                                                     </div>
                                                                     <div class="form-group shadow-textarea">
-                                                                        {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", rows="4", cols="100%") }}
+                                                                        {{ form_editar_comentario.novo_conteudo(class="form-control z-depth-1", id="respostaCKEDITOR"+resposta.id|string, onclick="respAdicionaCKEDITOR('respostaCKEDITOR"+resposta.id|string+"')", rows="4", cols="100%") }}
                                                                     </div>
                                                                     {{ form_editar_comentario.id_coment(value=resposta.id, style="display: none;") }}
                                                                 </div>
