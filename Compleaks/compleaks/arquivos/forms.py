@@ -24,7 +24,7 @@ class AdicionarArquivoForm(FlaskForm):
 
 	professor = SelectField("Escolha um professor associado:", validators=[DataRequired()])
 	disciplina = SelectField("Escilha uma disciplina associada:", validators=[DataRequired()])
-	ano = SelectField("Ano de referência do conteúdo", choices=[('2010','A'),('2110','B')])
+	ano = SelectField("Ano de referência do conteúdo")
 	semestre = SelectField("Semestre de referência", choices=[('1','1°'),('2','2°')], 
 		validators=[DataRequired()])
 	tipo_conteudo = SelectField("Tipo do conteúdo", choices=[('apostila','Apostila'),

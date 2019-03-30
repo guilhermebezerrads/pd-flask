@@ -34,11 +34,13 @@ def adicionar():
 	form_add.disciplina.choices = [(str(disciplina.id), disciplina.nome)
 									 for disciplina in Disciplina.query.order_by('nome')
 									 if disciplina.ativado]
-	print("Aloha")
+
+	now = datetime.now()
+	form_add.ano.choices = [(str(now.year),str(now.year)), (str(now.year-1),str(now.year-1)),
+							 (str(now.year-2),str(now.year-2)), (str(now.year-3),str(now.year-3))]
 
 	if form_add.validate_on_submit():
 
-		print("Aloha")
 		data = datetime.now()
 
 		professor = form_add.professor.data
