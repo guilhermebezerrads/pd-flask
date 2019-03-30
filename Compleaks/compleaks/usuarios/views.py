@@ -168,16 +168,20 @@ def listar():
 	page = request.args.get('page', 1, type=int)
 	users = Usuario.query\
 			.order_by(Usuario.username)\
-			.paginate(page=page, per_page=1)
+			.paginate(page=page, per_page=10)
 	return render_template('todos_users.html', users=users)
 
 @usuarios.route('/busca/<int:admin>/<int:filtro>/<pesquisa>', methods=['POST', 'GET'])
 @usuarios.route('/busca',defaults={"filtro":None,"admin":None,"pesquisa":None}, methods=['POST', 'GET'])
 @login_required
 def buscar(admin,filtro,pesquisa):
+
+	if not current_user.is_admin:
+		abort(403)
+
 	form = BuscarUsuarioForm()
 	page = request.args.get('page', 1, type=int)
-	users = Usuario.query.order_by(Usuario.username).paginate(page=page, per_page=3)
+	users = Usuario.query.order_by(Usuario.username).paginate(page=page, per_page=10)
 	print(len(users.items))
 	existe_user = True
 	navigation_data = []
@@ -193,21 +197,21 @@ def buscar(admin,filtro,pesquisa):
 			existe_user = Usuario.query.filter(Usuario.username.contains(pesquisa)).first()
 			users = Usuario.query\
 				.filter(Usuario.username.contains(pesquisa))\
-				.paginate(page=page, per_page=1)
+				.paginate(page=page, per_page=10)
 		
 		if int(form.filtrar.data) == 2:				
 
 			pesquisa = form.nome.data
 			existe_user = Usuario.query.filter(Usuario.nome.contains(pesquisa)).first()
 			users = Usuario.query.filter(Usuario.nome.contains(pesquisa))\
-					.paginate(page=page, per_page=1)
+					.paginate(page=page, per_page=10)
 
 		if int(form.filtrar.data) is 3:
 
 			pesquisa = form.email.data
 			existe_user = Usuario.query.filter(Usuario.email.contains(pesquisa)).first()
 			users = Usuario.query.filter(Usuario.email.contains(pesquisa))\
-					.paginate(page=page, per_page=1)
+					.paginate(page=page, per_page=10)
 
 		admin_only = form.administrators.data
 
@@ -228,17 +232,17 @@ def buscar(admin,filtro,pesquisa):
 			existe_user = Usuario.query.filter(Usuario.username.contains(pesquisa)).first()
 			users = Usuario.query\
 				.filter(Usuario.username.contains(pesquisa))\
-				.paginate(page=page, per_page=1)
+				.paginate(page=page, per_page=10)
 		
 		if filtro == 2:				
 			existe_user = Usuario.query.filter(Usuario.nome.contains(pesquisa)).first()
 			users = Usuario.query.filter(Usuario.nome.contains(pesquisa))\
-				.paginate(page=page, per_page=1)
+				.paginate(page=page, per_page=10)
 
 		if filtro is 3:
 			existe_user = Usuario.query.filter(Usuario.email.contains(pesquisa)).first()
 			users = Usuario.query.filter(Usuario.email.contains(pesquisa))\
-					.paginate(page=page, per_page=1)
+					.paginate(page=page, per_page=10)
 
 		admin_only = bool(admin)
 
