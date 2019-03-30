@@ -51,9 +51,14 @@ def listar(nome):
 	disciplinas = disciplinadb
 	disciplinadb = disciplinadb.items
 
+	if disciplinadb:
+		existe_disciplina = True
+	else:
+		existe_disciplina = False
+
 	return render_template('listar_disciplina.html',disciplinadb=disciplinadb, form_login=form_login,
-							form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir,
-							disciplinas=disciplinas, navigation_data=nome)
+				form_buscar=form_buscar, form_editar=form_editar, form_excluir=form_excluir,
+				disciplinas=disciplinas, navigation_data=nome, existe_disciplina=existe_disciplina)
 
 @disciplinas.route('/buscar', methods=['POST', 'GET'])
 def buscar():

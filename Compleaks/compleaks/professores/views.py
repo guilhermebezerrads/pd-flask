@@ -51,9 +51,15 @@ def listar(nome):
 	professores = professoresdb
 	professoresdb = professoresdb.items
 
+	if professoresdb:
+		existe_professor = True
+	else:
+		existe_professor = False
+
 	return render_template('listar_professor.html', professoresdb=professoresdb, 
 	lista = lista_unidades_academicas(), form_login=form_login, form_excluir=form_excluir, 
-	form_editar=form_editar, form_buscar=form_buscar, professores=professores, navigation_data=nome)
+	form_editar=form_editar, form_buscar=form_buscar, professores=professores,
+	 navigation_data=nome, existe_professor=existe_professor)
 
 @professores.route('/buscar', methods=['POST', 'GET'])
 def buscar():
@@ -236,8 +242,6 @@ def perfil(id):
 
 	usuarios = Usuario.query.all()
 
-	comentarios = professor.comentarios	
-
 	try:
 		respondido = request.args.get("respondido")
 		if respondido:
@@ -268,6 +272,7 @@ def perfil(id):
 
 		if not condicion:
 			new_comment = ComentarioProf(conteudo=conteudo, professor_id=professor.id, usuario_id=current_user.id)
+			print(new_comment)
 			db.session.add(new_comment)
 			db.session.commit()
 
@@ -286,6 +291,8 @@ def perfil(id):
 
 			db.session.delete(comentario)
 			db.session.commit()
+
+	comentarios = professor.comentarios	
 
 	return render_template('perfil_professor.html', professor=professor,
 							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
