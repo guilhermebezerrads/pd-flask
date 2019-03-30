@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% import 'macros.html' as macros %}
+
 {% block resultado %}
 
 {% if existe_arquivo %}    
@@ -68,20 +70,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h4 class="modal-title">Observações do usuário:</h5>
-                        <h5><p class="text-center">{{ arquivo.observacao }}</p></h6>
-                        <br/>
-
-                        <h5 class="modal-title">Referências:</h5>
-                        <p>Usuáario que postou: <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"> {{ arquivo.author.username }}</a></p>
-                        <p>Professor de referência: <a href="{{url_for('professores.perfil', id=arquivo.professor.id )}}"> {{ arquivo.professor.nome }}</a></p>
-                        <p>Disciplina de referência: <a href="{{url_for('disciplinas.perfil', id=arquivo.disciplina.id )}}">{{ arquivo.disciplina.nome }} </a></p>
-                        <p>Ano de referência: {{ arquivo.ano }}</p>
-                        <p>Semestre de referência: {{ arquivo.ano }}</p>
-                        <br/>
-
-                        <h5 class="modal-title">Sobre o Arquivo:</h5>
-                        <br/>
+                        {{ macros.content(arquivo) }}
                         <p>
 
                             <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
@@ -93,50 +82,17 @@
                         <p>Data de referência: {{ arquivo.data_submissao.strftime('%B %d, %Y') }}</p>
                         <br/>
                         {% if not arquivo.ativado %}
-                        <p> Data de Exclusão: {{arquivo.data_deletado.strftime('%B %d, %Y') }} </p>
-                        <p> Id do usuário que excluiu: {{arquivo.id_deletor}} </p>
-                        {% if arquivo.motivo_delete %}
-                        <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
-                        {% else %}
-                        <p> Nenhum metivo de Exclusão Cadastrado </p>
-                        {% endif %}
+                            <p> Data de Exclusão: {{arquivo.data_deletado.strftime('%B %d, %Y') }} </p>
+                            <p> Id do usuário que excluiu: {{arquivo.id_deletor}} </p>
+                            {% if arquivo.motivo_delete %}
+                                <p> Motivo da Exclusão: {{user.motivo_delete}} </p>
+                            {% else %}
+                                <p> Nenhum metivo de Exclusão Cadastrado </p>
+                            {% endif %}
                         {% endif %}
  
-                        <p>
-                        {% if arquivo.avaliado %}
+                        {{ macros.render_stars_2(arquivo, dist, current_user) }}
                         
-                            <div id="atual3-{{arquivo.id}}">
-                                <i class="far fa-trash-alt"  onclick="pontua({{arquivo.id}},0);" ></i>
-                                {%for avl in arquivo.avaliacoes %} 
-                                    {%if avl in current_user.avaliacoes%}
-                                        {% for i in dist %}
-                                            {% if avl.nota >= (i)%}
-                                                <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star2-{{arquivo.id}}" name="star"></ion-icon></label>
-                                            {% else %}
-                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                            {% endif %}
-                                        {% endfor %}    
-                                    {% endif %}
-                                {% endfor %} 
-                                <small>({{arquivo.nota_decimal}})</small> 
-                            </div>
-                        {% else %}
-                            <div id="atual4-{{arquivo.id}}">
-                                <i class="far fa-trash-alt"  onclick="pontua({{arquivo.id}},0);" ></i>
-                                {% for i in dist %}
-
-                                    {% if not arquivo.nota %}
-                                        <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},0);" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                    {% elif arquivo.nota >= (i)%}
-                                        <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star"></ion-icon></label>
-                                    {% else %}
-                                        <label ><ion-icon onmouseover="colorir2({{arquivo.id}},{{i}});" onmouseout="colorir2({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star2-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                    {% endif %}
-                                {% endfor %}
-                                <small>({{arquivo.nota_decimal}})</small>
-                            </div>
-                        {% endif %}
-                        </p>
                     </div>
                     <div class="modal-footer">
 
@@ -182,42 +138,8 @@
 
 
                     </p>
-                    <p>   
-                        {% if arquivo.avaliado %}
-                            <div id="atual1-{{arquivo.id}}">
-                                {%for avl in arquivo.avaliacoes %} 
-                                    {%if avl in current_user.avaliacoes%}
-                                        {% for i in dist %}
-                                            {% if avl.nota >= (i)%}
-                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
-                                            {% else %}
-                                                <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{avl.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(255, 217, 0)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                            {% endif %}
-                                        {% endfor %}    
-                                    {% endif %}
-                                {% endfor %} 
-                                <small>({{arquivo.nota_decimal}})</small> 
-                            </div>
-                        {% else %}
-                            <div id="atual2-{{arquivo.id}}">
-                                {% for i in dist %}
 
-                                    {% if not arquivo.nota %}
-                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},0);" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                    {% elif arquivo.nota >= (i)%}
-                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star"></ion-icon></label>
-                                    {% else %}
-                                        <label ><ion-icon onmouseover="colorir({{arquivo.id}},{{i}});" onmouseout="colorir({{arquivo.id}},{{arquivo.nota}});" onclick="pontua({{arquivo.id}},{{i}});" style="color: rgb(243, 38, 54)" class="star-{{arquivo.id}}" name="star-outline"></ion-icon></label>
-                                    {% endif %}
-                                {% endfor %}
-                                <small>({{arquivo.nota_decimal}})</small>
-                            </div>
-                        {% endif %}
-                        
-                    </p>
-                    <!--<i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"  ></i>
-                        <i class="fas fa-download download" data-toggle="tooltip" data-placement="top" title="Download" ></i>
-                    -->
+                    {{ macros.render_stars(arquivo, dist, current_user) }}
 
                     <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a>
 
@@ -232,31 +154,9 @@
     {% endif %}
     {% endfor %}
     <br/>
-    <nav style="position: static;" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if arquivos.page == page_num and page_num %}
-            <li class="page-item disabled">
-                {% if not navigation_data[0] %}
-                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
-                {% else %}
-                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
-                {% endif %}
-            </li>
-            {% elif page_num %}
-            <li class="page-item">
-                {% if not navigation_data[0] %}
-                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num) }}">{{ page_num }}</a></li>
-                {% else %}
-                <a class="page-link" href="{{ url_for('arquivos.buscar', page=page_num, filtro=navigation_data[0], admin=navigation_data[1], pesquisa=navigation_data[2], tip_arquiv=navigation_data[3]) }}">{{ page_num }}</a></li>
-                {% endif %}
-            </li>
-            {% else %}
-            ...
-            {% endif %}
-            {% endfor %}
-        </ul>
-    </nav>     
+        
+        {{ macros.nav(arquivos, navigation_data) }}     
+        
     {% else %}
     <br/>
     <div class="text-center">

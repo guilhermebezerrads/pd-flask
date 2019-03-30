@@ -233,9 +233,7 @@ def perfil(id):
 	form_excluir_comentario = ExcluirComentarioQuestaoForm()
 	form_editar_comentario = EditarComentarioQuestaoForm()
 
-	usuarios = Usuario.query.all()
-
-	comentarios = disciplina.comentarios	
+	usuarios = Usuario.query.all()	
 
 	try:
 		respondido = request.args.get("respondido")
@@ -285,6 +283,8 @@ def perfil(id):
 
 			db.session.delete(comentario)
 			db.session.commit()
+
+	comentarios = disciplina.comentarios
 
 	return render_template('perfil_disciplina.html', disciplina=disciplina,
 							arquivos=arquivos, arquivos_rows=arquivos_rows, dist=dist,
