@@ -2,7 +2,7 @@ from flask import (render_template, Blueprint, url_for, redirect, flash, abort, 
 from flask_login import current_user, login_required
 from compleaks import db, dist
 from compleaks.disciplinas.forms import (AdicionarDisciplinaForm, BuscarDisciplinaForm, EditarDisciplinaForm, ExcluirDisciplinaForm)
-from compleaks.disciplinas.models import Disciplina, ComentarioDisc
+from compleaks.disciplinas.models import Disciplina, ComentarioDisc, Materia
 from compleaks.arquivos.models import Arquivo
 from compleaks.questoes.forms import (ComentarioQuestaoForm, ExcluirComentarioQuestaoForm,
 									 EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm)
@@ -21,10 +21,30 @@ def adicionar():
 
 	form = AdicionarDisciplinaForm()
 
+	resposta = []
+	request.form.get("materia-2")
+
 	if form.validate_on_submit():
+		
+		for i in range(1000):
+			if request.form.get("materia-"+str(i)):
+				resposta.append(request.form.get("materia-"+str(i)))
+
+		if not resposta:
+			return render_template('adicionar_disciplina.html', form=form)
+
+
 		nome = form.nome.data
 		nova_disciplina = Disciplina(nome, current_user.id)
 		db.session.add(nova_disciplina)
+		db.session.commit()
+
+		print(nova_disciplina.id)
+
+		for mat in resposta:
+			new = Materia(mat, nova_disciplina.id)
+			db.session.add(new)
+
 		db.session.commit()
 
 		return redirect(url_for('disciplinas.listar'))
