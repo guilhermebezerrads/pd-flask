@@ -20,6 +20,7 @@ class Disciplina(db.Model):
 
 	arquivos = db.relationship('Arquivo', backref='disciplina', lazy=True)
 	comentarios = db.relationship('ComentarioDisc', backref='disciplina', lazy=True)
+	materias = db.relationship('Materia', backref='disciplina', lazy=True)
 
 	def __init__(self, nome, id_criador):
 		self.nome = nome
@@ -28,6 +29,22 @@ class Disciplina(db.Model):
 
 	def __repr__(self):
 		return "ID: {}. Nome: {}".format(self.id, self.nome)
+
+
+class Materia(db.Model):
+
+	__tablename__ = 'materias'
+
+	id = db.Column(db.Integer, primary_key=True)
+	nome = db.Column(db.String, unique=True)
+	disciplina_id= db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
+
+	def __init__(self, nome, disciplina_id):
+
+		self.nome = nome
+		self.disciplina_id = disciplina_id
+
+
 
 class ComentarioDisc(db.Model):
 	

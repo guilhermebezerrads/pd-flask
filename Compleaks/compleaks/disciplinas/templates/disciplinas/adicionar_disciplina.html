@@ -17,6 +17,35 @@
             {{ form.nome(id="inputIconEx1", class="form-control") }}
             <label for="inputIconEx1">Nome da disciplina</label>
             <small id="emailHelp2" class="form-text text-muted">Adicione corretamente o nome da disciplina.</small>
+
+            <div id="repositorio" style="display: none;"  class="md-form md-outline">
+
+                <i class="fas fa-columns prefix"></i> 
+                <input type="text" class="form-control" id="inputIconEx" name="materia-x">
+                <label for="inputIconEx">Uma matéria relacionada</label>
+                <a id="link-x" style=" font-size: 30px;" onclick="Remover_Materia('inputIconEx');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
+
+            </div>
+            <br/>
+            <br/>
+
+            <div id="Materias">
+
+                <div id="materia-2" class="md-form md-outline">
+                    
+                    <i class="fas fa-columns prefix"></i> 
+                    <input type="text" class="form-control" id="inputIconEx2" name="materia-2">
+                    <label for="inputIconEx2">Uma matéria relacionada</label>
+                       
+                    <a id="link-2" style="font-size: 30px;" onclick="Remover_Materia('materia-2');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
+                </div>
+
+            </div>
+            <br/>
+            <br/>
+            
+            <a style="float: right; font-size: 40px;" onclick="Nova_Materia();" data-toggle="tooltip" data-placement="top" title="Adicionar Materia" ><i class="far fa-plus-square"></i><a>
+
         </div>
 
         <br>
