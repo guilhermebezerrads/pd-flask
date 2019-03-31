@@ -2,7 +2,7 @@ from flask import (render_template, Blueprint, url_for, redirect,
  					flash, current_app, request, abort, Markup)
 from compleaks import db
 from flask_login import current_user, login_required
-from compleaks.disciplinas.models import Disciplina
+from compleaks.disciplinas.models import Disciplina, Materia
 from compleaks.usuarios.models import Usuario
 from compleaks.questoes.models import  Questao, Alternativa, Comentario
 from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm, ComentarioQuestaoForm, ExcluirComentarioQuestaoForm, EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm
@@ -230,3 +230,18 @@ def excluidas():
 
 	return render_template('excluidas_questoes.html', questoes=questoes,
 							 contador=contador, alternativas=alternativas)
+
+
+@questoes.route('/materias/<int:id>', methods=['POST', 'GET'])
+@login_required
+def adicionar(id):
+
+	form = AdicionarQuestaoForm()
+
+	disciplina = Disciplina.query.get_or_404(id)
+	materias = Materia.query.filter_by(disciplina_id=disciplina.id)
+
+	form.materia.choices = [(str(materia.id), materia.nome) for materia in materias]
+
+	return render_template('materias_relcionadas.html', form=form)
+

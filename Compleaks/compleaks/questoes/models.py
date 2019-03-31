@@ -16,6 +16,7 @@ class Questao(db.Model):
 
 	disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 	usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+	materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
 
 	alternativas = db.relationship('Alternativa', backref='questao', uselist=True)
 
