@@ -36,7 +36,7 @@ class Materia(db.Model):
 	__tablename__ = 'materias'
 
 	id = db.Column(db.Integer, primary_key=True)
-	nome = db.Column(db.String, unique=True)
+	nome = db.Column(db.String)
 	disciplina_id= db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 
 	def __init__(self, nome, disciplina_id):

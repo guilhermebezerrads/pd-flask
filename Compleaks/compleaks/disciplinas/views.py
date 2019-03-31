@@ -39,7 +39,6 @@ def adicionar():
 		db.session.add(nova_disciplina)
 		db.session.commit()
 
-		print(nova_disciplina.id)
 
 		for mat in resposta:
 			new = Materia(mat, nova_disciplina.id)
