@@ -26,9 +26,11 @@ def adicionar():
 		disciplina = int(form.disciplina.data)
 		enunciado = form.enunciado.data
 		correta = int(form.correta.data)
+		materia_id = int(form.materia.data)
 
 		new_quest = Questao(enunciado=enunciado, disciplina_id=disciplina,
-		 					usuario_id=current_user.id, correta=correta)
+		 					usuario_id=current_user.id, correta=correta,
+		 					materia_id=materia_id)
 
 		db.session.add(new_quest)
 		db.session.commit()
@@ -231,17 +233,18 @@ def excluidas():
 	return render_template('excluidas_questoes.html', questoes=questoes,
 							 contador=contador, alternativas=alternativas)
 
-
+'''Retronando a parte do formulário que tem as matérias relacionadas'''
 @questoes.route('/materias/<int:id>', methods=['POST', 'GET'])
 @login_required
-def adicionar(id):
+def materias(id):
 
 	form = AdicionarQuestaoForm()
 
 	disciplina = Disciplina.query.get_or_404(id)
 	materias = Materia.query.filter_by(disciplina_id=disciplina.id)
 
-	form.materia.choices = [(str(materia.id), materia.nome) for materia in materias]
+	form.materia.choices = []
+	form.materia.choices.append(("0", "Sem materia relacionada"))
+	form.materia.choices += [(str(materia.id), materia.nome) for materia in materias]
 
-	return render_template('materias_relcionadas.html', form=form)
-
+	return render_template('materias_relacionadas.html', form=form)
