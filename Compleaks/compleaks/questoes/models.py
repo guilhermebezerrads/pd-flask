@@ -20,11 +20,12 @@ class Questao(db.Model):
 
 	alternativas = db.relationship('Alternativa', backref='questao', uselist=True)
 
-	def __init__(self, enunciado, disciplina_id, usuario_id, correta):
+	def __init__(self, enunciado, disciplina_id, usuario_id, correta, materia_id):
 		self.enunciado = enunciado
 		self.disciplina_id = disciplina_id
 		self.usuario_id = usuario_id
 		self.correta = correta
+		self.materia_id = materia_id
 
 class Alternativa(db.Model):
 	
