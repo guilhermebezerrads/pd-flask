@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block mais_import %}
+  <script type="text/javascript" src="{{url_for('static',filename='js/materias.js')}}"></script>
+{% endblock %}
+
 {% block title %}Adicionar disciplina{% endblock %}
 
 {% block content %}
@@ -48,6 +52,9 @@
 
         </div>
 
+        <div id="gambiarra">
+            
+        </div>
        
         {{ form.submit(class="btn btn-primary") }}
     </form>

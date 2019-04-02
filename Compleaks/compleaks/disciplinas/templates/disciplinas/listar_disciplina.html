@@ -57,7 +57,7 @@
                         </article>
                     {% else %}
                         <td>{{ disciplina.id }}</td>
-                        <a href="{{url_for('disciplinas.perfil', id=disciplina.id ) <td>{{ disciplina.nome }}</td></a>
+                        <td><a href="{{url_for('disciplinas.perfil', id=disciplina.id )}}"> {{ disciplina.nome }}</a></td>
                         <td>                                
                             <a data-dismiss="modal" data-toggle="modal" data-target="#editar{{disciplina.id}}"><img class="img-responsive delete" data-toggle="tooltip" data-placement="top" title="Editar" src="{{url_for('static', filename='images/icones/padrao/editar.svg')}}" alt="Editar"/></a>
                             <a data-dismiss="modal" data-toggle="modal" data-target="#excluir{{disciplina.id}}"><img class="img-responsive delete icone" data-toggle="tooltip" data-placement="top" title="Excluir" src="{{url_for('static', filename='images/icones/padrao/delete_arquivo.svg')}}" alt="Excluir"/></a>

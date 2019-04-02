@@ -26,7 +26,7 @@ def adicionar():
 
 	if form.validate_on_submit():
 		
-		for i in range(1000):
+		for i in range(100):
 			if request.form.get("materia-"+str(i)):
 				resposta.append(request.form.get("materia-"+str(i)))
 
