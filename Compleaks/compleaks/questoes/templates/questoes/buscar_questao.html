@@ -51,7 +51,7 @@
             <div class="row" style="height: 30px;">
                 <div class="col-md-6 d-flex justify-content-start">
                     <span class="btn-success btn-sm" style="height: 30px;">
-                        {{ disciplinas[quest.disciplina_id-1][1] }}
+                        {{ quest.disciplina.nome }}
                     </span>
                     <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;">
                         {% if contador[quest.id|string] %}

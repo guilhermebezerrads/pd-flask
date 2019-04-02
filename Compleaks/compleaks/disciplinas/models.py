@@ -20,6 +20,7 @@ class Disciplina(db.Model):
 
 	arquivos = db.relationship('Arquivo', backref='disciplina', lazy=True)
 	comentarios = db.relationship('ComentarioDisc', backref='disciplina', lazy=True)
+	questoes = db.relationship('Questao', backref='disciplina', lazy=True)
 	materias = db.relationship('Materia', backref='disciplina', lazy=True)
 
 	def __init__(self, nome, id_criador):

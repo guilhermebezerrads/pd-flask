@@ -15,7 +15,7 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group" >
-                {{ form.disciplina.label }} {{ form.disciplina(class="form-control", id="escolhe-disciplina", onchange="preenche_materia(); ) }}
+                {{ form.disciplina.label }} {{ form.disciplina(class="form-control", id="escolhe-disciplina", onchange="preenche_materia();" ) }}
                 {% if form.errors.disciplina %}
 	                <div class="alert alert-danger" role="alert">
 		                <ul>
