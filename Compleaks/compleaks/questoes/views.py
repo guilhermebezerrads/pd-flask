@@ -12,8 +12,10 @@ questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 @questoes.route('/adicionar', methods=['POST', 'GET'])
 @login_required
 def adicionar():
+
 	if not (current_user.is_authenticated):
 		abort(403)
+
 	form = AdicionarQuestaoForm()
 
 	form.disciplina.choices = [(str(disciplina.id), disciplina.nome)
@@ -21,12 +23,13 @@ def adicionar():
 									 if disciplina.ativado]
 
 	if form.validate_on_submit():
+		print("To aqui")
 
 		#dados gerais
 		disciplina = int(form.disciplina.data)
 		enunciado = form.enunciado.data
 		correta = int(form.correta.data)
-		materia_id = int(form.materia.data)
+		materia_id = int(request.form["Materia"])
 
 		new_quest = Questao(enunciado=enunciado, disciplina_id=disciplina,
 		 					usuario_id=current_user.id, correta=correta,
@@ -241,10 +244,10 @@ def materias(id):
 	form = AdicionarQuestaoForm()
 
 	disciplina = Disciplina.query.get_or_404(id)
-	materias = Materia.query.filter_by(disciplina_id=disciplina.id)
+	materiasdb = Materia.query.filter_by(disciplina_id=disciplina.id)
 
-	form.materia.choices = []
-	form.materia.choices.append(("0", "Sem materia relacionada"))
-	form.materia.choices += [(str(materia.id), materia.nome) for materia in materias]
+	materias = []
+	materias.append(("0", "Sem materia relacionada"))
+	materias += [(str(materia.id), materia.nome) for materia in materiasdb]
 
-	return render_template('materias_relacionadas.html', form=form)
+	return render_template('materias_relacionadas.html', materias=materias)

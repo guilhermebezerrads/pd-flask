@@ -14,8 +14,8 @@
         <div class="col-sm-6">
             {{ form.hidden_tag() }}
 
-            <div class="form-group">
-                {{ form.disciplina.label }} {{ form.disciplina(class="form-control", id="escolhe-disciplina", onchange="preenche_materia();") }}
+            <div class="form-group" >
+                {{ form.disciplina.label }} {{ form.disciplina(class="form-control", id="escolhe-disciplina", onchange="preenche_materia(); ) }}
                 {% if form.errors.disciplina %}
 	                <div class="alert alert-danger" role="alert">
 		                <ul>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-group" id="materia">
-
+                
             </div>
 
             <script type="text/javascript">

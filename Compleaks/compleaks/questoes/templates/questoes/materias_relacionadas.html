@@ -1,10 +1,7 @@
-{{ form.materia.label }} {{ form.materia(class="form-control") }}
-{% if form.errors.materia %}
-    <div class="alert alert-danger" role="alert">
-        <ul>
-            {% for e in form.errors.materia %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
+<label >Materia: </label>
+<select class="form-control" name="Materia">
+  {% for materia in materias %}
+  	<option value="{{materia[0]}}">{{materia[1]}}</option>
+  {% endfor %}
+</select>
+

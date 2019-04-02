@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Adicionar arquivo{% endblock %}
+{% block title %}Adicionar Questão{% endblock %}
 
 {% block content %}
 
@@ -43,7 +43,7 @@
     <div class="container">
         {% for quest in questoes %}
             
-            <a href="{{url_for('questoes.ver', id=quest.id)}}">
+             <a href="{{url_for('questoes.ver', id=quest.id)}}">
                 <h5 class="text-info font-weight-bold">
                     Questão
                 </h5>

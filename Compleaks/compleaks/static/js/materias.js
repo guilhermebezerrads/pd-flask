@@ -27,7 +27,7 @@ function Nova_Materia(){
 	repositorio.style.display = "";
 	changes[3].id = "inputIconEx"+aux;
 	changes[3].name = "materia-"+aux;
-	changes[5].for = "inputIconEx"+aux;
+	//changes[5].for = changes[3].id;
 	changes[7].setAttribute("onclick","Remover_Materia(\'materia-"+aux+"\');");
 
 	materias.appendChild(repositorio);

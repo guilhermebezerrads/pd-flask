@@ -20,10 +20,10 @@
 
             <div id="repositorio" style="display: none;"  class="md-form md-outline">
 
-                <i class="fas fa-columns prefix"></i> 
-                <input type="text" class="form-control" id="inputIconEx" name="materia-x">
-                <label for="inputIconEx">Uma matéria relacionada</label>
-                <a id="link-x" style=" font-size: 30px;" onclick="Remover_Materia('inputIconEx');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
+                <!--<i class="fas fa-columns prefix"  style="display: none;"></i> -->
+                <input type="text" class="form-control" id="inputIconEx" name="materia-x" style="float: left; width: 90%;">
+                <!--<label for="inputIconEx">Uma matéria relacionada</label>-->
+                <a id="link-x" style="font-size: 30px; float: right;" onclick="Remover_Materia('inputIconEx');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
 
             </div>
             <br/>
@@ -33,22 +33,22 @@
 
                 <div id="materia-2" class="md-form md-outline">
                     
-                    <i class="fas fa-columns prefix"></i> 
-                    <input type="text" class="form-control" id="inputIconEx2" name="materia-2">
+                    <i class="fas fa-columns prefix" ></i> 
+                    <input type="text" class="form-control" id="inputIconEx2" name="materia-2" style="float: left; width: 70%;">
                     <label for="inputIconEx2">Uma matéria relacionada</label>
                        
-                    <a id="link-2" style="font-size: 30px;" onclick="Remover_Materia('materia-2');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
+                    <a id="link-2" style="font-size: 30px; float: right;" onclick="Remover_Materia('materia-2');" data-toggle="tooltip" data-placement="top" title="Remover Materia"><i class="fas fa-trash"></i><a>
                 </div>
 
             </div>
             <br/>
             <br/>
             
-            <a style="float: right; font-size: 40px;" onclick="Nova_Materia();" data-toggle="tooltip" data-placement="top" title="Adicionar Materia" ><i class="far fa-plus-square"></i><a>
+            <a style="float: right; font-size: 40px; clear: both;" onclick="Nova_Materia();" data-toggle="tooltip" data-placement="top" title="Adicionar Materia" ><i class="far fa-plus-square"></i><a>
 
         </div>
 
-        <br>
+       
         {{ form.submit(class="btn btn-primary") }}
     </form>
 
