@@ -52,7 +52,7 @@
                         {% if not professor.ativado %}
                             <article color="red">
                                 <td>{{ professor.id }}</td>
-                                <a href="{{url_for('professores.perfil', id=professor.id )}}"><td>{{ professor.nome }}</td></a>
+                                <td><a href="{{url_for('professores.perfil', id=professor.id )}}">{{ professor.nome }}</a></td>
                                 <td>{{ lista[ professor.unidade_academica_id ][1] }}</td>
                                 <td><button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#redefinir{{professor.id}}" >Redefinir</button></td>
                             </article>

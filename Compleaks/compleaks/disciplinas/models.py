@@ -40,6 +40,8 @@ class Materia(db.Model):
 	nome = db.Column(db.String)
 	disciplina_id= db.Column(db.Integer, db.ForeignKey('disciplinas.id'), nullable=False)
 
+	questoes = db.relationship('Questao', backref='materia', lazy=True)
+
 	def __init__(self, nome, disciplina_id):
 
 		self.nome = nome
