@@ -11,6 +11,18 @@ from compleaks.questoes.models import Questao
 
 simulados = Blueprint('simulados', __name__,template_folder='templates/simulados')
 
+def quest_disciplina(id):
+
+	questoes = Questao.query.filter_by(ativado=True).filter_by(disciplina_id=id)
+	qtn_quest = 0
+
+	for quest in questoes:
+		qtn_quest = qtn_quest + 1
+
+	print(qtn_quest)
+
+	return qtn_quest
+
 @simulados.route('/novo', methods=['POST', 'GET'])
 @login_required
 def criar():
@@ -19,7 +31,7 @@ def criar():
 
 	form.disciplina.choices = [(str(disciplina.id), disciplina.nome)
 								for disciplina in Disciplina.query.order_by('nome')
-								if disciplina.ativado and len(Questao.query.filter_by(ativado=True).filter_by(disciplina_id=id)) >= 3]
+								if disciplina.ativado and quest_disciplina(disciplina.id) >= 3]
 
 	'''
 	for disciplina in form.disciplina.choices
@@ -43,17 +55,17 @@ def numero_quest(id):
 	if not disciplina.ativado:
 		abort(403)
 
-	questoes = len(Questao.query.filter_by(ativado=True).filter_by(disciplina_id=id))
+	qtn_quest = quest_disciplina(disciplina.id)
 
-	if questoes < 3:
+	if qtn_quest < 3:
 		abort(403)
 
-	if questoes > 15:
-		questoes = 15
+	if qtn_quest > 15:
+		qtn_quest = 15
 
 	print(questoes)
 
-	return render_template('repositorio_qtn_quest.html', quantidade=questoes)
+	return render_template('repositorio_qtn_quest.html', quantidade=qtn_quest)
 
 @simulados.route('/materias-possiveis/<int:id>', methods=['POST', 'GET'])
 @login_required

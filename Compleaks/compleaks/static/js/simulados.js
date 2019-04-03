@@ -74,16 +74,7 @@ function preenche_formulario(){
 
 function disponibiliza_materia(obj){
     
-
-
-    {
-        console.log(childs_materia[0])
-        console.log(childs_materia[1])
-        console.log(childs_materia[2])
-        console.log(childs_materia[3])
-        console.log(childs_materia[4])
-        console.log(childs_materia[5])
-    }
+    console.lof(obj);
 
     var materias = document.getElementById("MateriasSimulado");
 
