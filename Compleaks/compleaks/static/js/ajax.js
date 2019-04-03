@@ -105,3 +105,22 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 		
 	}
 }
+/*
+funvdsfisdf() {
+	$.ajax({
+		dataType: "json",
+		url: "",
+		data: {
+			'adm': 3,
+			'tipo': true
+		},
+		success: function(data) {
+			data = "<a> sajdajsdi <img>sdas"
+			$.getElementById("campox").html(data)
+		}
+	})
+}
+
+<div id="campo">
+
+<>*/

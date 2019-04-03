@@ -1,0 +1,46 @@
+
+<small>O máximo é de 3 matérias ou pela disponibilidade</small>
+<div id="MateriasSimulado">
+
+	<div id="materia-1" class="md-form md-outline">
+                    
+        <i class="fas fa-columns prefix" ></i> 
+        <select class="form-control" name="Materia-1" onchange="disponibiliza_materia(this);">
+        	<option value="a" >Sem mateira específica</option>
+        	<option value="0" >Questões sem matéria</option>
+		  {% for materia in materias_lista %}
+		  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
+		  {% endfor %}
+		</select>
+        <label for="inputIconEx2">Uma matéria relacionada</label>
+           
+    </div>
+
+    <div id="materia-2" class="md-form md-outline" style="display: none;">
+                    
+        <i class="fas fa-columns prefix" ></i> 
+        <select class="form-control" name="Materia-2" onchange="disponibiliza_materia(this);">
+        	<option value="0" >Questões sem matéria</option>
+		  {% for materia in materias_lista %}
+		  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
+		  {% endfor %}
+		</select>
+        <label for="inputIconEx2">Uma matéria relacionada</label>
+           
+    </div>
+
+    <div id="materia-3" class="md-form md-outline" style="display: none;">
+                    
+        <i class="fas fa-columns prefix" ></i> 
+        <select class="form-control" name="Materia-3" onchange="disponibiliza_materia(this);">
+        	<option value="0" >>Questões sem matéria</option>
+		  {% for materia in materias_lista %}
+		  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
+		  {% endfor %}
+		</select>
+        <label for="inputIconEx2">Uma matéria relacionada</label>
+           
+    </div>
+
+</div>
+

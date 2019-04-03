@@ -1,0 +1,11 @@
+ <label for="Quantidade">Quantidade de questões: </label>
+<select class="form-control" name="Quantidad">
+  {% for qtn in quantidade|define_quantidade %}
+  	{% if qtn[0] == "5"%}
+  		<option value="{{qtn[0]}}" selected>{{qtn[1]}}</option>
+  	{% else %}
+  		<option value="{{qtn[0]}}" selected>{{qtn[1]}}</option>
+  	{% endif %}
+  {% endfor %}
+</select>
+

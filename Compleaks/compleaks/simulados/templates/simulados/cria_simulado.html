@@ -1,0 +1,49 @@
+ {% extends "base.html" %}
+
+{% block title %}Simulados{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+        <h1>Escoher Simulado</h1>
+        <hr/>
+    </div>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <!-- Material outline input with prefix-->
+        <div class="form-group" >
+            {{ form.disciplina.label }} {{ form.disciplina(class="form-control", id="escolhe-disciplina", onchange="preenche_formulario();" ) }}
+            {% if form.errors.disciplina %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for e in form.errors.disciplina %}
+                            <li>{{ e }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+        	<div class="col-md-6" id="qtn_quests">
+        		
+        	</div>
+        	<div class="col-md-6">
+        		<br/>
+        	</div>
+        </div>
+        <div class="row">
+        	<div class="col-md-6" id="materia_possivel">
+        		
+        	</div>
+        	<div class="col-md-6">
+        		<br/>
+        	</div>
+        </div>
+
+        <br>
+        {{ form.submit(class="btn btn-primary") }}
+        <small>A quantidade por matéria será igualmente distribuido</small>
+    </form>
+
+{% endblock %}

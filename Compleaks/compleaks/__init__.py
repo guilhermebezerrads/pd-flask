@@ -51,6 +51,7 @@ from compleaks.arquivos.views import arquivos
 from compleaks.professores.views import professores
 from compleaks.disciplinas.views import disciplinas
 from compleaks.questoes.views import questoes
+from compleaks.simulados.views import simulados
 from compleaks.error_pages.handlers import error_pages
 
 app.register_blueprint(principal)
@@ -59,6 +60,7 @@ app.register_blueprint(arquivos,url_prefix='/arquivos')
 app.register_blueprint(professores,url_prefix='/professores')
 app.register_blueprint(disciplinas,url_prefix='/disciplinas')
 app.register_blueprint(questoes,url_prefix='/questoes')
+app.register_blueprint(simulados,url_prefix='/simulados')
 app.register_blueprint(error_pages)
 
 
@@ -76,3 +78,8 @@ def converte(s):
 def unidade_academica(id):
 	lista = lista_unidades_academicas()
 	return lista[id][1]
+
+@app.template_filter('define_quantidade')
+def define_quantidade(quantidade):
+	lista = [(str(i), str(i)+" Questões") for i in range(quantidade) if i >= 3 and i <= 15]
+	return lista 
