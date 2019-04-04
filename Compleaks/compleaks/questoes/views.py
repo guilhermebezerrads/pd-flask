@@ -5,7 +5,9 @@ from flask_login import current_user, login_required
 from compleaks.disciplinas.models import Disciplina, Materia
 from compleaks.usuarios.models import Usuario
 from compleaks.questoes.models import  Questao, Alternativa, Comentario
-from compleaks.questoes.forms import AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm, ComentarioQuestaoForm, ExcluirComentarioQuestaoForm, EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm
+from compleaks.questoes.forms import (AdicionarQuestaoForm, BuscarQuestaoForm, FazerQuestaoForm,
+									 ComentarioQuestaoForm, ExcluirComentarioQuestaoForm,
+									  EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm)
 
 questoes = Blueprint('questoes', __name__,template_folder='templates/questoes')
 

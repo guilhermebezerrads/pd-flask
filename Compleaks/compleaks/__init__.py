@@ -52,6 +52,7 @@ from compleaks.professores.views import professores
 from compleaks.disciplinas.views import disciplinas
 from compleaks.questoes.views import questoes
 from compleaks.simulados.views import simulados
+from compleaks.newsletters.views import newsletters
 from compleaks.error_pages.handlers import error_pages
 
 app.register_blueprint(principal)
@@ -61,6 +62,7 @@ app.register_blueprint(professores,url_prefix='/professores')
 app.register_blueprint(disciplinas,url_prefix='/disciplinas')
 app.register_blueprint(questoes,url_prefix='/questoes')
 app.register_blueprint(simulados,url_prefix='/simulados')
+app.register_blueprint(newsletters,url_prefix='/newsletters')
 app.register_blueprint(error_pages)
 
 

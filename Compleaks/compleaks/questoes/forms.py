@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import (StringField, SubmitField, BooleanField, SelectField, TextAreaField, RadioField, IntegerField)
+from wtforms import (StringField, SubmitField, BooleanField, SelectField,
+					 TextAreaField, RadioField, IntegerField)
 from wtforms.validators import DataRequired, Length
 
 class AdicionarQuestaoForm(FlaskForm):	
