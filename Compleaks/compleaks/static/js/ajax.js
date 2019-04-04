@@ -50,7 +50,7 @@ function busca(exibi ,endereco, pagina){
 function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 	if(document.getElementById){//Varifica se a funca ger funciona
 		var exibeResult = document.getElementById(exibi);
-		var ajax = openAjax();
+		//var ajax = openAjax();
 
 		filtro = parseInt(document.getElementById(filtrar).value);
 		pesquisa = document.getElementById(pesquisar).childNodes;
@@ -78,11 +78,22 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 		}
 		console.log(pesquisa);
 		if (pesquisa == '' || validate == 0){
-			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, true);			
+
+			$.ajax({url: '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, success: function(result){
+				exibeResult.innerHTML = result;
+		        $("pesquisa_assincrona").html(result);
+		    }});
+			//ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+3+'/'+tipo_arquivo, true);			
 		}else{
-			ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+pesquisa+'/'+tipo_arquivo, true);			
+
+			$.ajax({url: '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+pesquisa+'/'+tipo_arquivo, success: function(result){
+				exibeResult.innerHTML = result;
+		        $("pesquisa_assincrona").html(result);
+		    }});
+			//ajax.open("GET", '/arquivos/busca_asn/'+adm+'/'+filtro+'/'+pesquisa+'/'+tipo_arquivo, true);			
 		}
-		ajax.onreadystatechange = function(){
+
+		/*ajax.onreadystatechange = function(){
 		
 			if(ajax.readyState == 1){
 				exibeResult.innerHTML = '<p><img src="/static/images/Preloader_5.gif" alt="Carregando" /></p>';
@@ -101,7 +112,7 @@ function busca_assincrona(exibi , adm, filtrar, pesquisar, t_arquiv){
 
 		}
 
-		ajax.send(null);
+		ajax.send(null);*/
 		
 	}
 }

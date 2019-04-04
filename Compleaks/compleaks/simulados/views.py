@@ -19,8 +19,6 @@ def quest_disciplina(id):
 	for quest in questoes:
 		qtn_quest = qtn_quest + 1
 
-	print(qtn_quest)
-
 	return qtn_quest
 
 @simulados.route('/novo', methods=['POST', 'GET'])

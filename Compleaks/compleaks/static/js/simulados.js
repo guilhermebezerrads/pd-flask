@@ -1,5 +1,5 @@
 function openAjax(){
-var ajax = null;
+    var ajax = null;
 
     try{
         ajax = new XMLHttpRequest;
@@ -18,53 +18,27 @@ var ajax = null;
 
 function preenche_formulario(){
 
-    var ajax = openAjax();
-
-    var result_quests = document.getElementsById("qtn_quests");
-    var materias = document.getElementsById("materia_possivel");
-
-    var option = parseInt(document.getElementsById("escolhe-disciplina").value);
-
-    ajax.open("GET", "/simulados/numero-questao/"+option, true);
-    ajax.onreadystatechange = function(){
-
-        if(ajax.readyState == 1){
-            result_quests.innerHTML = '<p>Carregando Resultados...</p>';
-        }
-
-        if(ajax.readyState == 4){
-            if(ajax.status == 200){
-                var result = ajax.responseText;
-                result = result.replace(/\+/g, " ");
-                result = unescape(result);
-                result_quests.innerHTML = result;
-            }else{
-                result_quests.innerHTML ="<p>Erro ao carregar pesquisa ---</p>";
-            }
-        }
+    var result_quests = document.getElementById("qtn_quests");
+    var materias = document.getElementById("materia_possivel");
+    
+    if(document.getElementById("escolhe-disciplina").options.length <= 0){
+        alert("Infelizmente não há materias elegiveis para simulados no momento!");
+        return null;
     }
 
-    ajax.open("GET", "/simulados/materias-possiveis/"+option, true);
-    ajax.onreadystatechange = function(){
 
-        if(ajax.readyState == 1){
-            materias.innerHTML = '<p>Carregando Resultados...</p>';
-        }
+    var option = document.getElementById("escolhe-disciplina").value;
+    console.log(option)
 
-        if(ajax.readyState == 4){
-            if(ajax.status == 200){
-                var result = ajax.responseText;
-                result = result.replace(/\+/g, " ");
-                result = unescape(result);
-                materias.innerHTML = result;
-            }else{
-                materias.innerHTML ="<p>Erro ao carregar pesquisa ---</p>";
-            }
-        }
-    }
+    $.ajax({url: "/simulados/numero-questao/"+option, success: function(result){
+        result_quests.innerHTML = result;
+        $("qtn_quests").html(result);
+    }});
 
-    ajax.send(null);
-
+    $.ajax({url: "/simulados/materias-possiveis/"+option, success: function(result){
+        result_quests.innerHTML = result;
+        $("materia_possivel").html(result);
+    }});
 }
 
 
@@ -156,7 +130,11 @@ function disponibiliza_materia(obj){
         }
     }
 
-    /*var aux = 0;
+    
+}
+
+
+/*var aux = 0;
     var changes = repositorio.childNodes;
 
     if(childs_materia.length <= 3){
@@ -188,6 +166,3 @@ function disponibiliza_materia(obj){
     var node_gambiarra = document.createElement("br");
 
     gambiarra.appendChild(node_gambiarra);*/
-
-    
-}
