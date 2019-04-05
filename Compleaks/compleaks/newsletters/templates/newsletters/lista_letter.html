@@ -14,6 +14,25 @@
     <tbody>
         {% for letter in letters.items %}
             <tr>
+                <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Deletar Letter?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Você tem certeza que deja deletar esse Letter?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>                 
+                            <a data-toggle="tooltip" data-placement="top" title="Deletar Permanentemente" href="{{ url_for('newsletters.deletar', id=letter.id) }} "> <i class="far fa-trash-alt deletar"></i> </a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{letter.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -30,10 +49,14 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                
-                            <form action="{{ url_for('usuarios.redefinir', user_id=user.id) }} " method="POST">
-                                <input type="submit" value="Redefinir" class="btn btn-danger">
+
+                            <form action="{{ url_for('newsletters.testar', id=letter.id) }} " method="GET">
+                                <input type="submit" value="Testar" class="btn btn-warning">
                             </form>
+                            <form action="{{ url_for('newsletters.enviar', id=letter.id) }} " method="POST">
+                                <input type="submit" value="ENVIAR PARA TODOS" class="btn btn-success">
+                            </form>
+                            
                         </div>
                         </div>
                     </div>
@@ -42,6 +65,9 @@
                 
                 <td> {{letter.title}} </td>
                 <td><a href="#" data-toggle="modal" data-target="#confirm{{letter.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a></td>
+                <td><a href="{{url_for('newsletters.editar', id=letter.id)}}" class="card-link" ><i class="fas fa-edit"></i></i></a></td>
+                <td><a data-toggle="modal" data-target="#confirm-del{{letter.id}}" class="card-link" ><i class="fas fa-ban"></i></i></a></td>
+
             
             </tr>
         {% endfor %}
@@ -53,11 +79,11 @@
         {% for page_num in letters.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if letters.page == page_num and page_num %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="{{ url_for('usuarios.listar', page=page_num) }}">{{ page_num }}</a></li>
+                    <a class="page-link" href="{{ url_for('newsletters.listar', page=page_num) }}">{{ page_num }}</a></li>
                 </li>
             {% elif page_num %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('usuarios.listar', page=page_num) }}">{{ page_num }}</a></li>
+                    <a class="page-link" href="{{ url_for('newsletters.listar', page=page_num) }}">{{ page_num }}</a></li>
                 </li>
             {% else %}
                 ...

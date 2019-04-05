@@ -15,12 +15,9 @@
         <div class="md-form md-outline">
             <i class="fas fa-book-open prefix"></i>
             {{ form.titulo(id="inputIconEx1", class="form-control") }}
-            <label for="inputIconEx1">Nome da disciplina</label>
-            <small id="emailHelp2" class="form-text text-muted">Adicione corretamente o nome da disciplina.</small>
-
-            
-        
-            {{ form.fornt_end.label }} {{ form.fornt_end(class="form-control" ) }}
+            <label for="inputIconEx1">Titulo do latter</label>
+            <br/>
+            {{ form.fornt_end(class="form-control" , id="input", placeholder="Código front-end") }}
             {% if form.errors.disciplina %}
                 <div class="alert alert-danger" role="alert">
                     <ul>
@@ -31,11 +28,8 @@
                 </div>
             {% endif %}
         
-
         </div>
-
         
-       
         {{ form.submit(class="btn btn-primary") }}
     </form>
 
