@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}NewsLetters{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Adicionar disciplina</h1>
+        <hr/>
+    </div>
+
+      
+    <form class="form-group" method="POST" style="margin-top: 50px;">
+        {{ form.hidden_tag() }}
+        <!-- Material outline input with prefix-->
+        <div class="md-form md-outline">
+            <i class="fas fa-book-open prefix"></i>
+            {{ form.titulo(id="inputIconEx1", class="form-control") }}
+            <label for="inputIconEx1">Nome da disciplina</label>
+            <small id="emailHelp2" class="form-text text-muted">Adicione corretamente o nome da disciplina.</small>
+
+        </div>
+
+        {{ form.fornt_end.label }} {{ form.fornt_end(class="form-control" ) }}
+        {% if form.errors.disciplina %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.fornt_end %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        
+       
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+
+{% endblock %}

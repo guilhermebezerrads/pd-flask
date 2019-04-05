@@ -74,6 +74,51 @@ def editar():
 @login_required
 def listar():
 
-	letters = Divulgacao.query.all()
+	if not current_user.is_admin:
+		abort(403)
+
+
+	page = request.args.get('page', 1, type=int)
+	letters = Divulgacao.query.all().order_by(Divulgacao.data_criacao.asc()).paginate(page=page, per_page=10)
 
 	return render_template('lista_letters.html', letters=letters)
+
+
+def send_email(letter, emails):
+
+	msg = Message(letter.title,
+                  sender='noreply@demo.com',
+                  recipients=emails)
+
+	msg.html = Markup(letter.body)
+
+	msg.body = "Lembre-se de visitar o Compleaks para ficar em dias com seus estudos. :)"
+	mail.send(msg)
+
+def e_mails_disponiveis():
+
+	emails = []
+
+	usuarios = Usuario.query.filter_by(ativado=True)
+	for user in usuarios:
+
+		emails.append(user.email)
+
+	return emails
+
+
+@newsletters.route('/enviar_emails/<int:id>', methods=['POST', 'GET'])
+@login_required
+def enviar(id):
+
+	if not current_user.is_admin:
+		abort(403)
+
+	letter = Divulgacao.query.get_or_404(id)
+	emails = e_mails_disponiveis()
+
+	send_email(letter, emails)
+
+	flash("Mensagem envianda com sucesso!", "success")
+
+	return redirect(url_for('newsletters.listar')

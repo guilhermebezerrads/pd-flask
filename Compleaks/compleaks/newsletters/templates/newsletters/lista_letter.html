@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %} Todos os usuários {% endblock %}
+{% block content %}
+{% if current_user.is_admin %}
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Info</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for letter in letters.items %}
+            <tr>
+                <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{letter.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Informações do letter</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Data em que foi postado: {{letter.data_criacao.strftime('%B %d, %Y')}}</p>
+                            <p>Última vez que foi enviado: {{letter.last_send.strftime('%B %d, %Y')}}</p>
+                            <br/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                
+                            <form action="{{ url_for('usuarios.redefinir', user_id=user.id) }} " method="POST">
+                                <input type="submit" value="Redefinir" class="btn btn-danger">
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+
+                
+                <td> {{letter.title}} </td>
+                <td><a href="#" data-toggle="modal" data-target="#confirm{{letter.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a></td>
+            
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+  </table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for page_num in letters.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if letters.page == page_num and page_num %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="{{ url_for('usuarios.listar', page=page_num) }}">{{ page_num }}</a></li>
+                </li>
+            {% elif page_num %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('usuarios.listar', page=page_num) }}">{{ page_num }}</a></li>
+                </li>
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}   
+{% endblock %}
