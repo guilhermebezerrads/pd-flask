@@ -121,4 +121,4 @@ def enviar(id):
 
 	flash("Mensagem envianda com sucesso!", "success")
 
-	return redirect(url_for('newsletters.listar')
+	return redirect(url_for('newsletters.listar'))
