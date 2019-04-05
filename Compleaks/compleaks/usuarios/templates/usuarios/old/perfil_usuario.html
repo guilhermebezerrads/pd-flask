@@ -1,0 +1,490 @@
+{% extends 'base.html' %}
+
+{% import 'macros.html' as macros %}
+
+{% block title %}Mudar Informações{% endblock %}
+ 
+{% block content %}
+    <!--BARRA DE NAVEGAÇÃO-->
+    <div class="tabs">    
+        <input type="radio" id="tab1" name="tab-control" checked>
+        <input type="radio" id="tab2" name="tab-control">
+        <input type="radio" id="tab3" name="tab-control">  
+        <input type="radio" id="tab4" name="tab-control">
+        <ul>
+          <li title="Perfil">
+            <label for="tab1">
+              <i class="fas fa-user-alt"></i>
+            </label>
+            <label for="tab2" role="button">            
+              <span>Perfil</span>
+            </label>
+          </li>
+          <li title="Mensagens">
+            <label for="tab2">
+              <i class="fas fa-envelope"></i>
+            </label>
+            <label for="tab2" role="button">            
+              <span>Mensagens</span>
+            </label>
+          </li>
+          <li title="Contribuições">
+            <label for="tab3">
+              <i class="far fa-address-book"></i>
+            </label>
+            <label for="tab3" role="button">            
+              <span>Contribuições</span>
+            </label>
+          </li>
+          <li title="Recomendações">
+            <label for="tab4">
+              <i class="far fa-star"></i>
+            </label>
+            <label for="tab4" role="button">            
+              <span>Recomendações</span>
+            </label>
+          </li>
+    
+        </ul>
+        
+        <div class="slider"><div class="indicator"></div></div>
+        <div class="content">
+            <section>
+                <h2>Perfil</h2>
+        
+                <!--INFORMAÇÕES SOBRE O USUARIO-->
+                <div class="container">
+                    <!--  <div class="row">
+                        <div class="col-sm-12 text-center" style="padding-bottom: 5px;">
+                            <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;">
+                        </div>
+                    </div> -->
+                    
+                    <!--AVATAR-->
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <img align="center" src="{{ avatar }}" class="rounded-circle"  style="object-fit: cover; width: 150px!important; height: 150px!important;"><br><button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar avatar</button>
+                        </div>
+                        <!-- <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_avatar('editar_avatar')">Editar</button>
+                        </div> -->
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR AVATAR-->
+                    <div id="editar_avatar" style=" display: none;">
+                        <form method="POST"  action="" enctype="multipart/form-data">
+                            {{ form_avatar.hidden_tag() }}
+                            <div class="form-group">
+                                
+                                <div class="custom-file">
+                                    
+                                    {{ form_avatar.avatar(class="custom-file-input", id="avatar") }} 
+                                    {{ form_avatar.avatar.label(class="custom-file-label",for="avatar") }}
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_avatar_cancelar('editar_avatar')">Cancelar</button>
+                                {{ form_avatar.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--NOME-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Nome
+                        </div>
+                        <div class="col-sm-6">
+                            {{ current_user.nome }}
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_nome('editar_nome')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR NOME-->
+                    <div id="editar_nome" style=" display: none;">
+                        <form method="POST">
+                            {{ form_nome.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_nome.novo_nome.label }}{{ form_nome.novo_nome(class="form-control", value= current_user.nome) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_nome_cancelar('editar_nome')">Cancelar</button>
+                                {{ form_nome.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--USERNAME-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Nome de usuário
+                        </div>
+                        <div class="col-sm-6">
+                            {{ current_user.username }}
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_username('editar_username')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR USERNAME-->
+                    <div id="editar_username" style=" display: none;">
+                        <form method="POST">
+                            {{ form_username.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_username.novo_username.label }}{{ form_username.novo_username(class="form-control", value= current_user.username) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_username_cancelar('editar_username')">Cancelar</button>
+                                {{ form_username.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--EMAIL-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            E-mail
+                        </div>
+                        <div class="col-sm-6">
+                            {{ current_user.email }}
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_email('editar_email')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR EMAIL-->
+                    <div id="editar_email" style=" display: none;">
+                        <form method="POST">
+                            {{ form_email.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_email.senha_atual.label }}{{ form_email.senha_atual(class="form-control") }}
+                                {% if form_email.errors.senha_atual %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_email.errors.senha_atual %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_email.novo_email.label }}{{ form_email.novo_email(class="form-control") }}
+                                {% if form_email.errors.novo_email %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_email.errors.novo_email %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_email.conf_email.label }}{{ form_email.conf_email(class="form-control") }}
+                                {% if form_email.errors.conf_email %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_email.errors.conf_email %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_email_cancelar('editar_email')">Cancelar</button>
+                                {{ form_email.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--CURSO-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Curso
+                        </div>
+                        <div class="col-sm-6">
+                            {{ current_user.curso }}
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_curso('editar_curso')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR CURSO-->
+                    <div id="editar_curso" style=" display: none;">
+                        <form method="POST">
+                            {{ form_curso.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_curso.novo_curso.label }}{{ form_curso.novo_curso(class="form-control", value= current_user.curso) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_curso_cancelar('editar_curso')">Cancelar</button>
+                                {{ form_curso.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--PERIODO-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Periodo
+                        </div>
+                        <div class="col-sm-6">
+                            {{ current_user.periodo }}º
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_periodo('editar_periodo')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR PERIODO-->
+                    <div id="editar_periodo" style=" display: none;">
+                        <form method="POST">
+                            {{ form_periodo.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_periodo.novo_periodo.label }}{{ form_periodo.novo_periodo(class="form-control", value= current_user.periodo) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_periodo_cancelar('editar_periodo')">Cancelar</button>
+                                {{ form_periodo.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    
+                    <!--SENHA-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Senha
+                        </div>
+                        <div class="col-sm-6">
+                            ****** 
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-light" onclick="formulario_senha('editar_senha')">Editar</button>
+                        </div>
+                    </div>
+                    <!--FORMULARIO PARA ALTERAR SENHA-->
+                    <div class="jumbotrom" id="editar_senha" style=" display: none;">
+                        <form method="POST">
+                            {{ form_senha.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form_senha.senha_atual.label }}{{ form_senha.senha_atual(class="form-control") }}
+                                {% if form_senha.errors.senha_atual %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_senha.errors.senha_atual %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_senha.nova_senha.label }}{{ form_senha.nova_senha(class="form-control") }}
+                                {% if form_senha.errors.nova_senha %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_senha.errors.nova_senha %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_senha.conf_senha.label }}{{ form_senha.conf_senha(class="form-control") }}
+                                {% if form_senha.errors.conf_senha %}
+                                    <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for e in form_senha.errors.conf_senha %}
+                                            <li>{{ e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="formulario_senha_cancelar('editar_senha')">Cancelar</button>
+                                {{ form_senha.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                </div>
+                <!--/INFORMAÇÕES-->
+          
+            </section>
+          
+            <section>
+                <h2>Mensagens</h2>
+                
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
+        
+            </section>
+          
+            <section>
+                <h2>Contribuições</h2>
+                <!--CONTRIBUIÇÕES-->
+                <div>
+
+                    <div class="page-header">
+                        <h3>Todas as Suas Contribuições ({{contribuiu}})</h3>
+                        <hr/>
+                        <p>
+                        <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
+
+                    Lindomar Batista</small></p>
+                    </div>
+
+                    {% for row in arquivos_rows %}
+                        {% if row %}
+                        <div class="row">
+                            {% for arquivo in row %}
+                                
+                                    <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Deletar Arquivo?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Você tem certeza que deja deletar esse arquivo?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>                 
+                                                <a data-toggle="tooltip" data-placement="top" title="Deletar Permanentemente" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }} "> <i class="far fa-trash-alt deletar"></i> </a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal" tabindex="-1" role="dialog" id="confirm{{arquivo.id}}">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title text-center">Informações do Arquivo</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                        {{ macros.content(arquivo) }}
+                                                    
+                                                        <p>
+                                                        
+                                                        <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="button" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
+
+                                                        <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+
+                                                    </p>
+                                                    <br/>
+                                                    <p>Data de referência: {{ arquivo.data_submissao.strftime("%d/%m/%Y") }}</p>
+                        
+                                                    {{ macros.render_stars_2(arquivo, dist, current_user) }}
+                                                    
+                                                    <br/>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    
+                                                    <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>
+
+
+                                                    <a href="{{ url_for('arquivos.editar', arq_id=arquivo.id) }}" ><i class="fas fa-edit edit-icon" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                                    
+                                                    
+                                                    <a data-dismiss="modal" data-toggle="modal" href="{{ url_for('arquivos.excluir', arq_id=arquivo.id) }}" data-target="#del_confirm{{arquivo.id}}"><i class="far fa-trash-alt deletar" data-toggle="tooltip" data-placement="top" title="Deletar"></i></a>
+
+                                                    
+                                                    <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download model-download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
+                                                
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                <div class="col-lg-3 col-6">
+                                    <div class="dist card">
+                                    <div class="card-body">
+                                        <h4 style="font-family: sans-serif;" class="card-title text-center text-truncate">{{arquivo.disciplina.nome}}</h4>
+                                        <p class="card-text">
+                                            
+                                            <a href="{{ url_for('arquivos.buscar', filtro=3, admin='nao', pesquisa='nao', tip_arquiv=arquivo.tipo_conteudo) }}?page=1"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="button" title="{{arquivo.tipo_conteudo}}" src="{{url_for('static', filename='images/icones/conteudo/'+arquivo.tipo_conteudo+'.svg')}}" alt="{{arquivo.tipo_conteudo}}."></a>
+
+                                    
+                                            <a href="{{url_for('usuarios.perfil', user_id=arquivo.author.id)}}"><img class="img-responsive image marcas" data-toggle="tooltip" data-placement="bottom" title="{{arquivo.author.username}}" src="{{url_for('static', filename='images/icones/padrao/user.svg')}}" alt="Username"></a>
+                                    
+
+                                        </p>
+                                        <h5><p class="card-text text-truncate"><a data-toggle="tooltip" data-placement="top" title="{{arquivo.observacoes}}">{{arquivo.observacoes}}</a></p></h5>
+
+                                        {{ macros.render_stars(arquivo, dist, current_user) }}
+                                        
+
+                                        <a href="#" data-toggle="modal" data-target="#confirm{{arquivo.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a>
+
+                                        <a  href="{{ url_for('static', filename='uploads/' + arquivo.arquivo + '.zip') }}"><i class="fas fa-download download" data-toggle="tooltip" data-placement="top" title="Download" ></i></a>
+
+                                    </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div><!--Fim row-->
+                        {% endif %}
+                    {% endfor %}
+                
+
+                    <br/>
+                    
+                    <!--PAGINAÇÃO-->
+                    <nav  aria-label="Page navigation example" style="position: static;">
+                        <ul class="pagination justify-content-center">
+                            {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                {% if arquivos.page == page_num and page_num %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
+                                    </li>
+                                {% elif page_num %}
+                                    <li class="page-item">                    
+                                        <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
+                                    </li>
+                                {% else %}
+                                    ...
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+
+                </div>
+        
+            </section>
+          
+          <section>
+            <h2>Recomendações</h2>
+    
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
+    
+          </section>
+          
+        </div>
+    </div>
+    
+    
+    
+    <br/>
+    <br/>
+
+    
+
+{% endblock %}

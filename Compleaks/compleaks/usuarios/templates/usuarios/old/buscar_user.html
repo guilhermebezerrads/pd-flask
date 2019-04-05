@@ -1,0 +1,77 @@
+{% extends "ver_consulta.html" %}
+
+{% block title %}Consulta{% endblock %}
+
+{% block content %}
+
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.administrators.label }}{{ form.administrators }}
+    <br/>
+    {{ form.filtrar.label }}{{ form.filtrar(id="filtro") }}
+    {% if form.errors.filtrar %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.filtrar %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+    <br/>
+    <div id="pesquisa">
+      
+    </div>
+    <div style ="display: none;" id="pesquisa_username">
+      {{ form.username.label }}{{ form.username() }}
+      {% if form.errors.username %}
+          <div class="alert alert-danger" role="alert">
+            <ul>
+              {% for e in form.errors.username %}
+                <li>{{ e }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+      {% endif %}
+    </div>
+    <br>
+    <div style ="display: none;") id="pesquisa_nome">
+    {{ form.nome.label }}{{ form.nome() }}
+    {% if form.errors.nome %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.nome %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+    </div>
+    <br>
+    <div style ="display: none;" id="pesquisa_email">
+    {{ form.email.label }}{{ form.email() }}
+    {% if form.errors.email %}
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {% for e in form.errors.email %}
+              <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+    </div>
+    <br>
+    {{ form.submit(onkeydown="concerta();") }}
+</form>  
+    {% block resultado %}
+        {{ super() }}
+    {% endblock %}
+    <script src="{{url_for('static', filename='js/pesquisa_user.js')}}" ></script>
+    <script type="text/javascript">
+      inicial();
+    </script>
+
+
+{% endblock %}
+
