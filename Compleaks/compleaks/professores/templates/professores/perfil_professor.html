@@ -19,9 +19,8 @@
         <h4>Unidade Acadêmica: {{professor.unidade_academica_id | unidade_academica}}</h3>
         <hr/>
         <p>
-        <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>
+        <small><q>O conhecimento não é pra ser guardado a sete chaves e sim pra ser compartilhado, dividido, pois conhecimento guardado é igual dinheiro num cofre, perde o valor e não rende nada.</q><br/>Lindomar Batista</small></p>
 
-    Lindomar Batista</small></p>
     </div>
     <!--BARRA DE NAVEGAÇÃO-->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -166,11 +165,11 @@
                             {% for page_num in arquivos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                                 {% if arquivos.page == page_num and page_num %}
                                     <li class="page-item disabled">
-                                        <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
+                                        <a class="page-link" href="{{ url_for('professores.perfil', page=page_num, id=professor.id) }}">{{ page_num }}</a>
                                     </li>
                                 {% elif page_num %}
                                     <li class="page-item">                    
-                                        <a class="page-link" href="{{ url_for('usuarios.troca', page=page_num) }}">{{ page_num }}</a></li>
+                                        <a class="page-link" href="{{ url_for('professores.perfil', page=page_num) }}">{{ page_num }}</a>
                                     </li>
                                 {% else %}
                                     ...

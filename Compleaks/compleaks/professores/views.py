@@ -163,19 +163,18 @@ def editar(prof_id):
 @professores.route('/perfil/<int:id>', methods=['POST', 'GET'])
 @login_required
 def perfil(id):
-
+	page = request.args.get('page', 1, type=int)
 	professor = Professor.query.get_or_404(id)
 
 	if not professor.ativado:
 		if not current_user.is_admin:
 			abort(403)
 
-
 	arquivos_todos = Arquivo.query.filter_by(professor_id=professor.id)
 
 	quantidade = len([arquiv for arquiv in arquivos_todos if arquiv.ativado])
 
-	page = request.args.get('page', 1, type=int)	
+		
 	arquivos = Arquivo.query\
 					.filter(Arquivo.professor_id\
 					.contains(int(professor.id)))\
