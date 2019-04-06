@@ -131,7 +131,6 @@ def testar(id):
 		abort(403)
 
 	letter = Divulgacao.query.get_or_404(id)
-
 	teste_user = Usuario("Teste User", "hhash", "Teste letters", "email@teste.com", 
 							"O sistema aqui é bruto", 12)
 

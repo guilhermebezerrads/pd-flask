@@ -1,8 +1,8 @@
 """Mais um recomesso do  BD
 
-Revision ID: 0d6c79f48b3c
+Revision ID: cf2b878e28c3
 Revises: 
-Create Date: 2019-04-05 20:02:17.303668
+Create Date: 2019-04-06 17:12:22.405413
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0d6c79f48b3c'
+revision = 'cf2b878e28c3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,7 @@ def upgrade():
     op.create_table('divulgacoes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
+    sa.Column('html', sa.String(length=50), nullable=True),
     sa.Column('body', sa.Text(), nullable=True),
     sa.Column('data_criacao', sa.DateTime(), nullable=True),
     sa.Column('last_send', sa.DateTime(), nullable=True),
