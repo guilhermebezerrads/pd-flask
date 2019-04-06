@@ -20,7 +20,14 @@ def adicionar():
 
 	if form.validate_on_submit():
 
-		nova = Divulgacao(title=form.titulo.data, body=form.front_end.data)
+		target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
+		file = form_add.arquivo.data
+		filename = file.filename
+		destination = "/".join([target, filename])
+		file.save(destination)
+		os.remove(destination)
+
+		nova = Divulgacao(title=form.titulo.data, body=form.front_end.data, html=filename)
 		db.session.add(nova)
 		db.session.commit()
 		flash("Newsletters adicionado com sucesso", "success")
@@ -85,27 +92,15 @@ def listar():
 	return render_template('lista_letters.html', letters=letters)
 
 
-def send_email(letter, emails):
+def send_email(letter, user):
 
 	msg = Message(letter.title,
-                  sender='noreply@demo.com',
-                  recipients=emails)
+                  sender='jinformatica471@gmail.com',
+                  recipients=[user.email])
 
-	msg.html = Markup(letter.body)
-
-	msg.body = "Lembre-se de visitar o Compleaks para ficar em dias com seus estudos. :)"
+	msg.html = render_template("uploads/"+letter.html, user=user)
+	msg.body = letter.body
 	mail.send(msg)
-
-def e_mails_disponiveis():
-
-	emails = []
-
-	usuarios = Usuario.query.filter_by(ativado=True)
-	for user in usuarios:
-
-		emails.append(user.email)
-
-	return emails
 
 
 @newsletters.route('/enviar_emails/<int:id>', methods=['POST', 'GET'])
@@ -116,13 +111,17 @@ def enviar(id):
 		abort(403)
 
 	letter = Divulgacao.query.get_or_404(id)
-	emails = e_mails_disponiveis()
 
-	send_email(letter, emails)
+	usuarios = Usuario.query.filter_by(ativado=True)
 
-	flash("Mensagem envianda com sucesso!", "success")
+	for user in usuarios:
+
+		send_email(letter=letter, user=user)
+
+	flash("Mensagens enviandas!", "info")
 
 	return redirect(url_for('newsletters.listar'))
+
 
 @newsletters.route('/testar/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -131,4 +130,9 @@ def testar(id):
 	if not current_user.is_admin:
 		abort(403)
 
-	return "Não ta funcopnando ainda né"
+	letter = Divulgacao.query.get_or_404(id)
+
+	teste_user = Usuario("Teste User", "hhash", "Teste letters", "email@teste.com", 
+							"O sistema aqui é bruto", 12)
+
+	return render_template('uploads/'+letter.html, user=teste_user)
