@@ -1,0 +1,10 @@
+INSERT INTO usuarios (id, username, hhash, nome, email, curso, periodo, is_admin, data_criacao, avatar, ativado)
+VALUES (1, "Biel Loeps", "$2b$12$iEFtKmZ5ubitJLvj1MIlZeTzv7ErYSwl6LU3QAJFugnr0DGyFHv.u", "Galoma !998", "one@one.com", "Sistemas", 3, 1, '2019-02-02 00:24:15.656718', "default_profile.png", 1);
+
+
+INSERT INTO usuarios (id, username, hhash, nome, email, curso, periodo, is_admin, data_criacao, avatar, ativado)
+VALUES (6, "GuilhermeBezerra", "$2b$12$mjtjmKIv2FcgMsvVkurfpeuNYOZXzXT5zPG8XQglZnT9k8XYNZhoG", "Guilherme B. Santos", "guilhermebezerrads@gmail.com", "Ciência da Computação", 3, 1, '2019-02-11 07:40:34.305908', "GuilhermeBezerra.jpg", 1)
+
+
+INSERT INTO usuarios (id, username, hhash, nome, email, curso, periodo, is_admin, data_criacao, avatar, ativado)
+VALUES (4, "pierre.victor", "$2b$12$X6OWg2r76ofvut06DYn5xeYKPztdTDXTadalx7QWQRWkDgw/4L/cS", "Pierre Victor da Silva Sousa", "pierre.sousa@ijunior.com.br", "Engenharia de Sistemas", 2, 1, '2019-02-04 16:07:27.489481', "pierre.victor.png", 1)

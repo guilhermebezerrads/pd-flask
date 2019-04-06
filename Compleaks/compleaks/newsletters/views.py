@@ -1,7 +1,8 @@
 from flask import (render_template, Blueprint, url_for, redirect,
  					flash, current_app, request, abort, Markup)
-from compleaks import db
+from compleaks import db, mail
 from flask_login import current_user, login_required
+from flask_mail import Message
 from compleaks.usuarios.models import Usuario
 from compleaks.newsletters.models import  Divulgacao
 from compleaks.newsletters.forms import LetterForm
@@ -47,7 +48,7 @@ def deletar(id):
 
 @newsletters.route('/editar/<int:id>', methods=['POST', 'GET'])
 @login_required
-def editar():
+def editar(id):
 
 	if not current_user.is_admin:
 		abort(403)
@@ -79,7 +80,7 @@ def listar():
 
 
 	page = request.args.get('page', 1, type=int)
-	letters = Divulgacao.query.all().order_by(Divulgacao.data_criacao.asc()).paginate(page=page, per_page=10)
+	letters = Divulgacao.query.order_by(Divulgacao.data_criacao.asc()).paginate(page=page, per_page=10)
 
 	return render_template('lista_letters.html', letters=letters)
 
@@ -122,3 +123,12 @@ def enviar(id):
 	flash("Mensagem envianda com sucesso!", "success")
 
 	return redirect(url_for('newsletters.listar'))
+
+@newsletters.route('/testar/<int:id>', methods=['POST', 'GET'])
+@login_required
+def testar(id):
+
+	if not current_user.is_admin:
+		abort(403)
+
+	return "Não ta funcopnando ainda né"

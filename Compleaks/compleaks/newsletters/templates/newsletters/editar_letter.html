@@ -20,8 +20,8 @@
 
         </div>
 
-        {{ form.fornt_end.label }} {{ form.fornt_end(class="form-control" ) }}
-        {% if form.errors.disciplina %}
+        {{ form.front_end.label }} {{ form.front_end(class="form-control" ) }}
+        {% if form.errors.front %}
             <div class="alert alert-danger" role="alert">
                 <ul>
                     {% for e in form.errors.fornt_end %}

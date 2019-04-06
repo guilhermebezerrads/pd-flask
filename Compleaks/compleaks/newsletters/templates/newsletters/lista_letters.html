@@ -14,7 +14,7 @@
     <tbody>
         {% for letter in letters.items %}
             <tr>
-                <div class="modal" tabindex="-1" role="dialog" id="del_confirm{{arquivo.id}}">
+                <div class="modal" tabindex="-1" role="dialog" id="confirm-del{{letter.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal" tabindex="-1" role="dialog" id="red_confirm{{letter.id}}">
+                <div class="modal" tabindex="-1" role="dialog" id="confirm{{letter.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -48,14 +48,12 @@
                             <br/>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
-                            <form action="{{ url_for('newsletters.testar', id=letter.id) }} " method="GET">
-                                <input type="submit" value="Testar" class="btn btn-warning">
-                            </form>
-                            <form action="{{ url_for('newsletters.enviar', id=letter.id) }} " method="POST">
-                                <input type="submit" value="ENVIAR PARA TODOS" class="btn btn-success">
-                            </form>
+                            <a href="{{ url_for('newsletters.testar', id=letter.id) }}"><input  value="Testar" class="btn btn-warning"></a>
+                            
+                        
+                            <a href="{{ url_for('newsletters.enviar', id=letter.id) }}"><input  value="ENVIAR PARA TODOS" class="btn btn-success"></a>
+                        
                             
                         </div>
                         </div>
@@ -65,8 +63,8 @@
                 
                 <td> {{letter.title}} </td>
                 <td><a href="#" data-toggle="modal" data-target="#confirm{{letter.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a></td>
-                <td><a href="{{url_for('newsletters.editar', id=letter.id)}}" class="card-link" ><i class="fas fa-edit"></i></i></a></td>
-                <td><a data-toggle="modal" data-target="#confirm-del{{letter.id}}" class="card-link" ><i class="fas fa-ban"></i></i></a></td>
+                <td><a href="{{url_for('newsletters.editar', id=letter.id)}}" class="card-link" ><i class="fas fa-edit" style="font-size: 30px" data-toggle="tooltip" data-placement="bottom" title="Editar"></i></a></td>
+                <td><a data-toggle="modal" data-target="#confirm-del{{letter.id}}" class="card-link" ><i class="fas fa-ban"  style="font-size: 30px" data-toggle="tooltip" data-placement="bottom" title="Deletar"></i></a></td>
 
             
             </tr>
