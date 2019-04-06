@@ -6,6 +6,7 @@ from flask_mail import Message
 from compleaks.usuarios.models import Usuario
 from compleaks.newsletters.models import  Divulgacao
 from compleaks.newsletters.forms import LetterForm
+import os
 
 newsletters = Blueprint('newsletters', __name__,template_folder='templates/newsletters')
 
@@ -21,11 +22,13 @@ def adicionar():
 	if form.validate_on_submit():
 
 		target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
-		file = form_add.arquivo.data
+		file = form.html.data
 		filename = file.filename
 		destination = "/".join([target, filename])
 		file.save(destination)
-		os.remove(destination)
+
+		'''zip_archive = ZipFile(filename, "w")
+		zip_archive.write(destination, destination[len(target) + 1:])'''
 
 		nova = Divulgacao(title=form.titulo.data, body=form.front_end.data, html=filename)
 		db.session.add(nova)
@@ -48,7 +51,7 @@ def deletar(id):
 	db.session.delete(delete)
 	db.session.commit()
 
-	flash("Newsletters adicionado com sucesso", "success")
+	flash("Newsletters deletado com sucesso", "info")
 
 	return redirect(url_for("newsletters.listar"))
 

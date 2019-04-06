@@ -9,7 +9,7 @@
     </div>
 
       
-    <form class="form-group" method="POST" style="margin-top: 50px;">
+    <form action="" class="form-group" method="POST" style="margin-top: 50px;"  enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <!-- Material outline input with prefix-->
         <div class="md-form md-outline">
@@ -17,8 +17,23 @@
             {{ form.titulo(id="inputIconEx1", class="form-control") }}
             <label for="inputIconEx1">Titulo do latter</label>
             <br/>
-            {{ form.front_end(class="form-control" , id="input", placeholder="Código front-end") }}
-            {% if form.errors.disciplina %}
+            <br/>
+            Arquivo .html:
+            {{ form.html(class="form-control" ) }}
+            {% if form.errors.html %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for e in form.errors.fhtml %}
+                            <li>{{ e }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <br/>
+            <br/>
+            <br/>
+            {{ form.front_end(class="form-control" , id="input", placeholder="Testo alternativo para provedores de e-mail que não lem HTML") }}
+            {% if form.errors.front_end %}
                 <div class="alert alert-danger" role="alert">
                     <ul>
                         {% for e in form.errors.fornt_end %}
