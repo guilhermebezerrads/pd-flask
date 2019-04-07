@@ -26,6 +26,13 @@ def adicionar():
 		file = form.html.data
 		filename = file.filename
 		destination = "/".join([target, filename])
+
+		if os.path.exists(destination):
+			flash("Não foi possivel salvar o arquivo!", "danger")
+			flash("O nome do arquivo que vc submeteu já existe, favor mudar o nome e tentar novamente!", "info")
+			return render_template('novo_letter.html', form=form)
+
+
 		file.save(destination)
 
 
@@ -82,8 +89,14 @@ def editar(id):
 		target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
 		file = form.html.data
 		filename = file.filename
-		destination = "/".join([target, filename])
-		file.save(destination)
+		destination2 = "/".join([target, filename])
+
+		if os.path.exists(destination2) and (destination != destination2):
+			flash("Não foi possivel salvar o arquivo!", "danger")
+			flash("O nome do arquivo que vc submeteu já existe, favor mudar o nome e tentar novamente!", "info")
+			return render_template('novo_letter.html', form=form)
+
+		file.save(destination2)
 
 		edit.title = form.titulo.data
 		edit.body = form.front_end.data
@@ -191,6 +204,12 @@ def material():
 		file = form.arquivo.data
 		filename = file.filename
 		destination = "/".join([target, filename])
+
+		if os.path.exists(destination):
+			flash("Não foi possivel salvar o arquivo!", "danger")
+			flash("O nome do arquivo que vc submeteu já existe, favor mudar o nome e tentar novamente!", "info")
+			return render_template('novo_letter.html', form=form)
+			
 		file.save(destination)
 
 		nova = Material(title=form.titulo.data, arquivo=filename)
@@ -225,8 +244,14 @@ def edit_material(id):
 		edit.title = form.titulo.data
 		file = form.arquivo.data
 		filename = file.filename
-		destination = "/".join([target, filename])
-		file.save(destination)
+		destination2 = "/".join([target, filename])
+
+		if os.path.exists(destination2) and (destination != destination2):
+			flash("Não foi possivel salvar o arquivo!", "danger")
+			flash("O nome do arquivo que você submeteu já existe, favor mudar o nome e tentar novamente!", "info")
+			return render_template('novo_letter.html', form=form)
+
+		file.save(destination2)
 		edit.arquivo = filename
 		db.session.commit()
 		flash("Material modificado com sucesso", "success")
