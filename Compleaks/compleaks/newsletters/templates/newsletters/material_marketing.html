@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %} Todos os usuários {% endblock %}
+{% block content %}
+{% if current_user.is_admin %}
+<div class="modal" tabindex="-1" role="dialog" id="Adicionar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Deletar Material?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="form-group" method="POST" action="{{url_for('newsletters.edit_material', id=material.id)}}"  enctype="multipart/form-data">
+                {{ form.titulo(id="inputIconEx1", class="form-control") }}
+                <label for="inputIconEx1">Nome do material:</label>
+                <br/>
+                <br/>
+                Arquivo:
+                {{ form.arquivo(class="form-control" ) }}
+                {% if form.errors.arquivo %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for e in form.errors.arquivo %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <br/>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a> 
+        </div>
+        </div>
+    </div>
+</div>
+    <br/>
+    <br/>
+    <br/>
+<div class="text-center"> 
+    <p><button class="btn btn-outline-primary waves-effect" href="#" data-toggle="modal" data-target="#Adicionar" class="card-link">ADICIONAR</button></p>
+</div>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Download</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for material in materiais.items %}
+            <tr>
+                <div class="modal" tabindex="-1" role="dialog" id="confirm-del{{material.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Deletar Material?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Você tem certeza que deja deletar esse Material?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a>                 
+                            <a data-toggle="tooltip" data-placement="top" title="Deletar Permanentemente" href="{{ url_for('newsletters.deletar_material', id=material.id) }} "> <i class="far fa-trash-alt deletar"></i> </a>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal" tabindex="-1" role="dialog" id="Adicionar">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Deletar Material?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-group" method="POST" action=""  enctype="multipart/form-data">
+                                {{ form_edit.titulo(id="inputIconEx1", class="form-control", value=material.titulo) }}
+                                <label for="inputIconEx1">Nome do material:</label>
+                                <br/>
+                                <br/>
+                                Arquivo:
+                                {{ form_edit.arquivo(class="form-control" ) }}
+                                {% if form_edit.errors.arquivo %}
+                                    <div class="alert alert-danger" role="alert">
+                                        <ul>
+                                            {% for e in form_edit.errors.arquivo %}
+                                                <li>{{ e }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <br/>
+                                {{ form_edit.submit(class="btn btn-primary") }}
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <a data-toggle="tooltip" data-placement="top" title="Cancelar" href="#" data-dismiss="modal"><img class="img-responsive cancel" src="{{url_for('static', filename='images/icones/padrao/cancel.svg')}}" alt="Cancelar"/></a> 
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <td> {{material.title}} </td>
+                <td><a href="#" data-toggle="modal" data-target="#confirm{{material.id}}" class="card-link"><i class="fas fa-info-circle info" data-toggle="tooltip" data-placement="bottom" title="Mais Informações"></i></a></td>
+                <td><a href="#" data-toggle="modal" data-target="#edit{{material.id}}" class="card-link" ><i class="fas fa-file-download"  style="font-size: 30px" data-toggle="tooltip" data-placement="bottom" title="Editar"></i></a></td>
+                <td><a data-toggle="modal" data-target="#confirm-del{{material.id}}" class="card-link" ><i class="fas fa-ban"  style="font-size: 30px" data-toggle="tooltip" data-placement="bottom" title="Deletar"></i></a></td>
+
+            
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+  </table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for page_num in materials.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if materials.page == page_num and page_num %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="{{ url_for('newsmaterials.listar', page=page_num) }}">{{ page_num }}</a></li>
+                </li>
+            {% elif page_num %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('newsmaterials.listar', page=page_num) }}">{{ page_num }}</a></li>
+                </li>
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}   
+{% endblock %}
