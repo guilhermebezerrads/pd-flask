@@ -28,6 +28,7 @@ def adicionar():
 		destination = "/".join([target, filename])
 		file.save(destination)
 
+
 		'''zip_archive = ZipFile(filename, "w")
 		zip_archive.write(destination, destination[len(target) + 1:])'''
 

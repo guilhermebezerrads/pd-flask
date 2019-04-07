@@ -11,7 +11,7 @@ class Divulgacao(teste, db.Model):
 	__tablename__ = 'divulgacoes'
 
 	title = db.Column(db.String, unique=True)
-	html = db.Column(db.String(50))
+	html = db.Column(db.String(50), unique=True)
 	body = db.Column(db.Text)
 	data_criacao = db.Column(db.DateTime, default=datetime.now)
 	last_send = db.Column(db.DateTime, default=None, nullable=True)
@@ -28,7 +28,7 @@ class Material(teste, db.Model):
 	__tablename__ = 'materiais'
 
 	title = db.Column(db.String(50), unique=True)
-	arquivo = db.Column(db.String(50))
+	arquivo = db.Column(db.String(50), unique=True)
 	data_criacao = db.Column(db.DateTime, default=datetime.now)
 
 

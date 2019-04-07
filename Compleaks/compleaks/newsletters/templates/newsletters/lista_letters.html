@@ -43,6 +43,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+
                             <p>Data em que foi postado: {{letter.data_criacao.strftime('%B %d, %Y')}}</p>
                             {% if letter.last_send %}
                                 <p>Última vez que foi enviado: {{letter.last_send.strftime('%B %d, %Y')}}</p>

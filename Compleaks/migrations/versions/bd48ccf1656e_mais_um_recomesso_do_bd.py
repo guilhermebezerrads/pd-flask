@@ -1,8 +1,8 @@
 """Mais um recomesso do  BD
 
-Revision ID: cf2b878e28c3
+Revision ID: bd48ccf1656e
 Revises: 
-Create Date: 2019-04-06 17:12:22.405413
+Create Date: 2019-04-07 00:45:49.147915
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cf2b878e28c3'
+revision = 'bd48ccf1656e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,6 +38,16 @@ def upgrade():
     sa.Column('data_criacao', sa.DateTime(), nullable=True),
     sa.Column('last_send', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('html'),
+    sa.UniqueConstraint('title')
+    )
+    op.create_table('materiais',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(length=50), nullable=True),
+    sa.Column('arquivo', sa.String(length=50), nullable=True),
+    sa.Column('data_criacao', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('arquivo'),
     sa.UniqueConstraint('title')
     )
     op.create_table('professores',
@@ -180,6 +190,7 @@ def downgrade():
     op.drop_table('arquivos')
     op.drop_table('usuarios')
     op.drop_table('professores')
+    op.drop_table('materiais')
     op.drop_table('divulgacoes')
     op.drop_table('disciplinas')
     # ### end Alembic commands ###
