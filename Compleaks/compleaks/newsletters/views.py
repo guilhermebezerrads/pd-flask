@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from flask_mail import Message
 from compleaks.usuarios.models import Usuario
 from compleaks.newsletters.models import  Divulgacao, Material
-from compleaks.newsletters.forms import LetterForm
+from compleaks.newsletters.forms import LetterForm, MaterialForm
 import os
 
 newsletters = Blueprint('newsletters', __name__,template_folder='templates/newsletters')
@@ -180,9 +180,9 @@ def material():
 
 
 	page = request.args.get('page', 1, type=int)
-	materiais = Material.query.order_by(Divulgacao.data_criacao.asc()).paginate(page=page, per_page=10)
+	materiais = Material.query.order_by(Material.data_criacao.asc()).paginate(page=page, per_page=10)
 
-	return render_template('material_marketing.html', materiais=materiais)
+	return render_template('material_marketing.html', materiais=materiais, form=form, form_edit=form_edit)
 
 
 @newsletters.route('/editar_material/<int:id>', methods=['POST', 'GET'])
@@ -207,7 +207,7 @@ def edit_material(id):
 
 @newsletters.route('/deletar_material/<int:id>', methods=['POST', 'GET'])
 @login_required
-def deletar(id):
+def deletar_material(id):
 
 	if not current_user.is_admin:
 		abort(403)
@@ -220,4 +220,4 @@ def deletar(id):
 
 	flash("Material deletado com sucesso", "info")
 
-	return redirect(url_for("newsletters.listar"))
+	return redirect(url_for("newsletters.material"))
