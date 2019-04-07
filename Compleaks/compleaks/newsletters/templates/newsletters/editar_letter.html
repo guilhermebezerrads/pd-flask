@@ -9,7 +9,7 @@
     </div>
 
       
-    <form class="form-group" method="POST" style="margin-top: 50px;">
+    <form class="form-group" method="POST" action="" style="margin-top: 50px;" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <!-- Material outline input with prefix-->
         <div class="md-form md-outline">
@@ -20,6 +20,19 @@
 
         </div>
 
+        Arquivo .html:
+        {{ form.html(class="form-control" ) }}
+        {% if form.errors.html %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for e in form.errors.html %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <br/>
+        <br/>
         {{ form.front_end.label }} {{ form.front_end(class="form-control" ) }}
         {% if form.errors.front %}
             <div class="alert alert-danger" role="alert">

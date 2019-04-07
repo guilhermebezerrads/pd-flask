@@ -87,14 +87,15 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="form-group md-form md-outline" method="POST" action="{{url_for('newsletters.edit_material', id=material.id)}}"  enctype="multipart/form-data">
+                            <form id="Editar{{material.id}}" class="form-group md-form md-outline" method="POST" action="{{url_for('newsletters.edit_material', id=material.id)}}"  enctype="multipart/form-data">
                                 {{ form_edit.hidden_tag() }}
-                                {{ form_edit.titulo(id="inputIconEx1", class="form-control", value=material.titulo) }}
-                                <label for="inputIconEx1">Nome do material:</label>
+                                <label for="inputIconEx2">Nome do material:</label>
+                                {{ form_edit.titulo(id="inputIconEx2", class="form-control", value=material.titulo, form="Editar"+material.id|String) }}
+                                
                                 <br/>
                                 <br/>
                                 Arquivo:
-                                {{ form_edit.arquivo(class="form-control" ) }}
+                                {{ form_edit.arquivo(class="form-control" , form="Editar"+material.id|String) }}
                                 {% if form_edit.errors.arquivo %}
                                     <div class="alert alert-danger" role="alert">
                                         <ul>
@@ -105,7 +106,7 @@
                                     </div>
                                 {% endif %}
                                 <br/>
-                                {{ form_edit.submit(class="btn btn-primary") }}
+                                {{ form_edit.submit(class="btn btn-primary", form="Editar"+material.id|String) }}
                             </form>
                         </div>
                         <div class="modal-footer">

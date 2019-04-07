@@ -7,6 +7,7 @@ from compleaks.usuarios.models import Usuario
 from compleaks.newsletters.models import  Divulgacao, Material
 from compleaks.newsletters.forms import LetterForm, MaterialForm
 import os
+from datetime import datetime
 
 newsletters = Blueprint('newsletters', __name__,template_folder='templates/newsletters')
 
@@ -48,6 +49,11 @@ def deletar(id):
 	form = LetterForm()
 
 	delete = Divulgacao.query.get_or_404(id)
+
+	target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
+	destination = "/".join([target, delete.html])
+	os.remove(destination)
+
 	db.session.delete(delete)
 	db.session.commit()
 
@@ -68,8 +74,19 @@ def editar(id):
 
 	if form.validate_on_submit():
 
+		target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
+		destination = "/".join([target, edit.html])
+		os.remove(destination)
+
+		target = os.path.join(current_app.root_path, 'newsletters/templates/newsletters/uploads')
+		file = form.html.data
+		filename = file.filename
+		destination = "/".join([target, filename])
+		file.save(destination)
+
 		edit.title = form.titulo.data
 		edit.body = form.front_end.data
+		edit.html = destination	
 		db.session.commit()
 		flash("Newsletters modificado com sucesso", "success")
 
@@ -138,6 +155,8 @@ def enviar(id):
 	for email in emails:
 		flash(email, "danger")
 
+	letter.last_send = datetime.now()
+
 	return redirect(url_for('newsletters.listar'))
 
 
@@ -197,8 +216,17 @@ def edit_material(id):
 
 	if form.validate_on_submit():
 
+		target = os.path.join(current_app.root_path, 'static/uploads/Marketing')
+		destination = "/".join([target, edit.arquivo])
+		os.remove(destination)
+
+
 		edit.title = form.titulo.data
-		edit.arquivo = form.arquivo.data
+		file = form.arquivo.data
+		filename = file.filename
+		destination = "/".join([target, filename])
+		file.save(destination)
+		edit.arquivo = filename
 		db.session.commit()
 		flash("Material modificado com sucesso", "success")
 
