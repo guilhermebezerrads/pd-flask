@@ -1,20 +1,3 @@
-function openAjax(){
-    var ajax = null;
-
-    try{
-        ajax = new XMLHttpRequest;
-    }catch(erro){
-        try{
-            ajax = new ActiveXObject("Msxl2.XMLHTTP");
-        }catch(er){
-            try{
-                ajax = new ActiveXObject("Microsoft.XMLHTTP");
-            }catch(err){
-                ajax = false;
-            }
-        }
-    }
-}
 
 function preenche_formulario(){
 
@@ -36,7 +19,7 @@ function preenche_formulario(){
     }});
 
     $.ajax({url: "/simulados/materias-possiveis/"+option, success: function(result){
-        result_quests.innerHTML = result;
+        materias.innerHTML = result;
         $("materia_possivel").html(result);
     }});
 }
@@ -48,52 +31,67 @@ function preenche_formulario(){
 
 function disponibiliza_materia(obj){
     
-    console.lof(obj);
+    console.log(obj);
 
     var materias = document.getElementById("MateriasSimulado");
 
-    var materia_1 = document.getElementById("materia-1");
-    var materia_2 = document.getElementById("materia-2");
-    var materia_3 = document.getElementById("materia-3");
+    var materia_1 = document.getElementById("Materia_1");
+    var materia_2 = document.getElementById("Materia_2");
+    var materia_3 = document.getElementById("Materia_3");
 
     //var materia_1.options = document.getElementById("materia-1").childNodes;
     //var materia_2.options = document.getElementById("materia-2").childNodes;
     //var materia_3.options = document.getElementById("materia-3").childNodes;
 
-    if(obj.nome == "Materia-1"){
+    //console.log($("#Materia_1").css('display'));
+    //console.log($( "#Materia_1" ).val());
+    
+    if(obj.id == "Materia_1"){
 
-        if(materia_2.style.display == "none"){
-            materia_2.style.display = "block"
+        if($("#materia-2").css('display') == 'none'){
+            $("#materia-2").show();
         }
 
     }
 
-    if(obj.nome == "Materia-2"){
+    if(obj.id == "Materia_2"){
 
-        if(materia_2.style.display == "none"){
-            materia_2.style.display = "block"
+        if($("#materia-2").css('display') == 'none'){
+            $("#materia-2").show();
         }
-        
-        if(materia_3.style.display == "none"){
-            materia_3.style.display = "block"
+
+        if($("#materia-3").css('display') == 'none'){
+            $("#materia-3").show();
         }
 
     }    
 
-    if(obj.nome == "Materia-3"){
+    if(obj.id == "Materia_3"){
 
-        if(materia_2.style.display == "none"){
-            materia_2.style.display = "block"
+        if($("#materia-2").css('display') == 'none'){
+            $("#materia-2").show();
         }
-        
-        if(materia_3.style.display == "none"){
-            materia_3.style.display = "block"
+
+        if($("#materia-3").css('display') == 'none'){
+            $("#materia-3").show();
         }
 
     }
 
-    if(materia_2.value == materia_1.value){
-        materia_2.selectedIndex = 0;
+    if( $("#Materia_1" ).val() == $( "#Materia_2" ).val()){
+        if($("#Materia_1" ).val() == 0){
+            $( "#Materia_2" ).val("0");
+        }else{
+            $( "#Materia_2" ).val("1");
+        }
+    }
+
+    if( $("#Materia_3" ).val() == $( "#Materia_2" ).val()){
+         $( "#Materia_3" ).val("0");
+    }
+
+    if( $("#Materia_1" ).val() == $( "#Materia_3" ).val()){
+         $( "#Materia_3" ).val("0");
     }
 
     if(materia_2.value == materia_3.value){

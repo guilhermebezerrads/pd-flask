@@ -31,6 +31,7 @@ def adicionar():
 				resposta.append(request.form.get("materia-"+str(i)))
 
 		if not resposta:
+			flash("É obigatório pelo menos uma matéria por disciplina!", "danger")
 			return render_template('adicionar_disciplina.html', form=form)
 
 

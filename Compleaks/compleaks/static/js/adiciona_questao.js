@@ -22,33 +22,13 @@ function  preenche_materia(){
 	var select = document.getElementById("escolhe-disciplina");
 	var exibeResult = document.getElementById("materia");
 
-	var ajax = openAjax();
-
 	console.log(select.value)
 
-	ajax.open("GET", '/questoes/materias/'+select.value, true);			
+	$.ajax({url: '/questoes/materias/'+select.value, success: function(result){
+        exibeResult.innerHTML = result;
+        $("qtn_quests").html(result);
+    }});
 
-
-	ajax.onreadystatechange = function(){
-	
-		if(ajax.readyState == 1){
-			exibeResult.innerHTML = '<p><img src="/static/images/Preloader_5.gif" alt="Carregando" /></p>';
-		}
-
-		if(ajax.readyState == 4){
-			if(ajax.status == 200){
-				var result = ajax.responseText;
-				result = result.replace(/\+/g, " ");
-				result = unescape(result);
-				exibeResult.innerHTML = result;
-			}else{
-				exibeResult.innerHTML ="<p>Erro ao carregar pesquisa ---</p>";
-			}
-		}
-
-	}
-
-	ajax.send(null);
 
 
 }

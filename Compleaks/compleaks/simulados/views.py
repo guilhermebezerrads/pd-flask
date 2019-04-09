@@ -61,8 +61,6 @@ def numero_quest(id):
 	if qtn_quest > 15:
 		qtn_quest = 15
 
-	print(questoes)
-
 	return render_template('repositorio_qtn_quest.html', quantidade=qtn_quest)
 
 @simulados.route('/materias-possiveis/<int:id>', methods=['POST', 'GET'])
@@ -75,7 +73,7 @@ def materias(id):
 		abort(403)
 
 
-	questoes = len(Questao.query.filter_by(ativado=True).filter_by(disciplina_id=id))
+	questoes = quest_disciplina(id)
 
 	if questoes < 3:
 		abort(403)
@@ -85,10 +83,9 @@ def materias(id):
 						.filter(Questao.disciplina_id == disciplina.id)
 
 	materias_lista = [(str(materia.id), materia.nome) for materia in materias]
-	print(materias)
 
 	if questoes > 15:
 		questoes = 15
 
 	return render_template('repositorio_materias_relacionadas.html', quantidade=questoes,
-							 materias_lista=materias_lista, numero_materias=len(materias))
+							 materias_lista=materias_lista)
