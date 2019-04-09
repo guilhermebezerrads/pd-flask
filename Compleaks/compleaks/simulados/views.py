@@ -82,10 +82,16 @@ def materias(id):
 						.outerjoin(Questao, Materia.disciplina_id == Questao.disciplina_id )\
 						.filter(Questao.disciplina_id == disciplina.id)
 
+	qtn = 0
+
+	for mat in materias:
+		qtn = qtn + 1
+
 	materias_lista = [(str(materia.id), materia.nome) for materia in materias]
+	
 
 	if questoes > 15:
 		questoes = 15
 
 	return render_template('repositorio_materias_relacionadas.html', quantidade=questoes,
-							 materias_lista=materias_lista)
+							 materias_lista=materias_lista, num_materias=qtn)

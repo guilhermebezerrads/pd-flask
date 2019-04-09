@@ -4,7 +4,7 @@
 
 	<div id="materia-1" class="md-form md-outline">
                     
-        <select class="form-control" id="Materia_1" onchange="disponibiliza_materia(this);">
+        <select class="form-control" name="m1" id="Materia_1" onchange="disponibiliza_materia(this);">
         	<option value="a" >Sem mateira específica</option>
         	<option value="0" >Questões sem matéria</option>
 		  {% for materia in materias_lista %}
@@ -14,27 +14,36 @@
            
     </div>
 
-    <div id="materia-2" class="md-form md-outline" style="display: none;">
-                    
-        <select class="form-control" id="Materia_2" onchange="disponibiliza_materia(this);">
-        	<option value="0" >Questões sem matéria</option>
-		  {% for materia in materias_lista %}
-		  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
-		  {% endfor %}
-		</select>
-           
-    </div>
+    {% if num_materias >= 2 %}
 
-    <div id="materia-3" class="md-form md-outline" style="display: none;">
-                    
-        <select class="form-control" id="Materia_3" onchange="disponibiliza_materia(this);">
-        	<option value="0" >>Questões sem matéria</option>
-		  {% for materia in materias_lista %}
-		  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
-		  {% endfor %}
-		</select>
-           
-    </div>
+        <div id="materia-2" class="md-form md-outline" style="display: none;">
+                        
+            <select class="form-control" name="m2" id="Materia_2" onchange="disponibiliza_materia(this);">
+                <option value="a" >Sem mateira específica</option>
+            	<option value="0" >Questões sem matéria</option>
+        	  {% for materia in materias_lista %}
+        	  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
+        	  {% endfor %}
+        	</select>
+               
+        </div>
+
+        {% if num_materias >=3 %}
+
+            <div id="materia-3" class="md-form md-outline" style="display: none;">
+                            
+                <select class="form-control" name="m3" id="Materia_3" onchange="disponibiliza_materia(this);">
+                    <option value="a" >Sem mateira específica</option>
+                	<option value="0" >Questões sem matéria</option>
+            	  {% for materia in materias_lista %}
+            	  	<option value="{{materia[0]}}" >{{materia[1]}}</option>
+            	  {% endfor %}
+            	</select>
+                   
+            </div>
+
+        {% endif %}
+    {% endif %}
 
 </div>
 

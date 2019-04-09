@@ -31,25 +31,37 @@ function preenche_formulario(){
 
 function disponibiliza_materia(obj){
     
-    console.log(obj);
 
     var materias = document.getElementById("MateriasSimulado");
-
-    var materia_1 = document.getElementById("Materia_1");
-    var materia_2 = document.getElementById("Materia_2");
-    var materia_3 = document.getElementById("Materia_3");
-
+    /*
+    var materia_1 = $("#Materia_1");
+    var materia_2 = $("#Materia_2");
+    var materia_3 = $("#Materia_3");
+    */
     //var materia_1.options = document.getElementById("materia-1").childNodes;
     //var materia_2.options = document.getElementById("materia-2").childNodes;
     //var materia_3.options = document.getElementById("materia-3").childNodes;
-
-    //console.log($("#Materia_1").css('display'));
-    //console.log($( "#Materia_1" ).val());
+    var dois = $("#Materia_2").children().length;
+    var tres = $("#Materia_3").children().length;
+    /*$("#materia_1 option").map(function() {return $(this).val();}).get();
+    console.log($("select#example option").map(function() {return $(this).val();}).get());
+    console.log(tres);
+    console.log(dois);
+    var opt2 = $("#Materia_1 option").map(function() {return $(this).val();}).get();
+    console.log($("#Materia_1 option[value='" + opt2[0] + "']", this));
+    console.log(opt2[0]);
+    */
+    var opt2 = $("#Materia_2 option").map(function() {return $(this).val();}).get();
+    console.log($("#Materia_2 option[value='"+opt2[0]+"']"));
+    
     
     if(obj.id == "Materia_1"){
 
-        if($("#materia-2").css('display') == 'none'){
-            $("#materia-2").show();
+        if(dois != 0){
+
+            if($("#materia-2").css('display') == 'none'){
+                $("#materia-2").show();
+            }
         }
 
     }
@@ -59,11 +71,13 @@ function disponibiliza_materia(obj){
         if($("#materia-2").css('display') == 'none'){
             $("#materia-2").show();
         }
+        if(tres != 0){
 
-        if($("#materia-3").css('display') == 'none'){
-            $("#materia-3").show();
+            if($("#materia-3").css('display') == 'none'){
+                $("#materia-3").show();
+            }
+
         }
-
     }    
 
     if(obj.id == "Materia_3"){
@@ -78,57 +92,71 @@ function disponibiliza_materia(obj){
 
     }
 
+    if( $("#Materia_1" ).val() == 'a'){
+        $("#materia-3").hide();
+        $("#materia-2").hide();
+    }
+
+    /*
+
     if( $("#Materia_1" ).val() == $( "#Materia_2" ).val()){
-        if($("#Materia_1" ).val() == 0){
-            $( "#Materia_2" ).val("0");
-        }else{
-            $( "#Materia_2" ).val("1");
-        }
+        ordena_options();
     }
 
     if( $("#Materia_3" ).val() == $( "#Materia_2" ).val()){
-         $( "#Materia_3" ).val("0");
+         ordena_options();
     }
 
     if( $("#Materia_1" ).val() == $( "#Materia_3" ).val()){
-         $( "#Materia_3" ).val("0");
+         ordena_options();
     }
+    */
 
-    if(materia_2.value == materia_3.value){
-        materia_3.selectedIndex= 0;
-    }
+    if(dois != 0){
 
-    if(materia_1.value == materia_3.value){
-        materia_3.selectedIndex = 0;
-    }
+        var opt2 = $("#Materia_2 option").map(function() {return $(this).val();}).get();
 
-    for (var i = 0; i < materia_2.options.length; i++) {
-        materia_2.options[i].disabled = false;
-    }
+        for (var i = 0; i < opt2.length; i++) {
+            console.log(opt2[i]);
+            var option = $("#Materia_2 option[value='" + opt2[i] + "']");
+            option.attr("disabled",false);
+        }
 
-    for (var i = 0; i < materia_3.options.length; i++) {
-         materia_3.options[i].disabled = false;
-    }
-
-    for (var i = 0; i < materia_2.options.length; i++) {
-        if(materia_1.selectedIndex == (parseInt(materia_2.options[i].value) - 1) ){
-            materia_2.options[i].disabled = true;
+        for (var i = 0; i < opt2.length; i++) {
+            if($("#Materia_2 option[value='" + opt2[i] + "']").val() == $("#Materia_1 option:selected").val() ){
+                var option = $("#Materia_2 option[value='" + opt2[i] + "']");
+                console.log(option);
+                option.attr("disabled","disabled");
+            }
         }
     }
 
-    for (var i = 0; i < materia_3.options.length; i++) {
-        if(materia_1.selectedIndex == (parseInt(materia_3.options[i].value) - 1) ){
-            materia_3.options[i].disabled = true;
+
+    if(tres != 0){
+
+        var opt3 = $("#Materia_3 option").map(function() {return $(this).val();}).get();
+        
+        for (var i = 0; i < opt3.length; i++) {
+            var option = $("#Materia_3 option[value='" + opt3[i] + "']");
+            option.attr("disabled",false);
+        }
+
+        for (var i = 0; i < opt3.length; i++) {
+            if($("#Materia_2 option:selected").val() == $("#Materia_3 option[value='" + opt2[i] + "']").val() ){
+                var option = $("#Materia_3 option[value='" + opt3[i] + "']");
+                console.log(option);
+                option.attr("disabled","disabled");
+            }
+        }
+
+        for (var i = 0; i < opt3.length; i++) {
+            if($("#Materia_1 option:selected").val() == $("#Materia_3 option[value='" + opt2[i] + "']").val() ){
+                var option = $("#Materia_3 option[value='" + opt3[i] + "']");
+                console.log(option);
+                option.attr("disabled","disabled");
+            }
         }
     }
-
-    for (var i = 0; i < materia_3.options.length; i++) {
-        if(materia_2.selectedIndex == parseInt(materia_3.options[i].value) ){
-            materia_3.options[i].disabled = true;
-        }
-    }
-
-    
 }
 
 
