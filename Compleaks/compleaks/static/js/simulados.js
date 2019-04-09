@@ -33,24 +33,10 @@ function disponibiliza_materia(obj){
     
 
     var materias = document.getElementById("MateriasSimulado");
-    /*
-    var materia_1 = $("#Materia_1");
-    var materia_2 = $("#Materia_2");
-    var materia_3 = $("#Materia_3");
-    */
-    //var materia_1.options = document.getElementById("materia-1").childNodes;
-    //var materia_2.options = document.getElementById("materia-2").childNodes;
-    //var materia_3.options = document.getElementById("materia-3").childNodes;
+
     var dois = $("#Materia_2").children().length;
     var tres = $("#Materia_3").children().length;
-    /*$("#materia_1 option").map(function() {return $(this).val();}).get();
-    console.log($("select#example option").map(function() {return $(this).val();}).get());
-    console.log(tres);
-    console.log(dois);
-    var opt2 = $("#Materia_1 option").map(function() {return $(this).val();}).get();
-    console.log($("#Materia_1 option[value='" + opt2[0] + "']", this));
-    console.log(opt2[0]);
-    */
+
     var opt2 = $("#Materia_2 option").map(function() {return $(this).val();}).get();
     console.log($("#Materia_2 option[value='"+opt2[0]+"']"));
     
@@ -96,21 +82,6 @@ function disponibiliza_materia(obj){
         $("#materia-3").hide();
         $("#materia-2").hide();
     }
-
-    /*
-
-    if( $("#Materia_1" ).val() == $( "#Materia_2" ).val()){
-        ordena_options();
-    }
-
-    if( $("#Materia_3" ).val() == $( "#Materia_2" ).val()){
-         ordena_options();
-    }
-
-    if( $("#Materia_1" ).val() == $( "#Materia_3" ).val()){
-         ordena_options();
-    }
-    */
 
     if(dois != 0){
 
@@ -158,37 +129,3 @@ function disponibiliza_materia(obj){
         }
     }
 }
-
-
-/*var aux = 0;
-    var changes = repositorio.childNodes;
-
-    if(childs_materia.length <= 3){
-        aux = 3;
-    }else{
-        var last = childs_materia[childs_materia.length - 1];
-        var str = last.id;
-        str = str.split("-");
-        aux = parseInt(str[1]);
-        aux++;
-    }
-    
-
-    repositorio.id = "materia-"+aux;
-    repositorio.style.display = "";
-    changes[3].id = "inputIconEx"+aux;
-    changes[3].name = "materia-"+aux;
-    //changes[5].for = changes[3].id;
-    changes[7].setAttribute("onclick","Remover_Materia(\'materia-"+aux+"\');");
-
-    materias.appendChild(repositorio);*/
-
-    //console.log(childs_materia.length );
-
-    /*console.log(childs_materia[childs_materia.length - 1]);
-    var last = childs_materia[childs_materia.length - 1];
-
-    var gambiarra = document.getElementById("gambiarra");
-    var node_gambiarra = document.createElement("br");
-
-    gambiarra.appendChild(node_gambiarra);*/

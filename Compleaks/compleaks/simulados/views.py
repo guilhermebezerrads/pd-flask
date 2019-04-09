@@ -31,13 +31,12 @@ def criar():
 								for disciplina in Disciplina.query.order_by('nome')
 								if disciplina.ativado and quest_disciplina(disciplina.id) >= 3]
 
-	'''
-	for disciplina in form.disciplina.choices
-		questoes = len(Questao.query.filter_by(ativado=True).filter_by(disciplina_id=id))
+	materias = []
+	if form.validate_on_submit():
+		for i in range(2):
+			if request.form.get("m"+str(i+1)):
+				materias.append(request.form.get("m"+str(i+1)))
 
-		if questoes < 3:
-			form.disciplina.choices.remove((str(disciplina.id), disciplina.nome))
-	'''
 
 	if form.validate_on_submit():
 		pass
