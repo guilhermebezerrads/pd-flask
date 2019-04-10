@@ -1,5 +1,6 @@
 from datetime import datetime
 from compleaks import db
+from compleaks.questoes.models import Questao
 
 class Disciplina(db.Model):
 
@@ -46,7 +47,6 @@ class Materia(db.Model):
 
 		self.nome = nome
 		self.disciplina_id = disciplina_id
-
 
 
 class ComentarioDisc(db.Model):

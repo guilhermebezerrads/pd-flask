@@ -17,6 +17,11 @@ function preenche_formulario(){
         materias.innerHTML = result;
         $("materia_possivel").html(result);
     }});
+
+    $.ajax({url: "/simulados/numero-questao/"+option, success: function(result){
+        result_quests.innerHTML = result;
+        $("qtn_quests").html(result);
+    }});
 }
 
 
@@ -124,7 +129,20 @@ function disponibiliza_materia(obj){
         }
     }
 
+    var n2 = 0;
+    var n3 = 0;
 
+    var n1 = $("#Materia_1 option:selected").val();
+
+    if((tres != 0) && ($("#materia-3").css('display') != 'none')){
+        n3 = $("#Materia_3 option:selected").val();
+    }
+
+    if((dois != 0) && ($("#materia-2").css('display') != 'none')){
+        n2 = $("#Materia_2 option:selected").val();
+    }
+    
+    var result_quests = document.getElementById("qtn_quests");
     $.ajax({url: "/simulados/numero-questao/"+option+"/"+n1+"/"+n2+"/"+n3, success: function(result){
         result_quests.innerHTML = result;
         $("qtn_quests").html(result);

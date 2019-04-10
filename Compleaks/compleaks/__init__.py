@@ -83,7 +83,7 @@ def unidade_academica(id):
 
 @app.template_filter('define_quantidade')
 def define_quantidade(quantidade):
-	lista = [(str(i), str(i)+" Questões") for i in range(quantidade+1) if i >= 3 and i <= 15]
+	lista = [(str(i), str(i)+" Questões") for i in range(quantidade+1) if i >= 1 and i <= 15]
 	return lista 
 
 @app.template_filter('String')

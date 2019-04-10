@@ -1,14 +1,16 @@
 
-<small>O máximo é de 3 matérias ou pela disponibilidade</small>
+<small>O máximo é de 3 matérias</small>
 <div id="MateriasSimulado">
 
 	<div id="materia-1" class="md-form md-outline">
                     
         <select class="form-control" name="m1" id="Materia_1" onchange="disponibiliza_materia(this);">
-        	<option value="-1" >Sem mateira específica</option>
-        	<option value="0" >Questões sem matéria ({{sem_materia}})</option>
+        	<option value="-1" >Todas as questão</option>
+            {% if sem_materia > 0 %}
+               <option value="0" >Questões sem matéria ({{sem_materia}})</option>
+            {% endif %}
 		  {% for materia in materias_lista %}
-		  	<option value="{{materia[0]}}" >{{materia[1]}}  ({{material[2]}})</option>
+		  	<option value="{{materia[0]}}" >{{materia[1]}}  ({{materia[2]}})</option>
 		  {% endfor %}
 		</select>
            
@@ -20,9 +22,11 @@
                         
             <select class="form-control" name="m2" id="Materia_2" onchange="disponibiliza_materia(this);">
                 <option value="-1" >Sem mais mateiras</option>
-            	<option value="0" >Questões sem matéria ({{sem_materia}})</option>
+                {% if sem_materia > 0 %}
+            	   <option value="0" >Questões sem matéria ({{sem_materia}})</option>
+                {% endif %}
         	  {% for materia in materias_lista %}
-        	  	<option value="{{materia[0]}}" >{{materia[1]}} ({{material[2]}})</option>
+        	  	<option value="{{materia[0]}}" >{{materia[1]}} ({{materia[2]}})</option>
         	  {% endfor %}
         	</select>
                
@@ -34,9 +38,11 @@
                             
                 <select class="form-control" name="m3" id="Materia_3" onchange="disponibiliza_materia(this);">
                     <option value="-1" >Sem mais mateiras</option>
-                	<option value="0" >Questões sem matéria ({{sem_materia}})</option>
+                	{% if sem_materia > 0 %}
+                       <option value="0" >Questões sem matéria ({{sem_materia}})</option>
+                    {% endif %}
             	  {% for materia in materias_lista %}
-            	  	<option value="{{materia[0]}}" >{{materia[1]}} ({{material[2]}})</option>
+            	  	<option value="{{materia[0]}}" >{{materia[1]}} ({{materia[2]}})</option>
             	  {% endfor %}
             	</select>
                    

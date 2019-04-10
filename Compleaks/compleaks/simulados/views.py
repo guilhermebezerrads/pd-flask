@@ -75,8 +75,8 @@ def criar():
 		simula.gera_qustoes()
 		print(simula.materias)
 
-		#session['simulado'] = simula
-		session['quest_atual'] = 0
+		current_user.simulado = simula
+		current_user.quest_atual = 0
 
 		return redirect(url_for('simulados.quest',
 								 quest=0))
@@ -96,24 +96,38 @@ def finaliza():
 	pass
 
 
-@simulados.route('/numero-questao/<int:id>', methods=['POST', 'GET'])
+@simulados.route('/numero-questao/<int:id>/<int:n1>/<int:n2>/<int:n3>', methods=['POST', 'GET'])
+@simulados.route('/numero-questao/<int:id>', defaults={"n1":-1, "n2":0,"n3":0}, methods=['POST', 'GET'])
 @login_required
-def numero_quest(id):
+def numero_quest(id, n1, n2, n3):
 	
 	disciplina = Disciplina.query.get_or_404(id)
-
 	if not disciplina.ativado:
-		abort(403)
+			abort(403)
+	
+	qtn_quest = 0
+	print(n1)
+	
+	if n1 < 0:
+		qtn_quest = quest_disciplina(disciplina.id)
 
-	qtn_quest = quest_disciplina(disciplina.id)
+	else:
+		mate =[n1, n2, n3]
+		maters = set(mate)
 
-	if qtn_quest < 3:
-		abort(403)
+		materias = []
+
+		for mat in maters:
+			materias.append(Materia.query.get_or_404(mat))
+
+		for mater in materias:
+			qtn_quest = qtn_quest + quant_materia(mater)
 
 	if qtn_quest > 15:
 		qtn_quest = 15
 
 	return render_template('repositorio_qtn_quest.html', quantidade=qtn_quest)
+
 
 def quant_materia(mater):
 
@@ -126,34 +140,48 @@ def quant_materia(mater):
 
 	return qtn_quest
 
+
 @simulados.route('/materias-possiveis/<int:id>', methods=['POST', 'GET'])
 @login_required
 def materias(id):
-	
+
 	disciplina = Disciplina.query.get_or_404(id)
 
 	if not disciplina.ativado:
 		abort(403)
 
-
-	questoes = quest_disciplina(id)
-
-	if questoes < 3:
-		abort(403)
-
-	materias = db.session.query(Materia)\
+	mats = db.session.query(Materia)\
 						.outerjoin(Questao, Materia.disciplina_id == Questao.disciplina_id )\
 						.filter(Questao.disciplina_id == disciplina.id)
+
+	materias = []
+
+	for mat in mats:
+		materias.append(mat)
+
+	for mat in materias:
+		print(mat.nome)
+		if quant_materia(mat) == 0:
+			materias.remove(mat)
 
 	qtn = 0
 
 	for mat in materias:
 		qtn = qtn + 1
 
-	for mater in materias:
-		mater.qtn = quant_materia(mater)
+	quant = []
 
-	materias_lista = [(str(materia.id), materia.nome, str(materia.qtn)) for materia in materias]
+	for mater in materias:
+		quant.append(quant_materia(mater))
+
+	materias_lista = [[str(materia.id), materia.nome] for materia in materias]
+
+	i = 0
+
+	for lista in materias_lista:
+
+		lista.append(str(quant[i]))
+		i = i+1
 
 	questoes = Questao.query.filter_by(ativado=True).filter_by(materia_id=0)
 	qtn_quest = 0
@@ -162,8 +190,9 @@ def materias(id):
 		qtn_quest = qtn_quest + 1
 	
 
-	if questoes > 15:
-		questoes = 15
+	if qtn_quest > 15:
+		qtn_quest = 15
 
 	return render_template('repositorio_materias_relacionadas.html', quantidade=questoes,
 							 materias_lista=materias_lista, num_materias=qtn, sem_materia=qtn_quest)
+

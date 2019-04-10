@@ -1,5 +1,4 @@
 from compleaks import db
-from compleaks.disciplinas.models import Disciplina
 from compleaks.usuarios.models import Usuario
 from datetime import datetime
 
