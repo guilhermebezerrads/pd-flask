@@ -25,13 +25,15 @@ def adicionar():
 									 if disciplina.ativado]
 
 	if form.validate_on_submit():
-		print("To aqui")
 
 		#dados gerais
 		disciplina = int(form.disciplina.data)
 		enunciado = form.enunciado.data
 		correta = int(form.correta.data)
-		materia_id = int(request.form["Materia"])
+		try:
+			materia_id = int(request.form["Materia"])
+		except:
+			abort(403)
 
 		new_quest = Questao(enunciado=enunciado, disciplina_id=disciplina,
 		 					usuario_id=current_user.id, correta=correta,

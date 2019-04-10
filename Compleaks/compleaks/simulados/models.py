@@ -4,9 +4,9 @@ class Simulado(object):
 		self.n_quests = n_quests
 		self.materias = materias
 
-	def gera_qustoes():
+	def gera_qustoes(self):
 		pass
 
-	def proxima_quest():
+	def proxima_quest(self, quest=0):
 		pass
 		

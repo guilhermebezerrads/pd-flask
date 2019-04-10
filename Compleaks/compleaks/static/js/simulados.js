@@ -13,11 +13,6 @@ function preenche_formulario(){
     var option = document.getElementById("escolhe-disciplina").value;
     console.log(option)
 
-    $.ajax({url: "/simulados/numero-questao/"+option, success: function(result){
-        result_quests.innerHTML = result;
-        $("qtn_quests").html(result);
-    }});
-
     $.ajax({url: "/simulados/materias-possiveis/"+option, success: function(result){
         materias.innerHTML = result;
         $("materia_possivel").html(result);
@@ -128,4 +123,10 @@ function disponibiliza_materia(obj){
             }
         }
     }
+
+
+    $.ajax({url: "/simulados/numero-questao/"+option+"/"+n1+"/"+n2+"/"+n3, success: function(result){
+        result_quests.innerHTML = result;
+        $("qtn_quests").html(result);
+    }});
 }
