@@ -6,4 +6,7 @@ class Simulado(object):
 
 	def gera_qustoes():
 		pass
+
+	def proxima_quest():
+		pass
 		
