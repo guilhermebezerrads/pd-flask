@@ -26,7 +26,7 @@ def quest_disciplina(id):
 @login_required
 def criar():
 
-	#print(request.referrer.split("/")[-1])
+	#print(request.referrer.split("/")[0])
 	#print(request.form.get("m1"))
 
 	form = CriarSimuladoForm()
@@ -71,23 +71,45 @@ def criar():
 					abort(403)
 
 		simula = Simulado(n_quests=quantidade, materias=materias)
-		print(simula.n_quests)
 		simula.gera_qustoes()
-		print(simula.materias)
 
 		current_user.simulado = simula
 		current_user.quest_atual = 0
 
-		return redirect(url_for('simulados.quest',
-								 quest=0))
+		return redirect(url_for('simulados.quest'))
 
 	return render_template('cria_simulado.html', form=form)
 
 
-@simulados.route('/questao/<int:quest>', methods=['POST', 'GET'])
+@simulados.route('/questao', methods=['POST', 'GET'])
 @login_required
-def quest(quest):
-	return "render_template('cria_simulado.html', form=form)"
+def quest():
+
+	try:
+		if not current_user.simulado:
+			abort(403)
+
+	except:
+		abort(403)
+
+	try:
+		if (current_user.simulado.atual == 0) and (str(request.referrer.split("/")[-1]) != "novo"):
+			abort(403)
+		elif str(request.referrer.split("/")[-2]) != "questao":
+			abort(403)
+
+	except:
+		abort(403)
+
+	if str(request.referrer.split("/")[-2]) == "questao":
+		current_user.simulado.next_quest()
+
+	if current_user.simulado.atual  >= current_user.simulado.n_quests:
+		relatorio = current_user.simulado.gera_relatorio()
+		return render_template('resultado_simulado.html', relatorio=relatorio)
+
+
+	return render_template('faz_questao.html', quest=current_user.simulado.quest() )
 
 
 @simulados.route('/finaliza-simulado')
