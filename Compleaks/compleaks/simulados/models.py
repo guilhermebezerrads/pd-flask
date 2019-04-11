@@ -10,6 +10,7 @@ class Simulado(object):
 		self.atual = 0
 		self.questoes = []
 		self.resposta = []
+		self.ordem = []
 	
 	@staticmethod
 	def quant_materia(mater):
@@ -27,13 +28,17 @@ class Simulado(object):
 		contador = 0
 		acertos = 0
 		i = 0
-		for row in self.questoes:
-			for quest in row:
-				if quest.materia_id == materia_id:
-					contador = contador + 1
-					if quest.correta == self.resposta[i]:
-						acertos = acertos + 1
-				i = i + 1
+		#mater = Materia.query.get_or_404(materia_id)
+
+		while i < self.quant_mat[str(materia_id)]:
+			for row in self.questoes:
+				for quest in row:
+					if quest.id == self.ordem[i]:
+						if quest.materia_id == materia_id
+							contador = contador + 1
+							if quest.correta == self.resposta[i]:
+								acertos = acertos + 1
+							i = i + 1
 
 		return acertos, contador, str(round((acertos/contador)*100))+"%"
 
@@ -47,20 +52,24 @@ class Simulado(object):
 				aux.append(qt)
 			questoes.append(aux)
 
-		for lista in questoes:
-			if lista:
-				qust = random.randint(0, len(lista))
-				self.questoes.append(lista[qust])
-				del lista[qust]
+		i = 0
+		while i < self.n_quests:
+			for lista in questoes:
+				if lista:
+					qust = random.randint(0, len(lista))
+					self.questoes.append(lista[qust])
+					self.ordem.append(lista[qust].id)
+					del lista[qust]
+					i = i +1
 
 	def gera_relatorio(self):
 		i = 0
 		corretas = 0
-		for row in self.questoes:
-			for quest in row:
-				if quest.correta == self.resposta[i]:
-					corretas = corretas + 1
-				i = i + 1
+			for row in self.questoes:
+				for quest in row:
+					if quest.correta == self.resposta[i]:
+						corretas = corretas + 1
+					i = i + 1
 		
 		relatorio.corretas = corretas
 
@@ -77,7 +86,7 @@ class Simulado(object):
 		return relatorio
 
 	def next_quest(self):
-		self.atual = self.atual+1
+		self.atual = self.atual + 1
 
 	def quest(self):
 		return self.questoes[self.atual]

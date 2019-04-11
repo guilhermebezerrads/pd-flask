@@ -8,7 +8,8 @@ from compleaks.simulados.forms import (CriarSimuladoForm)
 from compleaks.simulados.models import Simulado
 from compleaks.usuarios.models import Usuario
 from compleaks.disciplinas.models import Disciplina, Materia
-from compleaks.questoes.models import Questao
+from compleaks.questoes.models import Questao, Alternativa
+from compleaks.questoes.forms import  FazerQuestaoForm
 
 simulados = Blueprint('simulados', __name__,template_folder='templates/simulados')
 
@@ -85,6 +86,12 @@ def criar():
 @login_required
 def quest():
 
+	form_questao = FazerQuestaoForm()
+
+	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
+	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
+									 for alternativa in Alternativa.query.filter(Alternativa.questao_id.contains(id))]
+
 	try:
 		if not current_user.simulado:
 			abort(403)
@@ -101,21 +108,25 @@ def quest():
 	except:
 		abort(403)
 
+	if form_questao.validate_on_submit():
+		current_user.simulado.resposta.append(form_questao.radio_alternativas.data)
+
 	if str(request.referrer.split("/")[-2]) == "questao":
 		current_user.simulado.next_quest()
 
 	if current_user.simulado.atual  >= current_user.simulado.n_quests:
-		relatorio = current_user.simulado.gera_relatorio()
-		return render_template('resultado_simulado.html', relatorio=relatorio)
+		return redirect(url_for('simulados.finaliza'))
 
 
-	return render_template('faz_questao.html', quest=current_user.simulado.quest() )
+	return render_template('faz_questao.html', quest=current_user.simulado.quest(),
+							 form_questao=form_questao)
 
 
 @simulados.route('/finaliza-simulado')
 @login_required
 def finaliza():
-	pass
+	relatorio = current_user.simulado.gera_relatorio()
+	return render_template('resultado_simulado.html', relatorio=relatorio)
 
 
 @simulados.route('/numero-questao/<int:id>/<int:n1>/<int:n2>/<int:n3>', methods=['POST', 'GET'])
