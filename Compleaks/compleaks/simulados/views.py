@@ -117,9 +117,10 @@ def quest():
 	if current_user.simulado.atual  >= current_user.simulado.n_quests:
 		return redirect(url_for('simulados.finaliza'))
 
+	number_quest = current_user.simulado.atual + 1
 
 	return render_template('faz_questao.html', quest=current_user.simulado.quest(),
-							 form_questao=form_questao)
+							 form_questao=form_questao, number_quest=number_quest)
 
 
 @simulados.route('/finaliza-simulado')
