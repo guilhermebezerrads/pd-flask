@@ -36,6 +36,8 @@ class Usuario(db.Model, UserMixin):
 
 	avaliacoes = db.relationship('Avaliacao_Arquivo', backref='avaliador', lazy=True)
 
+	simulado = None
+
 	def __init__(self, username, hhash, nome, email, curso, periodo):
 		self.username = username
 		self.nome = nome
@@ -45,6 +47,7 @@ class Usuario(db.Model, UserMixin):
 		self.periodo = periodo
 		self.is_admin = 0
 		self.ativado = True
+		self.simulado = None
 	
 	def check_password(self, pasword):
 		bcript = Bcrypt()

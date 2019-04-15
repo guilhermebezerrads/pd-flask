@@ -78,7 +78,7 @@ function disponibiliza_materia(obj){
 
     }
 
-    if( $("#Materia_1" ).val() == 'a'){
+    if( $("#Materia_1" ).val() == '-1'){
         $("#materia-3").hide();
         $("#materia-2").hide();
     }

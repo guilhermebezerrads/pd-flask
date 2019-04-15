@@ -4,9 +4,10 @@ import random
 
 class Simulado(object):
 	"""docstring for Simulado"""
-	def __init__(self, n_quests, materias):
+	def __init__(self, n_quests, materias, disc):
 		self.n_quests = n_quests
 		self.materias = materias
+		self.disc = disc
 		self.atual = 0
 		self.questoes = []
 		self.resposta = []
@@ -22,6 +23,15 @@ class Simulado(object):
 			qtn_quest = qtn_quest + 1
 
 		return qtn_quest
+
+	def todas_possiveis():
+		questoes = Questao.query.filter_by(ativado=True).filter_by(disciplina_id=self.disc)
+
+		aux = []
+		for quest in questoes:
+			aux.append(quest)
+
+		return aux
 
 	def acerto_por_materia(self, mate):
 		acertos = 0
@@ -40,22 +50,32 @@ class Simulado(object):
 
 	def gera_qustoes(self):
 
-		questoes = []
+		quests = []
 		for mat in self.materias:
 			qst = Questao.query.filter_by(ativado=True).filter_by(materia_id=int(mat))
 			aux = []
 			for qt in qst:
 				aux.append(qt)
-			questoes.append(aux)
+			quests.append(aux)
 
-		i = 0
-		while i < self.n_quests:
-			for lista in questoes:
-				if lista:
-					qust = random.randint(0, (len(lista)-1))
-					self.questoes.append(lista[qust] )
-					del lista[qust]
-					i = i +1
+		if self.materias is not None:
+
+			i = 0
+			while i < self.n_quests:
+				for lista in quests:
+					if lista:
+						qust = random.randint(0, (len(lista)-1))
+						self.questoes.append(lista[qust] )
+						del lista[qust]
+						i = i +1
+
+		else:
+
+			all_qust = self.todas_possiveis() 
+			i = 0
+			while i < self.n_quests:
+				qust = random.randint(0, (len(all_qust)-1))
+				self.questoes.append(lista[qust])
 
 	def gera_relatorio(self):
 		i = 0

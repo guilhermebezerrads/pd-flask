@@ -71,11 +71,18 @@ def criar():
 				if not disc.ativado:
 					abort(403)
 
-		simula = Simulado(n_quests=quantidade, materias=materias)
+		aux = []
+		for mat in materias:
+			if mat > 0:
+				aux.append(mat)
+
+		materias = set(aux)
+
+		simula = Simulado(n_quests=quantidade, materias=materias, disc=form.disciplina.data)
 		simula.gera_qustoes()
 
-		current_user.simulado = simula
-		current_user.quest_atual = 0
+		session['simulado'] = simula.__dict__
+		#current_user.quest_atual = 0
 
 		return redirect(url_for('simulados.quest'))
 
@@ -86,21 +93,27 @@ def criar():
 @login_required
 def quest():
 
+	print(session['simulado'])
 	form_questao = FazerQuestaoForm()
 
-	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(id))
+	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(simulado.quest().disciplina_id))
+	obj_alter = []
+
+	for altern in alternativas:
+		obj_alter.append(altern)
+
 	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
-									 for alternativa in Alternativa.query.filter(Alternativa.questao_id.contains(id))]
+									 for alternativa in obj_alter]
 
 	try:
-		if not current_user.simulado:
+		if not simulado:
 			abort(403)
 
 	except:
 		abort(403)
 
 	try:
-		if (current_user.simulado.atual == 0) and (str(request.referrer.split("/")[-1]) != "novo"):
+		if (simulado.atual == 0) and (str(request.referrer.split("/")[-1]) != "novo"):
 			abort(403)
 		elif str(request.referrer.split("/")[-2]) != "questao":
 			abort(403)
@@ -109,34 +122,36 @@ def quest():
 		abort(403)
 
 	if form_questao.validate_on_submit():
-		current_user.simulado.resposta.append(form_questao.radio_alternativas.data)
+		simulado.resposta.append(form_questao.radio_alternativas.data)
 
 	if str(request.referrer.split("/")[-2]) == "questao":
-		current_user.simulado.next_quest()
+		simulado.next_quest()
 
-	if current_user.simulado.atual  >= current_user.simulado.n_quests:
+	if simulado.atual  >= simulado.n_quests:
 		return redirect(url_for('simulados.finaliza'))
 
-	number_quest = current_user.simulado.atual + 1
+	number_quest = simulado.atual + 1
 
-	return render_template('faz_questao.html', quest=current_user.simulado.quest(),
+	return render_template('faz_questao.html', quest=simulado.quest(),
 							 form_questao=form_questao, number_quest=number_quest)
 
 
 @simulados.route('/finaliza-simulado')
 @login_required
 def finaliza():
-	relatorio = current_user.simulado.gera_relatorio()
+	relatorio = simulado.gera_relatorio()
 	return render_template('resultado_simulado.html', relatorio=relatorio)
 
 
 @simulados.route('/numero-questao/<int:id>/<string:N>', methods=['POST', 'GET'])
 @login_required
 def numero_quest(id, N):
-	print("Aloha "+str(id))
-	n1 = int(N.split("%")[0])
-	n2 = int(N.split("%")[1])
-	n3 = int(N.split("%")[2])
+	try:
+		n1 = int(N.split("%")[0])
+		n2 = int(N.split("%")[1])
+		n3 = int(N.split("%")[2])
+	except:
+		abort(403)
 	disciplina = Disciplina.query.get_or_404(id)
 	if not disciplina.ativado:
 			abort(403)
@@ -196,7 +211,6 @@ def materias(id):
 		materias.append(mat)
 
 	for mat in materias:
-		print(mat.nome)
 		if quant_materia(mat) == 0:
 			materias.remove(mat)
 
