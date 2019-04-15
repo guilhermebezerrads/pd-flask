@@ -30,7 +30,7 @@ class Simulado(object):
 		#mater = Materia.query.get_or_404(materia_id)
 
 		for quest in self.questoes:
-			if qust.materia_id = mate
+			if quest.materia_id == mate:
 				contador = contador + 1
 				if quest.correta == self.resposta[i]:
 					acertos = acertos + 1
@@ -71,7 +71,7 @@ class Simulado(object):
 
 		relacao = []
 		for mate in self.materias:
-			if int(mate) > 0
+			if int(mate) > 0:
 				nome = Materia.query.get_of_404(mate)
 				relacao.append((nome, self.acerto_por_materia(mate)))
 

@@ -18,7 +18,7 @@ function preenche_formulario(){
         $("materia_possivel").html(result);
     }});
 
-    $.ajax({url: "/simulados/numero-questao/"+option, success: function(result){
+    $.ajax({url: "/simulados/numero-questao/"+option+"/-1%0%0", success: function(result){
         result_quests.innerHTML = result;
         $("qtn_quests").html(result);
     }});
@@ -143,8 +143,10 @@ function disponibiliza_materia(obj){
     }
     
     var result_quests = document.getElementById("qtn_quests");
-    $.ajax({url: "/simulados/numero-questao/"+option+"/"+n1+"/"+n2+"/"+n3, success: function(result){
+    var option = $("#escolhe-disciplina").val()
+    console.log("/simulados/numero-questao/"+option+"/"+n1+"%"+n2+"%"+n3);
+    $.ajax({url: "/simulados/numero-questao/"+option+"/"+n1+"%"+n2+"%"+n3, success: function(result){
         result_quests.innerHTML = result;
-        $("qtn_quests").html(result);
+        $("#qtn_quests").html(result);
     }});
 }

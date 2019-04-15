@@ -130,29 +130,31 @@ def finaliza():
 	return render_template('resultado_simulado.html', relatorio=relatorio)
 
 
-@simulados.route('/numero-questao/<int:id>/<int:n1>/<int:n2>/<int:n3>', methods=['POST', 'GET'])
-@simulados.route('/numero-questao/<int:id>', defaults={"n1":-1, "n2":0,"n3":0}, methods=['POST', 'GET'])
+@simulados.route('/numero-questao/<int:id>/<string:N>', methods=['POST', 'GET'])
 @login_required
-def numero_quest(id, n1, n2, n3):
-	
+def numero_quest(id, N):
+	print("Aloha "+str(id))
+	n1 = int(N.split("%")[0])
+	n2 = int(N.split("%")[1])
+	n3 = int(N.split("%")[2])
 	disciplina = Disciplina.query.get_or_404(id)
 	if not disciplina.ativado:
 			abort(403)
 	
 	qtn_quest = 0
-	print(n1)
 	
 	if n1 < 0:
 		qtn_quest = quest_disciplina(disciplina.id)
 
 	else:
-		mate =[n1, n2, n3]
+		mate = [n1, n2, n3]
 		maters = set(mate)
 
 		materias = []
 
 		for mat in maters:
-			materias.append(Materia.query.get_or_404(mat))
+			if mat > 0:
+				materias.append(Materia.query.get_or_404(mat))
 
 		for mater in materias:
 			qtn_quest = qtn_quest + quant_materia(mater)
