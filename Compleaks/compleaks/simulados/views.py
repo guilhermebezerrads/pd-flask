@@ -72,24 +72,25 @@ def criar():
 				if not disc.ativado:
 					abort(403)
 
-		aux = []
-		for mat in materias:
+		aux = set(materias.copy())
+		materias.clear()
+		for mat in aux:
 			if mat > 0:
-				aux.append(mat)
-
-		materias = set(aux)
+				materias.append(mat)
 
 		session['n_quests'] = quantidade
 		session['materias'] = materias
 		session['disc'] = disc.id
 		session['atual'] = 0
 		session['questoes'] = []
-		session['resposta'] = []
+		session['resposta'] = {}
 		gera_qustoes()
-
+		'''
 		print(session['materias'])
+		print(session['disc'])
+		print(session['resposta'])
 		print(session['questoes'])
-
+		'''
 		return redirect(url_for('simulados.quest'))
 
 	return render_template('cria_simulado.html', form=form)
@@ -99,9 +100,15 @@ def criar():
 @login_required
 def quest():
 
+	next_quest()
 	form_questao = FazerQuestaoForm()
 
-	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(simulado.quest().disciplina_id))
+	if session['atual']  <= session['n_quests']:
+		alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(session['questoes'][session['atual']-1]))
+	
+	else:
+		alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(session['questoes'][session['atual']-2]))
+
 	obj_alter = []
 
 	for altern in alternativas:
@@ -110,41 +117,49 @@ def quest():
 	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
 									 for alternativa in obj_alter]
 
+	form_questao.radio_alternativas.choices = [(str(alternativa.opcao), alternativa.conteudo)
+									 for alternativa in obj_alter]					 
+
 	try:
-		if not simulado:
+		if not session['disc'] or not session['materias'] or not session['questoes']:
+			print("1")
 			abort(403)
 
 	except:
 		abort(403)
 
 	try:
-		if (simulado.atual == 0) and (str(request.referrer.split("/")[-1]) != "novo"):
+		if (session['atual'] == 1) and (str(request.referrer.split("/")[-1]) != "novo"):
+			print(request.referrer.split("/")[-1])
+			print("2")
 			abort(403)
-		elif str(request.referrer.split("/")[-2]) != "questao":
+		elif (session['atual'] > 1) and (str(request.referrer.split("/")[-1]) != "questao"):
+			print("3")
 			abort(403)
 
 	except:
+		print("4")
 		abort(403)
 
 	if form_questao.validate_on_submit():
-		simulado.resposta.append(form_questao.radio_alternativas.data)
+		quest = Questao.query.get(session['questoes'][session['atual']-2])
+		session['resposta'].update({str(quest.id): int(form_questao.radio_alternativas.data)})
 
-	if str(request.referrer.split("/")[-2]) == "questao":
-		simulado.next_quest()
-
-	if simulado.atual  >= simulado.n_quests:
+	if session['atual']  > session['n_quests']:
 		return redirect(url_for('simulados.finaliza'))
 
-	number_quest = simulado.atual + 1
+	quest = Questao.query.get(session['questoes'][session['atual']-1])
 
-	return render_template('faz_questao.html', quest=simulado.quest(),
-							 form_questao=form_questao, number_quest=number_quest)
+	#print(session['resposta'])
+
+	return render_template('faz_questao.html', quest=quest,
+							 form_questao=form_questao, number_quest=session['atual'])
 
 
 @simulados.route('/finaliza-simulado')
 @login_required
 def finaliza():
-	relatorio = simulado.gera_relatorio()
+	relatorio = gera_relatorio()
 	return render_template('resultado_simulado.html', relatorio=relatorio)
 
 
@@ -191,8 +206,6 @@ def numero_quest(id, N):
 def acerto_por_materia(materia_id):
 	acertos = 0
 	contador = 0
-	i = 0
-	mate = Materia.query.get_or_404(materia_id)
 	questoes = []
 
 	for ids in session['questoes']:
@@ -200,11 +213,12 @@ def acerto_por_materia(materia_id):
 		questoes.append(quest)
 
 	for quest in questoes:
-		if quest.materia_id == mate:
+		if quest.materia_id == materia_id:
 			contador = contador + 1
-			if quest.correta == session['resposta'][i]:
+			if quest.correta == session['resposta'][str(quest.id)]:
 				acertos = acertos + 1
-			i = i + 1
+
+	return acertos, contador, str(round(float(acertos/contador)*100))+"%" 
 
 def gera_qustoes():
 
@@ -235,33 +249,41 @@ def gera_qustoes():
 			qust = random.randint(0, (len(all_qust)-1))
 			session['questoes'].append(lista[qust].id)
 
-def gera_relatorio():
-	i = 0
-	corretas = 0
-	for qust in session['questoes']:
-		if quest.correta == session['resposta'][i]:
-			corretas = corretas + 1
-		i = i + 1
-	
-	relatorio.corretas = corretas
+class Relatorio(object):
+	pass	
 
-	relatorio.desmpenho = str(round((corretas/session['questoes'])*100))+"%"
+def gera_relatorio():
+
+	relatorio = Relatorio()
+
+	questoes = []
+	for ids in session['questoes']:
+		quest = Questao.query.get(ids)
+		questoes.append(quest)
+
+	print(session['resposta'])
 
 	relacao = []
 	for mate in session['materias']:
 		if int(mate) > 0:
-			nome = Materia.query.get_of_404(mate)
+			nome = Materia.query.get_or_404(mate)
 			relacao.append((nome, acerto_por_materia(mate)))
 
 	relatorio.relacao = relacao
+
+	corretas = 0
+	for reltion in relacao:
+		corretas = corretas + reltion[1][0]
+	
+	print(corretas)
+	relatorio.corretas = corretas
+
+	relatorio.desmpenho = str(round((corretas/session['n_quests'])*100))+"%"	
 
 	return relatorio
 
 def next_quest():
 	session['atual'] = session['atual'] + 1
-
-def quest():
-	return session['questoes'][session['atual']]
 
 def todas_possiveis():
 	questoes = Questao.query.filter_by(ativado=True).filter_by(disciplina_id=self.disc)

@@ -4,22 +4,24 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="page-header">
-        <h2>Questão {{number_quest}}</h2>
-        <hr>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h4 style="display: inline-block;">{{ quest.enunciado }}</h4>
+    <div class="container">
+        <div class="page-header">
+            <h2>Questão {{number_quest}}</h2>
+            <hr>
         </div>
-        
-        <div class="container" style="margin-bottom: 20px;">   
-            <form  class="form-group" method="POST" action="{{url_for('questoes.ver', id=quest.id)}}">
-                {{ form_questao.hidden_tag() }}    
-                {{ form_questao.radio_alternativas(style="list-style-type: none;")}}
-                {{ form_questao.submit(class="btn btn-primary") }}
-            </form>                   
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="display: inline-block;">{{ quest.enunciado }}</h4>
+            </div>
+            
+            <div class="container" style="margin-bottom: 20px;">   
+                <form  class="form-group" method="POST" action="">
+                    {{ form_questao.hidden_tag() }}    
+                    {{ form_questao.radio_alternativas(style="list-style-type: none;")}}
+                    {{ form_questao.submit(class="btn btn-primary") }}
+                </form>                   
+            </div>
         </div>
     </div>
-</div>
+
+{% endblock %}
