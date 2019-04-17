@@ -5,11 +5,12 @@ from compleaks import db
 from compleaks.questoes.forms import (ComentarioQuestaoForm, ExcluirComentarioQuestaoForm,
 									 EditarComentarioQuestaoForm, ResponderComentarioQuestaoForm)
 from compleaks.simulados.forms import (CriarSimuladoForm)
-from compleaks.simulados.models import Simulado
+#from compleaks.simulados.models import Simulado
 from compleaks.usuarios.models import Usuario
 from compleaks.disciplinas.models import Disciplina, Materia
 from compleaks.questoes.models import Questao, Alternativa
 from compleaks.questoes.forms import  FazerQuestaoForm
+import random
 
 simulados = Blueprint('simulados', __name__,template_folder='templates/simulados')
 
@@ -57,7 +58,7 @@ def criar():
 			except:
 				abort(403)
 
-		if  quantidade < 3 or quantidade > 15:
+		if  quantidade < 0 or quantidade > 15:
 			abort(403)
 
 		if not materias:
@@ -78,11 +79,16 @@ def criar():
 
 		materias = set(aux)
 
-		simula = Simulado(n_quests=quantidade, materias=materias, disc=form.disciplina.data)
-		simula.gera_qustoes()
+		session['n_quests'] = quantidade
+		session['materias'] = materias
+		session['disc'] = disc.id
+		session['atual'] = 0
+		session['questoes'] = []
+		session['resposta'] = []
+		gera_qustoes()
 
-		session['simulado'] = simula.__dict__
-		#current_user.quest_atual = 0
+		print(session['materias'])
+		print(session['questoes'])
 
 		return redirect(url_for('simulados.quest'))
 
@@ -93,7 +99,6 @@ def criar():
 @login_required
 def quest():
 
-	print(session['simulado'])
 	form_questao = FazerQuestaoForm()
 
 	alternativas = Alternativa.query.filter(Alternativa.questao_id.contains(simulado.quest().disciplina_id))
@@ -178,6 +183,98 @@ def numero_quest(id, N):
 		qtn_quest = 15
 
 	return render_template('repositorio_qtn_quest.html', quantidade=qtn_quest)
+
+#################################################
+########### SIMULADOS ###########################
+#################################################
+
+def acerto_por_materia(materia_id):
+	acertos = 0
+	contador = 0
+	i = 0
+	mate = Materia.query.get_or_404(materia_id)
+	questoes = []
+
+	for ids in session['questoes']:
+		quest = Questao.query.get(ids)
+		questoes.append(quest)
+
+	for quest in questoes:
+		if quest.materia_id == mate:
+			contador = contador + 1
+			if quest.correta == session['resposta'][i]:
+				acertos = acertos + 1
+			i = i + 1
+
+def gera_qustoes():
+
+	quests = []
+	for mat in session['materias']:
+		qst = Questao.query.filter_by(ativado=True).filter_by(materia_id=int(mat))
+		aux = []
+		for qt in qst:
+			aux.append(qt)
+		quests.append(aux)
+
+	if session['materias'] is not None:
+
+		i = 0
+		while i < session['n_quests']:
+			for lista in quests:
+				if lista:
+					qust = random.randint(0, (len(lista)-1))
+					session['questoes'].append(lista[qust].id)
+					del lista[qust]
+					i = i + 1
+
+	else:
+
+		all_qust = todas_possiveis() 
+		i = 0
+		while i < session['n_quests']:
+			qust = random.randint(0, (len(all_qust)-1))
+			session['questoes'].append(lista[qust].id)
+
+def gera_relatorio():
+	i = 0
+	corretas = 0
+	for qust in session['questoes']:
+		if quest.correta == session['resposta'][i]:
+			corretas = corretas + 1
+		i = i + 1
+	
+	relatorio.corretas = corretas
+
+	relatorio.desmpenho = str(round((corretas/session['questoes'])*100))+"%"
+
+	relacao = []
+	for mate in session['materias']:
+		if int(mate) > 0:
+			nome = Materia.query.get_of_404(mate)
+			relacao.append((nome, acerto_por_materia(mate)))
+
+	relatorio.relacao = relacao
+
+	return relatorio
+
+def next_quest():
+	session['atual'] = session['atual'] + 1
+
+def quest():
+	return session['questoes'][session['atual']]
+
+def todas_possiveis():
+	questoes = Questao.query.filter_by(ativado=True).filter_by(disciplina_id=self.disc)
+
+	aux = []
+	for quest in questoes:
+		aux.append(quest)
+
+	return aux
+
+#################################################
+########### SIMULADOS ###########################
+#################################################
 
 
 def quant_materia(mater):

@@ -24,15 +24,6 @@ class Simulado(object):
 
 		return qtn_quest
 
-	def todas_possiveis():
-		questoes = Questao.query.filter_by(ativado=True).filter_by(disciplina_id=self.disc)
-
-		aux = []
-		for quest in questoes:
-			aux.append(quest)
-
-		return aux
-
 	def acerto_por_materia(self, mate):
 		acertos = 0
 		contador = 0
@@ -65,9 +56,9 @@ class Simulado(object):
 				for lista in quests:
 					if lista:
 						qust = random.randint(0, (len(lista)-1))
-						self.questoes.append(lista[qust] )
+						self.questoes.append(lista[qust].id)
 						del lista[qust]
-						i = i +1
+						i = i + 1
 
 		else:
 
@@ -75,7 +66,7 @@ class Simulado(object):
 			i = 0
 			while i < self.n_quests:
 				qust = random.randint(0, (len(all_qust)-1))
-				self.questoes.append(lista[qust])
+				self.questoes.append(lista[qust].id)
 
 	def gera_relatorio(self):
 		i = 0
