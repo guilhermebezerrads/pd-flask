@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Adicionar Questão{% endblock %}
+{% block title %}Buscar Questão{% endblock %}
 
 {% block content %}
 
@@ -43,30 +43,42 @@
     <div class="container">
         {% for quest in questoes %}
             
-             <a href="{{url_for('questoes.ver', id=quest.id)}}">
+            <a href="{{url_for('questoes.ver', id=quest.id)}}">
                 <h5 class="text-info font-weight-bold">
                     Questão
                 </h5>
             </a>
-            <div class="row" style="height: 30px;">
-                <div class="col-md-6 d-flex justify-content-start">
-                    <span class="btn-success btn-sm" style="height: 30px;">
+            <div class="row">
+                <div class="col d-flex" style="margin-bottom: 5px;">
+                    <span class="btn-success btn-sm" style="height: 30px;" data-toggle="tooltip" data-placement="top" title="Disciplina">
                         {{ quest.disciplina.nome }}
                     </span>
-                    <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;">
+                    <span class="btn-success btn-sm" style="margin-left: 5px; height: 30px;" data-toggle="tooltip" data-placement="top" title="Comentarios">
                         {% if contador[quest.id|string] %}
-                            <span>Comentarios({{contador[quest.id|string]}})</span>
+                            <span><i class="fas fa-comment-dots"></i> {{contador[quest.id|string]}}</span>
                         {% else %}
-                            <span>Comentarios(0)</span>
+                            <span><i class="fas fa-comment-dots"></i> 0</span>
                         {% endif %}
                     </span>
+                    <span class="btn-success btn-sm" onclick="ver_opcao('opcao{{quest.id}}')" style="margin-left: 5px; height: 30px;" data-toggle="tooltip" data-placement="top" title="Mais">
+                        <i class="fas fa-plus"></i>
+                    </span>
+
                 </div>
-                <div class="col-md-6 d-flex justify-content-end">
+            </div>
+            <div class="row" id="opcao{{quest.id}}" style="display: none;">
+                <div class="col-sm col-md col-sd col-lg d-flex">
                     {% if current_user.is_admin or current_user.id == quest.usuario_id %}
-                        <button class="btn btn-link"><i class="fas fa-edit"></i>Editar</button>
-                        <button class="btn btn-link"><i class="fas fa-trash-alt"></i>Excluir</button>
+                        <span class="btn-primary btn-sm" style="height: 30px;" data-toggle="tooltip" data-placement="top" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                        <span class="btn-danger btn-sm" style="margin-left: 5px; height: 30px;" data-toggle="tooltip" data-placement="top" title="Excluir">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
                     {% endif %}
-                    <button class="btn btn-link"><i class="fas fa-exclamation-triangle"></i>Reportar</button>
+                    <span class="btn-warning btn-sm" style="margin-left: 5px; height: 30px;" data-toggle="tooltip" data-placement="top" title="Reportar">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </span>
                 </div>
             </div>
             <h5 style="margin-top: 10px; margin-bottom: -2px;">
