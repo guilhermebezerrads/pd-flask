@@ -1,9 +1,165 @@
 {% extends "base.html" %}
 
-{% block title %}Questão{% endblock %}
+{% block title %}Resultado Simulado{% endblock %}
 
 {% block content %}
+<div class="page-header">
+    <h1>Relatório do Simulado</h1>
+    <hr/>
+</div>
+
+
+<h3>Rndimento Geral</h3>
+
+<canvas id="pieChart"></canvas>
+
+<script>
+  //pie
+  var ctxP = document.getElementById("pieChart").getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+      labels: [ "Incorretas", "Corretas"],
+      datasets: [{
+        data: [{{ relatorio.desmpenho }}, {{ 100 - relatorio.desmpenho }}],
+        backgroundColor: ["#F7464A", "#46BFBD"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+</script>
+<!--
+<canvas id="barChart"></canvas>
+
+<script>
+  //bar
+  var ctxB = document.getElementById("barChart").getContext('2d');
+  var myBarChart = new Chart(ctxB, {
+    type: 'bar',
+    data: {
+      labels: ["Corretas", "Incorretas"],
+      datasets: [{
+        label: '% Dos Acertos',
+        data: [{{ relatorio.desmpenho }}, {{ 100 - relatorio.desmpenho }}],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
+          
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255,99,132,1)'
+       
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
+</script>
+-->
+<br/>
+<hr/>
+<h3>Rndimento Por Matéria</h3>
+
+<canvas id="horizontalBar"></canvas>
+
+<script>
+  new Chart(document.getElementById("horizontalBar"), {
+    "type": "horizontalBar",
+    "data": {
+      "labels": [{% for mat in relatorio.sidebarLabel %} "{{mat}}" {% if mat != relatorio.label_final %}, {%endif%} {% endfor%}, "Objetivo"],
+      "datasets": [{
+        "label": "% Rendimento por Matéria",
+        "data": [{% for data in relatorio.sidebarData %} "{{data}}" {% if data != relatorio.data_final %}, {%endif%} {% endfor%}, 100],
+        "fill": false,
+        "backgroundColor": [ {% for color in relatorio.sidebarColors %} "{{color}}", {% endfor%} "rgba(54, 162, 235, 0.2)", "rgba(255, 159, 64, 0.2)",
+          "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
+          "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
+        ],
+        "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)",
+          "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"
+        ],
+        "borderWidth": 1
+      }]
+    },
+    "options": {
+      "scales": {
+        "xAxes": [{
+          "ticks": {
+            "beginAtZero": true
+          }
+        }]
+      }
+    }
+  });
+
+</script>
+<hr/>
+<h3>Gaarito: </h3>
+<!--
+{% for mat in relatorio.relacao %}
+
+	<span class="min-chart" id="chart-sales-{{mat[0].nome}}" data-percent="mat[1][2]"><span class="percent"></span></span>
+	<h5><span class="label green badge">{{ mat[0].nome }} <i class="fas fa-arrow-circle-up"></i></span></h5>
+	<script>
+	  $(function () {
+	    $('.min-chart#chart-sales-mat[0].nome').easyPieChart({
+	      barColor: "#4caf50",
+	      onStep: function (from, to, percent) {
+	        $(this.el).find('.percent').text(Math.round(percent));
+	      }
+	    });
+	  });
+
+	</script>
+{% endfor %}
+
+-->
+<!--
+<canvas id="doughnutChart"></canvas>
+
+<script>
+  //doughnut
+  var ctxD = document.getElementById("doughnutChart").getContext('2d');
+  var myLineChart = new Chart(ctxD, {
+    type: 'doughnut',
+    data: {
+      labels: [{% for mat in relatorio.relacao %} "{{mat[0].nome}}" {% if mat[0] != relatorio.finalLabel%}, {%endif%} {% endfor%}],
+      datasets: [{
+        data: [{% for mat in relatorio.relacao %} "{{mat[1][2]}}" {% if mat[1] != relatorio.finalData %}, {%endif%} {% endfor%}],
+        backgroundColor: [{% for cor in relatorio.doughnut[0] %} "{{cor}}" {% if cor != relatorio.doughnut[1] %}, {%endif%} {% endfor%}],
+        hoverBackgroundColor: [{% for cor in relatorio.doughnut[2] %} "{{cor}}" {% if cor != relatorio.doughnut[3] %}, {%endif%} {% endfor%}]
+        /*
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+        */
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+</script>
+-->
+
+
 {{ relatorio.corretas }}
-{{relatorio.desmpenho}}
-{{relatorio.relacao}}
+{{ relatorio.desmpenho }}
+{{ relatorio.relacao }}
+
 {% endblock %}

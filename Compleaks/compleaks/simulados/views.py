@@ -218,7 +218,7 @@ def acerto_por_materia(materia_id):
 			if quest.correta == session['resposta'][str(quest.id)]:
 				acertos = acertos + 1
 
-	return acertos, contador, str(round(float(acertos/contador)*100))+"%" 
+	return acertos, contador, int(round(float(acertos/contador)*100)) 
 
 def gera_qustoes():
 
@@ -261,7 +261,7 @@ def gera_relatorio():
 		quest = Questao.query.get(ids)
 		questoes.append(quest)
 
-	print(session['resposta'])
+	#print(session['resposta'])
 
 	relacao = []
 	for mate in session['materias']:
@@ -275,10 +275,36 @@ def gera_relatorio():
 	for reltion in relacao:
 		corretas = corretas + reltion[1][0]
 	
-	print(corretas)
+	#print(corretas)
 	relatorio.corretas = corretas
 
-	relatorio.desmpenho = str(round((corretas/session['n_quests'])*100))+"%"	
+
+	#O Doughbut infelizmente é material PRO
+	relatorio.desmpenho = int(round((corretas/session['n_quests'])*100))	
+	relatorio.finalLabel = relatorio.relacao[2][0]
+	relatorio.finalData = relatorio.relacao[2][1]
+	relatorio.doughnut = [[],[],[],[]]
+	relatorio.doughnut[0] = ["#F7464A", "#46BFBD", "#FDB45C"]
+	relatorio.doughnut[1] = "#FDB45C"
+	relatorio.doughnut[2] = ["#FF5A5E", "#5AD3D1", "#FFC870"]
+	relatorio.doughnut[3] = "#FFC870"
+
+
+	#Gera os dados para o gráfico de acertos por matéria
+	relatorio.label_final = relatorio.relacao[2][0].nome
+	relatorio.data_final = relatorio.relacao[2][1][2]
+	relatorio.sidebarData = [relac[1][2] for relac in relatorio.relacao]
+	relatorio.sidebarLabel = [(relac[0].nome[:9] + '..') if len(relac[0].nome) > 11 else relac[0].nome for relac in relatorio.relacao ]
+	colors = []
+
+	for relac in relatorio.relacao:
+		if relac[1][2] >= 60:
+			colors.append("rgba(54, 162, 235, 0.2)")
+		else:
+			colors.append("rgba(255, 99, 132, 0.2)")
+
+	relatorio.sidebarColors = colors
+	#relatorio.sidebar[3] = "#FFC870"
 
 	return relatorio
 

@@ -169,7 +169,7 @@
                                     </li>
                                 {% elif page_num %}
                                     <li class="page-item">                    
-                                        <a class="page-link" href="{{ url_for('professores.perfil', page=page_num) }}">{{ page_num }}</a>
+                                        <a class="page-link" href="{{ url_for('professores.perfil', page=page_num, id=professor.id) }}">{{ page_num }}</a>
                                     </li>
                                 {% else %}
                                     ...
