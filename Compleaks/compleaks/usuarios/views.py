@@ -299,7 +299,7 @@ def login():
 
 	if form_login.validate_on_submit():
 		user = Usuario.query.filter_by(email=form_login.email.data).first()
-		print(user)
+		#print(user)
 
 		if user is not None and user.ativado is True:
 			
